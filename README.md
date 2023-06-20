@@ -1,3 +1,38 @@
+### Our sprint board 🏃‍♂️
+https://trello.com/b/Z6ipoLHR/siminah-sistemmanagementminyakjelantah
+
+### Meet the contributors 👋
+- Dimas a.k.a [@DimasNughadi](https://github.com/DimasNughadi) as Backend Developer
+
+## Requirements ⚠️
+
+This project using Laravel 9 for the framework and using MongoDB Atlas for the database, this following list is need to install to your environment to run this project locally.
+- PHP 8.0 - 8.2
+- pecl PHP Extension
+- Enable <b>extension="mongodb.so"</b> in php.ini file
+
+## Installation 🔧
+
+<b>Step 1:</b>
+
+Run this following commands in your terminal
+
+`composer install`
+
+and wait until the process is done.
+
+<b>Step 2:</b>
+
+Run this following commands in your terminal
+
+`npm run build`
+
+<b>Step 3:</b>
+
+Run this following commands in your terminal to start local server
+
+`php artisan serve`
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
