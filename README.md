@@ -6,10 +6,8 @@ https://trello.com/b/Z6ipoLHR/siminah-sistemmanagementminyakjelantah
 
 ## Requirements ⚠️
 
-This project using Laravel 9 for the framework and using MongoDB Atlas for the database, this following list is need to install to your environment to run this project locally.
+This project using Laravel 9 for the framework and using MySQL for the database, this following list is need to install to your environment to run this project locally.
 - PHP 8.0 - 8.2
-- pecl PHP Extension
-- Enable <b>extension="mongodb.so"</b> in php.ini file
 
 ## Installation 🔧
 
