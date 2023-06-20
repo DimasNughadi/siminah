@@ -13,21 +13,27 @@ This project using Laravel 9 for the framework and using MongoDB Atlas for the d
 
 ## Installation 🔧
 
-<b>Step 1:</b>
+<b>Step 1: install the composer</b>
 
 Run this following commands in your terminal
 
-`composer install`
+`composer install` & `composer update`
 
 and wait until the process is done.
 
-<b>Step 2:</b>
+<b>Step 2: build directory</b>
 
 Run this following commands in your terminal
 
 `npm run build`
 
-<b>Step 3:</b>
+<b>Step 3: create the database (make sure u have mysql server run and have database named siminah)</b>
+
+Run this following commands in your terminal
+
+`php artisan migrate`
+
+<b>Step 4: run the project in localhost</b>
 
 Run this following commands in your terminal to start local server
 
