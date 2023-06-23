@@ -32,7 +32,7 @@ class DonaturController extends Controller
      */
     public function show(string $id)
     {
-        $donatur = Donatur::create($request->all());
+        $donatur = Donatur::findOrFail($id);
         return response()->json($donatur, Response::HTTP_CREATED);
     }
 

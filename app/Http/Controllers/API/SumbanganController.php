@@ -33,7 +33,7 @@ class SumbanganController extends Controller
     public function show(string $id)
     {
         $sumbangan = Sumbangan::findOrFail($id);
-        return response()->json($sumbangan);
+        return response()->json($sumbangan, Response::HTTP_CREATED);
     }
 
     /**
