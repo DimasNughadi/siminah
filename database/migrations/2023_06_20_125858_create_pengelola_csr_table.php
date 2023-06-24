@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('pengelola_csr', function (Blueprint $table) {
-            $table->string('id_pengelola', 50)->primary();
+            $table->bigIncrements('id_pengelola');
             $table->string('nama_pengelola', 50);
             $table->string('username', 50);
             $table->string('password', 50);

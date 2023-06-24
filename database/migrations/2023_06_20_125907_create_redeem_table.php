@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('redeem', function (Blueprint $table) {
-            $table->string('id_redeem', 50)->primary();
-            $table->string('id_donatur', 50);
-            $table->string('id_reward', 50);
+            $table->bigIncrements('id_redeem');
+            $table->unsignedBigInteger('id_donatur');
+            $table->unsignedBigInteger('id_reward');
             $table->date('tanggal_redeem');
             $table->timestamps();
         });

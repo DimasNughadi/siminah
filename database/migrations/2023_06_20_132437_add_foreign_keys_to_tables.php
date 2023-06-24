@@ -42,27 +42,27 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('adminkelurahan', function (Blueprint $table) {
-            $table->dropForeign(['id_lokasi']);
+            $table->foreign('id_lokasi')->references('id_lokasi')->on('lokasi')->onDelete('cascade');
         });
 
         Schema::table('kontainer', function (Blueprint $table) {
-            $table->dropForeign(['id_lokasi']);
+            $table->foreign('id_lokasi')->references('id_lokasi')->on('lokasi')->onDelete('cascade');
         });
 
         Schema::table('permintaan', function (Blueprint $table) {
-            $table->dropForeign(['id_kontainer']);
-            $table->dropForeign(['id_lokasi']);
-            $table->dropForeign(['id_admin_kelurahan']);
+            $table->foreign('id_kontainer')->references('id')->on('kontainer')->onDelete('cascade');
+            $table->foreign('id_lokasi')->references('id_lokasi')->on('lokasi')->onDelete('cascade');
+            $table->foreign('id_admin_kelurahan')->references('id_admin_kelurahan')->on('adminkelurahan')->onDelete('cascade');
         });
 
         Schema::table('redeem', function (Blueprint $table) {
-            $table->dropForeign(['id_donatur']);
-            $table->dropForeign(['id_reward']);
+            $table->foreign('id_donatur')->references('id')->on('donatur')->onDelete('cascade');
+            $table->foreign('id_reward')->references('id')->on('reward')->onDelete('cascade');
         });
 
         Schema::table('sumbangan', function (Blueprint $table) {
-            $table->dropForeign(['id_donatur']);
-            $table->dropForeign(['id_kontainer']);
+            $table->foreign('id_donatur')->references('id')->on('donatur')->onDelete('cascade');
+            $table->foreign('id_kontainer')->references('id')->on('kontainer')->onDelete('cascade');
         });
     }
 };
