@@ -25,13 +25,7 @@ Run this following commands in your terminal
 
 `npm run build`
 
-<b>Step 3: create the database (make sure u have mysql server run and have database named siminah)</b>
-
-Run this following commands in your terminal
-
-`php artisan migrate`
-
-<b>Step 4: run the project in localhost</b>
+<b>Step 3: run the project in localhost</b>
 
 Run this following commands in your terminal to start local server
 
