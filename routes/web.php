@@ -13,6 +13,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/contoh', function () {
+    return view('pengelolaCSR/dashboard/dashboard');
+});
+// Route::get('/', function () {
+//     return view('login');
+// });
+// Testing
 Route::get('/', function () {
-    return view('welcome');
+    return view('test-component');
 });
