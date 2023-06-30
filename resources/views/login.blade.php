@@ -46,7 +46,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-8" style="background-image: url('{{ asset('bg-pertamina.jpg') }}')">
+                <div class="col-md-8 bg-pertamina" style="background-image: url('{{ asset('bg-pertamina.jpg') }}')">
                 </div>
             </div>
         </section>

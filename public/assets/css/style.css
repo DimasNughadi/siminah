@@ -3,6 +3,12 @@
     --text-field-color: #203060;
     --login-header-color: #393939;
     --btn-login-color: #adc32b;
+    --green-value-color : #34B53A;
+    --green-bg-color : rgba(52, 181, 58, .2);
+    --blue-value-color : #02A0FC;
+    --blue-bg-color : rgba(2, 160, 252, .2);
+    --red-value-color : #FF4C51;
+    --red-bg-color : rgba(255, 76, 81, .2);
 }
 
 .login {
@@ -119,11 +125,65 @@ h4.login-header-color {
 } */
 
 
-.col-md-8 {
+.bg-pertamina {
     background-repeat: no-repeat;
     background-size: cover;
 }
 
 .login-bottom {
     padding-bottom: 130px;
+}
+
+/* Untuk progress bar */
+progress {
+    width: 100% auto;
+    height: 6px!important;
+    border-radius: 10px;
+}
+
+.progress-kontainer {
+    height: 9px!important;
+}
+
+.progress-red::-webkit-progress-value {
+    background-color: var(--red-value-color)!important;
+}
+
+.progress-red::-webkit-progress-bar {
+    background-color: var(--red-bg-color);
+}
+
+.progress-green::-webkit-progress-value {
+    background-color: var(--green-value-color)!important;
+}
+
+.progress-green::-webkit-progress-bar {
+    background-color: var(--green-bg-color);
+}
+
+.progress-blue::-webkit-progress-value {
+    background-color: var(--blue-value-color)!important;
+}
+
+.progress-blue::-webkit-progress-bar {
+    background-color: var(--blue-bg-color);
+}
+
+progress::-webkit-progress-bar {
+    border-radius: 10px;
+}
+
+progress::-webkit-progress-value {
+    border-radius: 10px;
+    background-color: var(--blue-value-color);
+    transition: width 0.2s ease-in;
+}
+
+@keyframes progress {
+    0% {
+        width: 0%;
+    }
+    100% {
+        width: 100%;
+    }
 }
