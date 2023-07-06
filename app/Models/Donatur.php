@@ -4,19 +4,24 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
-class Donatur extends Model
+class Donatur extends Authenticatable
 {
+    use HasApiTokens, HasFactory, Notifiable;
+
     protected $table = 'donatur';
     protected $primaryKey = 'id_donatur';
     protected $fillable = [
-        'id_donatur',
         'no_hp',
         'nama_donatur',
         'alamat_donatur',
         'kelurahan',
         'photo',
         'password',
+        'poin'
         // Add other fillable properties here
     ];
 

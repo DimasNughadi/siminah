@@ -9,16 +9,16 @@
                 <div class="card-header p-3 pt-2">
                     <div
                         class="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center border-radius-xl mt-n4 position-absolute">
-                        <i class="material-icons opacity-10">weekend</i>
+                        <i class="material-icons opacity-10">local_drink</i>
                     </div>
                     <div class="text-end pt-1">
-                        <p class="text-sm mb-0 text-capitalize">Today's Money</p>
-                        <h4 class="mb-0">$53k</h4>
+                        <p class="text-sm mb-0 text-capitalize">Total donasi bulan ini</p>
+                        <h4 class="mb-0">{{ $totalSumbangan }} L</h4>
                     </div>
                 </div>
                 <hr class="dark horizontal my-0">
                 <div class="card-footer p-3">
-                    <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+55% </span>than last week</p>
+                    <p class="mb-0"><span class="{{ $perbandinganSumbangan < 0 ? 'text-danger' : 'text-success' }} text-sm font-weight-bolder">{{ $perbandinganSumbangan }}% </span> dari bulan lalu</p>
                 </div>
             </div>
         </div>
@@ -27,16 +27,16 @@
                 <div class="card-header p-3 pt-2">
                     <div
                         class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
-                        <i class="material-icons opacity-10">person</i>
+                        <i class="material-icons opacity-10">people</i>
                     </div>
                     <div class="text-end pt-1">
-                        <p class="text-sm mb-0 text-capitalize">Today's Users</p>
-                        <h4 class="mb-0">2,300</h4>
+                        <p class="text-sm mb-0 text-capitalize">Total Donatur</p>
+                        <h4 class="mb-0">{{ $totalDonatur }}</h4>
                     </div>
                 </div>
                 <hr class="dark horizontal my-0">
                 <div class="card-footer p-3">
-                    <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+3% </span>than last month</p>
+                    <p class="mb-0"><span class="{{ $perbandinganDonatur < 0 ? 'text-danger' : 'text-success' }} text-sm font-weight-bolder">{{ $perbandinganDonatur }}% </span> dari bulan lalu</p>
                 </div>
             </div>
         </div>
@@ -82,14 +82,15 @@
             <div class="card z-index-2 ">
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
                     <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
-                        <div class="chart">
-                            <canvas id="chart-bars" class="chart-canvas" height="170"></canvas>
+                        <div class="text-start pt-1">
+                            <h4 class="text-white text-capitalize text-xl ps-3">Donasi kelurahan</h4>
                         </div>
                     </div>
                 </div>
                 <div class="card-body">
-                    <h6 class="mb-0 "> chart </h6>
-                    <p class="text-sm ">Last Campaign Performance</p>
+                    <div class="chart">
+                        <canvas id="myChart" width="365" height="200"></canvas>
+                    </div>
                     <hr class="dark horizontal">
                     <div class="d-flex ">
                         <i class="material-icons text-sm my-auto me-1">schedule</i>
@@ -102,14 +103,13 @@
             <div class="card z-index-2  ">
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
                     <div class="bg-gradient-success shadow-success border-radius-lg py-3 pe-1">
-                        <div class="chart">
-                            <canvas id="chart-line" class="chart-canvas" height="170"></canvas>
+                        <div class="text-start pt-1">
+                            <h4 class="text-white text-capitalize text-xl ps-3">Sebaran Lokasi Kontainer</h4>
                         </div>
                     </div>
                 </div>
                 <div class="card-body">
-                    <h6 class="mb-0 "> Maps </h6>
-                    <p class="text-sm "> (<span class="font-weight-bolder">+15%</span>) increase in today sales. </p>
+                    <div id="map" style="height: 400px;"></div>
                     <hr class="dark horizontal">
                     <div class="d-flex ">
                         <i class="material-icons text-sm my-auto me-1">schedule</i>
@@ -513,5 +513,87 @@
         </div>
     </div>
 </div>
+
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Leaflet.js CDN -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.css" />
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js"></script>
+
+<script>
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: {!! json_encode($chartData['labels']) !!},
+            datasets: [{
+                label: 'Sumbangan Berat',
+                data: {!! json_encode($chartData['values']) !!},
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+
+<!-- Leaflet.fullscreen CDN -->
+<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
+<link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet' />
+
+<script>
+    var map = L.map('map').setView([1.6692, 101.4478], 11); // Set the initial map view to Dumai City's coordinates
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
+        maxZoom: 16,
+    }).addTo(map);
+
+    map.addControl(new L.Control.Fullscreen());
+
+    var mapData = {!! $mapData !!};
+
+    // Create markers for each location
+    for (var i = 0; i < mapData.length; i++) {
+        var marker = mapData[i];
+
+        // Create a custom popup content
+        var popupContent = '<div class="custom-popup">' +
+            '<h3 class="custom-popup-title">' + marker.nama + '</h3>' +
+            '<p class="custom-popup-lat">Total Donatur: ' + marker.total_donatur + ' Orang</p>' +
+            '<p class="custom-popup-lng">Total Berat: ' + marker.total_berat + ' L</p>' +
+            '</div>';
+
+        L.marker([marker.lat, marker.lng])
+            .addTo(map)
+            .bindPopup(popupContent, { className: 'custom-popup' }); // Add custom popup with a CSS class
+    }
+</script>
+
+<style>
+    .custom-popup {
+        background-color: #fff;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    .custom-popup .custom-popup-title {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 500;
+    }
+
+    .custom-popup .custom-popup-lat,
+    .custom-popup .custom-popup-lng {
+        margin: 5px 0;
+        font-size: 14px;
+    }
+</style>
 
 @stop

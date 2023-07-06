@@ -24,6 +24,8 @@ Route::prefix('donaturs')->group(function () {
     Route::get('/{id}', [DonaturController::class, 'show']);
     Route::put('/{id}', [DonaturController::class, 'update']);
     Route::delete('/{id}', [DonaturController::class, 'destroy']);
+    // route for credentials
+    Route::post('/login', [DonaturController::class, 'login']);
 });
 
 Route::prefix('sumbangans')->group(function () {
@@ -50,6 +52,14 @@ Route::prefix('rewards')->group(function () {
     Route::delete('/{id}', [RewardController::class, 'destroy']);
 });
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:sanctum')->group(function(){
+    Route::prefix('donaturs')->group(function () {
+        Route::get('/', [DonaturController::class, 'index']);
+        Route::post('/', [DonaturController::class, 'store']);
+        Route::get('/{id}', [DonaturController::class, 'show']);
+        Route::put('/{id}', [DonaturController::class, 'update']);
+        Route::delete('/{id}', [DonaturController::class, 'destroy']);
+        // route for credentials
+    });
 });
+Route::post('login', [DonaturController::class, 'login'])->name('login');

@@ -9,10 +9,14 @@ class Sumbangan extends Model
 {
     protected $table = 'sumbangan';
     // Add the primary key field if it exists for the sumbangan table
-    protected $primaryKey = 'id_sumbangan'; // Replace with the actual primary key if available
+    // protected $primaryKey = 'id_sumbangan'; // Replace with the actual primary key if available
     protected $fillable = [
         'id_donatur',
         'id_kontainer',
+        'tanggal',
+        'berat',
+        'photo',
+        'poin_reward',
         // Add other fillable properties here
     ];
 
