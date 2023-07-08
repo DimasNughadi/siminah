@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('alamat_donatur', 50);
             $table->string('kelurahan', 50);
             $table->string('photo', 50);
-            $table->string('password', 50);
+            $table->string('password', 100);
 
             $table->timestamps();
         });
