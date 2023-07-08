@@ -17,7 +17,7 @@
                 <h6 class="ps-4 ms-2 text-uppercase text-xs text-dark font-weight-bolder opacity-8">Menu</h6>
             </li>
             <li class="nav-item">
-                <a class="{{ isRouteActive('dashboard') ? 'active bg-gradient-primary' : '' }} nav-link text-white"
+                <a class="{{ isRouteActive('dashboard') ? 'active bg-gradient-primary text-white' : ' text-dark' }} nav-link"
                     href="{{ route('dashboard') }}">
                     <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">home</i>
@@ -26,8 +26,8 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-dark "
-                    href="">
+                <a class="{{ isRouteActive('sumbangan') ? 'active bg-gradient-primary text-white' : ' text-dark' }} nav-link"
+                    href="{{ route('sumbangan') }}">
                     <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">vertical_align_bottom</i>
                     </div>
@@ -35,8 +35,8 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-dark "
-                    href="">
+                <a class="{{ isRouteActive('kontainer') ? 'active bg-gradient-primary text-white' : ' text-dark' }} nav-link"
+                    href="{{ route('kontainer') }}">
                     <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">local_drink</i>
                     </div>
@@ -44,8 +44,8 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-dark "
-                    href="">
+                <a class="{{ isRouteActive('donatur') ? 'active bg-gradient-primary text-white' : ' text-dark' }} nav-link"
+                    href="{{ route('donatur') }}">
                     <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">people</i>
                     </div>

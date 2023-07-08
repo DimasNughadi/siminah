@@ -109,7 +109,9 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <!-- <div id="map" style="height: 400px;"></div> -->
+                    <div class="chart">
+                        <canvas id="myChart2" width="365" height="200"></canvas>
+                    </div>
                     <hr class="dark horizontal">
                     <div class="d-flex ">
                         <i class="material-icons text-sm my-auto me-1">schedule</i>
@@ -232,10 +234,12 @@
 
 <!-- Chart.js CDN -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <!-- Leaflet.js CDN -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.css" />
+<link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet' />
 <script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js"></script>
+<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
 
 <script>
     var ctx = document.getElementById('myChart').getContext('2d');
@@ -244,7 +248,7 @@
         data: {
             labels: {!! json_encode($chartData['labels']) !!},
             datasets: [{
-                label: 'Sumbangan Berat',
+                label: 'Total Sumbangan',
                 data: {!! json_encode($chartData['values']) !!},
                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
                 borderColor: 'rgba(75, 192, 192, 1)',
@@ -261,9 +265,29 @@
     });
 </script>
 
-<!-- Leaflet.fullscreen CDN -->
-<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
-<link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet' />
+<script>
+    var ctx = document.getElementById('myChart2').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: {!! json_encode($chartData['labels']) !!},
+            datasets: [{
+                label: 'Total Sumbangan',
+                data: {!! json_encode($chartData['values']) !!},
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
 
 <script>
     var map = L.map('map').setView([1.6692, 101.4478], 11); // Set the initial map view to Dumai City's coordinates
