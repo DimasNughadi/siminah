@@ -29,27 +29,27 @@
                 <a class="nav-link text-dark "
                     href="">
                     <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">table_view</i>
+                        <i class="material-icons opacity-10">vertical_align_bottom</i>
                     </div>
-                    <span class="nav-link-text ms-1">Survey</span>
+                    <span class="nav-link-text ms-1">Sumbangan</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link text-dark "
                     href="">
                     <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">table_view</i>
+                        <i class="material-icons opacity-10">local_drink</i>
                     </div>
-                    <span class="nav-link-text ms-1">Survey</span>
+                    <span class="nav-link-text ms-1">Kontainer</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link text-dark "
                     href="">
                     <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">table_view</i>
+                        <i class="material-icons opacity-10">people</i>
                     </div>
-                    <span class="nav-link-text ms-1">Survey</span>
+                    <span class="nav-link-text ms-1">Donatur</span>
                 </a>
             </li>
             <li class="nav-item mt-3">
@@ -59,7 +59,7 @@
                 <a class="nav-link text-dark "
                     href="">
                     <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">person</i>
+                        <i class="material-icons opacity-10">account_circle</i>
                     </div>
                     <span class="nav-link-text ms-1">Profile</span>
                 </a>

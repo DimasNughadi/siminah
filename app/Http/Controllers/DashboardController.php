@@ -16,6 +16,9 @@ class DashboardController extends Controller
 
     public function index()
     {
+        $now = Carbon::now();
+
+        $bulanTahun = $now->format('F Y');
         $startOfMonth = Carbon::now()->startOfMonth();
         $endOfMonth = Carbon::now()->endOfMonth();
 
@@ -49,15 +52,16 @@ class DashboardController extends Controller
         $topLokasi = Lokasi::join('kontainer', 'lokasi.id_lokasi', '=', 'kontainer.id_lokasi')
             ->join('sumbangan', 'kontainer.id_kontainer', '=', 'sumbangan.id_kontainer')
             ->groupBy('lokasi.nama_kelurahan')
-            ->orderByDesc(Sumbangan::raw('SUM(sumbangan.berat)'))
+            ->select('lokasi.nama_kelurahan', Sumbangan::raw('COALESCE(SUM(sumbangan.berat), 0) AS total_berat'))
+            ->orderByDesc('total_berat')
             ->limit(5)
-            ->select('lokasi.nama_kelurahan', Sumbangan::raw('COALESCE(SUM(sumbangan.berat)) AS total_berat'))
             ->get();
 
         $labels = $topLokasi->pluck('nama_kelurahan');
         $values = $topLokasi->pluck('total_berat');
 
         $totalDonatur = Donatur::count();
+        $totalKontainer = Kontainer::count();
         $totalSumbangan = Sumbangan::whereBetween('created_at', [$startOfMonth, $endOfMonth])->sum('berat');
 
         $currentMonthCountDonatur = Donatur::whereBetween('created_at', [$startOfMonth, $endOfMonth])->count();
@@ -93,7 +97,9 @@ class DashboardController extends Controller
             'totalDonatur' => $totalDonatur,
             'perbandinganDonatur' => $percentageChangeDonatur,
             'totalSumbangan' => $totalSumbangan,
-            'perbandinganSumbangan' => $percentageChangeSumbangan
+            'perbandinganSumbangan' => $percentageChangeSumbangan,
+            'totalKontainer' => $totalKontainer,
+            'bulanTahun' => $bulanTahun
         ];
 
         return view('pengelolaCSR.dashboard.dashboard', $data);
