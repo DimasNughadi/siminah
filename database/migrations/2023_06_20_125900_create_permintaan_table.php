@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('permintaan', function (Blueprint $table) {
-            $table->bigIncrements('id_permintaan');
-            $table->unsignedBigInteger('id_kontainer');
-            $table->unsignedBigInteger('id_lokasi');
-            $table->unsignedBigInteger('id_admin_kelurahan');
+            $table->uuid('id_permintaan')->primary()->default(DB::raw('UUID()'));
+            $table->uuid('id_kontainer');
+            $table->uuid('id_lokasi');
+            $table->uuid('id_admin_kelurahan');
             $table->date('tanggal_permintaan');
             $table->string('status_kontainer', 50);
             $table->string('status_permintaan', 50);

@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('lokasi', function (Blueprint $table) {
-            $table->bigIncrements('id_lokasi');
+            $table->uuid('id_lokasi')->primary()->default(DB::raw('UUID()'));
             $table->string('nama_kelurahan', 50);
             $table->string('latitude', 50);
             $table->string('longitude', 50);

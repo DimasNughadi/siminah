@@ -16,6 +16,13 @@ class DashboardController extends Controller
 
     public function index()
     {
+        $role=Auth::user()->role;
+        if($role=='admin_kelurahan'){
+           return 'ini dashboard admin kelurahan'; 
+        }else{
+            return 'ini dashboard admin csr';
+        }
+        
         $now = Carbon::now();
 
         $bulanTahun = $now->format('F Y');
