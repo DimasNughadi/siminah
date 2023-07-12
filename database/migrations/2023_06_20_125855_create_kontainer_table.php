@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('kontainer', function (Blueprint $table) {
-            $table->bigIncrements('id_kontainer');
-            $table->unsignedBigInteger('id_lokasi');
+            $table->uuid('id_kontainer')->primary()->default(DB::raw('UUID()'));
+            $table->uuid('id_lokasi');
             $table->integer('kapasitas');
             $table->string('keterangan', 50);
             $table->timestamps();
