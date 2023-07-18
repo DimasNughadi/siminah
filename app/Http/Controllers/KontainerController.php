@@ -16,12 +16,12 @@ class KontainerController extends Controller
     public function index()
     {
         $kontainer = Kontainer::with('lokasi')->get();
-        return view('pengelolaCSR.kontainer.index', ['kontainer' => $kontainer]);
+        return view('after-login.pengelola-csr.kontainer.index', ['kontainer' => $kontainer]);
     }
 
     public function create()
     {
-        return view('pengelolaCSR.kontainer.tambah');
+        return view('after-login.pengelola-csr.kontainer.tambah');
     }
     public function store(Request $request)
     {   
@@ -41,7 +41,7 @@ class KontainerController extends Controller
     public function edit($id)
     {
         $kontainer = Kontainer::find($id);
-        return view('pengelolaCSR.kontainer.edit', ['kontainer' => $kontainer]);
+        return view('after-login.pengelola-csr.kontainer.edit', ['kontainer' => $kontainer]);
     }
 
     public function update($id, Request $request)

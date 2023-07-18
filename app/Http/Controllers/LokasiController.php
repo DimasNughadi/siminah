@@ -10,12 +10,12 @@ class LokasiController extends Controller
     public function index()
     {
         $lokasi = Lokasi::all();
-        return view('pengelolaCSR.lokasi.index', ['lokasi' => $lokasi]);
+        return view('after-login.pengelola-csr.lokasi.index', ['lokasi' => $lokasi]);
     }
 
     public function create()
     {
-        return view('pengelolaCSR.lokasi.tambah');
+        return view('after-login.pengelola-csr.lokasi.tambah');
     }
     public function store(Request $request)
     {
@@ -38,7 +38,7 @@ class LokasiController extends Controller
     public function edit($id)
     {
         $lokasi = lokasi::find($id);
-        return view('pengelolaCSR.lokasi.edit', ['lokasi' => $lokasi]);
+        return view('after-login.pengelola-csr.lokasi.edit', ['lokasi' => $lokasi]);
     }
 
     public function update($id, Request $request)

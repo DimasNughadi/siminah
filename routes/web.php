@@ -21,7 +21,7 @@ use App\Http\Controllers\LokasiController;
 */
 
 Route::get('/contoh', function () {
-    return view('pengelolaCSR/dashboard/dashboard');
+    return view('after-login/pengelola-csr/dashboard/dashboard');
 });
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -33,8 +33,17 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 // });
 // Testing
 Route::get('/', function () {
-    return view('test-component');
+    return view('before-login.login');
 });
+
+Route::get('/reward', function () {
+    return view('after-login/admin-kelurahan/reward/index');
+})->name('reward');
+Route::get('reward/reward-list', function () {
+    return view('after-login/admin-kelurahan/reward/detail');
+})->name('reward/reward-list');
+
+// reward/reward-list
 
 //Login Admin CSR dan Admin Kelurahan
 Route::get('/login',[LoginController::class,'index'])->name('login');
@@ -46,7 +55,7 @@ Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard')
 Route::middleware('role:admin_csr,admin_kelurahan')->group(function() {
     Route::get('/sumbangan',[SumbanganController::class,'index'])->name('sumbangan');
 });
-Route::middleware('role:admin_csr')->group(function() {
+// Route::middleware('role:admin_csr')->group(function() {
     //manajemen lokasi kontainer
     Route::get('/lokasi',[LokasiController::class,'index'])->name('lokasi');
     Route::get('/lokasi/create',[LokasiController::class,'create'])->name('lokasi.create');
@@ -73,8 +82,8 @@ Route::middleware('role:admin_csr')->group(function() {
     
     //melihat rekap donatur
 
-});
-Route::middleware('role:admin_kelurahan')->group(function() {
+// });
+// Route::middleware('role:admin_kelurahan')->group(function() {
     //kelola data donatur
     Route::get('/donatur',[donaturController::class,'index'])->name('donatur');
     Route::get('/donatur/create',[donaturController::class,'create'])->name('donatur.create');
@@ -87,6 +96,6 @@ Route::middleware('role:admin_kelurahan')->group(function() {
     Route::put('/sumbangan/update/{id}',[SumbanganController::class,'update'])->name('sumbangan.update');
     //manajemen kontainer kelurahan
 
-});
+// });
 
 

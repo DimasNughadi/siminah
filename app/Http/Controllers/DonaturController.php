@@ -16,12 +16,12 @@ class DonaturController extends Controller
     public function index()
     {
         $donatur = Donatur::all();
-        return view('adminKelurahan.donatur.index', ['donatur' => $donatur]);
+        return view('after-login.admin-kelurahan.donatur.index', ['donatur' => $donatur]);
     }
 
     public function create()
     {
-        return view('adminKelurahan.donatur.tambah');
+        return view('after-login.admin-kelurahan.donatur.tambah');
     }
     public function store(Request $request)
     {
@@ -48,7 +48,7 @@ class DonaturController extends Controller
     public function edit($id)
     {
         $donatur = donatur::find($id);
-        return view('adminKelurahan.donatur.edit', ['donatur' => $donatur]);
+        return view('after-login.admin-kelurahan.donatur.edit', ['donatur' => $donatur]);
     }
 
     public function update($id, Request $request)
