@@ -28,7 +28,7 @@ class SumbanganController extends Controller
 
         //Persentase Belum Terverifikasi
         
-        return view('adminKelurahan.sumbangan.index',['verifikasiStatus' => $verifikasiStatus]);
+        return view('after-login.admin-kelurahan.sumbangan.index',['verifikasiStatus' => $verifikasiStatus]);
     }
     public function totalDonasi_Lokasi()
     {   
@@ -36,7 +36,7 @@ class SumbanganController extends Controller
     public function edit($id)
     {
         $sumbangan = Sumbangan::find($id);
-        return view('adminKelurahan.sumbangan.edit', ['sumbangan' => $sumbangan]);
+        return view('after-login.admin-kelurahan.sumbangan.edit', ['sumbangan' => $sumbangan]);
     }
     public function update($id, Request $request)
     { 

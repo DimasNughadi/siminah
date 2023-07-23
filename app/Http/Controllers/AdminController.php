@@ -14,12 +14,12 @@ class AdminController extends Controller
         ->leftJoin('lokasi','lokasi.id_lokasi','=','adminkelurahan.id_lokasi')
         ->select('users.*','adminkelurahan.*','lokasi.nama_kelurahan')
        ->get();
-        return view('pengelolaCSR.admin.index', ['user' => $user]);
+        return view('after-login.admin-kelurahan.admin.index', ['user' => $user]);
     }
 
     public function create()
     {
-        return view('pengelolaCSR.admin.tambah');
+        return view('after-login.admin-kelurahan.admin.tambah');
     }
     public function store(Request $request)
     {
@@ -51,7 +51,7 @@ class AdminController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
-        return view('pengelolaCSR.admin.edit', ['user' => $user]);
+        return view('after-login.admin-kelurahan.admin.edit', ['user' => $user]);
     }
 
     public function update($id, Request $request)
