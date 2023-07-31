@@ -16,12 +16,12 @@ class DashboardController extends Controller
 
     public function index()
     {
-        $role=Auth::user()->role;
-        if($role=='admin_kelurahan'){
-           return 'ini dashboard admin kelurahan'; 
-        }else{
-            return 'ini dashboard admin csr';
-        }
+        // $role=Auth::user()->role;
+        // if($role=='admin_kelurahan'){
+        //    return 'ini dashboard admin kelurahan'; 
+        // }else{
+        //     return 'ini dashboard admin csr';
+        // }
         
         $now = Carbon::now();
 
@@ -109,6 +109,6 @@ class DashboardController extends Controller
             'bulanTahun' => $bulanTahun
         ];
 
-        return view('pengelolaCSR.dashboard.dashboard', $data);
+        return view('after-login.pengelola-csr.dashboard.dashboard', $data);
     }
 }

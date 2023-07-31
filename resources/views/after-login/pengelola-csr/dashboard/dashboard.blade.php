@@ -1,6 +1,100 @@
-@extends('pengelolaCSR._partials.default')
+@extends('components._partials.default')
 
 @section('content')
+
+<style>
+    .chart-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .chart-content {
+        position: relative;
+        display: block;
+        width: 250px;
+        height: 250px;
+    }
+
+    .chart-content canvas {
+        display: block;
+        max-width: 100%;
+        max-height: 100%;
+        border-radius: 50%;
+        z-index: 2;
+    }
+
+    .chart-background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(101, 174, 56, 0.25);
+        border-radius: 50%;
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    .chart-background2 {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(20, 94, 168, 0.25);
+        border-radius: 50%;
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    .chart-percentage {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 32px;
+        font-weight: bold;
+        color: #65AE38;
+    }
+
+    .chart-percentage2 {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 32px;
+        font-weight: bold;
+        color: #145EA8;
+    }
+
+    .custom-icon {
+        color: #65AE38;
+    }
+
+    .custom-icon2 {
+        color: #145EA8;
+    }
+
+
+    .custom-popup {
+        background-color: #fff;
+        font-family: 'Roboto', sans-serif;
+        border-radius: 10px;
+    }
+
+    .custom-popup .custom-popup-title {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 500;
+    }
+
+    .custom-popup .custom-popup-lat,
+    .custom-popup .custom-popup-lng {
+        margin: 5px 0;
+        font-size: 14px;
+    }
+</style>
 
 <div class="container-fluid py-4">
     <div class="row">
@@ -79,7 +173,7 @@
     </div>
     <div class="row mt-4">
         <div class="col-lg-6 col-md-6 mt-4 mb-4">
-            <div class="card z-index-2 ">
+            <div class="card z-index-2">
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
                     <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
                         <div class="text-start pt-1">
@@ -88,8 +182,8 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="chart">
-                        <canvas id="myChart" width="365" height="200"></canvas>
+                    <div class="chart mt-4" style="height: 250px;">
+                        <canvas id="myChart"></canvas>
                     </div>
                     <hr class="dark horizontal">
                     <div class="d-flex ">
@@ -103,20 +197,61 @@
             <div class="card z-index-2  ">
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
                     <div class="bg-gradient-success shadow-success border-radius-lg py-3 pe-1">
-                        <div class="text-start pt-1">
-                            <h4 class="text-white text-capitalize text-xl ps-3">Kapasitas Kontainer</h4>
+                        <div class="row">
+                            <div class="col-lg-6 col-7">
+                            <div class="text-start pt-1">
+                                <h4 class="text-white text-capitalize text-xl ps-3">Kapasitas Kontainer</h4>
+                            </div>
+                                
+                            </div>
+                            <div class="col-lg-6 col-5 my-auto text-end">
+                                <div class="dropdown float-lg-end pe-4">
+                                    <a class="cursor-pointer" id="dropdownTable" data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                        <i class="fa fa-ellipsis-v text-white"></i>
+                                    </a>
+                                    <ul class="dropdown-menu px-2 py-3 ms-sm-n4 ms-n5" aria-labelledby="dropdownTable">
+                                        <li><a class="dropdown-item border-radius-md" href="javascript:;">Action</a></li>
+                                        <li><a class="dropdown-item border-radius-md" href="javascript:;">Another action</a></li>
+                                        <li><a class="dropdown-item border-radius-md" href="javascript:;">Something else here</a></li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="chart">
-                        <canvas id="myChart2" width="365" height="200"></canvas>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 mt-3 d-flex justify-content-center">
+                            <div class="chart-container">
+                                <div class="chart-content">
+                                    <canvas id="myChart2"></canvas>
+                                    <div class="chart-background"></div>
+                                    <div class="chart-percentage">75%</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 mt-3 d-flex justify-content-center">
+                            <div class="chart-container">
+                                <div class="chart-content">
+                                    <canvas id="myChart3"></canvas>
+                                    <div class="chart-background2"></div>
+                                    <div class="chart-percentage2">75%</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <hr class="dark horizontal">
-                    <div class="d-flex ">
-                        <i class="material-icons text-sm my-auto me-1">schedule</i>
-                        <p class="mb-0 text-sm"> updated 4 min ago </p>
+                    <div class="d-flex">
+                        <i class="material-icons text-sm my-auto me-1 custom-icon">brightness_1</i>
+                        <p class="mb-0 text-sm"> Kontainer Utama</p>&nbsp;&nbsp;
+                        <i class="material-icons text-sm my-auto me-1 custom-icon2">brightness_1</i>
+                        <p class="mb-0 text-sm"> Kontainer Cadangan</p>
                     </div>
+                    <!-- <div class="d-flex justify-content-end">
+                        <i class="material-icons text-sm my-auto me-1 custom-icon">brightness_1</i>
+                        <p class="mb-0 text-sm"> Kelurahan</p>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -141,8 +276,7 @@
                                 </a>
                                 <ul class="dropdown-menu px-2 py-3 ms-sm-n4 ms-n5" aria-labelledby="dropdownTable">
                                     <li><a class="dropdown-item border-radius-md" href="javascript:;">Action</a></li>
-                                    <li><a class="dropdown-item border-radius-md" href="javascript:;">Another action</a>
-                                    </li>
+                                    <li><a class="dropdown-item border-radius-md" href="javascript:;">Another action</a></li>
                                     <li><a class="dropdown-item border-radius-md" href="javascript:;">Something else here</a></li>
                                 </ul>
                             </div>
@@ -232,14 +366,12 @@
     </div>
 </div>
 
-<!-- Chart.js CDN -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<!-- Leaflet.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.css" />
 <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet' />
-<script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js"></script>
-<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js" async></script>
+<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js' async></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous" async></script>
 
 <script>
     var ctx = document.getElementById('myChart').getContext('2d');
@@ -250,47 +382,91 @@
             datasets: [{
                 label: 'Total Sumbangan',
                 data: {!! json_encode($chartData['values']) !!},
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(209, 32, 49, 0.8)',
+                borderColor: 'rgba(209, 32, 49, 1)',
+                borderRadius: 10,
                 borderWidth: 1
             }]
         },
         options: {
+            maintainAspectRatio: false,
+            responsive: true,
             scales: {
                 y: {
                     beginAtZero: true
                 }
+            },
+            plugins: {
+                legend: false
             }
         }
     });
 </script>
 
 <script>
-    var ctx = document.getElementById('myChart2').getContext('2d');
-    var myChart = new Chart(ctx, {
-        type: 'line',
+    var ctx1 = document.getElementById('myChart2').getContext('2d');
+    var data1 = [75, 25];
+    var colors1 = ['rgba(101, 174, 56, 1)', 'rgba(0, 0, 0, 0)'];
+    var cutout1 = '85%';
+    var myChart1 = new Chart(ctx1, {
+        type: 'doughnut',
         data: {
-            labels: {!! json_encode($chartData['labels']) !!},
+            labels: ['Terisi', 'kosong'],
             datasets: [{
-                label: 'Total Sumbangan',
-                data: {!! json_encode($chartData['values']) !!},
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1
+                label: 'Total',
+                data: data1,
+                backgroundColor: colors1,
+                cutout: cutout1,
+                borderRadius: 50,
+                borderWidth: 0,
+                hoverOffset: 0
             }]
         },
         options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
+            maintainAspectRatio: false,
+            responsive: true,
+            layout: {
+                padding: 0
+            },
+            plugins: {
+                legend: false
+            }
+        }
+    });
+
+    var ctx2 = document.getElementById('myChart3').getContext('2d');
+    var data2 = [75, 25];
+    var colors2 = ['rgba(20, 94, 168, 1)', 'rgba(0, 0, 0, 0)'];
+    var cutout2 = '85%';
+    var myChart2 = new Chart(ctx2, {
+        type: 'doughnut',
+        data: {
+            labels: ['Terisi', 'kosong'],
+            datasets: [{
+                label: 'Total',
+                data: data2,
+                backgroundColor: colors2,
+                cutout: cutout2,
+                borderRadius: 50,
+                borderWidth: 0,
+                hoverOffset: 0
+            }]
+        },
+        options: {
+            maintainAspectRatio: false,
+            responsive: true,
+            layout: {
+                padding: 0
+            },
+            plugins: {
+                legend: false
             }
         }
     });
 </script>
 
 <script>
-    var map = L.map('map').setView([1.6692, 101.4478], 11); // Set the initial map view to Dumai City's coordinates
+    var map = L.map('map').setView([1.6692, 101.4478], 11);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
@@ -301,40 +477,19 @@
 
     var mapData = {!! $mapData !!};
 
-    // Create markers for each location
     for (var i = 0; i < mapData.length; i++) {
         var marker = mapData[i];
 
-        // Create a custom popup content
         var popupContent = '<div class="custom-popup">' +
-            '<h3 class="custom-popup-title">' + marker.nama + '</h3>' +
+            '<h3 class="custom-popup-title">' + marker.nama + '</h3>' + '<hr class="dark horizontal">' +
             '<p class="custom-popup-lat">Total Donatur: ' + marker.total_donatur + ' Orang</p>' +
             '<p class="custom-popup-lng">Total Berat: ' + marker.total_berat + ' L</p>' +
             '</div>';
 
         L.marker([marker.lat, marker.lng])
             .addTo(map)
-            .bindPopup(popupContent, { className: 'custom-popup' }); // Add custom popup with a CSS class
+            .bindPopup(popupContent, { className: 'custom-popup' });
     }
 </script>
-
-<style>
-    .custom-popup {
-        background-color: #fff;
-        font-family: 'Roboto', sans-serif;
-    }
-
-    .custom-popup .custom-popup-title {
-        margin: 0;
-        font-size: 18px;
-        font-weight: 500;
-    }
-
-    .custom-popup .custom-popup-lat,
-    .custom-popup .custom-popup-lng {
-        margin: 5px 0;
-        font-size: 14px;
-    }
-</style>
 
 @stop

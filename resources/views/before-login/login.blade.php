@@ -23,7 +23,7 @@
                             <h1 class="login-header-color .login-fs-header">Sign Into</h1>
                             <h4 class="mt-2 login-header-color .login-fs-subheader">Your Account</h6>
                         </div>
-                        {{-- <form method="POST" action ="{{ route ('ceklogin') }}"> --}}\
+                        {{-- <form method="POST" action ="{{ route ('ceklogin') }}"> --}}
                         <form method="POST">
                             @csrf
                         <div class="col-md-12 mt-5 animate__animated animate__fadeInUp">
