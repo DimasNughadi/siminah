@@ -16,15 +16,15 @@ class DonaturController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->only('no_hp', 'password');
-        // dd($credentials);
-        if (Auth::attempt($credentials)) {
-            // Authentication successful
-            $donatur = Auth::user()->createToken('API Token');
-            return response()->json($donatur, Response::HTTP_OK);
+        $donatur = Donatur::where('no_hp', $credentials['no_hp'])->first();
+
+        if ($donatur && Hash::check($credentials['password'], $donatur->password)) {
+            $accessToken = $donatur->createToken('API Token');
+            return response()->json(['access_token' => $accessToken], Response::HTTP_OK);
         } else {
-            // Authentication failed
             return response()->json(['error' => 'Invalid credentials'], Response::HTTP_UNAUTHORIZED);
         }
+        
     }
 
     /**

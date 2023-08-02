@@ -9,29 +9,10 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DonaturController;
 use App\Http\Controllers\LokasiController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-
-Route::get('/contoh', function () {
-    return view('after-login/pengelola-csr/dashboard/dashboard');
-});
-
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-//Route::get('/sumbangan', [SumbanganController::class, 'index'])->name('sumbangan');
-//Route::get('/kontainer', [SumbanganController::class, 'index'])->name('kontainer');
-//Route::get('/donatur', [SumbanganController::class, 'index'])->name('donatur');
-// Route::get('/', function () {
-//     return view('login');
+// Route::get('/contoh', function () {
+//     return view('after-login/pengelola-csr/dashboard/dashboard');
 // });
-// Testing
+
 Route::get('/', function () {
     return view('before-login.login');
 });
@@ -49,12 +30,12 @@ Route::get('reward/reward-list', function () {
 Route::get('/login',[LoginController::class,'index'])->name('login');
 Route::post('/ceklogin',[LoginController::class,'ceklogin'])->name('ceklogin');
 Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard');
-
-    //rekapdatadonatur
+Route::post('/logout',[LoginController::class,'logout'])->name('logout');
 
 Route::middleware('role:admin_csr,admin_kelurahan')->group(function() {
     Route::get('/sumbangan',[SumbanganController::class,'index'])->name('sumbangan');
 });
+
 // Route::middleware('role:admin_csr')->group(function() {
     //manajemen lokasi kontainer
     Route::get('/lokasi',[LokasiController::class,'index'])->name('lokasi');
@@ -83,6 +64,7 @@ Route::middleware('role:admin_csr,admin_kelurahan')->group(function() {
     //melihat rekap donatur
 
 // });
+
 // Route::middleware('role:admin_kelurahan')->group(function() {
     //kelola data donatur
     Route::get('/donatur',[donaturController::class,'index'])->name('donatur');
