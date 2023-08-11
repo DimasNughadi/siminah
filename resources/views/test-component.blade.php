@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 
-@include('pengelolaCSR._partials.header')
+@include('components._partials.header')
 
 <body data-mdb-animation-start="onLoad">
 
 	<main class="main-content">
 
 		<div class="container">
-            <x-progressBar value="24" max=50 type="donatur" color="red"/>
+            <x-forms.freshTable />
         </div>
 
     </main>
 
-	@include('pengelolaCSR._partials.scripts')
+	@include('components._partials.scripts')
 
 </body>
 

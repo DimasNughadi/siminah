@@ -10,9 +10,13 @@ use App\Http\Controllers\DonaturController;
 use App\Http\Controllers\RewardController;
 use App\Http\Controllers\LokasiController;
 
-// Route::get('/contoh', function () {
-//     return view('after-login/pengelola-csr/dashboard/dashboard');
-// });
+Route::get('/contoh', function () {
+    return view('test-component');
+});
+
+Route::get('/reward/list', function () {
+    return view('after-login/admin-kelurahan/reward/index');
+})->name('reward/list');
 
 Route::get('/', function () {
     return view('before-login.login');
@@ -29,7 +33,7 @@ Route::middleware('role:admin_csr,admin_kelurahan')->group(function() {
     Route::get('/sumbangan',[SumbanganController::class,'index'])->name('sumbangan');
 });
 
-// Route::middleware('role:admin_csr')->group(function() {
+Route::middleware('role:admin_csr')->group(function() {
     //manajemen lokasi kontainer
     Route::get('/lokasi',[LokasiController::class,'index'])->name('lokasi');
     Route::get('/lokasi/create',[LokasiController::class,'create'])->name('lokasi.create');
@@ -47,14 +51,15 @@ Route::middleware('role:admin_csr,admin_kelurahan')->group(function() {
     Route::get('/adminkelurahan/edit/{id}',[AdminController::class,'edit'])->name('admin.edit');
     Route::put('/adminkelurahan/update/{id}',[AdminController::class,'update'])->name('admin.update');
     Route::delete('/adminkelurahan/delete/{id}',[AdminController::class,'destroy'])->name('admin.destroy');
-// });
+});
 
 
-// Route::middleware('role:admin_kelurahan')->group(function() {
+Route::middleware('role:admin_kelurahan')->group(function() {
 
     //kelola data donatur
     Route::get('/donatur',[donaturController::class,'index'])->name('donatur');
     Route::get('/donatur/create',[donaturController::class,'create'])->name('donatur.create');
+    Route::get('/donatur/getById',[donaturController::class,'getById'])->name('donatur.getById');
     Route::post('/donatur',[donaturController::class,'store'])->name('donatur.store');
     Route::get('/donatur/edit/{id}',[donaturController::class,'edit'])->name('donatur.edit');
     Route::get('/donatur/detail/{id}',[donaturController::class,'detail'])->name('donatur.detail');
@@ -75,10 +80,10 @@ Route::middleware('role:admin_csr,admin_kelurahan')->group(function() {
     Route::delete('/kontainer/delete/{id}',[KontainerController::class,'destroy'])->name('kontainer.destroy');
     
     //manajemen reward (adm-kelurahan)
-    Route::get('/reward', function () {
-        return view('after-login/admin-kelurahan/reward/index');
-    })->name('reward');
+    Route::get('/reward',[RewardController::class,'index'])->name('reward');
+    // Route::get('/reward', function () {
+    //     return view('after-login/admin-kelurahan/reward/index');
+    // })->name('reward');
     Route::get('/reward/reward-list',[RewardController::class,'index'])->name('reward/reward-list');
-    // });
-
+});
 

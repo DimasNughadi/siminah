@@ -5,9 +5,7 @@
 @include('components._partials.header')
 
 <body class="login" data-mdb-animation-start="onLoad">
-
     <main class="main-content">
-
         <section class="login-page container-fluid">
             <div class="row">
                 <div class="col-md-4 ps-4">

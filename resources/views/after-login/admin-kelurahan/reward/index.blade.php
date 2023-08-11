@@ -1,61 +1,73 @@
 @extends('components._partials.default')
 
 @section('content')
-
+    {{-- {{ dd($reward[0]->nama_reward) }} --}}
     <div class="container-fluid py-2 ps-4">
         <div class="row">
-            <div class="col-lg-10">
+            <div class="col-md-10">
                 <div class="row">
-                    <div class="col-lg-12 reward text-poppins">Reward</div>
+                    <div class="col-md-12 reward text-poppins">Reward</div>
                 </div>
                 <div class="row reedem-reward">
-                    <div class="col-lg-9">
+                    <div class="col-md-9">
                         <div class="table-header-redeem">
                             Riwayat penukaran hadiah
                         </div>
                     </div>
-                    <div class="col-lg-3 text-poppins text-14 btn-reward-position ">
+                    <div
+                        class="col-md-3 text-poppins text-14 btn-reward-position d-flex justify-content-center align-items-center">
                         <div class="btn-reward btn-custom-success position-relative">
-                            <a href="{{ route('reward/reward-list') }}" class="position-relative riwayat-history">Lihat Daftar hadiah</a>
+                            <a href="{{ route('reward/reward-list') }}" class="position-relative add-reward">Lihat Daftar
+                                hadiah</a>
                         </div>
                     </div>
-                    <div class="col-lg-12">
-                        <table class="table align-middle mb-0 reward-table ps-5">
-                            <thead>
-                                <tr>
-                                    <th>NAMA USER</th>
-                                    <th>JUMLAH POIN</th>
-                                    <th>NAMA HADIAH</th>
-                                    <th>WAKTU PENUKARAN</th>
-                                    <th>TOTAL PENUKARAN</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="reward-row table-row-image">
-                                    <td class="ps-4 text-inter-regular text-14">
+                    <div class="col-md-12">
+                        <x-forms.table>
+                            @slot('headSlot')
+                                <th>NAMA USER</th>
+                                <th>JUMLAH POIN</th>
+                                <th>NAMA HADIAH</th>
+                                <th>WAKTU PENUKARAN</th>
+                                <th>TOTAL PENUKARAN</th>
+                            @endslot
+
+                            @slot('bodySlot')
+                                <tr class="reward-tr table-row-image">
+                                    <td class="ps-4">
                                         <div class="d-flex align-items-center">
-                                            <x-userImage />
-                                            <div class="ms-3">
-                                                <span>Abdi</span>
+                                            <x-userImage src="../assets/img/products/product-1-min.jpg" alt="as"/>
+                                            <div class="ms-2 poppins">
+                                                Abdi
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="ps-4 text-inter-regular text-14">
-                                        <span>500</span>
+                                    <td class="ps-4 poppins">
+                                        500
                                     </td>
-                                    <td class="ps-4 text-14">
-                                        <span class="text-poppins">Voucher Pulsa</span>
-                                        <p class="text-inter-regular text-12">Rp. 50,000.00</p>
+                                    <td class="ps-4">
+                                        <div class="d-flex flex-column gap-0">
+                                            <span class="poppins">as</span>
+                                        </div>
                                     </td>
-                                    <td class="ps-4 text-inter-regular text-14">
-                                        <span>14:30, 12 Jan 2023</span>
+                                    <td class="ps-4">
+                                        14:30, 12 Jan 2023
                                     </td>
-                                    <td class="ps-4 text-inter-regular text-14">
-                                        <span>5 Kali</span>
+                                    <td class="ps-4">
+                                        5 Kali
                                     </td>
                                 </tr>
-                            </tbody>
-                        </table>
+                                {{-- @if (!empty($reward))
+                                @else
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td>{{ $message }}</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                @endif --}}
+                            @endslot
+                        </x-forms.table>
                     </div>
                 </div>
             </div>

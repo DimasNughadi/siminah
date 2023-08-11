@@ -22,7 +22,7 @@
 	</main>
 
 	@include('components._partials.scripts')
-  
+
 </body>
 
 </html>

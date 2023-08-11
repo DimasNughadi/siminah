@@ -46,6 +46,11 @@ class DonaturController extends Controller
         }
     }
 
+    public function getById()
+    {
+        return view('after-login.admin-kelurahan.donatur.index');
+    }
+
     public function create()
     {
         return view('after-login.admin-kelurahan.donatur.tambah');

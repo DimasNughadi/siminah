@@ -18,7 +18,7 @@ class LoginController extends Controller
 
         if (Auth::attempt($credentials)) {
             // return response()->json(Response::HTTP_OK);
-            return redirect()->route('dashboard');
+            return redirect()->route('dashboard')->with('success_alert' , 'Login berhasil');
         } else {
             // return response()->json(['error' => 'Invalid credentials'], Response::HTTP_UNAUTHORIZED);
             return redirect()->route('login')->with('error', 'Username or password is incorrect');

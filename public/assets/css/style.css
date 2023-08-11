@@ -3,14 +3,26 @@
     --text-field-color: #203060;
     --login-header-color: #393939;
     --btn-login-color: #adc32b;
-    --green-value-color : #34B53A;
-    --green-bg-color : rgba(52, 181, 58, .2);
-    --blue-value-color : #02A0FC;
-    --blue-bg-color : rgba(2, 160, 252, .2);
-    --red-value-color : #FF4C51;
-    --red-bg-color : rgba(255, 76, 81, .2);
-    --text-poppins: 'Poppins', sans-serif;
+    --green-value-color: #34b53a;
+    --green-bg-color: rgba(52, 181, 58, 0.2);
+    --blue-value-color: #02a0fc;
+    --blue-bg-color: rgba(2, 160, 252, 0.2);
+    --red-value-color: #ff4c51;
+    --red-bg-color: rgba(255, 76, 81, 0.2);
+    --text-poppins: "Poppins", sans-serif;
+    --input-placeholder: #808080;
+    --danger: #d12031;
+    --hover-danger: #d12032c2;
+    --success: #65ae38;
+    --light-success: #abae38;
+    --dark: #131b23;
+    --semi-dark: #3a3541;
+    --semi-dark-68: rgba(58, 53, 65, 0.68);
+    --light-dark: #878787;
+    --fs-inter: "Inter", sans-serif;
 }
+
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap");
 
 .login {
     background-color: #f6f6f6;
@@ -19,15 +31,15 @@
 
 .login-header-color {
     color: var(--login-header-color);
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
     font-weight: bold;
 }
 
-h1.login-header-color {    
+h1.login-header-color {
     font-size: 62px;
 }
 
-h4.login-header-color {    
+h4.login-header-color {
     font-size: 30px;
 }
 
@@ -51,18 +63,17 @@ h4.login-header-color {
 }
 
 .login-page .row .Field::placeholder {
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
     color: var(--text-field-color);
-    font-weight:lighter;
+    font-weight: lighter;
 }
-
 
 .login-page .row .form-check .form-check-input {
     left: -7px;
 }
 
 .login-page .row .form-check .form-check-label {
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
 }
 
 .btn-custom {
@@ -81,9 +92,10 @@ h4.login-header-color {
     font-size: 1rem;
     line-height: 1.5;
     border-radius: 0.25rem;
-    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+        border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
-  /* .btn-primary {
+/* .btn-primary {
     color: #fff;
     background-color: #007bff;
     border-color: #007bff;
@@ -102,18 +114,17 @@ h4.login-header-color {
     border-color: #007bff;
   } */
 
-
 .btn-login {
     width: 98%;
     left: -15px;
-    background-color: var(--btn-login-color);
+    background-color: var(--danger);
     color: white;
     font-size: 16px;
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
 }
 
 .btn-login:hover {
-    background-color: #9eb327;
+    background-color: var(--hover-danger);
     color: white;
 }
 
@@ -124,7 +135,6 @@ h4.login-header-color {
 .login-page {
     scrollbar-width: none;
 } */
-
 
 .bg-pertamina {
     background-repeat: no-repeat;
@@ -138,16 +148,16 @@ h4.login-header-color {
 /* Untuk progress bar */
 progress {
     width: 100% auto;
-    height: 6px!important;
+    height: 6px !important;
     border-radius: 10px;
 }
 
 .progress-kontainer {
-    height: 9px!important;
+    height: 9px !important;
 }
 
 .progress-red::-webkit-progress-value {
-    background-color: var(--red-value-color)!important;
+    background-color: var(--red-value-color) !important;
 }
 
 .progress-red::-webkit-progress-bar {
@@ -155,7 +165,7 @@ progress {
 }
 
 .progress-green::-webkit-progress-value {
-    background-color: var(--green-value-color)!important;
+    background-color: var(--green-value-color) !important;
 }
 
 .progress-green::-webkit-progress-bar {
@@ -163,7 +173,7 @@ progress {
 }
 
 .progress-blue::-webkit-progress-value {
-    background-color: var(--blue-value-color)!important;
+    background-color: var(--blue-value-color) !important;
 }
 
 .progress-blue::-webkit-progress-bar {
@@ -189,7 +199,6 @@ progress::-webkit-progress-value {
     }
 }
 
-
 /* User image */
 img.user-image {
     width: 44px;
@@ -198,17 +207,17 @@ img.user-image {
 }
 
 /* Search bar */
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans&display=swap");
 .search-bar {
     width: 30%;
 }
 
-.search-bar input{
+.search-bar input {
     height: 20px;
-    font-family: 'DM Sans', sans-serif;
+    font-family: "DM Sans", sans-serif;
     padding-left: 10px;
     font-size: 14px;
-    letter-spacing: .3px;
+    letter-spacing: 0.3px;
 }
 
 .search-bar i {
@@ -224,98 +233,116 @@ img.user-image {
 }
 
 .new-navbar-brand span.app-name {
-    font-family: 'Poppins', sans-serif!important;
-    font-size: 15px!important;
-    font-weight: 800!important;
-    color: black!important;
+    font-family: "Poppins", sans-serif !important;
+    font-size: 15px !important;
+    font-weight: 800 !important;
+    color: black !important;
 }
-
 
 .reedem-reward {
     margin-top: 6px;
     background-color: white;
-    border-radius: 10px!important;
-    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.05); 
+    border-radius: 10px !important;
+    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.05);
     padding: 10px;
 }
+
 .reward {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 20px;
+    font-family: "DM Sans", sans-serif;
+    font-size: 22px;
     color: black;
-    font-size: bold;
+    font-weight: 600;
+}
+
+.page-header {
+    font-family: "DM Sans", sans-serif;
+    font-size: 22px;
+    color: black;
+    font-weight: 600;
+}
+
+.page-header a span svg {
+    position: relative;
+    top: -2px;
 }
 
 .reward-row {
-    height: 50px!important;
+    height: 50px !important;
 }
 
 .table-header-redeem {
-    font-family: 'Inter', sans-serif;
+    font-family: "Inter", sans-serif;
     font-size: 20px;
-    color: #3A3541;
+    color: #3a3541;
     padding: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 32px; /* 160% */
+    letter-spacing: 0.15px;
 }
 
 .reward-table thead tr th {
-    font-family: 'Inter', sans-serif;
     font-size: 12px;
 }
 
 .text-poppins-medium {
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
     font-weight: 600;
 }
 
 .text-roboto-medium {
-    font-family: 'Roboto', sans-serif;
+    font-family: "Roboto", sans-serif;
     font-weight: 600;
 }
 
 .text-roboto-regular {
-    font-family: 'Roboto', sans-serif;
+    font-family: "Roboto", sans-serif;
 }
 
 .text-inter-regular {
-    font-family: 'Inter', sans-serif;
+    font-family: "Inter", sans-serif;
 }
 
 .text-12 {
-    font-size: 12px!important;
+    font-size: 12px !important;
 }
 
 .text-14 {
-    font-size: 14px!important;
+    font-size: 14px !important;
 }
 
+.text-20 {
+    font-size: 14px !important;
+}
 
-.text-poppins span.siminah{
+.text-poppins span.siminah {
     font-size: 32px;
-    font-weight:bolder;
+    font-weight: bolder;
 }
 
 .nav-link {
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
     font-size: 15px;
 }
 
-.table-header-redeem{
-    font-family: 'Poppins', sans-serif!important;
-    font-size: 20px!important;
-    font-weight: 500!important;
+.table-header-redeem {
+    font-family: "Poppins", sans-serif !important;
+    font-size: 20px !important;
+    font-weight: 500 !important;
 }
 
 td {
-    max-height: 49.2px!important;
+    max-height: 49.2px !important;
 }
 
 tr {
-    max-height: 49.2px!important;
+    max-height: 49.2px !important;
 }
 
 .table-row-image {
     padding: 0;
     margin: 0;
-    max-height: 20px!important;
+    max-height: 20px !important;
 }
 
 .btn-reward {
@@ -334,7 +361,8 @@ tr {
     font-size: 14px;
     line-height: 1.5;
     border-radius: 10px;
-    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+        border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
 .btn-custom-success {
@@ -343,12 +371,12 @@ tr {
     background-color: var(--green-value-color);
     color: white;
     font-size: 1614pxpx;
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
 }
 
 .btn-custom-success:hover {
     background-color: #34b53ad5;
-    color: rgb(255, 255, 255)!important;
+    color: rgb(255, 255, 255) !important;
 }
 
 .btn-reward-position {
@@ -364,9 +392,8 @@ a.reward-history {
 }
 
 a.reward-history:hover {
-    color: rgb(255, 255, 255)
+    color: rgb(255, 255, 255);
 }
-
 
 a.add-reward {
     color: rgb(255, 255, 255);
@@ -377,13 +404,12 @@ a.add-reward {
 }
 
 a.add-reward:hover {
-    
-    color: rgb(255, 255, 255)
+    color: rgb(255, 255, 255);
 }
 
 .btn-list {
     height: 27px;
-    background-color: var(--green-value-color);
+    background-color: var(--light-success);
     color: white;
 }
 
@@ -403,9 +429,9 @@ a.add-reward:hover {
     font-size: 14px;
     line-height: 1.5;
     border-radius: 10px;
-    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+        border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
-
 
 .btn-edit-reward-list {
     left: -15px;
@@ -413,7 +439,7 @@ a.add-reward:hover {
     background-color: var(--green-value-color);
     color: white;
     font-size: 1614pxpx;
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
 }
 
 .btn-aksi-reward-list {
@@ -427,10 +453,263 @@ a.add-reward:hover {
     background-color: var(--red-value-color);
     color: white;
     font-size: 1614pxpx;
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
 }
 
 .btn-custom-danger:hover {
     background-color: var(--red-value-color);
-    color: rgb(255, 255, 255)!important;
+    color: rgb(255, 255, 255) !important;
+}
+
+.c-fs20 {
+    font-size: 20px;
+}
+
+.c.fwb {
+    font-weight: bold;
+}
+
+/* Modal */
+.modal-csm {
+    width: 418px !important;
+}
+
+/* Input */
+.modal-input-wrapper {
+    margin-bottom: 30px !important;
+}
+
+.modal-input {
+    height: 60px;
+    border-radius: 20px;
+    padding-left: 48px;
+    font-size: 16px;
+    font-family: var(--text-poppins);
+}
+
+.modal-input::placeholder {
+    color: var(--input-placeholder);
+}
+
+.btn-danger {
+    background-color: var(--danger);
+}
+
+/* File input */
+input[type="file"] {
+    display: none;
+}
+
+.input-file-container {
+    cursor: pointer;
+}
+
+.btn-upload-file {
+    position: relative;
+    right: 0;
+    top: -35px;
+    left: +85%;
+    font-size: 29px;
+    background-color: #cdcdcd;
+}
+#myFileNameContainer {
+    position: relative;
+    top: 8px;
+    color: var(--input-placeholder);
+}
+
+#btnFile {
+    cursor: pointer;
+}
+
+/* Border radius */
+
+.detail-donatur-wrapper {
+    background-color: #fff;
+    border-radius: 15px;
+}
+
+.detail-donatur-wrapper .detail-donatur-card {
+    padding: 60px 20px 20px 20px;
+}
+
+.detail-donatur-wrapper .detail-donatur-card .header img {
+    width: 119px;
+    height: 119px;
+    border-radius: 50%;
+}
+
+.detail-donatur-wrapper .detail-donatur-card .header span {
+    padding-top: 16px;
+    padding-bottom: 24px;
+    font-family: var(--text-poppins);
+    font-size: 20px;
+    color: var(--light-dark);
+    font-weight: 400;
+}
+
+.detail-donatur-wrapper .detail-donatur-card .summary .icon span {
+    padding: 10px;
+    border-radius: 6px;
+    background-color: var(--danger);
+    color: white;
+    width: 44px;
+    height: 44px;
+}
+
+.detail-donatur-wrapper .detail-donatur-card .summary .sum {
+    padding-left: 16px;
+    position: relative;
+    top: -3px;
+}
+
+.detail-donatur-wrapper .detail-donatur-card .summary .sum .top {
+    font-size: 24px;
+    font-family: "Roboto", sans-serif;
+    line-height: 32px;
+}
+
+.detail-donatur-wrapper .detail-donatur-card .summary .sum .bottom {
+    font-size: 14px;
+    font-family: var(--text-poppins);
+    line-height: 20px;
+}
+
+.detail-donatur-wrapper .detail-donatur-card .detail {
+    padding-top: 24px;
+    width: 300px;
+    position: relative;
+    left: 33.5px;
+}
+
+.detail-donatur-wrapper .detail-donatur-card .detail .header span {
+    font-family: Roboto;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 160%;
+    letter-spacing: 0.15px;
+    color: var(--semi-dark);
+}
+
+.detail-donatur-wrapper .detail-donatur-card .detail .line hr {
+    background: #3a3541;
+    height: 1px;
+    padding: 0 16px 0 16px;
+}
+
+.detail-donatur-wrapper .detail-donatur-card .detail .user-detail {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.detail-donatur-wrapper .detail-donatur-card .detail .user-detail span.head {
+    font-family: var(--text-poppins);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 143%;
+    letter-spacing: 0.15px;
+    color: var(--semi-dark);
+}
+
+.detail-donatur-wrapper .detail-donatur-card .detail .user-detail span.body {
+    color: var(--light-dark);
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: var(--text-poppins);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 143%;
+    letter-spacing: 0.15px;
+}
+
+.riwayat-donatur-wrapper {
+    margin-left: 24px;
+    border-radius: 15px;
+    background-color: white;
+}
+
+.riwayat-donatur-wrapper .container-fluid {
+    height: 72px;
+    padding: 20px;
+}
+
+.riwayat-donatur-wrapper .container-fluid h1 {
+    font-size: 20px;
+    font-family: var(--text-poppins);
+    color: var(--semi-dark);
+    font-style: normal;
+    font-weight: 700;
+    line-height: 32px;
+    letter-spacing: 0.15px;
+}
+
+/* color */
+.text-semi-dark {
+    color: var(--semi-dark);
+}
+
+.text-semi-dark-68 {
+    color: var(--semi-dark-68);
+}
+
+.reward-row .top {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 18px; /* 21.98px */
+    letter-spacing: 0.1px;
+    font-family: var(--text-poppins);
+    color: var(--semi-dark);
+}
+
+.reward-row .bottom {
+    font-family: var(--text-poppins);
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 15px; /* 19.92px */
+    letter-spacing: 0.4px;
+}
+
+.forms-admin {
+    margin-top: 6px;
+    background-color: white;
+    border-radius: 10px !important;
+    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.05);
+    padding-top: 67px;
+    padding-left: 13px;
+}
+
+.donatur-row td.data-14 {
+    font-family: var(--fs-inter);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 143%; /* 20.02px */
+    letter-spacing: 0.15px;
+}
+
+.donatur-row td:not(.data-14) {
+    width: 60px;
+    height: 27px;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px; /* 200% */
+    letter-spacing: 0.17px;
+    text-transform: uppercase;
+}
+
+.donatur-row td.data-14 .d-flex {
+    width: 34px;
+    height: 34px;
+}
+
+tr.reward-tr .ps-4 .d-flex{
+    width: 34px;
+    height: 34px;
 }
