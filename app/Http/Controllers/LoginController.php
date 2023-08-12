@@ -17,17 +17,21 @@ class LoginController extends Controller
         $credentials = $request->only('username', 'password');
 
         if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
             // return response()->json(Response::HTTP_OK);
             return redirect()->route('dashboard')->with('success_alert' , 'Login berhasil');
         } else {
             // return response()->json(['error' => 'Invalid credentials'], Response::HTTP_UNAUTHORIZED);
             return redirect()->route('login')->with('error', 'Username or password is incorrect');
         }
+        
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
         Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
         return redirect()->route('login');
     }
 

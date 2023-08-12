@@ -8,6 +8,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DonaturController;
 use App\Http\Controllers\RewardController;
+use App\Http\Controllers\RedeemController;
 use App\Http\Controllers\LokasiController;
 
 Route::get('/contoh', function () {
@@ -80,10 +81,7 @@ Route::middleware('role:admin_kelurahan')->group(function() {
     Route::delete('/kontainer/delete/{id}',[KontainerController::class,'destroy'])->name('kontainer.destroy');
     
     //manajemen reward (adm-kelurahan)
-    Route::get('/reward',[RewardController::class,'index'])->name('reward');
-    // Route::get('/reward', function () {
-    //     return view('after-login/admin-kelurahan/reward/index');
-    // })->name('reward');
+    Route::get('/reward',[RedeemController::class,'index'])->name('reward');
     Route::get('/reward/reward-list',[RewardController::class,'index'])->name('reward/reward-list');
 });
 

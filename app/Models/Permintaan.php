@@ -14,6 +14,9 @@ class Permintaan extends Model
         'id_kontainer',
         'id_lokasi',
         'id_admin_kelurahan',
+        'tanggal_permintaan',
+        'status_kontainer',
+        'status_permintaan',
         // Add other fillable properties here
     ];
 

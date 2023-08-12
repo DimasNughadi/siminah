@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\KontainerResource;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
@@ -21,11 +23,20 @@ class KontainerController extends Controller
             ->where('id_user', Auth::id())
             ->value('id_lokasi');
         if (auth()->user()->role == 'admin_kelurahan') {
-            $kontainer = Kontainer::join('lokasi', 'kontainer.id_lokasi', '=', 'lokasi.id_lokasi')
-            ->where('kontainer.id_lokasi', $id_lokasi)
+            $kontainer = Kontainer::with('lokasi')
+                ->where('kontainer.id_lokasi', $id_lokasi)
                 ->withSum([
-                    'sumbangan' => function ($query) {
-                        $query->where('status', 'terverifikasi');
+                    'sumbangan' => function ($query) use ($id_lokasi) {
+                        $query->leftJoin('permintaan', 'kontainer.id_kontainer', '=', 'permintaan.id_kontainer')       
+                        ->where(function ($subquery) {
+                                        $subquery->where('status', 'terverifikasi')
+                                            ->where('sumbangan.updated_at', '>=', function ($subquery) {
+                                                                    $subquery->selectRaw('COALESCE(MAX(CASE WHEN status_permintaan = "diterima" THEN permintaan.updated_at ELSE NULL END), MAX(kontainer.updated_at))')
+                                                                        ->from('kontainer')
+                                                                        ->leftJoin('permintaan', 'kontainer.id_kontainer', '=', 'permintaan.id_kontainer')
+                                                                        ->whereColumn('kontainer.id_kontainer', 'sumbangan.id_kontainer');
+                                                                });
+                                    });
                     }
                 ], 'berat')
                 ->get();
@@ -60,7 +71,6 @@ class KontainerController extends Controller
         $kontainer = Kontainer::find($id);
         return view('after-login.pengelola-csr.kontainer.edit', ['kontainer' => $kontainer]);
     }
-
     public function update($id, Request $request)
     {
         $this->validate($request, [
