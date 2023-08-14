@@ -158,6 +158,7 @@ class KontainerController extends Controller
             'kapasitas' => 'required|numeric',
             'keterangan' => 'required',
         ]);
+
         Kontainer::create([
             'id_lokasi' => $request->id_lokasi,
             'kapasitas' => $request->kapasitas,
@@ -191,4 +192,5 @@ class KontainerController extends Controller
         $kontainer->delete();
         return redirect()->route('kontainer');
     }
+
 }

@@ -17,8 +17,6 @@ return new class extends Migration
             $table->integer('stok');
             $table->string('jumlah_poin', 50);
             $table->string('gambar');
-            $table->date('tgl_mulai');
-            $table->date('tgl_akhir');
             $table->timestamps();
         });
     }

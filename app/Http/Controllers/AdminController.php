@@ -6,6 +6,7 @@ use App\Models\Lokasi;
 use App\Models\Adminkelurahan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+
 class AdminController extends Controller
 {
     public function index()
@@ -13,7 +14,7 @@ class AdminController extends Controller
         $user = User::rightJoin('adminkelurahan','adminkelurahan.id_user','=','users.id')
         ->leftJoin('lokasi','lokasi.id_lokasi','=','adminkelurahan.id_lokasi')
         ->select('users.*','adminkelurahan.*','lokasi.nama_kelurahan')
-        ->get();
+       ->get();
         return view('after-login.pengelola-csr.admin.index', ['user' => $user]);
     }
 

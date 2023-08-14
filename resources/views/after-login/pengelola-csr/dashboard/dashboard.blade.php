@@ -404,8 +404,9 @@
 </script>
 
 <script>
-    var ctx = document.getElementById('myChart2').getContext('2d');
-    var myChart = new Chart(ctx, {
+    var ctx1 = document.getElementById('myChart2').getContext('2d');
+    var data1 = [75, 25];
+    var colors1 = ['rgba(101, 174, 56, 1)', 'rgba(0, 0, 0, 0)'];
     var cutout1 = '85%';
     var myChart1 = new Chart(ctx1, {
         type: 'doughnut',
@@ -461,6 +462,7 @@
                 legend: false
             }
         }
+    });
 </script>
 
 <script>
