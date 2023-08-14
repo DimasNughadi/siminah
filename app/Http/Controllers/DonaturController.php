@@ -35,31 +35,31 @@ class DonaturController extends Controller
                         $query->where('status', 'terverifikasi');
                     }
                 ], 'berat')
-                ->withCount('sumbangan as total_donasi')
+                ->withCount([
+                    'sumbangan as total_donasi' => function ($query) {
+                        $query->where('status', 'terverifikasi');
+                    }
+                ], 'id_donatur')
                 ->withMax('sumbangan as newest_tanggal', 'tanggal')
                 ->join('sumbangan', 'donatur.id_donatur', '=', 'sumbangan.id_donatur')
                 ->join('kontainer', 'sumbangan.id_kontainer', '=', 'kontainer.id_kontainer')
                 ->where('id_lokasi', $id_lokasi)
                 ->groupBy('donatur.photo', 'donatur.id_donatur', 'nama_donatur', 'kelurahan', 'id_lokasi')
                 ->get();
-                
             if (auth()->user()->role == 'admin_kelurahan') {
                 return view('after-login.admin-kelurahan.donatur.index', ['donatur' => $donatur]);
             } else {
                 return view('after-login.pengelola-csr.donatur.index', ['donatur' => $donatur]);
             }
+
         } catch (ModelNotFoundException | QueryException $exception) {
-            return $this->sendError(
-                'Error found',
-                $exception->getMessage()
-            );
         }
     }
 
     public function getById($id)
     {
         $donatur = Donatur::find($id);
-        return view('after-login.admin-kelurahan.donatur.index' , ['donatur' => $donatur]);
+        return view('after-login.admin-kelurahan.donatur.index', ['donatur' => $donatur]);
     }
 
     public function create()
@@ -131,8 +131,8 @@ class DonaturController extends Controller
     public function detail($id)
     {
         $donatur = Donatur::get();
-        $riwayat = Sumbangan::with(['kontainer','kontainer.lokasi'])
-            ->where('id_donatur',$id)
+        $riwayat = Sumbangan::with(['kontainer', 'kontainer.lokasi'])
+            ->where('id_donatur', $id)
             ->get();
 
         $total = Donatur::with([
@@ -146,10 +146,14 @@ class DonaturController extends Controller
                     $query->where('status', 'terverifikasi');
                 }
             ], 'berat')
-            ->withCount('sumbangan as total_donasi')
+            ->withCount([
+                'sumbangan as total_donasi' => function ($query) {
+                    $query->where('status', 'terverifikasi');
+                }
+            ], 'id_donatur')
             ->groupBy('donatur.id_donatur')
             ->find($id);
-            dd($riwayat);
-        return view('after-login.admin-kelurahan.donatur.detail', ['donatur' => $donatur, 'riwayat'=> $riwayat, 'total' => $total]);
+            dd($total);
+        return view('after-login.admin-kelurahan.donatur.detail', ['donatur' => $donatur, 'riwayat' => $riwayat, 'total' => $total]);
     }
 }

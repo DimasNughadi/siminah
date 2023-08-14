@@ -11,53 +11,37 @@ use App\Http\Controllers\RewardController;
 use App\Http\Controllers\RedeemController;
 use App\Http\Controllers\LokasiController;
 
-Route::get('/contoh', function () {
-    return view('test-component');
-});
 
-Route::get('/reward/list', function () {
-    return view('after-login/admin-kelurahan/reward/index');
-})->name('reward/list');
-
-Route::get('/', function () {
-    return view('before-login.login');
-});
-
+// Route::get('/', function () {
+//     return view('before-login.login');
+// });
 
 //Login Admin CSR dan Admin Kelurahan
-Route::get('/login',[LoginController::class,'index'])->name('login');
+Route::get('/',[LoginController::class,'index'])->name('login');
 Route::post('/ceklogin',[LoginController::class,'ceklogin'])->name('ceklogin');
-Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard');
+
 Route::post('/logout',[LoginController::class,'logout'])->name('logout');
 
 Route::middleware('role:admin_csr,admin_kelurahan')->group(function() {
-    Route::get('/sumbangan',[SumbanganController::class,'index'])->name('sumbangan');
-});
-
-Route::middleware('role:admin_csr')->group(function() {
-    //manajemen lokasi kontainer
+    Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard');
+    
+    //manajemen lokasi kontainer(csr)
     Route::get('/lokasi',[LokasiController::class,'index'])->name('lokasi');
     Route::get('/lokasi/create',[LokasiController::class,'create'])->name('lokasi.create');
     Route::post('/lokasi',[LokasiController::class,'store'])->name('lokasi.store');
     Route::get('/lokasi/edit/{id}',[LokasiController::class,'edit'])->name('lokasi.edit');
     Route::put('/lokasi/update/{id}',[LokasiController::class,'update'])->name('lokasi.update');
     Route::delete('/lokasi/delete/{id}',[LokasiController::class,'destroy'])->name('lokasi.destroy');
-    
-    //manajemen kontainer sumbangan
 
-    //manajemen admin kelurahan
-    Route::get('/adminkelurahan',[AdminController::class,'index'])->name('admin');
-    Route::get('/adminkelurahan/create',[AdminController::class,'create'])->name('admin.create');
-    Route::post('/adminkelurahan',[AdminController::class,'store'])->name('admin.store');
-    Route::get('/adminkelurahan/edit/{id}',[AdminController::class,'edit'])->name('admin.edit');
-    Route::put('/adminkelurahan/update/{id}',[AdminController::class,'update'])->name('admin.update');
-    Route::delete('/adminkelurahan/delete/{id}',[AdminController::class,'destroy'])->name('admin.destroy');
-});
+    //manajemen admin kelurahan(csr)
+    Route::get('/admin',[AdminController::class,'index'])->name('admin');
+    Route::get('/admin/create',[AdminController::class,'create'])->name('admin.create');
+    Route::post('/admin',[AdminController::class,'store'])->name('admin.store');
+    Route::get('/admin/edit/{id}',[AdminController::class,'edit'])->name('admin.edit');
+    Route::put('/admin/update/{id}',[AdminController::class,'update'])->name('admin.update');
+    Route::delete('/admin/delete/{id}',[AdminController::class,'destroy'])->name('admin.destroy');
 
-
-Route::middleware('role:admin_kelurahan')->group(function() {
-
-    //kelola data donatur
+    //kelola data donatur(csr dan kelurahan)
     Route::get('/donatur',[donaturController::class,'index'])->name('donatur');
     Route::get('/donatur/create',[donaturController::class,'create'])->name('donatur.create');
     Route::get('/donatur/getById',[donaturController::class,'getById'])->name('donatur.getById');
@@ -72,13 +56,15 @@ Route::middleware('role:admin_kelurahan')->group(function() {
     Route::get('/sumbangan/edit/{id}/{created_at}', [SumbanganController::class, 'edit'])->name('sumbangan.edit');
     Route::put('/sumbangan/update/{id}/{created_at}',[SumbanganController::class,'update'])->name('sumbangan.update');
     
-    //manajemen kontainer kelurahan
+    //manajemen kontainer kelurahan (csr & kelurahan)
     Route::get('/kontainer',[KontainerController::class,'index'])->name('kontainer');
     Route::get('/kontainer/create',[KontainerController::class,'create'])->name('kontainer.create');
     Route::post('/kontainer',[KontainerController::class,'store'])->name('kontainer.store');
     Route::get('/kontainer/edit/{id}',[KontainerController::class,'edit'])->name('kontainer.edit');
     Route::put('/kontainer/update/{id}',[KontainerController::class,'update'])->name('kontainer.update');
     Route::delete('/kontainer/delete/{id}',[KontainerController::class,'destroy'])->name('kontainer.destroy');
+    Route::put('/kontainer/updatePermintaan/{id}',[KontainerController::class,'updatePermintaan'])->name('kontainer.updatePermintaan');
+    Route::post('/kontainer/storePermintaan/{id_kontainer}',[KontainerController::class,'storePermintaan'])->name('kontainer.storePermintaan');
     
     //manajemen reward (adm-kelurahan)
     Route::get('/reward',[RedeemController::class,'index'])->name('reward');

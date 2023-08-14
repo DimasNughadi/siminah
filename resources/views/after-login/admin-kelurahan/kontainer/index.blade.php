@@ -24,5 +24,30 @@
 <h1>datakosong</h1>
 @endforelse
 </table>
+
+Notifikasi
+<table>
+@forelse ($notifikasi as $n)
+<tr>
+<td>Kontainer utama {{$n['status']}}</td></tr>
+@empty
+@endforelse
+</table>
+
+Permintaan
+<table>
+  <thead><td>waktu permintaan</td><td>status</td></thead>
+@forelse ($permintaan as $p)
+<tr>
+<td>{{$p->created_at}}</td>
+<td>{{$p->status_permintaan}}</td>
+<td>
+  <form method="POST" action="{{route('kontainer.storePermintaan',$id_kontainer)}}">@csrf<button type="submit">ajukan</button></form>
+</td>
+</tr>
+
+@empty
+@endforelse
+</table>
 </body>
 </html>
