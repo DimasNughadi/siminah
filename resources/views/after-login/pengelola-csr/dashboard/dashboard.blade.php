@@ -183,12 +183,13 @@
                 </div>
                 <div class="card-body">
                     <div class="chart mt-4" style="height: 250px;">
-                        <canvas id="myChart"></canvas>
+                        <!-- <canvas id="myChart"></canvas> -->
+                        <canvas id="bar-chart" class="chart-canvas" height="300" width="767" style="display: block; box-sizing: border-box; height: 300px; width: 767px;"></canvas>
                     </div>
                     <hr class="dark horizontal">
                     <div class="d-flex ">
                         <i class="material-icons text-sm my-auto me-1">schedule</i>
-                        <p class="mb-0 text-sm"> campaign sent 2 days ago </p>
+                        <p class="mb-0 text-sm"> 5 donasi terbanyak bulan {{$bulanTahun}} </p>
                     </div>
                 </div>
             </div>
@@ -243,15 +244,14 @@
                     </div>
                     <hr class="dark horizontal">
                     <div class="d-flex">
-                        <i class="material-icons text-sm my-auto me-1 custom-icon">brightness_1</i>
-                        <p class="mb-0 text-sm"> Kontainer Utama</p>&nbsp;&nbsp;
-                        <i class="material-icons text-sm my-auto me-1 custom-icon2">brightness_1</i>
-                        <p class="mb-0 text-sm"> Kontainer Cadangan</p>
+                        <i class="material-icons text-sm my-auto me-1 custom-icon">lens</i>
+                        <p class="mb-0 text-sm"> Kontainer Utama </p>
+                        <i class="material-icons text-sm my-auto me-1 custom-icon"></i>
+                        <i class="material-icons text-sm my-auto me-1 custom-icon"></i>
+                        <i class="material-icons text-sm my-auto me-1 custom-icon"></i>
+                        <i class="material-icons text-sm my-auto me-1 custom-icon2">lens</i>
+                        <p class="mb-0 text-sm"> Kontainer Cadangan </p>
                     </div>
-                    <!-- <div class="d-flex justify-content-end">
-                        <i class="material-icons text-sm my-auto me-1 custom-icon">brightness_1</i>
-                        <p class="mb-0 text-sm"> Kelurahan</p>
-                    </div> -->
                 </div>
             </div>
         </div>
