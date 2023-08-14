@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
@@ -17,38 +19,47 @@ class DonaturController extends Controller
 {
     public function index()
     {
-        $id_lokasi = DB::table('adminkelurahan')
-            ->where('id_user', Auth::id())
-            ->value('id_lokasi');
-        $donatur = Donatur::with([
-            'sumbangan'
-            => function ($query) {
-                $query->where('status', 'terverifikasi');
-            }
-        ])
-            ->select('donatur.id_donatur', 'nama_donatur', 'kelurahan', 'donatur.photo', 'id_lokasi')
-            ->withSum([
-                'sumbangan' => function ($query) {
+        try {
+            $id_lokasi = DB::table('adminkelurahan')
+                ->where('id_user', Auth::id())
+                ->value('id_lokasi');
+            $donatur = Donatur::with([
+                'sumbangan'
+                => function ($query) {
                     $query->where('status', 'terverifikasi');
                 }
-            ], 'berat')
-            ->withCount('sumbangan as total_donasi')
-            ->withMax('sumbangan as newest_tanggal', 'tanggal')
-            ->join('sumbangan', 'donatur.id_donatur', '=', 'sumbangan.id_donatur')
-            ->join('kontainer', 'sumbangan.id_kontainer', '=', 'kontainer.id_kontainer')
-            ->where('id_lokasi', $id_lokasi)
-            ->groupBy('donatur.photo', 'donatur.id_donatur', 'nama_donatur', 'kelurahan', 'id_lokasi')
-            ->get();
-        if (auth()->user()->role == 'admin_kelurahan') {
-            return view('after-login.admin-kelurahan.donatur.index', ['donatur' => $donatur]);
-        } else {
-            return view('after-login.pengelola-csr.donatur.index', ['donatur' => $donatur]);
+            ])
+                ->select('donatur.id_donatur', 'nama_donatur', 'kelurahan', 'donatur.photo', 'id_lokasi')
+                ->withSum([
+                    'sumbangan' => function ($query) {
+                        $query->where('status', 'terverifikasi');
+                    }
+                ], 'berat')
+                ->withCount([
+                    'sumbangan as total_donasi' => function ($query) {
+                        $query->where('status', 'terverifikasi');
+                    }
+                ], 'id_donatur')
+                ->withMax('sumbangan as newest_tanggal', 'tanggal')
+                ->join('sumbangan', 'donatur.id_donatur', '=', 'sumbangan.id_donatur')
+                ->join('kontainer', 'sumbangan.id_kontainer', '=', 'kontainer.id_kontainer')
+                ->where('id_lokasi', $id_lokasi)
+                ->groupBy('donatur.photo', 'donatur.id_donatur', 'nama_donatur', 'kelurahan', 'id_lokasi')
+                ->get();
+            if (auth()->user()->role == 'admin_kelurahan') {
+                return view('after-login.admin-kelurahan.donatur.index', ['donatur' => $donatur]);
+            } else {
+                return view('after-login.pengelola-csr.donatur.index', ['donatur' => $donatur]);
+            }
+
+        } catch (ModelNotFoundException | QueryException $exception) {
         }
     }
 
-    public function getById()
+    public function getById($id)
     {
-        return view('after-login.admin-kelurahan.donatur.index');
+        $donatur = Donatur::find($id);
+        return view('after-login.admin-kelurahan.donatur.index', ['donatur' => $donatur]);
     }
 
     public function create()
@@ -79,8 +90,8 @@ class DonaturController extends Controller
     }
     public function edit($id)
     {
-        $donatur = Donatur::find($id);
-        return view('after-login.admin-kelurahan.donatur.edit', ['donatur' => $donatur]);
+        // $donatur = Donatur::find($id);
+        // return view('after-login.admin-kelurahan.donatur.edit', ['donatur' => $donatur]);
     }
 
     public function update($id, Request $request)
@@ -90,7 +101,6 @@ class DonaturController extends Controller
             'nama_donatur' => 'required',
             'alamat_donatur' => 'required',
             'kelurahan' => 'required',
-            'photo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'password' => 'required',
         ]);
         $donatur = Donatur::findOrFail($id);
@@ -120,11 +130,10 @@ class DonaturController extends Controller
 
     public function detail($id)
     {
-        $donatur = Donatur::with(['sumbangan'])
-            ->join('sumbangan', 'donatur.id_donatur', '=', 'sumbangan.id_donatur')
-            ->join('kontainer', 'sumbangan.id_kontainer', '=', 'kontainer.id_kontainer')
-            ->join('lokasi', 'kontainer.id_lokasi', '=', 'lokasi.id_lokasi')
-            ->find($id);
+        $donatur = Donatur::get();
+        $riwayat = Sumbangan::with(['kontainer', 'kontainer.lokasi'])
+            ->where('id_donatur', $id)
+            ->get();
 
         $total = Donatur::with([
             'sumbangan' => function ($query) {
@@ -137,10 +146,14 @@ class DonaturController extends Controller
                     $query->where('status', 'terverifikasi');
                 }
             ], 'berat')
-            ->withCount('sumbangan as total_donasi')
+            ->withCount([
+                'sumbangan as total_donasi' => function ($query) {
+                    $query->where('status', 'terverifikasi');
+                }
+            ], 'id_donatur')
             ->groupBy('donatur.id_donatur')
             ->find($id);
             dd($total);
-        return view('after-login.admin-kelurahan.donatur.detail', ['donatur' => $donatur, 'total' => $total]);
+        return view('after-login.admin-kelurahan.donatur.detail', ['donatur' => $donatur, 'riwayat' => $riwayat, 'total' => $total]);
     }
 }

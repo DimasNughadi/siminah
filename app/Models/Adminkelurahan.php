@@ -10,11 +10,9 @@ class Adminkelurahan extends Model
     protected $table = 'adminkelurahan';
     protected $primaryKey = 'id_admin_kelurahan';
     protected $fillable = [
-        'id_admin_kelurahan',
+        'id_user',
         'id_lokasi',
         'nama_admin',
-        'username',
-        'password',
         'alamat_rumah',
         'no_hp',
     ];

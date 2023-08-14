@@ -19,7 +19,7 @@
                     <div
                         class="col-md-2 col-sm-2 col-2 text-poppins text-14 btn-reward-position d-flex justify-content-end align-items-end">
                         <div>
-                            <a href="{{ route('admin.tambah') }}"
+                            <a href="{{ route('admin.create') }}"
                                 class="btn-reward btn-custom-success position-relative">Tambah</a>
                         </div>
                     </div>

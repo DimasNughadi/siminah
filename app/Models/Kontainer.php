@@ -12,6 +12,8 @@ class Kontainer extends Model
     protected $fillable = [
         'id_kontainer',
         'id_lokasi',
+        'kapasitas',
+        'keterangan',
         // Add other fillable properties here
     ];
 
