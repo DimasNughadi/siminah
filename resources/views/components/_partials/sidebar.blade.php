@@ -36,7 +36,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="{{ isRouteActive('admin') ? 'active bg-gradient-primary text-white' : (isRouteActive('admin.tambah') ? 'active bg-gradient-primary text-white' : 'text-dark')  }} nav-link"
+                <a class="{{ isRouteActive('admin') ? 'active bg-gradient-primary text-white' : (isRouteActive('admin.tambah') ? 'active bg-gradient-primary text-white' : (isRouteActive('admin.edit') ? 'active bg-gradient-primary text-white' :'text-dark'))  }} nav-link"
                     href="{{ route('admin') }}">
                     <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">person</i>

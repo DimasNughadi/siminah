@@ -15,11 +15,17 @@
     --hover-danger: #d12032c2;
     --success: #65ae38;
     --light-success: #abae38;
+    --warning-light: #eac500;
     --dark: #131b23;
     --semi-dark: #3a3541;
     --semi-dark-68: rgba(58, 53, 65, 0.68);
     --light-dark: #878787;
     --fs-inter: "Inter", sans-serif;
+    --green-20: rgba(52, 181, 58, 0.2);
+    --transparent-danger: rgba(255, 58, 41, 0.2);
+    --transparent-warning: rgba(255, 168, 0, 0.2);
+    --transparent-success: rgba(52, 181, 58, 0.2);
+    --text-dm-sans: "DM Sans", sans-serif;
 }
 
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap");
@@ -199,10 +205,12 @@ progress::-webkit-progress-value {
     }
 }
 
+.progress-120 {
+    width: 120px !important;
+}
+
 /* User image */
 img.user-image {
-    width: 44px;
-    height: 44px;
     border-radius: 50%;
 }
 
@@ -406,11 +414,28 @@ a.add-reward {
 a.add-reward:hover {
     color: rgb(255, 255, 255);
 }
+span.add-reward {
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    top: -25%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+span.add-reward:hover {
+    color: rgb(255, 255, 255);
+}
 
 .btn-list {
     height: 27px;
     background-color: var(--light-success);
     color: white;
+}
+
+.btn-table-custom {
+    height: 27px;
+    color: white;
+    background-color: var(--warning-light);
 }
 
 .btn-reward-list {
@@ -709,7 +734,499 @@ input[type="file"] {
     height: 34px;
 }
 
-tr.reward-tr .ps-4 .d-flex{
+tr.reward-tr .ps-4 .d-flex {
     width: 34px;
     height: 34px;
+}
+
+/* User status */
+.user-status-wrapper {
+    width: 10.9375rem;
+    height: 3.5625rem;
+    background-color: white;
+    border-radius: 0.9375rem;
+    cursor: pointer;
+}
+
+.user-status-wrapper .container-fluid {
+    padding: 0.4375rem 0.6875rem 0.4375rem 0.6875rem;
+}
+
+.user-status-wrapper .container-fluid .image .aktif {
+    position: relative;
+    top: -0.9375rem;
+    left: 2.0625rem;
+    width: 0.75rem;
+    height: 0.75rem;
+    background-color: var(--green-value-color);
+    border-radius: 50%;
+}
+
+.user-status-wrapper .container-fluid .name span {
+    position: relative;
+    top: 0.5rem;
+    text-align: center;
+    padding-left: 0.625rem;
+    font-family: var(--text-poppins);
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.25rem;
+    color: rgb(0, 0, 0);
+}
+
+.user-status-wrapper .container-fluid .icon span {
+    width: 1.5rem;
+    height: 1.5rem;
+    position: relative;
+    top: 0.5rem;
+    margin-left: 2.4375rem;
+}
+
+.user-status-wrapper .container-fluid .icon span {
+    background-color: #f8f8f8;
+    border-radius: 0.4375rem;
+}
+
+/* Form Control Admin */
+.form-control-admin {
+    font-family: var(--text-poppins);
+}
+
+.form-control-admin label {
+    color: black;
+    font-family: var(--text-poppins);
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: normal;
+    margin-bottom: 10px;
+}
+
+.form-control-admin input {
+    border-radius: 20px;
+    padding: 1rem 1.875rem 1rem 1.875rem;
+    color: #808080;
+    font-family: var(--text-poppins);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    border: 1px solid #808080;
+}
+
+.form-control-admin input:focus {
+    border: 1px solid #808080;
+}
+
+/* Form select option */
+.form-control-admin .form-select {
+    border-radius: 20px;
+    padding: 1rem 1.875rem 1rem 1.875rem;
+    color: #808080;
+    font-family: var(--text-poppins);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    border: 1px solid #808080;
+    background-position: right 10px center !important;
+}
+
+/* manajemen admin */
+.manajemen-admin {
+    margin-top: 1.625rem;
+    background-color: white;
+    filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.25));
+    border-radius: 0.9375rem;
+}
+
+.manajemen-admin .header {
+    height: 4.5rem !important;
+    padding: 1.1875rem 0px 1.1875rem 2.0625rem;
+}
+
+.manajemen-admin .header .title h3 {
+    color: black !important;
+    font-family: var(--text-poppins);
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.manajemen-admin .header .button {
+    position: relative;
+    top: -0.1563rem;
+}
+
+.manajemen-admin .line {
+    border-top: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+.manajemen-admin .body {
+    padding: 1.1875rem 2.0625rem 1.1875rem 2.0625rem;
+}
+
+.manajemen-admin .body {
+    padding-top: 1.5rem;
+}
+
+/* Notifikasi kontainer */
+
+/* Coloring */
+.bg-transparent-danger {
+    background-color: var(--transparent-danger);
+}
+
+.bg-transparent-warning {
+    background-color: var(--transparent-warning);
+}
+
+.bg-transparent-success {
+    background-color: var(--transparent-success);
+}
+
+.color-notifikasi-danger {
+    color: #ff3a29;
+}
+
+.color-notifikasi-warning {
+    color: #ffc700;
+}
+
+.color-notifikasi-success {
+    color: var(--green-value-color);
+}
+
+.notifikasi-wrapper {
+    display: flex;
+    width: 100%;
+    height: 66px;
+    padding: 14px 16px 14px 20px;
+    align-items: center;
+    gap: 8px;
+    border-radius: 17px;
+    margin-bottom: 18px;
+}
+
+.notifikasi-wrapper .icon {
+    margin-right: 8px;
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+}
+
+.notifikasi-wrapper .icon span {
+    background-color: white;
+    border-radius: 12px;
+    padding: 4px;
+}
+
+.notifikasi-wrapper .detail .top {
+    color: var(--dark-tone-100, #1a1a25);
+    font-family: "DM Sans", sans-serif;
+    font-size: 14.5px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 140%; /* 20.3px */
+    align-self: stretch;
+}
+
+.notifikasi-wrapper .detail .bottom {
+    color: var(--dark-tone-60, #808192);
+    font-family: "DM Sans", sans-serif;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 140%; /* 18.2px */
+}
+
+.notifikasi-wrapper .action {
+    color: #1a1a25;
+    font-family: "DM Sans", sans-serif;
+    font-size: 14.5px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 140%;
+    width: 120px;
+    position: relative;
+}
+
+.notifikasi-wrapper .action a {
+    display: flex;
+    text-align: end;
+    justify-content: end;
+}
+
+/* notifikasi-page-wrapper */
+.notifikasi-page-wrapper {
+    background-color: white;
+    border-radius: 16px;
+    padding: 16px 19px 16px 16px;
+}
+
+.notifikasi-page-wrapper .header {
+    color: var(--colors-black-100, #000);
+    font-feature-settings: "clig" off, "liga" off;
+    /* H2 */
+    font-family: var(--text-dm-sans);
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin-bottom: 20px;
+}
+
+.notifikasi-page-wrapper .body {
+    width: 100%;
+    height: 100%;
+}
+
+/* detail-manajemen */
+.detail-manajemen-kontainer {
+    background-color: white;
+    border-radius: 16px;
+    height: 450;
+    margin-top: 25px;
+}
+
+.detail-manajemen-kontainer .header {
+    padding: 20px;
+    color: rgba(58, 53, 65, 0.87);
+    font-feature-settings: "clig" off, "liga" off;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 32px; /* 160% */
+    letter-spacing: 0.15px;
+}
+
+.detail-manajemen-kontainer .permintaan-tr .progress-bar progress {
+    width: 120px;
+}
+
+.detail-manajemen-kontainer
+
+/* Btn */
+
+.bg-warningg {
+    background-color: var(--warning-light) !important;
+}
+
+.bg-light-success {
+    background-color: var(--light-success);
+}
+
+/* manajemen-permintaan */
+.manajemen-permintaan {
+    background-color: white;
+    border-radius: 16px;
+}
+
+.manajemen-permintaan .header {
+    padding: 20px;
+    color: rgba(58, 53, 65, 0.87);
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: var(--text-poppins);
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 32px; /* 160% */
+    letter-spacing: 0.15px;
+}
+
+.permintaan-tr .detail-kelurahan .top {
+    color: rgba(58, 53, 65, 0.87);
+    font-feature-settings: "clig" off, "liga" off;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 157%; /* 21.98px */
+    letter-spacing: 0.1px;
+}
+
+.permintaan-tr .detail-kelurahan .bottom {
+    color: rgba(58, 53, 65, 0.68);
+    font-feature-settings: "clig" off, "liga" off;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 166%; /* 19.92px */
+    letter-spacing: 0.4px;
+}
+
+.permintaan-tr .tanggal {
+    color: rgba(58, 53, 65, 0.68);
+    font-feature-settings: "clig" off, "liga" off;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 143%; /* 20.02px */
+    letter-spacing: 0.15px;
+}
+
+.overflowy {
+    height: 300px !important;
+    overflow-y: scroll;
+}
+
+.notifikasi-kontainer {
+    margin-top: 25px;
+    background-color: white;
+    border-radius: 16px;
+    font-family: var(--text-poppins);
+    padding: 16px 20px 16px 20px;
+}
+
+.notifikasi-kontainer .header {
+    color: var(--colors-black-100, #000);
+    font-feature-settings: "clig" off, "liga" off;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.notifikasi-kontainer .body {
+    margin-top: 10px;
+}
+
+.kontainer-kelurahan {
+    background-color: white;
+    border-radius: 10px;
+}
+
+.kontainer-kelurahan .header {
+    padding: 30px 0 10px 30px;
+    color: var(--colors-black-100, #000);
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: var(--text-dm-sans);
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.kontainer-kelurahan .footer {
+    margin: 45px 0 30px 30px;
+}
+
+.kontainer-kelurahan .footer .circle {
+    background-color: var(--success);
+    border-radius: 50%;
+    width: 6px;
+    height: 6px;
+}
+
+.kontainer-kelurahan .footer span {
+    color: var(--colors-black-100, #000);
+    font-feature-settings: "clig" off, "liga" off;
+
+    /* H4 */
+    font-family: var(--text-dm-sans);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; /* 142.
+    857% */
+}
+
+.table-kontainer-kelurahan {
+    margin-top: 20px;
+}
+
+.table-kontainer-kelurahan .header {
+    padding: 20px;
+    color: rgba(58, 53, 65, 0.87);
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: var(--text-poppins);
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 32px; /* 160% */
+    letter-spacing: 0.15px;
+}
+
+.table-kontainer-kelurahan .header-button {
+    padding: 20px;
+    display: flex;
+    align-items: end;
+    justify-content: end;
+}
+
+.table-kontainer-kelurahan .btn-kontainer-kelurahan {
+    margin-right: 20px;
+    height: 27px;
+    color: white;
+    background-color: var(--danger);
+}
+
+.table-kontainer-kelurahan  .main-table {
+    background-color: white;
+    border-radius: 10px;
+}
+
+.table-kontainer-kelurahan .main-table .overflowy-kontainer-kelurahan {
+    height: 300px;
+    overflow-y: scroll;
+}
+
+@media (min-width: 576px) {
+    /* sm */
+    .notifikasi-kontainer {
+        margin-top: 25px;
+    }
+
+    .detail-manajemen-kontainer {
+        margin-top: 0;
+    }
+}
+
+@media (min-width: 768px) {
+    /* md */
+    .manajemen-admin {
+        height: 500px;
+    }
+
+    .manajemen-admin .body .section-2 {
+        margin-left: 4.8125rem;
+    }
+
+    .detail-manajemen-kontainer {
+        margin-top: 0;
+    }
+
+    .notifikasi-kontainer {
+        margin-top: 65px;
+    }
+
+    .table-kontainer-kelurahan {
+        margin-left: 10.5rem;
+        margin-top: 0;
+    }
+}
+
+@media (min-width: 992px) {
+    /* lg */
+    .manajemen-admin {
+        height: 500px;
+    }
+
+    .manajemen-admin .body .section-2 {
+        margin-left: 4.8125rem;
+    }
+
+    .table-kontainer-kelurahan {
+        margin-left: 10.5rem;
+        margin-top: 0;
+    }
+}
+
+@media (min-width: 1200px) {
+    /* xl */
+}
+
+@media (min-width: 1400px) {
+    /* xxl */
 }

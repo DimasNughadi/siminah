@@ -1,7 +1,6 @@
 @extends('components._partials.default')
 
 @section('content')
-
     <div class="container-fluid py-2 ps-4">
         <div class="row">
             <div class="col-lg-10">
@@ -29,7 +28,7 @@
                                 <tr class="table-row-image donatur-row">
                                     <td class="ps-4 data-14">
                                         <div class="d-flex align-items-center">
-                                            <x-userImage />
+                                            <x-user.userImage />
                                             <div class="ms-3">
                                                 <span>Abdi</span>
                                             </div>

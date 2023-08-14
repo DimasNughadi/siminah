@@ -4,4 +4,4 @@
     'type' =>'button'
 ])
 
-<button type="{{ $type }}" class="btn btn-{{ $color }}">{{ $title }}</button>
+<button type="{{ $type }}" class="btn btn-{{ $color }} text-capitalize">{{ $title }}</button>

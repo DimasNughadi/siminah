@@ -7,7 +7,7 @@
                 <a href="{{ route('admin') }}" class="text-secondary link-secondary">Admin Kelurahan</a>
                 <span>
                     <b>
-                        &nbsp;/ Tambah
+                        &nbsp;/ Edit
                     </b>
                 </span>
             </div>
@@ -18,7 +18,7 @@
                     <div class="col-md-12">
                         <div class="row header d-flex justify-content middle">
                             <div class="col-md-9 col-sm-9 col-9 title">
-                                <h3 class="align-middle">Tambah admin kelurahan</h3>
+                                <h3 class="align-middle">Edit admin kelurahan</h3>
                             </div>
                             <div class="col-md-3 col-sm-3 col-3 button d-flex justify-content-end">
                                 <x-forms.btn.button color="danger" title="Simpan"/>

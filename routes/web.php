@@ -14,23 +14,17 @@ Route::get('/contoh', function () {
     return view('test-component');
 });
 
-Route::get('/reward/list', function () {
-    return view('after-login/admin-kelurahan/reward/index');
-})->name('reward/list');
-
-Route::get('/', function () {
-    return view('before-login.login');
-});
-
-
 //Login Admin CSR dan Admin Kelurahan
-Route::get('/login',[LoginController::class,'index'])->name('login');
+Route::get('/',[LoginController::class,'index'])->name('login');
 Route::post('/ceklogin',[LoginController::class,'ceklogin'])->name('ceklogin');
 Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard');
 Route::post('/logout',[LoginController::class,'logout'])->name('logout');
 
 Route::middleware('role:admin_csr,admin_kelurahan')->group(function() {
     Route::get('/sumbangan',[SumbanganController::class,'index'])->name('sumbangan');
+
+    //manajemen kontainer kelurahan
+    Route::get('/kontainer',[KontainerController::class,'index'])->name('kontainer');
 });
 
 Route::middleware('role:admin_csr')->group(function() {
@@ -45,20 +39,19 @@ Route::middleware('role:admin_csr')->group(function() {
     //manajemen kontainer sumbangan
 
     //manajemen admin kelurahan
-    Route::get('/adminkelurahan',[AdminController::class,'index'])->name('admin');
-    Route::get('/adminkelurahan/create',[AdminController::class,'create'])->name('admin.create');
-    Route::post('/adminkelurahan',[AdminController::class,'store'])->name('admin.store');
-    Route::get('/adminkelurahan/edit/{id}',[AdminController::class,'edit'])->name('admin.edit');
-    Route::put('/adminkelurahan/update/{id}',[AdminController::class,'update'])->name('admin.update');
-    Route::delete('/adminkelurahan/delete/{id}',[AdminController::class,'destroy'])->name('admin.destroy');
+    Route::get('/admin-kelurahan',[AdminController::class,'index'])->name('admin');
+    Route::get('/admin-kelurahan/create',[AdminController::class,'create'])->name('admin.tambah');
+    Route::post('/admin-kelurahan',[AdminController::class,'store'])->name('admin.store');
+    Route::get('/admin-kelurahan/edit/{id}',[AdminController::class,'edit'])->name('admin.edit');
+    Route::put('/admin-kelurahan/update/{id}',[AdminController::class,'update'])->name('admin.update');
+    Route::delete('/admin-kelurahan/delete/{id}',[AdminController::class,'destroy'])->name('admin.destroy');
 });
 
 
 Route::middleware('role:admin_kelurahan')->group(function() {
-
     //kelola data donatur
     Route::get('/donatur',[donaturController::class,'index'])->name('donatur');
-    Route::get('/donatur/create',[donaturController::class,'create'])->name('donatur.create');
+    Route::get('/donatur/create',[donaturController::class,'create'])->name('donatur.tambah');
     Route::get('/donatur/getById',[donaturController::class,'getById'])->name('donatur.getById');
     Route::post('/donatur',[donaturController::class,'store'])->name('donatur.store');
     Route::get('/donatur/edit/{id}',[donaturController::class,'edit'])->name('donatur.edit');
@@ -72,7 +65,7 @@ Route::middleware('role:admin_kelurahan')->group(function() {
     Route::put('/sumbangan/update/{id}/{created_at}',[SumbanganController::class,'update'])->name('sumbangan.update');
     
     //manajemen kontainer kelurahan
-    Route::get('/kontainer',[KontainerController::class,'index'])->name('kontainer');
+    // Route::get('/kontainer',[KontainerController::class,'index'])->name('kontainer');
     Route::get('/kontainer/create',[KontainerController::class,'create'])->name('kontainer.create');
     Route::post('/kontainer',[KontainerController::class,'store'])->name('kontainer.store');
     Route::get('/kontainer/edit/{id}',[KontainerController::class,'edit'])->name('kontainer.edit');

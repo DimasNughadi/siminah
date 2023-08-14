@@ -14,7 +14,7 @@ use App\Models\Sumbangan;
 use Carbon\Carbon;
 
 class KontainerController extends Controller
-{
+{  
     public function index()
     {
         $id_lokasi = DB::table('adminkelurahan')

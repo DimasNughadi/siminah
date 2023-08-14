@@ -35,7 +35,7 @@
                                 <tr class="reward-tr table-row-image">
                                     <td class="ps-4">
                                         <div class="d-flex align-items-center">
-                                            <x-userImage src="../assets/img/products/product-1-min.jpg" alt="as"/>
+                                            <x-user.userImage/>
                                             <div class="ms-2 poppins">
                                                 Abdi
                                             </div>

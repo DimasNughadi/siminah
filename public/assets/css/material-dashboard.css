@@ -10757,7 +10757,7 @@ fieldset:disabled .btn {
 }
 
 .bg-warning {
-  background-color: #fb8c00 !important;
+  background-color: var(--warning)!important;
 }
 
 .bg-danger {

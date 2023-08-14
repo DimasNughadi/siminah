@@ -14,7 +14,7 @@ class RewardController extends Controller
     public function index()
     {
         try {
-            $reward = Reward::get('');
+            $reward = Reward::get();
             return view(
                 'after-login.admin-kelurahan.reward.detail', 
                 ['reward' =>  RewardResource::collection($reward)]

@@ -7,7 +7,14 @@ function editDataReward(id, nama, stok, poin, gambar) {
     var editGambar = gambar
 }
 
-
+// Swal.fire({
+//     position: 'bottom-end',
+//     title: 'Your work has been saved',
+//     showConfirmButton: false,
+//     timer: 3000,
+//     background: 'rgba(52, 181, 58, 0.2)',
+//     backdrop: false,
+// })
 
 // Sweetalert2
 // Example delete function  for delete
