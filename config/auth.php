@@ -42,7 +42,7 @@ return [
         ],
         'api' => [
             'driver' => 'sanctum',
-            'provider' => 'users',
+            'provider' => 'donaturs',
         ],
     ],
 
@@ -68,15 +68,10 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
-        'users' => [
+        'donaturs' => [
             'driver' => 'eloquent',
             'model' => App\Models\Donatur::class, // Replace with your Donatur model
         ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
     ],
 
     /*
@@ -101,6 +96,12 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
+            'table' => 'password_reset_tokens',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'donaturs' => [
+            'provider' => 'donaturs',
             'table' => 'password_reset_tokens',
             'expire' => 60,
             'throttle' => 60,

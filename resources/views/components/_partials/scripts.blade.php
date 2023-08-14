@@ -8,6 +8,14 @@
   <!-- <script async defer src="https://buttons.github.io/buttons.js') }}"></script> -->
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="{{ asset('assets/js/material-dashboard.min.js?v=3.1.0') }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="{{ asset('assets/js/script.js') }}"></script>
+  @yield('script')
+
+  {{-- Sweetalert --}}
+  
+  {{-- End sweetalert --}}
+
   <script>
     var ctx = document.getElementById("chart-bars").getContext("2d");
 

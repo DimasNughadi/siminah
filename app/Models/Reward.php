@@ -12,10 +12,9 @@ class Reward extends Model
     protected $fillable = [
         'id_reward',
         'nama_reward',
-        'jenis',
+        'stok',
         'jumlah_poin',
-        'tgl_mulai',
-        'tgl_akhir',
+        'gambar',
         // Add other fillable properties here
     ];
 

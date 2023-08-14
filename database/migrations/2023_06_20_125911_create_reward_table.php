@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('nama_reward', 50);
             $table->integer('stok');
             $table->string('jumlah_poin', 50);
+            $table->string('gambar');
             $table->date('tgl_mulai');
             $table->date('tgl_akhir');
             $table->timestamps();
