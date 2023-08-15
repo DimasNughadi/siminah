@@ -64,7 +64,7 @@ class AdminController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
-        return view('after-login.pengelola-csrdmin.edit', ['user' => $user]);
+        return view('after-login.pengelola-csr.admin.edit', ['user' => $user]);
     }
 
     public function update($id, Request $request)

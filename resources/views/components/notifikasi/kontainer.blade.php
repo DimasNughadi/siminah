@@ -3,7 +3,8 @@
         'kelurahan' => 'Kelurahan Bukit datuk',
         'type_detail' => 'Meminta pengajuan pergantian kontainer',
         'action' => 'enable',
-        'notifikasi' => ''
+        'notifikasi' => '',
+        'id' => '0'
     ])
 
 @if ($type === 'danger')
@@ -49,7 +50,7 @@
     </div>
     @if ($action === "enable")
         <div class="action">
-            <a href="#" class="link-dark" >
+            <a href="{{ $id }}" class="link-dark" >
                 @if ($type == 'danger')
                     Ganti kontainer
                 @elseif ($type == 'warning')

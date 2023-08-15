@@ -9,7 +9,17 @@ use Illuminate\Support\Facades\Auth;
 class LoginController extends Controller
 {
     public function index(){
-        return view('before-login.login');
+        return view('authentication.login');
+        // if (Auth::check()) {
+        //     if(isAdminCsr()) {
+        //         return redirect()->route('dashboard');
+        //     }else if(isAdminKelurahan()){
+        //         return redirect()->route('donatur');
+        //     }else{
+        //     }
+        // }else{
+        //     return redirect()->route('login');
+        // }
     }
 
     public function ceklogin(Request $request){

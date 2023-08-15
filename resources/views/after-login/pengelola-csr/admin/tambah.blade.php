@@ -40,13 +40,7 @@
                                     <x-forms.formControlAdmin label="No Telepon" name="no_hp" placeholder="Nomor telepon" />
                                 </div>
                                 <div class="col-md-4 section-2">
-                                    <x-forms.selectOption name="kelurahan" label="Kecamatan">
-                                        @slot('slotOptions')
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
-                                        @endslot
-                                    </x-forms.selectOption>
+                                    <x-forms.formControlAdmin label="Alamat" name="alamat" placeholder="Alamat tempat tinggal Admin Kelurahan" />
                                 </div>
                                 {{-- <div class="col-md-4 section-2">
                                     <div class="row">
@@ -55,6 +49,17 @@
                                         </div>
                                     </div>
                                 </div> --}}
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col-md-4">
+                                    <x-forms.selectOption name="kelurahan" label="Kelurahan">
+                                        @slot('slotOptions')
+                                            <option value="1">One</option>
+                                            <option value="2">Two</option>
+                                            <option value="3">Three</option>
+                                        @endslot
+                                    </x-forms.selectOption>
+                                </div>
                             </div>
                         </div>
                     </div>

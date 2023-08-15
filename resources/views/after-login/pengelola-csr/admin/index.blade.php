@@ -34,32 +34,36 @@
                             @endslot
 
                             @slot('bodySlot')
-                                <tr class="reward-row table-row-image">
-                                    <td class="ps-4 admin-row">
-                                        <span class="top">Josep Ronaldo</span><br>
-                                        <span class="bottom">Dumai Panjang</span>
-                                    </td>
-                                    <td class="ps-4 text-semi-dark text-inter-regular text-14">
-                                        josep@gmail.com
-                                    </td>
-                                    <td class="ps-4 text-semi-dark text-inter-regular text-14">
-                                        0821-991-221
-                                    </td>
-                                    <td class="ps-4 text-semi-dark-68 text-inter-regular text-14">
-                                        Jl.Lobak,Dumai panjang, Dumai, Riau
-                                    </td>
-                                    <td>
-                                        <div class="btn-reward btn-list position-relative">
-                                            <a href="{{ route('admin.edit', ['id' => 1]) }}" class="position-relative add-reward">EDIT
-                                            </a>
-                                        </div>
-                                        &nbsp;&nbsp;&nbsp;
-                                        <div class="btn-reward btn-list btn-custom-danger position-relative">
-                                            <a href="#" class="position-relative add-reward"
-                                                onclick="deleteRecord(1)">DELETE</a>
-                                        </div>
-                                    </td>
-                                </tr>
+                                @if (!empty($user))
+                                    @foreach ($user as $item)
+                                        <tr class="reward-row table-row-image">
+                                            <td class="ps-4 admin-row">
+                                                <span class="top">{{ $item->name }}</span><br>
+                                                <span class="bottom">{{ $item->nama_kelurahan }}</span>
+                                            </td>
+                                            <td class="ps-4 text-semi-dark text-inter-regular text-14">
+                                                {{ $item->email }}
+                                            </td>
+                                            <td class="ps-4 text-semi-dark text-inter-regular text-14">
+                                                {{ $item->no_hp }}
+                                            </td>
+                                            <td class="ps-4 text-semi-dark-68 text-inter-regular text-14">
+                                                {{ $item->alamat }}
+                                            </td>
+                                            <td>
+                                                <div class="btn-reward btn-list position-relative">
+                                                    <a href="{{ route('admin.edit', ['id' => $item->id_admin_kelurahan]) }}" class="position-relative add-reward">EDIT
+                                                    </a>
+                                                </div>
+                                                &nbsp;&nbsp;&nbsp;
+                                                <div class="btn-reward btn-list btn-custom-danger position-relative">
+                                                    <a href="#" class="position-relative add-reward"
+                                                        onclick="deleteRecord($item->id_admin_kelurahan)">DELETE</a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endif
                             @endslot
                         </x-forms.table>
                     </div>

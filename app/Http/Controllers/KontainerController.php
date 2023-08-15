@@ -2,22 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\KontainerResource;
+use stdClass;
+use Carbon\Carbon;
+use App\Models\Lokasi;
+use App\Models\Donatur;
+use App\Models\Kontainer;
+use App\Models\Sumbangan;
 use App\Models\Permintaan;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Lokasi;
-use App\Models\Kontainer;
-use App\Models\Donatur;
-use App\Models\Sumbangan;
-use Carbon\Carbon;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Database\QueryException;
+use App\Http\Resources\KontainerResource;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class KontainerController extends Controller
-{  
+{
     public function index()
     {
         if (auth()->user()->role == 'admin_kelurahan') {
@@ -33,14 +34,14 @@ class KontainerController extends Controller
                     'sumbangan' => function ($query) use ($id_lokasi) {
                         $query->leftJoin('permintaan', 'kontainer.id_kontainer', '=', 'permintaan.id_kontainer')
                             ->where(function ($subquery) {
-                                        $subquery->where('status', 'terverifikasi')
-                                            ->where('sumbangan.updated_at', '>=', function ($subquery) {
-                                                                    $subquery->selectRaw('COALESCE(MAX(CASE WHEN status_permintaan = "berhasil" THEN permintaan.updated_at ELSE NULL END), MAX(kontainer.updated_at))')
-                                                                        ->from('kontainer')
-                                                                        ->leftJoin('permintaan', 'kontainer.id_kontainer', '=', 'permintaan.id_kontainer')
-                                                                        ->whereColumn('kontainer.id_kontainer', 'sumbangan.id_kontainer');
-                                                                });
+                                $subquery->where('status', 'terverifikasi')
+                                    ->where('sumbangan.updated_at', '>=', function ($subquery) {
+                                        $subquery->selectRaw('COALESCE(MAX(CASE WHEN status_permintaan = "berhasil" THEN permintaan.updated_at ELSE NULL END), MAX(kontainer.updated_at))')
+                                            ->from('kontainer')
+                                            ->leftJoin('permintaan', 'kontainer.id_kontainer', '=', 'permintaan.id_kontainer')
+                                            ->whereColumn('kontainer.id_kontainer', 'sumbangan.id_kontainer');
                                     });
+                            });
                     }
                 ], 'berat')
                 ->get();
@@ -53,31 +54,31 @@ class KontainerController extends Controller
                 } else {
                     $item->sumbangan_persentase = $item->sumbangan_sum_berat / $item->kapasitas * 100;
                     if ($item->sumbangan_sum_berat >= $item->kapasitas * 3 / 4) {
-                        $notifikasi[] = [
-                            'id_kontainer' => $item->id_kontainer,
-                            'id_lokasi' => $item->id_lokasi,
-                            'status' => 'hampir penuh',
-                        ];
+                        $object = new stdClass();
+                        $object->id_kontainer = $item->id_kontainer;
+                        $object->id_lokasi = $item->id_lokasi;
+                        $object->status = 'hampir penuh';
+                        $notifikasi[] = $object;
                     }
                 }
             });
             $permintaan = Permintaan::with('lokasi')->where('id_lokasi', $id_lokasi)->get();
-            
-            return view('after-login.admin-kelurahan.kontainer.index', ['kontainer' => $kontainer, 'notifikasi' => $notifikasi , 'permintaan'=>$permintaan ,'id_kontainer' => $id_kontainer]);
+
+            return view('after-login.admin-kelurahan.kontainer.index', ['kontainer' => $kontainer, 'notifikasi' => $notifikasi, 'permintaan' => $permintaan, 'id_kontainer' => $id_kontainer]);
         } else {
             $kontainer = Kontainer::with('lokasi')
                 ->withSum([
                     'sumbangan' => function ($query) {
                         $query->leftJoin('permintaan', 'kontainer.id_kontainer', '=', 'permintaan.id_kontainer')
                             ->where(function ($subquery) {
-                                        $subquery->where('status', 'terverifikasi')
-                                            ->where('sumbangan.updated_at', '>=', function ($subquery) {
-                                                                    $subquery->selectRaw('COALESCE(MAX(CASE WHEN status_permintaan = "berhasil" THEN permintaan.updated_at ELSE NULL END), MAX(kontainer.updated_at))')
-                                                                        ->from('kontainer')
-                                                                        ->leftJoin('permintaan', 'kontainer.id_kontainer', '=', 'permintaan.id_kontainer')
-                                                                        ->whereColumn('kontainer.id_kontainer', 'sumbangan.id_kontainer');
-                                                                });
+                                $subquery->where('status', 'terverifikasi')
+                                    ->where('sumbangan.updated_at', '>=', function ($subquery) {
+                                        $subquery->selectRaw('COALESCE(MAX(CASE WHEN status_permintaan = "berhasil" THEN permintaan.updated_at ELSE NULL END), MAX(kontainer.updated_at))')
+                                            ->from('kontainer')
+                                            ->leftJoin('permintaan', 'kontainer.id_kontainer', '=', 'permintaan.id_kontainer')
+                                            ->whereColumn('kontainer.id_kontainer', 'sumbangan.id_kontainer');
                                     });
+                            });
 
                     }
                 ], 'berat')
@@ -85,7 +86,7 @@ class KontainerController extends Controller
                     'sumbangan' => function ($query) {
                         $query->where('status', 'terverifikasi');
                     }
-                ], 'updated_at')
+                ], 'updated_at')->orderByDesc('sumbangan_sum_berat')
                 ->get();
             $kontainer->each(function ($item) {
                 if ($item->sumbangan_sum_berat == null) {
@@ -102,12 +103,14 @@ class KontainerController extends Controller
             $notifikasi = [];
             $permintaan->each(function ($item) use (&$notifikasi) {
                 if (in_array($item->status_permintaan, ['diajukan', 'Diajukan'])) {
+                    $item->status_permintaan = 'menunggu konfirmasi';
                     $notifikasi[] = [
                         'id_permintaan' => $item->id_permintaan,
                         'nama_kelurahan' => $item->lokasi->nama_kelurahan,
                     ];
                 }
             });
+            // dd($notifikasi);
             return view('after-login.pengelola-csr.kontainer.index', ['kontainer' => $kontainer, 'permintaan' => $permintaan, 'notifikasi' => $notifikasi]);
         }
     }
@@ -143,7 +146,7 @@ class KontainerController extends Controller
             'status_kontainer' => 'penuh',
             'status_permintaan' => 'diajukan',
         ]);
-        
+
         return redirect()->route('kontainer');
     }
 

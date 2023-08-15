@@ -10,8 +10,18 @@
                                     <x-user.userImage />
                                     <div class="aktif"></div>
                                 </div>
-                                <div class="col-md-6 col-sm-6 col-6 name">
-                                    <span>Jim</span>
+                                <div class="col-md-6 col-sm-6 col-6 name ">
+                                    @if (Auth::check())
+                                        {{-- <span>{{ Str::substr(str_replace('admin', '', Auth::user()->name), 0, 9) }}</span> --}}
+                                        <span class="overflow-auto">
+                                            @php
+                                                $words = explode(' ', Auth::user()->name);
+                                                $first = Str::substr($words[0], 0, 7);
+                                                @endphp
+                                                {{ $first }}
+                                        </span>
+                                    @endif
+
                                 </div>
                             </div>
                         </a>
@@ -41,17 +51,11 @@
                 confirmButtonText: 'Logout'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    Swal.fire(
-                        'Logout sukses',
-                        'Halaman akan di redirect ke login',
-                        'success'
-                    )
+                    document.getElementById('logout-form').submit();
                 }
             })
         }
     </script>
 
-    <script>
-        
-    </script>
+    <script></script>
 @endsection
