@@ -13,7 +13,7 @@
                 </div>
                 <div class="modal-footer d-flex justify-content-center">
                     {{ $slotFooter }}
-                </div>    
+                </div>
             </form>
         </div>
     </div>

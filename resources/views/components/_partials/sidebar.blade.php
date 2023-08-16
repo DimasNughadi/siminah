@@ -94,7 +94,7 @@
                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">logout</i>
-                        <form id="logout-form" action="##" method="POST" class="d-none">
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                             @csrf
                         </form>
                     </div>

@@ -158,7 +158,7 @@
                                                         </td>
                                                         <td class="ps-4 d-grid">
                                                             <span>
-                                                                {{ $item->sumbangan_sum_berat }} Kg
+                                                                {{ $item->sumbangan_sum_berat }} kg
                                                             </span>
                                                             <div class="progress-bar">
                                                                 <x-progressBar value="{{ $item->sumbangan_sum_berat }}" max="{{ $item->kapasitas }}"/>

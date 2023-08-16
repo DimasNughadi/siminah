@@ -7,7 +7,7 @@
                 <div class="row">
                     <div class="col-lg-12 reward text-poppins">Donatur</div>
                 </div>
-                <div class="row reedem-reward animate__animated animate__fadeInLeft">
+                <div class="row reedem-reward animate__animated animate__fadeInUp">
                     <div class="col-lg-9">
                         <div class="table-header-redeem">
                             Data donatur
@@ -26,12 +26,13 @@
                                 @endslot
     
                                 @slot('bodySlot')
+                                {{-- {{ dd($donatur) }} --}}
                                     @if (!empty($donatur))
                                         @foreach ($donatur as $item)
                                             <tr class="table-row-image donatur-row">
                                                 <td class="ps-4 data-14">
                                                     <div class="d-flex align-items-center">
-                                                        <x-user.userImage />
+                                                        <x-user.userImage src="{{ 'donatur/' . $item->photo }}" alt="Gambar {{ $item->nama_user }}"/>
                                                         <div class="ms-3">
                                                             <span>
                                                                 {{ Str::substr($item->nama_donatur, 0, 5) }}</span>
@@ -39,7 +40,6 @@
                                                     </div>
                                                 </td>
                                                 <td class="ps-4 data-14">
-    
                                                     @if ($item->sumbangan_sum_berat === 0 || $item->sumbangan_sum_berat === null)
                                                         -
                                                     @else

@@ -59,6 +59,11 @@
 
     @include('components._partials.scripts')
 
+    @extends('components._partials.scripts')
+    @section('script')
+        <x-sweetalert />
+    @endsection
+
 </body>
 
 </html>

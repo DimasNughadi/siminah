@@ -44,7 +44,7 @@
                             @endslot
 
                             @slot('bodySlot')
-                            {{-- {{ $reward }} --}}
+                            {{-- {{ dd($reward) }} --}}
                                 @if (!empty($reward))
                                     @foreach ($reward as $item)
                                         <tr class="reward-row table-row-image">
@@ -61,8 +61,10 @@
                                             </td>
 
                                             <td class="ps-4 text-inter-regular text-14">
-                                                <img src="{{ asset('assets/img/reward/telkomsel.png') }}" alt=""
-                                                    width="34">
+                                                <div class="cursor-pointer" data-bs-toggle="modal" data-bs-target="#detail-image" onclick="detailGambarReward()">
+                                                    <img src="{{ asset('storage/reward/' . $item->gambar) }}" alt=""
+                                                        width="34" alt="gambar {{ $item->nama_reward }}" id="detailGambarReward">
+                                                </div>
                                             </td>
                                             <td class="ps-4 text-inter-regular text-14">
                                                 <div class="btn-reward btn-list position-relative">
@@ -104,23 +106,33 @@
             </div>
         </div>
     </div>
-    {{-- Insert modal --}}
-    <x-modals.Modal modalName="add-reward" route="reward.store" title="Tambah reward">
-        @slot('slotMethod')
-            @csrf
-        @endslot
 
+    {{-- Detail gambar --}}
+    <x-modals.detailGambarModal modalName="detail-image" title="Detail gambar reward">
         @slot('slotBody')
-            <x-forms.input placeholder="Nama hadiah" name="nama" />
-            <x-forms.input placeholder="Stok hadiah" name="stok" />
-            <x-forms.input placeholder="Poin yang dibutuhkan" name="poin" />
-            <x-forms.fileInputModal />
-        @endslot
-
-        @slot('slotFooter')
-            <x-forms.btn.button color="danger" title="Simpan" />
+            <div class="modal-detail-gambar">
+                <img src="#" alt="gambar" id="modal-image-sumbangan">
+            </div>
         @endslot
     </x-modals.Modal>
+
+    {{-- Insert modal --}}
+        <x-modals.Modal modalName="add-reward" route="reward.store" title="Tambah reward">
+            @slot('slotMethod')
+                @csrf
+            @endslot
+
+            @slot('slotBody')
+                <x-forms.input placeholder="Nama hadiah" name="nama" />
+                <x-forms.input placeholder="Stok hadiah" name="stok" />
+                <x-forms.input placeholder="Poin yang dibutuhkan" name="poin" />
+                <x-forms.fileInputModal />
+            @endslot
+
+            @slot('slotFooter')
+                <x-forms.btn.button color="danger" title="Simpan" />
+            @endslot
+        </x-modals.Modal>
 
     {{-- Edit modal --}}
     <x-modals.Modal modalName="edit-reward" route="reward.update" title="Ubah reward">

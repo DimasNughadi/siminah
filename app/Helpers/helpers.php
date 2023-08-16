@@ -19,3 +19,8 @@ function datetimeFormat($timestamp){
     $data = date('h:i', strtotime($timestamp)). ', ' .date('d M Y', strtotime($timestamp));
     return $data;
 }
+
+function getFirstName($name) {
+    $data = explode(' ', $name);
+    return substr($data[0], 0, 7);
+}

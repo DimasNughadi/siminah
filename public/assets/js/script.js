@@ -59,3 +59,17 @@ function deleteReward(recordId) {
         }
     });
 }
+
+function detailSumbangan(){
+    const modalImage = document.getElementById('modal-image-sumbangan');
+
+    const sumbanganImage = document.getElementById('gambar-sumbangan');
+    modalImage.src = sumbanganImage.src
+}
+
+function detailGambarReward(){
+    const modalImage = document.getElementById('modal-image-sumbangan');
+
+    const detailGambarReward = document.getElementById('detailGambarReward');
+    modalImage.src = detailGambarReward.src
+}

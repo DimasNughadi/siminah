@@ -14,11 +14,7 @@
                                     @if (Auth::check())
                                         {{-- <span>{{ Str::substr(str_replace('admin', '', Auth::user()->name), 0, 9) }}</span> --}}
                                         <span class="overflow-auto">
-                                            @php
-                                                $words = explode(' ', Auth::user()->name);
-                                                $first = Str::substr($words[0], 0, 7);
-                                                @endphp
-                                                {{ $first }}
+                                            {{ getFirstName(Auth::user()->name) }}
                                         </span>
                                     @endif
 
@@ -56,6 +52,4 @@
             })
         }
     </script>
-
-    <script></script>
 @endsection

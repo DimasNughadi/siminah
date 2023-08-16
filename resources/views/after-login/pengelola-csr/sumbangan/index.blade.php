@@ -19,6 +19,7 @@
                                 </div>
                                 <div class="col-md-2 col-sm-5 col-sm-5">
                                     <div class="header-button">
+                                        <x-forms.inputDate />
                                         <div
                                             class="text-poppins text-14 btn-reward-position d-flex justify-content-end align-items-end">
                                             <a href="#"

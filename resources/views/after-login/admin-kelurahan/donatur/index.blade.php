@@ -31,7 +31,7 @@
                                         <tr class="table-row-image donatur-row">
                                             <td class="ps-4 data-14">
                                                 <div class="d-flex align-items-center">
-                                                    <x-user.userImage />
+                                                    <x-user.userImage src="{{ 'donatur/' . $item->photo }}" alt="Gambar {{ $item->nama_donatur }}"/>
                                                     <div class="ms-3">
                                                         <span>
                                                             {{ Str::substr($item->nama_donatur, 0, 5) }}</span>

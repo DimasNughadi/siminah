@@ -40,7 +40,7 @@
                                         <tr class="reward-tr table-row-image">
                                             <td class="ps-4">
                                                 <div class="d-flex align-items-center">
-                                                    <x-user.userImage/>
+                                                    <x-user.userImage src="{{ 'donatur/' . $item->donatur->photo }}"/>
                                                     {{-- <x-user.userImage src="{{ $item->donatur->photo }}"/> --}}
                                                     <div class="ms-2 poppins">
                                                         {{ Str::substr($item->donatur->nama_donatur, 0, 5) }}

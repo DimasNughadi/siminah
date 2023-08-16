@@ -179,7 +179,7 @@ progress {
 }
 
 .progress-yellow::-webkit-progress-bar {
-    background-color: rgba(234, 197, 0, .2) !important;
+    background-color: rgba(234, 197, 0, 0.2) !important;
 }
 
 .progress-green::-webkit-progress-bar {
@@ -576,11 +576,11 @@ input[type="file"] {
     padding: 60px 20px 20px 20px;
 }
 
-.detail-donatur-wrapper .detail-donatur-card .header img {
+/* .detail-donatur-wrapper .detail-donatur-card .header img {
     width: 119px;
     height: 119px;
     border-radius: 50%;
-}
+} */
 
 .detail-donatur-wrapper .detail-donatur-card .header span {
     padding-top: 16px;
@@ -670,7 +670,6 @@ input[type="file"] {
 }
 
 .riwayat-donatur-wrapper {
-    margin-left: 24px;
     border-radius: 15px;
     background-color: white;
 }
@@ -1019,7 +1018,6 @@ tr.reward-tr .ps-4 .d-flex {
     letter-spacing: 0.15px;
 }
 
-
 .detail-manajemen-kontainer {
     background-color: white;
     border-radius: 16px;
@@ -1110,8 +1108,7 @@ tr.reward-tr .ps-4 .d-flex {
     margin-top: 10px;
 }
 
-.notifikasi-kontainer .body .row{
-    
+.notifikasi-kontainer .body .row {
     max-height: 200px;
     overflow-y: scroll;
     padding: 5px;
@@ -1197,7 +1194,6 @@ tr.reward-tr .ps-4 .d-flex {
     overflow-y: scroll;
 }
 
-
 /* olah-donatur */
 .olah-donatur {
     background-color: white;
@@ -1277,6 +1273,7 @@ tr.reward-tr .ps-4 .d-flex {
 .sumbangan-kelurahan {
     background-color: white;
     border-radius: 10px;
+    height: 360px;
 }
 
 .sumbangan-kelurahan .header {
@@ -1301,11 +1298,11 @@ tr.reward-tr .ps-4 .d-flex {
 }
 
 .sumbangan-kelurahan .footer .fill {
-    background-color: #FF3A29;
+    background-color: #ff3a29;
 }
 
 .sumbangan-kelurahan .footer .transparent {
-    background-color: #FFE5D3;
+    background-color: #ffe5d3;
 }
 
 .sumbangan-kelurahan .footer span {
@@ -1323,6 +1320,173 @@ tr.reward-tr .ps-4 .d-flex {
     857% */
 }
 
+.table-sumbangan-kelurahan .header {
+    padding: 20px;
+    color: rgba(58, 53, 65, 0.87);
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: var(--text-poppins);
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 32px; /* 160% */
+    letter-spacing: 0.15px;
+    max-height: 340px;
+}
+
+.table-sumbangan-kelurahan .header-button {
+    padding: 20px;
+    display: flex;
+    align-items: end;
+    justify-content: end;
+}
+
+.table-sumbangan-kelurahan .btn-kontainer-kelurahan {
+    margin-right: 20px;
+    height: 27px;
+    color: white;
+    background-color: var(--danger);
+}
+
+.table-sumbangan-kelurahan .main-table {
+    background-color: white;
+    border-radius: 10px;
+}
+
+.table-sumbangan-kelurahan .main-table .overflowy-kontainer-kelurahan {
+    max-height: 300px;
+    overflow-y: scroll;
+}
+
+.input-date {
+    width: 90px;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.verifikasi-donasi .header {
+    color: var(--colors-black-100, #000);
+    font-family: DM Sans;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.verifikasi-donasi .body {
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+    background-color: white;
+    padding: 16px;
+}
+
+.verifikasi-row .nama {
+    width: 270px;
+}
+
+.verifikasi-donasi .berat {
+    width: 180px;
+}
+
+.verifikasi-donasi .kelurahan {
+    width: 229px;
+}
+
+.verifikasi-donasi .foto-donasi img {
+    width: 112px;
+    height: 116px;
+    border-radius: 20px;
+}
+
+.verifikasi-tr {
+    height: 50px;
+}
+
+.verifikasi-tr .nama .top {
+    color: var(--semi-dark-68);
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: var(--text-poppins);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 157%; /* 21.98px */
+    letter-spacing: 0.1px;
+}
+
+.verifikasi-tr .nama .bottom {
+    position: relative;
+    top: -5px;
+    color: var(--semi-dark-68);
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: Poppins;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 166%; /* 19.92px */
+    letter-spacing: 0.4px;
+}
+
+.verifikasi-tr .tanggal {
+    color: rgba(58, 53, 65, 0.68);
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: var(--text-poppins);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 143%; /* 20.02px */
+    letter-spacing: 0.15px;
+}
+
+.verifikasi-row .nama {
+    color: rgba(58, 53, 65, 0.87);
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: var(--text-poppins);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 157%; /* 21.98px */
+    letter-spacing: 0.1px;
+}
+
+.verifikasi-row .berat {
+    color: rgba(58, 53, 65, 0.87);
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: var(--fs-inter);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 157%; /* 21.98px */
+    letter-spacing: 0.1px;
+}
+
+.verifikasi-row .kelurahan {
+    color: rgba(58, 53, 65, 0.87);
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: var(--fs-inter);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 157%; /* 21.98px */
+    letter-spacing: 0.1px;
+}
+
+.verifikasi-row .tanggal {
+    color: rgba(58, 53, 65, 0.68);
+    font-feature-settings: "clig" off, "liga" off;
+
+    /* Dark/Typography/Body 2 */
+    font-family: var(--fs-inter);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 143%; /* 20.02px */
+    letter-spacing: 0.15px;
+}
+
+.modal-detail-gambar img {
+    width: 100%;
+    height: 100%;
+}
 
 @media (min-width: 576px) {
     /* sm */
@@ -1338,6 +1502,10 @@ tr.reward-tr .ps-4 .d-flex {
         position: relative;
         top: 0;
         right: 0;
+    }
+
+    .riwayat-donatur-wrapper {
+        margin-left: 0;
     }
 }
 
@@ -1368,6 +1536,10 @@ tr.reward-tr .ps-4 .d-flex {
         position: relative;
         top: 0;
         right: 0;
+    }
+
+    .riwayat-donatur-wrapper {
+        margin-left: 24px;
     }
 }
 

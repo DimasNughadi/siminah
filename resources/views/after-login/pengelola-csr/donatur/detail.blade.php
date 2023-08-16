@@ -13,14 +13,13 @@
             </div>
         </div>
         <div class="row pt-3">
-            <div class="col-md-4 detail-donatur-wrapper margin-left-24 animate__animated animate__fadeInLeft">
+            <div class="col-md-4 col-12 col-sm-12 detail-donatur-wrapper margin-left-24 animate__animated animate__fadeInLeft">
                 <div class="detail-donatur-card">
                     <div class="row header">
                         <div class="col-md-12">
                             <div class="row">
                                 <div class="col-md-12 d-flex justify-content-center align-items-center">
-                                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww&w=1000&q=80"
-                                        alt="Abdi">
+                                    <x-user.userImage width="119" height="119"/>
                                 </div>
                                 <div class="col-md-12 d-flex justify-content-center align-items-center">
                                     <span>
@@ -31,14 +30,14 @@
                         </div>
                     </div>
                     <div class="row summary">
-                        <div class="col-md-6">
+                        <div class="col-md-6 col-sm-6 col-6">
                             <div class="row">
-                                <div class="col-md-3 icon">
+                                <div class="col-md-3 col-sm-3 col-3 icon">
                                     <span class="material-symbols-outlined">
                                         water_drop
                                     </span>
                                 </div>
-                                <div class="col-md-9 sum">
+                                <div class="col-md-9 col-sm-9 col-9 sum">
                                     <div class="row">
                                         <div class="col-md-12 top">
                                             {{ $total->sumbangan_sum_berat }} Kg
@@ -50,14 +49,14 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 col-sm-6 col-6">
                             <div class="row">
-                                <div class="col-md-3 icon">
+                                <div class="col-md-3 col-sm-3 col-3 icon">
                                     <span class="material-symbols-outlined">
                                         place_item
                                     </span>
                                 </div>
-                                <div class="col-md-9 sum">
+                                <div class="col-md-9 col-sm-9 col-9 sum">
                                     <div class="row">
                                         <div class="col-md-12 top">
                                             {{ $total->total_donasi }}
@@ -71,24 +70,24 @@
                         </div>
                     </div>
                     <div class="row detail">
-                        <div class="col-md-12 header">
+                        <div class="col-md-12 col-sm-12 col-12 header">
                             <span>
                                 Detail
                             </span>
                         </div>
-                        <div class="col-md-12 line">
+                        <div class="col-md-12 col-sm-12 col-12 line">
                             <hr>
                         </div>
-                        <div class="col-md-12 user-detail">
+                        <div class="col-md-12 col-sm-12 col-12 user-detail">
                             <div class="row">
                                 <div class="col-md-12">
                                     <span class="head">Nama: </span>
                                     <span class="body">{{ $donatur->nama_donatur }}</span>
                                 </div>
-                                <div class="col-md-12">
+                                {{-- <div class="col-md-12">
                                     <span class="head">Email: </span>
                                     <span class="body">{{ $donatur->email }}</span>
-                                </div>
+                                </div> --}}
                                 <div class="col-md-12">
                                     <span class="head">Kontak: </span>
                                     <span class="body">{{ $donatur->no_hp }}</span>
@@ -114,8 +113,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-8">
-                <div class="row riwayat-donatur-wrapper animate__animated animate__fadeInRight">
+            <div class="col-md-8 col-sm-12 col-12 mt-md-0 mt-sm-3 mt-4">
+                <div class="row riwayat-donatur-wrapper animate__animated animate__fadeInRight ">
                     <div class="col-md-12">
                         <div class="container-fluid">
                             <h1>Riwayat Donasi</h1>
@@ -123,7 +122,7 @@
                     </div>
                     {{-- {{ dd($riwayat) }} --}}
 
-                    <div class="col-md-12">
+                    <div class="col-md-12 col-sm-12 col-12">
                         <x-forms.table>
                             @slot('headSlot')
                                 <th class="text-semi-dark">LOKASI KONTAINER</th>
@@ -140,7 +139,7 @@
                                                 {{ $item->kontainer->lokasi->nama_kelurahan }}
                                             </td>
                                             <td class="ps-4 text-semi-dark text-inter-regular text-14">
-                                                {{ $item->berat }}
+                                                {{ $item->berat }} kg
                                             </td>
                                             <td class="ps-4 text-semi-dark text-inter-regular text-14">
                                                 {{ date('d F y', strtotime($item->tanggal)) }}
