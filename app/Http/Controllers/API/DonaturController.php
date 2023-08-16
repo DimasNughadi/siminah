@@ -19,6 +19,27 @@ class DonaturController extends Controller
         $donatur = Donatur::where('no_hp', $credentials['no_hp'])->first();
 
         if ($donatur && Hash::check($credentials['password'], $donatur->password)) {
+            $token = $donatur->createToken('API Token');
+
+            $response = [
+                'access_token' => $token->plainTextToken,
+                'access_token_expires_in' => now()->addMinutes(config('sanctum.expiration'))->toDateTimeString(),
+                'refresh_token' => $token->plainTextToken,
+                'fresh_token_expires_in' => now()->addMinutes(config('sanctum.expiration'))->toDateTimeString(),
+            ];
+
+            return response()->json($response, Response::HTTP_OK);
+        } else {
+            return response()->json(['error' => 'Invalid credentials'], Response::HTTP_UNAUTHORIZED);
+        }
+    }
+
+    public function login2(Request $request)
+    {
+        $credentials = $request->only('no_hp', 'password');
+        $donatur = Donatur::where('no_hp', $credentials['no_hp'])->first();
+
+        if ($donatur && Hash::check($credentials['password'], $donatur->password)) {
             $accessToken = $donatur->createToken('API Token');
             return response()->json(['access_token' => $accessToken], Response::HTTP_OK);
         } else {

@@ -43,6 +43,7 @@ return [
         'api' => [
             'driver' => 'sanctum',
             'provider' => 'donaturs',
+            'expires_in' => 1440,
         ],
     ],
 
