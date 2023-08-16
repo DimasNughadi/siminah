@@ -1,3 +1,17 @@
+
+// File input
+function triggerFileInput() {
+    document.getElementById("fileInput").click();
+}
+
+document.getElementById("fileInput").addEventListener("change", function() {
+    const fileName = this.value.split("\\").pop();
+    document.getElementById("myFileNameContainer").innerHTML = fileName;
+});
+
+
+
+
 // edit reward
 function editDataReward(id, nama, stok, poin, gambar) {
     // console.log(id);

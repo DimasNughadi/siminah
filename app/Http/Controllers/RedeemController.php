@@ -1,14 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Redeem;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-
 class RedeemController extends Controller
 {
     public function index()
@@ -32,6 +30,7 @@ class RedeemController extends Controller
                         $join->on('redeem.id_donatur', '=', 'redeem_count.id_donatur');
                     }
                 )
+                //->orderByDesc('sumbangan_sum_berat')
                 ->get();
 
             return view(

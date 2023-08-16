@@ -21,10 +21,11 @@ class DonaturController extends Controller
     public function index()
     {
         try {
-            $id_lokasi = DB::table('adminkelurahan')
+           
+            if (auth()->user()->role == 'admin_kelurahan') {
+                $id_lokasi = DB::table('adminkelurahan')
                 ->where('id_user', Auth::id())
                 ->value('id_lokasi');
-            if (auth()->user()->role == 'admin_kelurahan') {
                 $donatur = Donatur::with([
                     'sumbangan'
                     => function ($query) {
@@ -50,9 +51,9 @@ class DonaturController extends Controller
                     ->orderByDesc('sumbangan_sum_berat')
                     ->get();
                 $donatur->each(function ($item) {
-                        if ($item->sumbangan_sum_berat == null) {
-                            $item->sumbangan_sum_berat = 0;
-                        } 
+                    if ($item->sumbangan_sum_berat == null) {
+                        $item->sumbangan_sum_berat = 0;
+                    }
                 });
                 return view('after-login.admin-kelurahan.donatur.index', ['donatur' => $donatur]);
             } else {
@@ -79,11 +80,11 @@ class DonaturController extends Controller
                     ->groupBy('donatur.photo', 'donatur.id_donatur', 'nama_donatur', 'kelurahan', 'id_lokasi')
                     ->orderByDesc('sumbangan_sum_berat')
                     ->get();
-                    $donatur->each(function ($item) {
-                        if ($item->sumbangan_sum_berat == null) {
-                            $item->sumbangan_sum_berat = 0;
-                        } 
-                    });
+                $donatur->each(function ($item) {
+                    if ($item->sumbangan_sum_berat == null) {
+                        $item->sumbangan_sum_berat = 0;
+                    }
+                });
                 return view('after-login.pengelola-csr.donatur.index', ['donatur' => $donatur]);
             }
         } catch (Exception $exception) {
@@ -129,15 +130,21 @@ class DonaturController extends Controller
             ]);
             return redirect()->route('donatur')->with('message', 'Donatur berhasil ditambahkan');
         } catch (Exception $exception) {
-            return redirect()->back()->with('message', 'Donatur tidak berhasil ditambahkan');
+            return view(
+                'after-login.pengelola-csr.donatur.index',
+                ['message' => 'Tidak ada data']
+            );
         }
     }
     public function edit($id)
     {
-        // $donatur = Donatur::find($id);
-        // return view('after-login.admin-kelurahan.donatur.edit', ['donatur' => $donatur]);
+        try {
+            $donatur = Donatur::find($id);
+            return view('after-login.admin-kelurahan.donatur.edit', ['donatur' => $donatur]);
+        } catch (Exception $exception) {
+            return redirect()->route('donatur')->with('message', 'Gagal mengedit donatur');
+        }
     }
-
     public function update($id, Request $request)
     {
         $this->validate($request, [
@@ -171,54 +178,54 @@ class DonaturController extends Controller
     }
     public function destroy($id)
     {
-        try{
-        $donatur = Donatur::find($id);
-        $donatur->delete();
-        return redirect()->route('donatur')->with('message', 'Donatur berhasil dihapus');
-    } catch (Exception $exception) {
-        return redirect()->back()->with('message', 'Donatur tidak berhasil dihapus');
-    }
+        try {
+            $donatur = Donatur::find($id);
+            $donatur->delete();
+            return redirect()->route('donatur')->with('message', 'Donatur berhasil dihapus');
+        } catch (Exception $exception) {
+            return redirect()->back()->with('message', 'Donatur tidak berhasil dihapus');
+        }
     }
 
     public function detail($id)
     {
-        try{
-        $donatur = Donatur::findOrFail($id);
-        $riwayat = Sumbangan::with(['kontainer', 'kontainer.lokasi'])
-            ->where('id_donatur', $id)
-            ->orderByDesc('created_at')
-            ->get();
+        try {
+            $donatur = Donatur::findOrFail($id);
+            $riwayat = Sumbangan::with(['kontainer', 'kontainer.lokasi'])
+                ->where('id_donatur', $id)
+                ->orderByDesc('created_at')
+                ->get();
 
-        $total = Donatur::with([
-            'sumbangan' => function ($query) {
-                $query->where('status', 'terverifikasi');
-            }
-        ])
-            ->select('donatur.id_donatur')
-            ->withSum([
+            $total = Donatur::with([
                 'sumbangan' => function ($query) {
                     $query->where('status', 'terverifikasi');
                 }
-            ], 'berat')
-            ->withCount([
-                'sumbangan as total_donasi' => function ($query) {
-                    $query->where('status', 'terverifikasi');
-                }
-            ], 'id_donatur')
-            ->groupBy('donatur.id_donatur')
-            ->find($id);
+            ])
+                ->select('donatur.id_donatur')
+                ->withSum([
+                    'sumbangan' => function ($query) {
+                        $query->where('status', 'terverifikasi');
+                    }
+                ], 'berat')
+                ->withCount([
+                    'sumbangan as total_donasi' => function ($query) {
+                        $query->where('status', 'terverifikasi');
+                    }
+                ], 'id_donatur')
+                ->groupBy('donatur.id_donatur')
+                ->find($id);
             $total->each(function ($item) {
                 if ($item->sumbangan_sum_berat == null) {
                     $item->sumbangan_sum_berat = 0;
-                } 
-        });
-        if (auth()->user()->role == 'admin_kelurahan') {
-            return view('after-login.admin-kelurahan.donatur.detail', ['donatur' => $donatur, 'riwayat' => $riwayat, 'total' => $total]);
-        }else{
-            return view('after-login.pengelola-csr.donatur.detail', ['donatur' => $donatur, 'riwayat' => $riwayat, 'total' => $total]);
+                }
+            });
+            if (auth()->user()->role == 'admin_kelurahan') {
+                return view('after-login.admin-kelurahan.donatur.detail', ['donatur' => $donatur, 'riwayat' => $riwayat, 'total' => $total]);
+            } else {
+                return view('after-login.pengelola-csr.donatur.detail', ['donatur' => $donatur, 'riwayat' => $riwayat, 'total' => $total]);
 
-        }
-    }catch (Exception $exception) {
+            }
+        } catch (Exception $exception) {
             return redirect()->back()->with('message', 'Tidak ada detail donatur');
         }
     }

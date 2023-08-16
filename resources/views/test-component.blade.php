@@ -1,6 +1,6 @@
 @extends('components._partials.default')
 
 @section('content')
-    <x-forms.inputDate />
+    <x-forms.fileInputModal  />
 
 @stop

@@ -29,7 +29,7 @@
                         class="col-md-2 col-sm-2 col-2 text-poppins text-14 btn-reward-position d-flex justify-content-end align-items-end">
                         <div class="btn-reward bg-success btn-success position-relative">
                             <a href="{{ route('reward/reward-list') }}" class="position-relative add-reward"
-                                data-bs-toggle="modal" data-bs-target="#edit-reward">Tambah
+                                data-bs-toggle="modal" data-bs-target="#add-reward">Tambah
                             </a>
                         </div>
                     </div>
@@ -126,7 +126,7 @@
                 <x-forms.input placeholder="Nama hadiah" name="nama" />
                 <x-forms.input placeholder="Stok hadiah" name="stok" />
                 <x-forms.input placeholder="Poin yang dibutuhkan" name="poin" />
-                <x-forms.fileInputModal />
+                <x-forms.fileInputModal name="addGambars"/>
             @endslot
 
             @slot('slotFooter')
@@ -145,7 +145,7 @@
             <x-forms.input placeholder="Nama hadiah" name="nama" id="editNama" />
             <x-forms.input placeholder="Stok hadiah" name="stok" id="editStok" />
             <x-forms.input placeholder="Poin yang dibutuhkan" name="poin" id="editPoin" />
-            <x-forms.fileInputModal />
+            <x-forms.fileInputModal name="editGambar"/>
         @endslot
 
         @slot('slotFooter')

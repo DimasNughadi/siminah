@@ -45,7 +45,7 @@ class RewardController extends Controller
         if($validator->fails()){
             return view(
                 'after-login.admin-kelurahan.reward.tambah',
-                ['message' => 'Data tidak lengkap']
+                ['message' => 'Halaman tidak ditemukan']
             );
         }
         try {
@@ -82,7 +82,7 @@ class RewardController extends Controller
     public function update($id, Request $request)
     {
         $validator = Validator::make($request->all(), [
-            // 'id_reward' => 'required',
+            //'id_reward' => 'required',
             'nama_reward' => 'required',
             'stok' => 'required',
             'jumlah_poin' => 'required',
@@ -123,9 +123,9 @@ class RewardController extends Controller
             $reward->delete();
             return redirect()->route('reward/reward-list');
         } catch (ModelNotFoundException | QueryException $exception) {
-            return $this->sendError(
-                'Reward tidak bisa dihapus',
-                $exception->getMessage()
+            return view(
+                'after-login.admin-kelurahan.reward.detail',
+                ['message' => 'Tidak berhasil dihapus']
             );
         }
     }

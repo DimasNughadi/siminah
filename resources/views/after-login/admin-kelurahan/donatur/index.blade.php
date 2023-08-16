@@ -23,7 +23,7 @@
                                 <th>TOTAL DONASI</th>
                                 <th>AKSI</th>
                             @endslot
-
+                            
                             @slot('bodySlot')
                                 @if (!empty($donatur))
                                     {{-- {{ dd($donatur) }} --}}
