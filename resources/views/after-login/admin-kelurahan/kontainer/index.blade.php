@@ -1,6 +1,7 @@
 @extends('components._partials.default')
 
 @section('content')
+{{-- {{ dd($kontainer) }} --}}
     <div class="container-fluid py-2 ps-4">
         <div class="row">
             <div class="col-md-12">
@@ -9,7 +10,7 @@
                 </div>
                 <div class="row mt-3">
                     <div class="col-md-4 col-sm-12 col-12">
-                        <div class="container-fluid kontainer-kelurahan animate__animated animate__fadeInLeft">
+                        <div class="container-fluid kontainer-kelurahan">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="header">
@@ -19,12 +20,13 @@
                                 <div class="col-md-12 col-sm-12 col-12">
                                     <div class="body">
                                         <div class="row">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="196" height="196"
-                                                viewBox="0 0 196 196" fill="none">
-                                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                                    d="M98 196C152.124 196 196 152.124 196 98C196 43.8761 152.124 0 98 0C43.8761 0 0 43.8761 0 98C0 152.124 43.8761 196 98 196Z"
-                                                    fill="#E2FBD7" />
-                                            </svg>
+                                            <div class="chart-container">
+                                                <div class="chart-content">
+                                                    <canvas id="myChart2"></canvas>
+                                                    <div class="chart-background"></div>
+                                                    <div class="chart-percentage">{{ number_format($kontainer[0]->sumbangan_persentase, 1) }}%</div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -51,9 +53,9 @@
                                             <div class="col-md-4 header-button">
                                                 <div
                                                     class="btn-reward btn-kontainer-kelurahan btn-danger
-                                                    position-relative">
+                                                    position-relative cursor-pointer">
                                                     <span class="position-relative add-reward">
-                                                        Diajukan
+                                                        Ajukan
                                                     </span>
                                                 </div>
                                             </div>
@@ -161,6 +163,88 @@
         </div>
     </div>
 </div>
-</div>
 
+<style>
+    .chart-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .chart-content {
+        position: relative;
+        display: block;
+        width: 250px;
+        height: 250px;
+    }
+
+    .chart-content canvas {
+        display: block;
+        max-width: 100%;
+        max-height: 100%;
+        border-radius: 50%;
+        z-index: 2;
+    }
+
+    .chart-background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(101, 174, 56, 0.25);
+        border-radius: 50%;
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    .chart-percentage {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 32px;
+        font-weight: bold;
+        color: #65AE38;
+    }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous" async></script>
+
+
+<script>
+    var ctx1 = document.getElementById('myChart2').getContext('2d');
+    var data1 = [{!! json_encode($kontainer[0]->sumbangan_persentase) !!}, {!! json_encode(100 - $kontainer[0]->sumbangan_persentase) !!}];
+    var colors1 = ['rgba(101, 174, 56, 1)', 'rgba(0, 0, 0, 0)'];
+    var cutout1 = '85%';
+    var myChart1 = new Chart(ctx1, {
+        type: 'doughnut',
+        data: {
+            labels: ['Terisi', 'kosong'],
+            datasets: [{
+                label: 'Total',
+                data: data1,
+                backgroundColor: colors1,
+                cutout: cutout1,
+                borderRadius: 50,
+                borderWidth: 0,
+                hoverOffset: 0
+            }]
+        },
+        options: {
+            maintainAspectRatio: false,
+            responsive: true,
+            layout: {
+                padding: 0
+            },
+            plugins: {
+                legend: false
+            }
+        }
+    });
+
+    
+</script>
 @stop

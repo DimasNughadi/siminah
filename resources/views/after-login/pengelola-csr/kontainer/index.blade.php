@@ -1,7 +1,7 @@
 @extends('components._partials.default')
 
 @section('content')
-    {{-- {{ dd($reward[0]->nama_reward) }} --}}
+    {{-- {{ dd($notifikasi) }} --}}
     <div class="container-fluid py-2 ps-4">
         <div class="row">
             <div class="col-md-12">
@@ -24,7 +24,7 @@
                                                 <th>KELURAHAN</th>
                                                 <th>TANGGAL PERMINTAAN</th>
                                                 <th>STATUS</th>
-                                                <th>AKSI</th>
+                                                {{-- <th>AKSI</th> --}}
                                             @endslot
 
                                             @slot('bodySlot')
@@ -62,7 +62,7 @@
                                                                 </div>
                                                             @endif
                                                         </td>
-                                                        <td class="ps-4">
+                                                        {{-- <td class="ps-4">
                                                             @if (strtolower($item->status_permintaan) === 'menunggu konfirmasi')
                                                             <div class="btn-reward btn-table-custom bg-light-success position-relative">
                                                                 <span class="position-relative add-reward">
@@ -77,7 +77,7 @@
                                                             </div>
 
                                                             @endif
-                                                        </td>
+                                                        </td> --}}
                                                     </tr>
                                                 @endforeach
                                             @else
@@ -212,5 +212,5 @@
             </div>
         </div>
     </div>
-
+    <x-sweetalert />
 @stop

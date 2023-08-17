@@ -58,12 +58,12 @@ class LoginController extends Controller
             if (Auth::attempt($credentials, $remember)) {
                 $request->session()->regenerate();
                 Session::put('id_user', Auth::user()->id);
-                return redirect()->route('dashboard')->with('success_alert', 'Login berhasil');
+                return redirect()->route('dashboard')->with('login_alert', 'success');
             } else {
-                return redirect()->route('login')->with('error', 'Username dan password tidak sesuai');
+                return redirect()->route('login')->with('login_alert', 'error');
             }
         } catch (Exception $e) {
-            return redirect()->back()->with('message', 'Login gagal');
+            return redirect()->back()->with('login_alert', 'error');
         }
     }
     public function logout(Request $request)
@@ -71,7 +71,7 @@ class LoginController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route('login');
+        return redirect()->route('login')->with('logout_alert', 'success');
     }
 
 }

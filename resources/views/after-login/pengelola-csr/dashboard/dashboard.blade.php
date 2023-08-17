@@ -376,8 +376,8 @@
 <script>
     var ctx = document.getElementById('myChart').getContext('2d');
     var myChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
+        type: 'bar',    
+        data: { 
             labels: {!! json_encode($chartData['labels']) !!},
             datasets: [{
                 label: 'Total Sumbangan',

@@ -19,7 +19,22 @@ class ProfilController extends Controller
                 ->leftJoin('lokasi', 'lokasi.id_lokasi', '=', 'adminkelurahan.id_lokasi')
                 ->select('users.*', 'adminkelurahan.*', 'lokasi.nama_kelurahan')
                 ->where('id', Auth::id())
-                ->get();
+                ->get()[0];
+            return view('after-login.admin-kelurahan.profil.index', ['user' => $user]);
+        } catch (Exception $exception) {
+            return redirect()->back()->with('message', 'Tidak berhasil membuka profil');
+
+        }
+    }
+
+    public function edit()
+    {
+        try {
+            $user = User::rightJoin('adminkelurahan', 'adminkelurahan.id_user', '=', 'users.id')
+                ->leftJoin('lokasi', 'lokasi.id_lokasi', '=', 'adminkelurahan.id_lokasi')
+                ->select('users.*', 'adminkelurahan.*', 'lokasi.nama_kelurahan')
+                ->where('id', Auth::id())
+                ->get()[0];
             return view('after-login.admin-kelurahan.profil.edit', ['user' => $user]);
         } catch (Exception $exception) {
             return redirect()->back()->with('message', 'Tidak berhasil membuka profil');
@@ -37,10 +52,10 @@ class ProfilController extends Controller
             $user->password = Hash::make($request->password);
             $user->save();
 
-            return redirect()->route('admin')->with('message', 'Password berhasil diganti');
+            return redirect()->route('admin')->with('edit_alert', 'success');
         } catch (Exception $exception) {
             return redirect()->back()->with(
-                ['message' => 'Tidak berhasil mengupdate data']
+                ['edit_alert' => 'error']
             );
         }
     }

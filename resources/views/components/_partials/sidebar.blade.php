@@ -76,31 +76,32 @@
                         <span class="nav-link-text ms-1">Reward</span>
                     </a>
                 </li>
+                
+                <li class="nav-item mt-3">
+                    <h6 class="ps-4 ms-2 text-uppercase text-xs text-dark font-weight-bolder opacity-8">Account pages</h6>
+                </li>
+                <li class="nav-item">
+                    <a class="{{ isRouteActive('profil') ? 'active bg-gradient-primary text-white' : (isRouteActive('profil.edit') ? 'active bg-gradient-primary text-white' : 'text-dark') }} nav-link" href="{{ route('profil') }}">
+                        <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">account_circle</i>
+                        </div>
+                        <span class="nav-link-text ms-1">Profile</span>
+                    </a>
+                </li>
             @endif
 
-            <li class="nav-item mt-3">
-                <h6 class="ps-4 ms-2 text-uppercase text-xs text-dark font-weight-bolder opacity-8">Account pages</h6>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-dark " href="">
-                    <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">account_circle</i>
-                    </div>
-                    <span class="nav-link-text ms-1">Profile</span>
-                </a>
-            </li>
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link text-dark" href="##"
                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">logout</i>
+                        <i class="material-icons opacity-10">logout</i> --}}
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                             @csrf
                         </form>
-                    </div>
+                    {{-- </div>
                     <span class="nav-link-text ms-1">Log Out</span>
                 </a>
-            </li>
+            </li> --}}
         </ul>
     </div>
 </aside>

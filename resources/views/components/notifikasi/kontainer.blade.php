@@ -50,7 +50,11 @@
     </div>
     @if ($action === "enable")
         <div class="action">
-            <a href="{{ $id }}" class="link-dark" >
+            <form action="" id="updatePermintaanKontainer" method="POST">
+                @csrf
+                @method('PUT')
+            </form>
+            <a onclick="event.preventDefault(); updatePermintaanKontainer('{{ route('kontainer.updatePermintaan', ['id' => $id]) }}')" href="#" class="link-dark" id="hrefUpdateKontainer">
                 @if ($type == 'danger')
                     Ganti kontainer
                 @elseif ($type == 'warning')

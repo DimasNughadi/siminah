@@ -560,6 +560,11 @@ input[type="file"] {
     top: 8px;
     color: var(--input-placeholder);
 }
+#myFileInputNameContainer {
+    position: relative;
+    top: 8px;
+    color: var(--input-placeholder);
+}
 
 #btnFile {
     cursor: pointer;
@@ -830,6 +835,17 @@ tr.reward-tr .ps-4 .d-flex {
     font-weight: 400;
     line-height: normal;
     border: 1px solid #808080;
+}
+
+.form-control-admin input:disabled {
+    border-radius: 20px;
+    padding: 1rem 1.875rem 1rem 1.875rem;
+    color: #808080;
+    font-family: var(--text-poppins);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
 }
 
 .form-control-admin input:focus {
@@ -1137,8 +1153,8 @@ tr.reward-tr .ps-4 .d-flex {
 .kontainer-kelurahan .footer .circle {
     background-color: var(--success);
     border-radius: 50%;
-    width: 6px;
-    height: 6px;
+    width: 14px;
+    height: 14px;
 }
 
 .kontainer-kelurahan .footer span {
@@ -1486,6 +1502,218 @@ tr.reward-tr .ps-4 .d-flex {
 .modal-detail-gambar img {
     width: 100%;
     height: 100%;
+}
+
+.profil .header h1 {
+    color: var(--colors-black-100, #000);
+    font-feature-settings: "clig" off, "liga" off;
+
+    /* H2 */
+    font-family: var(--text-dm-sans);
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.profil .body {
+    background-color: white;
+    padding: 30px 20px;
+
+    border-radius: 15px;
+    background: #fff;
+
+    /* Light/Elevation/Card */
+    box-shadow: 0px 2px 10px 0px rgba(58, 53, 65, 0.1);
+}
+
+.profil .body .profil-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.profil .body .profil-header h4 {
+    color: rgba(58, 53, 65, 0.87);
+    text-align: center;
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: var(--text-poppins);
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 160%; /* 48px */
+    letter-spacing: 0.15px;
+}
+
+.profil .body .profil-detail {
+    padding: 20px;
+}
+
+.profil .body .profil-detail .header {
+    color: rgba(0, 0, 0, 0.87);
+    /* text-align: center; */
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: var(--text-poppins);
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 160%; /* 35.2px */
+    letter-spacing: 0.15px;
+}
+
+.profil .body .profil-detail .subheader {
+    color: rgba(0, 0, 0, 0.87);
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: var(--text-poppins);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 160%; /* 25.6px */
+    letter-spacing: 0.15px;
+}
+
+.profil .body .profil-detail .detail-data {
+    margin-top: 20px;
+}
+
+.profil .body .profil-detail .detail-data .row:not(:last-child) {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(58, 53, 65, 0.12);
+}
+
+.profil .body .profil-detail .detail-data .left {
+    color: rgba(58, 53, 65, 0.87);
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: Poppins;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 143%; /* 25.74px */
+    letter-spacing: 0.15px;
+}
+.profil .body .profil-detail .detail-data .right {
+    color: rgba(58, 53, 65, 0.87);
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: Poppins;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 143%; /* 28.6px */
+    letter-spacing: 0.15px;
+}
+
+.profil .body .update-buttom {
+    display: flex;
+    padding-top: 50px;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.profil .body .update-buttom .btn-profil-custom {
+    padding: 13px 44px 13px 44px;
+    border-radius: 20px;
+    border: 1px solid #808080;
+    background: #d12031;
+}
+
+/* manajemen admin */
+.edit-profil {
+    margin-top: 1.625rem;
+    background-color: white;
+    filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.25));
+    border-radius: 0.9375rem;
+}
+
+.edit-profil .header {
+    height: 4.5rem !important;
+    padding: 1.1875rem 0px 1.1875rem 2.0625rem;
+}
+
+.edit-profil .header .title h3 {
+    color: black !important;
+    font-family: var(--text-poppins);
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.edit-profil .header .button {
+    position: relative;
+    top: -0.1563rem;
+}
+
+.edit-profil .line {
+    border-top: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+.edit-profil .body {
+    padding: 1.1875rem 2.0625rem 1.1875rem 2.0625rem;
+    padding-top: 1.5rem;
+}
+
+.edit-profil .body .ubah-gambar {
+    margin-bottom: 50px;
+    display: flex;
+    gap: 32px;
+    align-items: center;
+}
+
+.edit-profil .body .ubah-gambar .detail-button .text {
+    color: #9b9b9b;
+    font-family: Poppins;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.edit-profil .body .ubah-gambar .detail-button .btn-ubah {
+    margin-top: 10px;
+}
+
+.edit-profil .body .ubah-gambar .detail-button .btn-ubah .inputFile {
+    display: none;
+}
+
+.edit-profil .body .ubah-gambar .detail-button .btn-ubah button {
+    width: 180px;
+    height: 50px;
+    flex-shrink: 0;
+    border-radius: 20px;
+    border: 1px solid #808080;
+    background: var(--danger);
+    color: white;
+}
+
+.edit-profil .header a.bottom-btn-batal {
+    text-decoration: none;
+    border-radius: 20px;
+    width: 180px;
+    height: 50px;
+    flex-shrink: 0;
+    border: 1px solid var(--danger);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--danger);
+}
+
+.edit-profil .header .simpan-buttom {
+    width: 180px;
+    height: 50px;
+    flex-shrink: 0;
+    border-radius: 20px;
+    border: 1px solid #808080;
+    background: var(--danger);
+    color: white;
+}
+
+.edit-profil .bottom-line {
+    border-top: 1px solid rgba(0, 0, 0, 0.25);
 }
 
 @media (min-width: 576px) {

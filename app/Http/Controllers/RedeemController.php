@@ -32,7 +32,6 @@ class RedeemController extends Controller
                 )
                 //->orderByDesc('sumbangan_sum_berat')
                 ->get();
-
             return view(
                 'after-login.admin-kelurahan.reward.index',
                 ['redeem' => $redeem]

@@ -15,7 +15,7 @@ class RewardController extends Controller
     public function index()
     {
         try {
-            $reward = Reward::get();
+            $reward = Reward::get(); 
             return view(
                 'after-login.admin-kelurahan.reward.detail',
                 ['reward' => RewardResource::collection($reward)]
@@ -35,6 +35,7 @@ class RewardController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request);
         $validator = Validator::make($request->all(), [
             //'id_reward' => 'required',
             'nama_reward' => 'required',
@@ -44,7 +45,7 @@ class RewardController extends Controller
         ]);
         if($validator->fails()){
             return view(
-                'after-login.admin-kelurahan.reward.tambah',
+                'after-login.admin-kelurahan.reward.detail',
                 ['message' => 'Halaman tidak ditemukan']
             );
         }
@@ -54,16 +55,16 @@ class RewardController extends Controller
             Reward::create([
                 //'id_reward' => $request->id_reward,
                 'nama_reward' => $request->nama_reward,
-                'stok' => $request->jenis,
+                'stok' => $request->stok,
                 'jumlah_poin' => $request->jumlah_poin,
                 'gambar' => $request->gambar->hashName(),
             ]);
-            return redirect()->route('reward/reward-list');
+            return redirect()->route('reward/reward-list')->with('tambah_alert', 'success');
         } catch (QueryException | ModelNotFoundException $exception) {
             return view(
-                'after-login.admin-kelurahan.reward.tambah',
+                'after-login.admin-kelurahan.reward.detail',
                 ['message' => 'Tidak berhasil menambah data']
-            );
+            )->with('tambah_alert', 'error');
         }
     }
     public function edit($id)
@@ -89,7 +90,7 @@ class RewardController extends Controller
         ]);
         if($validator->fails()){
             return view(
-                'after-login.admin-kelurahan.reward.edit',
+                'after-login.admin-kelurahan.reward.detail',
                 ['message' => 'Data tidak lengkap']
             );
         }
@@ -108,12 +109,12 @@ class RewardController extends Controller
             $reward->stok = $request->stok;
             $reward->jumlah_poin = $request->jumlah_poin;
             $reward->save();
-            return redirect()->route('reward/reward-list');
+            return redirect()->route('reward/reward-list')->with('edit_alert', 'success');
         } catch (QueryException | ModelNotFoundException $exception) {
             return view(
-                'after-login.admin-kelurahan.reward.edit',
+                'after-login.admin-kelurahan.reward.detail',
                 ['message' => 'Tidak berhasil diedit']
-            );
+            )->with('edit_alert', 'error');
         }
     }
     public function destroy($id)
@@ -121,7 +122,7 @@ class RewardController extends Controller
         try {
             $reward = Reward::find($id);
             $reward->delete();
-            return redirect()->route('reward/reward-list');
+            return redirect()->route('reward/reward-list')->with('delete_alert', 'success');    
         } catch (ModelNotFoundException | QueryException $exception) {
             return view(
                 'after-login.admin-kelurahan.reward.detail',

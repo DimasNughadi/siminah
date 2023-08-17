@@ -25,8 +25,106 @@
                 'success',
             );
         </script>
-    @else
-        
+    @endif
+@elseif(!empty(session('tambah_alert')))
+    @if (session('tambah_alert') === 'success')
+        <script>
+            Swal.fire(
+                'Tambah!',
+                'Tambah data berhasil',
+                'success',
+            );
+        </script>
+    @elseif(session('tambah_alert') === 'error')
+        <script>
+            Swal.fire(
+                'Tambah!',
+                'Terjadi error pada saat tambah data!',
+                'error',
+            );
+        </script>
+    @endif
+@elseif(!empty(session('verifikasi_alert')))
+    @if (session('verifikasi_alert') === 'success')
+        <script>
+            Swal.fire(
+                'Verifikasi!',
+                'Verifikasi sumbangan berhasil',
+                'success',
+            );
+        </script>
+    @elseif(session('verifikasi_alert') === 'error')
+        <script>
+            Swal.fire(
+                'Verifikasi!',
+                'Terjadi error pada saat verifikasi sumbangan!',
+                'error',
+            );
+        </script>
+    @endif
+@elseif(!empty(session('edit_alert')))
+    @if (session('edit_alert') === 'success')
+        <script>
+            Swal.fire(
+                'Edit!',
+                'Edit data berhasil',
+                'success',
+            );
+        </script>
+    @elseif(session('edit_alert') === 'error')
+        <script>
+            Swal.fire(
+                'Edit!',
+                'Terjadi error pada saat edit data!',
+                'error',
+            );
+        </script>
+    @elseif(session('edit_alert') === 'incomplete')
+    <script>
+        Swal.fire(
+            'Edit!',
+            'Pastikan data unique!',
+            'error',
+        );
+    </script>
+    @endif
+
+@elseif(!empty(session('delete_alert')))
+    @if (session('delete_alert') === 'success')
+        <script>
+            Swal.fire(
+                'Hapus!',
+                'Hapus data berhasil',
+                'success',
+            );
+        </script>
+    @elseif(session('delete_alert') === 'error')
+        <script>
+            Swal.fire(
+                'Hapus!',
+                'Terjadi error pada saat hapus data!',
+                'error',
+            );
+        </script>
+    @endif
+
+@elseif(!empty(session('permintaan_alert')))
+    @if (session('permintaan_alert') === 'success')
+        <script>
+            Swal.fire(
+                'Permintaan!',
+                'Permintaan di terima',
+                'success',
+            );
+        </script>
+    @elseif(session('permintaan_alert') === 'error')
+        <script>
+            Swal.fire(
+                'Permintaan!',
+                'Terjadi error pada saat aksi permintaan!',
+                'error',
+            );
+        </script>
     @endif
     {{-- Swal.fire({
         position: 'bottom-end',

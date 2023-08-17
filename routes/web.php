@@ -13,9 +13,9 @@ use App\Http\Controllers\ProfilController;
 use App\Http\Controllerxs\LokasiController;
 
 
-// Route::get('/', function () {
-//     return view('before-login.login');
-// });
+Route::get('/contoh', function () {
+    return view('test-component');
+});
 
 //Login Admin CSR dan Admin Kelurahan
 Route::get('/',[LoginController::class,'index'])->name('login');
@@ -53,27 +53,29 @@ Route::middleware(['checksession','role:admin_csr,admin_kelurahan'])->group(func
     Route::get('/kontainer/edit/{id}',[KontainerController::class,'edit'])->name('kontainer.edit');
     Route::put('/kontainer/update/{id}',[KontainerController::class,'update'])->name('kontainer.update');
     Route::delete('/kontainer/delete/{id}',[KontainerController::class,'destroy'])->name('kontainer.destroy');
-    Route::put('/kontainer/updatePermintaan/{id}',[KontainerController::class,'updatePermintaan'])->name('kontainer.updatePermintaan');
+    Route::put('/kontainer/update-permintaan/{id}',[KontainerController::class,'updatePermintaan'])->name('kontainer.updatePermintaan');
     Route::post('/kontainer/storePermintaan/{id_kontainer}',[KontainerController::class,'storePermintaan'])->name('kontainer.storePermintaan');
     
     //manajemen reward (adm-kelurahan)
     Route::get('/reward',[RedeemController::class,'index'])->name('reward');
     Route::get('/reward/reward-list',[RewardController::class,'index'])->name('reward/reward-list');
+    Route::post('/reward',[RewardController::class,'store'])->name('reward.store');
+    Route::put('/reward/{id}',[RewardController::class,'update'])->name('reward.update');
+    Route::delete('/reward/{id}',[RewardController::class,'destroy'])->name('reward.delete');
 
     //profil admin
-    Route::get('/profil',[ProfilController::class,'index'])->name('profil.edit');
-    Route::put('/profil/{id}',[ProfilController::class,'update'])->name('profil.update');
+    Route::get('/profil',[ProfilController::class,'index'])->name('profil');
+    Route::get('/profil/edit',[ProfilController::class,'edit'])->name('profil.edit');
+    Route::post('/profil/{id}',[ProfilController::class,'update'])->name('profil.update');
 });
 
 Route::middleware(['checksession','role:admin_csr'])->group(function() {
     //manajemen admin kelurahan(csr)
-    Route::get('/adminkelurahan',[AdminController::class,'index'])->name('admin');
-    Route::get('/adminkelurahan/create',[AdminController::class,'create'])->name('admin.create');
-    Route::post('/adminkelurahan',[AdminController::class,'store'])->name('admin.store');
-    Route::get('/adminkelurahan/edit/{id}',[AdminController::class,'edit'])->name('admin.edit');
-    Route::put('/adminkelurahan/update/{id}',[AdminController::class,'update'])->name('admin.update');
-    Route::put('/adminkelurahan/reset/{id}',[AdminController::class,'resetPassword'])->name('admin.reset');
-    Route::delete('/adminkelurahan/delete/{id}',[AdminController::class,'destroy'])->name('admin.destroy');
+    Route::get('/admin-kelurahan',[AdminController::class,'index'])->name('admin');
+    Route::get('/admin-kelurahan/create',[AdminController::class,'create'])->name('admin.create');
+    Route::post('/admin-kelurahan',[AdminController::class,'store'])->name('admin.store');
+    Route::get('/admin-kelurahan/edit/{id}',[AdminController::class,'edit'])->name('admin.edit');
+    Route::put('/admin-kelurahan/update/{id}',[AdminController::class,'update'])->name('admin.update');
+    Route::put('/admin-kelurahan/reset/{id}',[AdminController::class,'resetPassword'])->name('admin.reset');
+    Route::delete('/admin-kelurahan/delete/{id}',[AdminController::class,'destroy'])->name('admin.destroy');
 });
-
-

@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Models\User;
 use App\Models\Lokasi;
-use App\Models\Adminkelurahan;
-use Exception;
 use Illuminate\Http\Request;
+use App\Models\Adminkelurahan;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
 {
@@ -43,7 +44,8 @@ class AdminController extends Controller
     }
     public function store(Request $request)
     {
-        $this->validate($request, [
+        // dd($request);
+        $validate = Validator::make($request->all(), [
             'name' => 'required',
             'no_hp' => 'required',
             'id_lokasi' => 'required',
@@ -51,10 +53,15 @@ class AdminController extends Controller
             'username' => 'required',
             'email' => 'required',
         ]);
+
+        if($validate->fails()){
+            return redirect()->back()->with('tambah_alert', 'incomplete');
+        }
+
         try {
             $existingUser = User::where('username', $request->username)->first();
             if ($existingUser) {
-                return redirect()->back()->with('error', 'Username sudah ada');
+                return redirect()->back()->with('tambah_alert', 'error');
             } else {
                 $nama_kelurahan = Lokasi::find($request->id_lokasi)->nama_kelurahan;
                 $form_nama_kelurahan = strtolower(str_replace(' ', '', $nama_kelurahan));
@@ -72,7 +79,7 @@ class AdminController extends Controller
                     'alamat_rumah' => $request->alamat_rumah,
                     'no_hp' => $request->no_hp,
                 ]);
-                return redirect()->route('admin')->with('message', 'Admin berhasil ditambahkan');
+                return redirect()->route('admin')->with('tambah_alert', 'success');
             }
         } catch (Exception $exception) {
             return redirect()->back()->with('message', 'Tidak berhasil ditambahkan');
@@ -87,6 +94,7 @@ class AdminController extends Controller
                 ->select('users.*', 'adminkelurahan.*', 'lokasi.nama_kelurahan')
                 ->where('id', $id)
                 ->get();
+                // dd($user);
             return view('after-login.pengelola-csr.admin.edit', ['user' => $user, 'lokasi' => $lokasi]);
         } catch (Exception $exception) {
             return redirect()->back()->with('message', 'Data tidak ditemukan');
@@ -110,16 +118,16 @@ class AdminController extends Controller
             $user->email = $request->email;
             $user->save();
 
-            $user2 = Adminkelurahan::where('id_user', $id);
+            $user2 = Adminkelurahan::where('id_user', $id)->get()[0];
             $user2->id_lokasi = $request->id_lokasi;
             $user2->nama_admin = $request->name;
             $user2->alamat_rumah = $request->alamat_rumah;
             $user2->no_hp = $request->no_hp;
             $user2->save();
-            return redirect()->route('admin')->with('message', 'Admin berhasil diedit');
+            return redirect()->route('admin')->with('edit_alert', 'success');
         } catch (Exception $exception) {
             return redirect()->back()->with(
-                ['message' => 'Tidak berhasil mengupdate data']
+                ['edit_alert' => 'incomplete']
             );
         }
     }

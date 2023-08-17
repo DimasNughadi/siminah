@@ -22,7 +22,7 @@ class KontainerController extends Controller
 {
     public function index()
     {
-        // try {
+        try {
             if (auth()->user()->role == 'admin_kelurahan') {
                 $id_lokasi = DB::table('adminkelurahan')
                     ->where('id_user', Auth::id())
@@ -115,12 +115,12 @@ class KontainerController extends Controller
                         ];
                     }
                 });
-                dd($kontainer);
+                // dd($kontainer);
                 return view('after-login.pengelola-csr.kontainer.index', ['kontainer' => $kontainer, 'permintaan' => $permintaan, 'notifikasi' => $notifikasi]);
             }
-        // } catch (Exception $exception) {
-        //     return redirect(/kontainer)->with('message', 'Tidak ada data Kontainer');
-        // }
+        } catch (Exception $exception) {
+            return redirect('kontainer')->with('message', 'Tidak ada data Kontainer');
+        }
     }
 
     public function updatePermintaan($id)
@@ -129,9 +129,9 @@ class KontainerController extends Controller
             $permintaan = Permintaan::findOrFail($id);
             $permintaan->status_permintaan = 'berhasil';
             $permintaan->save();
-            return redirect()->route('kontainer');
+            return redirect()->route('kontainer')->with('permintaan_alert', 'success');
         } catch (Exception $exception) {
-            return redirect()->back()->with('message', 'Permintaan gagal diupdate');
+            return redirect()->back()->with('permintaan_alert', 'error');
         }
     }
 

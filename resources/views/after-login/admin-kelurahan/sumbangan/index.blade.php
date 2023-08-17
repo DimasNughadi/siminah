@@ -1,6 +1,8 @@
 @extends('components._partials.default')
 
 @section('content')
+{{-- {!! json_encode($chartData['labels']) !!}
+{{!! json_encode(number_format($persentase, 1)) !!}} --}}
     <div class="container-fluid py-2 ps-4">
         <div class="row">
             <div class="col-md-12">
@@ -19,12 +21,15 @@
                                 <div class="col-md-12 col-sm-12 col-12">
                                     <div class="body">
                                         <div class="row">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="196" height="196"
-                                                viewBox="0 0 196 196" fill="none">
-                                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                                    d="M98 196C152.124 196 196 152.124 196 98C196 43.8761 152.124 0 98 0C43.8761 0 0 43.8761 0 98C0 152.124 43.8761 196 98 196Z"
-                                                    fill="#E2FBD7" />
-                                            </svg>
+                                            <div class="chart-container">
+                                                <div class="chart-content">
+                                                    <canvas id="myChart2"></canvas>
+                                                    <div class="chart-background"></div>
+                                                    <div class="chart-circle-white"></div>
+                                                    <div class="chart-circle-colored"></div>
+                                                    <div class="chart-percentage">{{ number_format($persentase, 1) }}%</div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -99,7 +104,8 @@
                                                             <tr class="verifikasi-tr">
                                                                 <td class="ps-4 nama">
                                                                     <div class="d-flex align-items-center justify-center">
-                                                                        <x-user.userImage src="{{ 'donatur/' . $item->donatur->photo }}" />
+                                                                        <x-user.userImage
+                                                                            src="{{ 'donatur/' . $item->donatur->photo }}" />
                                                                         <div class="ms-2">
                                                                             <span
                                                                                 class="top">{{ getFirstName($item->donatur->nama_donatur) }}</span><br>
@@ -111,9 +117,9 @@
                                                                     {{ datetimeFormat($item->created_at) }}
                                                                 </td>
                                                                 <td class="ps-4 ">
-                                                                    @if (strtolower($item->status) === 'terverifikasi')
-                                                                        <div
-                                                                            class="btn-reward btn-table-custom bg-success
+                                                                @if (strtolower($item->status) === 'terverifikasi')
+                                                                    <div
+                                                                        class="btn-reward btn-table-custom bg-success
                                                                     position-relative">
                                                                             <span class="position-relative add-reward">
                                                                                 Terverifikasi
@@ -166,13 +172,13 @@
                                             @endslot
 
                                             @slot('bodySlot')
-                                                {{-- {{ dd($verifikasiStatus) }} --}}
                                                 @if (!empty($verifikasiStatus))
                                                     @foreach ($verifikasiStatus as $item)
                                                         <tr class="verifikasi-row">
                                                             <td class="ps-4 nama">
                                                                 <div class="d-flex align-items-center justify-center">
-                                                                    <x-user.userImage src="{{ 'donatur/' . $item->donatur->photo }}" />
+                                                                    <x-user.userImage
+                                                                        src="{{ 'donatur/' . $item->donatur->photo }}" />
                                                                     <span
                                                                         class="ps-2">{{ getFirstName($item->donatur->nama_donatur) }}</span>
                                                                 </div>
@@ -191,14 +197,14 @@
                                                                     <img src="{{ asset('storage/sumbangan/' . $item->photo) }}"
                                                                         alt="gambar sumbangan" data-bs-toggle="modal"
                                                                         data-bs-target="#detailImage" id="gambar-sumbangan"
-                                                                        onclick="detailSumbangan()">
+                                                                        onclick="detailSumbangan('{{ asset('storage/sumbangan/' . $item->photo) }}')">
                                                                 </div>
                                                             </td>
                                                             <td class="ps-4 ">
                                                                 <div class="d-flex">
-                                                                    <div
-                                                                        class="btn-reward btn-table-custom bg-success
-                                                                position-relative" onclick="verifikasiSumbangan(1)">
+                                                                    <div class="btn-reward btn-table-custom bg-success
+                                                                position-relative"
+                                                                        onclick="verifikasiSumbangan('{{ route('sumbangan.update', ['id' => $item->id_donatur, 'created_at' => $item->created_at]) }}')">
                                                                         <span
                                                                             class="position-relative add-reward cursor-pointer">
                                                                             Verifikasi
@@ -230,11 +236,20 @@
             </div>
         </div>
     </div>
+
+    {{-- Sweetalert --}}
+    <x-sweetalert />
+    {{-- Verifikasi status forms --}}
+    <form method="POST" action="" id="verifikasiStatusForm">
+        @csrf
+        @method('PUT')
+        <input type="hidden" name="status" value="terverifikasi">
+    </form>
     {{-- Modal --}}
     <x-modals.detailGambarModal modalName="detailImage" title="Detail gambar sumbangan">
         @slot('slotBody')
             <div class="modal-detail-gambar">
-                <img src="#" alt="gambar" id="modal-image-sumbangan">
+                <img src="" alt="gambar" id="modal-image-sumbangan">
             </div>
         @endslot
         </x-modals.Modal>
@@ -258,27 +273,115 @@
                 <x-forms.btn.button type="submit" color="danger" title="Simpan" />
             @endslot
         </x-modals.Modal>
-
-
-    @stop
-
-    @extends('components._partials.scripts')
-    @section('script')
-        <script>
-            function verifikasiSumbangan() {
-                Swal.fire({
-                    title: 'Lanjutkan verifikasi?',
-                    text: "Anda tidak dapat membatalkan status kembali",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Logout'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // document.getElementById('logout-form').submit();
-                    }
-                })
+        <style>
+            .chart-container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
             }
+        
+            .chart-content {
+                position: relative;
+                display: block;
+                width: 194px;
+                height: 194px;
+            }
+        
+            .chart-content canvas {
+                display: block;
+                max-width: 100%;
+                max-height: 100%;
+                border-radius: 50%;
+                z-index: 2;
+            }
+        
+            .chart-background {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(255, 58, 41, .25);
+                border-radius: 50%;
+                z-index: 1;
+                pointer-events: none;
+            }
+        
+            .chart-percentage {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 22px;
+                font-family: DM Sans
+                font-weight: bold;
+                color: white;
+                z-index: 5;
+            }
+        
+            .chart-circle-colored {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 86px;
+                height: 86px;
+                border-radius: 50%;
+                background-color: #FF3A29;
+                z-index: 4;
+            }
+        
+            .chart-circle-white {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 165px;
+                height: 165px;
+                border-radius: 50%;
+                background-color: white;
+                z-index: 3;
+            }
+        </style>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous" async></script>
+
+
+        <script>
+            var ctx1 = document.getElementById('myChart2').getContext('2d');
+            var data1 = [{!! json_encode(number_format($persentase ,1)) !!}, {!! json_encode(100 - number_format($persentase ,1)) !!}];;
+            var colors1 = ['rgba(255, 58, 41, 1)', 'rgba(0, 0, 0, 0)'];
+            var cutout1 = '85%';
+            var myChart1 = new Chart(ctx1, {
+                type: 'doughnut',
+                data: {
+                    // labels: ['Terverifikasi', 'Belum terverifikasi'],
+                    datasets: [{
+                        label: 'Total',
+                        data: data1,
+                        backgroundColor: colors1,
+                        cutout: cutout1,
+                        borderRadius: 50,
+                        borderWidth: 0,
+                        hoverOffset: 0
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    responsive: true,
+                    layout: {
+                        padding: 0
+                    },
+                    plugins: {
+                        legend: false
+                    }
+                }
+            });
         </script>
-    @endsection
+
+
+@stop
+
+@extends('components._partials.scripts')

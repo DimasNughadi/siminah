@@ -41,7 +41,7 @@ class SumbanganController extends Controller
                     ->whereHas('kontainer.lokasi', function ($query) use ($id_lokasi) {
                         $query->where('id_lokasi', $id_lokasi);
                     })
-                    ->orderByAsc('created_at')
+                    ->orderBy('created_at')
                     ->get();
                 //Persentase Terverifikasi
                 $TotalTerverifikasi = Sumbangan::where('status', 'terverifikasi')
@@ -63,6 +63,7 @@ class SumbanganController extends Controller
                         $item->status = 'belum verifikasi';
                     }
                 });
+                // dd($verifikasiStatus);
                 return view('after-login.admin-kelurahan.sumbangan.index', ['verifikasiStatus' => $verifikasiStatus, 'persentase' => $persentase, 'riwayat' => $riwayat]);
             } else {
                 $laporan = $laporan = Kontainer::join('lokasi', 'kontainer.id_lokasi', '=', 'lokasi.id_lokasi')
@@ -113,10 +114,10 @@ class SumbanganController extends Controller
                 Sumbangan::where('created_at', $created_at)
                     ->where('id_donatur', $id)
                     ->update(['status' => $request->status]);
-                return redirect()->route('sumbangan');
+                return redirect()->route('sumbangan')->with('verifikasi_alert', 'success');
             }
         } catch (Exception $exception) {
-            return redirect()->back()->with('message', 'Sumbangan tidak berhasil diupdate');
+            return redirect()->back()->with('   ', 'error');
         }
     }
 }
