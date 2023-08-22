@@ -201,7 +201,7 @@
                                         @endforeach
                                     @else
                                         <div class="col-md-12">
-                                            <x-notifikasi.kontainer />
+                                            <x-notifikasi.kontainer action="disable" type="success" kelurahan="Tidak ada permintaan" type_detail="Seluruh kontainer ready"/>
                                         </div>
                                     @endif
                                 </div>
@@ -212,5 +212,9 @@
             </div>
         </div>
     </div>
-    <x-sweetalert />
 @stop
+
+@extends('components._partials.scripts')
+@section('script')
+    <x-sweetalert />
+@endsection

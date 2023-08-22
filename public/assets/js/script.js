@@ -124,3 +124,45 @@ function verifikasiSumbangan(route) {
         }
     })
 }
+
+
+function AjukanPergantianKontainer(action) {
+    Swal.fire({
+        title: "Apakah ingin melanjutkan?",
+        text: "Pengajuan akan menunggu persetujuan admin CSR",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Ya, lanjutkan",
+        cancelButtonText: "No",
+        reverseButtons: true,
+    }).then((result) => {
+        if (result.isConfirmed) {
+            let updatePengajuanGantiKontainer = document.querySelector('#updatePengajuanGantiKontainer');
+            updatePengajuanGantiKontainer.action = action;
+            console.log(updatePengajuanGantiKontainer);
+            updatePengajuanGantiKontainer.submit()
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+            Swal.fire("Dibatalkan", "Pengajuan dibatalkan", "info");
+            // Perform any additional actions if deletion is cancelled
+        }
+    });
+
+    
+}
+
+
+function Logout() {
+    Swal.fire({
+        title: 'Apakah ingin keluar?',
+        text: "Anda akan dimintai login kembali",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Logout'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            document.getElementById('logout-form').submit();
+        }
+    })
+}

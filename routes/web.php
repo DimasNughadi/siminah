@@ -43,7 +43,7 @@ Route::middleware(['checksession','role:admin_csr,admin_kelurahan'])->group(func
     
     //verifikasi sumbangan
     Route::get('/sumbangan',[SumbanganController::class,'index'])->name('sumbangan');
-    Route::get('/sumbangan/edit/{id}/{created_at}', [SumbanganController::class, 'edit'])->name('sumbangan.edit');
+    Route::post('/sumbangan/edit/{id}/{created_at}', [SumbanganController::class, 'edit'])->name('sumbangan.edit');
     Route::put('/sumbangan/update/{id}/{created_at}',[SumbanganController::class,'update'])->name('sumbangan.update');
     
     //manajemen kontainer kelurahan
@@ -55,6 +55,7 @@ Route::middleware(['checksession','role:admin_csr,admin_kelurahan'])->group(func
     Route::delete('/kontainer/delete/{id}',[KontainerController::class,'destroy'])->name('kontainer.destroy');
     Route::put('/kontainer/update-permintaan/{id}',[KontainerController::class,'updatePermintaan'])->name('kontainer.updatePermintaan');
     Route::post('/kontainer/storePermintaan/{id_kontainer}',[KontainerController::class,'storePermintaan'])->name('kontainer.storePermintaan');
+    Route::post('/kontainer/isPermintaanDiajukan/{id_kontainer}',[KontainerController::class,'isPermintaanDiajukan'])->name('kontainer.isPermintaanDiajukan');
     
     //manajemen reward (adm-kelurahan)
     Route::get('/reward',[RedeemController::class,'index'])->name('reward');

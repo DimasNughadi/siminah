@@ -50,7 +50,7 @@
                                                 {{ $item->kelurahan }}
                                             </td>
                                             <td class="ps-4 data-14">
-                                                14:30, 12 Jan 2023S
+                                                {{ datetimeFormat($item->newest_tanggal) }}
                                             </td>
                                             <td class="ps-4 data-14">
                                                 @if ($item->total_donasi === 0)

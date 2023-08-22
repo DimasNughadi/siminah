@@ -20,6 +20,15 @@ function datetimeFormat($timestamp){
     return $data;
 }
 
+function dateFormat($timestamp){
+    if ($timestamp !== '-') {
+        $data = date('d M Y', strtotime($timestamp));
+    }else {
+        $data = '-';
+    }
+    return $data;
+}
+
 function getFirstName($name) {
     $data = explode(' ', $name);
     return substr($data[0], 0, 7);

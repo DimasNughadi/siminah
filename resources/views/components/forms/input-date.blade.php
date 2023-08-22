@@ -1,3 +1,3 @@
-<div class="input-date">
-    <input type="month" name="expiration_date" id="expiration_date" class="form-control">
+<div class="input-date" id="kontainer-bulan">
+    <input type="month" name="bulan" id="bulan" class="form-control" onchange="adjustInputWidth()" lang="id-ID">
 </div>

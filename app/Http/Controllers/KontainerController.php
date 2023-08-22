@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\KontainerStatus;
+use App\Enums\KontainerStatusEnum;
 use Exception;
 use stdClass;
 use Carbon\Carbon;
@@ -60,7 +62,8 @@ class KontainerController extends Controller
                             $object = new stdClass();
                             $object->id_kontainer = $item->id_kontainer;
                             $object->id_lokasi = $item->id_lokasi;
-                            $object->status = 'hampir penuh';
+                            // $object->status = 'hampir penuh'; 
+                            $object->status = KontainerStatus::HAMPIR; 
                             $notifikasi[] = $object;
                         }
                     }
@@ -123,15 +126,24 @@ class KontainerController extends Controller
         }
     }
 
+    public function isPermintaanDiajukan($id_kontainer)
+    {
+        $existingRequest = Permintaan::where('id_kontainer', $id_kontainer)
+            ->where('status_permintaan', 'diajukan')
+            ->first();
+
+        return $existingRequest ? true : false;
+    }
+
     public function updatePermintaan($id)
     {
         try {
             $permintaan = Permintaan::findOrFail($id);
             $permintaan->status_permintaan = 'berhasil';
             $permintaan->save();
-            return redirect()->route('kontainer')->with('permintaan_alert', 'success');
+            return redirect()->route('kontainer')->with('permintaan_alert', 'success');;
         } catch (Exception $exception) {
-            return redirect()->back()->with('permintaan_alert', 'error');
+            return redirect()->back()->with('permintaan_alert', 'error');;
         }
     }
 
@@ -160,9 +172,9 @@ class KontainerController extends Controller
                 'status_permintaan' => 'diajukan',
             ]);
 
-            return redirect()->route('kontainer');
+            return redirect()->route('kontainer')->with('permintaan_alert', 'success');
         } catch (Exception $exception) {
-            return redirect()->back()->with('message', 'Permintaan gagal diajukan');
+            return redirect()->back()->with('permintaan_alert', 'error');
         }
     }
 

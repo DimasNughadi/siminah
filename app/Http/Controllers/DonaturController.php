@@ -21,11 +21,11 @@ class DonaturController extends Controller
     public function index()
     {
         try {
-           
+
             if (auth()->user()->role == 'admin_kelurahan') {
                 $id_lokasi = DB::table('adminkelurahan')
-                ->where('id_user', Auth::id())
-                ->value('id_lokasi');
+                    ->where('id_user', Auth::id())
+                    ->value('id_lokasi');
                 $donatur = Donatur::with([
                     'sumbangan'
                     => function ($query) {
@@ -43,10 +43,11 @@ class DonaturController extends Controller
                             $query->where('status', 'terverifikasi');
                         }
                     ], 'id_donatur')
-                    ->withMax('sumbangan as newest_tanggal', 'tanggal')
+                    ->withMax('sumbangan as newest_tanggal', 'created_at')
                     ->join('sumbangan', 'donatur.id_donatur', '=', 'sumbangan.id_donatur')
                     ->join('kontainer', 'sumbangan.id_kontainer', '=', 'kontainer.id_kontainer')
                     ->where('id_lokasi', $id_lokasi)
+                    ->where('status', 'terverifikasi')
                     ->groupBy('donatur.photo', 'donatur.id_donatur', 'nama_donatur', 'kelurahan', 'id_lokasi')
                     ->orderByDesc('sumbangan_sum_berat')
                     ->get();
@@ -74,7 +75,7 @@ class DonaturController extends Controller
                             $query->where('status', 'terverifikasi');
                         }
                     ], 'id_donatur')
-                    ->withMax('sumbangan as newest_tanggal', 'tanggal')
+                    ->withMax('sumbangan as newest_tanggal', 'created_at')
                     ->join('sumbangan', 'donatur.id_donatur', '=', 'sumbangan.id_donatur')
                     ->join('kontainer', 'sumbangan.id_kontainer', '=', 'kontainer.id_kontainer')
                     ->groupBy('donatur.photo', 'donatur.id_donatur', 'nama_donatur', 'kelurahan', 'id_lokasi')

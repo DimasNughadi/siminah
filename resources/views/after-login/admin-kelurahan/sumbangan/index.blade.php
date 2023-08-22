@@ -213,7 +213,8 @@
                                                                     <div class="btn-reward btn-table-custom bg-danger
                                                                 position-relative ms-1"
                                                                         data-bs-toggle="modal"
-                                                                        data-bs-target="#deskripsi-penolakan">
+                                                                        data-bs-target="#deskripsi-penolakan"
+                                                                        onclick="TolakSumbangan('{{ route('sumbangan.update', ['id' => $item->id_donatur, 'created_at' => $item->created_at]) }}')">
                                                                         <span
                                                                             class="position-relative add-reward cursor-pointer">
                                                                             Tolak
@@ -257,14 +258,16 @@
         {{-- Modal tolak --}}
         <x-modals.Modal modalName="deskripsi-penolakan" route="sumbangan.update" title="Deskripsi penolakan">
             @slot('slotMethod')
+                <form action="" id="FormPenolakanSumbangan" method="POST">
                 @csrf
                 @method('PUT')
             @endslot
 
             @slot('slotBody')
+                <input type="hidden" name="status" value="ditolak">
                 <div class="form-floating border rounded">
                     <textarea class="form-control ps-2" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 200px"
-                        name="deskripsi"></textarea>
+                        name="keterangan"></textarea>
                     <label for="floatingTextarea2">Deskripsi</label>
                 </div>
             @endslot
@@ -385,3 +388,13 @@
 @stop
 
 @extends('components._partials.scripts')
+@section('script')
+    <script>
+        function TolakSumbangan(action) {
+            const FormPenolakanSumbangan = document.querySelector('#FormPenolakanSumbangan')
+
+            FormPenolakanSumbangan.action = action;
+            FormPenolakanSumbangan.sumbit()
+        }
+    </script>
+@endsection

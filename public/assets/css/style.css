@@ -291,6 +291,39 @@ img.user-image {
     height: 50px !important;
 }
 
+/* table {
+    border: none!important;
+}
+
+.dataTables_wrapper .pagination > li > a,
+.dataTables_wrapper .pagination > li > span {
+  margin: 0!important;
+  padding: 0!important;
+}
+
+.dataTables_wrapper table {
+    margin-left: -48px!important;
+  }
+
+.dataTables_wrapper table.dataTable {
+    border: none!important;
+}
+
+.dataTables_wrapper table.dataTable thead th {
+    border: none!important;
+}
+
+.dataTables_wrapper table.dataTable tbody {
+    border: none!important;
+}
+
+.dataTables_wrapper table.dataTable tbody td {
+    border: none;
+}
+.dataTables_wrapper table.dataTable tbody tr:last-child {
+    border: none!important;
+} */
+
 .table-header-redeem {
     font-family: "Inter", sans-serif;
     font-size: 20px;
@@ -1373,10 +1406,25 @@ tr.reward-tr .ps-4 .d-flex {
     overflow-y: scroll;
 }
 
+/* Input date */
 .input-date {
-    width: 90px;
+    height: 32px!important;
     background-color: white;
     border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.input-date input {
+    padding: 5px;
+    font-family: var(--text-poppins);
+    color: #414D55;
+}
+
+.input-date input[type="month"]::-webkit-calendar-picker-indicator{
+    color: rgba(0, 0, 0, 0.2);;
 }
 
 .verifikasi-donasi .header {
@@ -1714,6 +1762,10 @@ tr.reward-tr .ps-4 .d-flex {
 
 .edit-profil .bottom-line {
     border-top: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+.export-btn {
+    height: 32px!important;
 }
 
 @media (min-width: 576px) {

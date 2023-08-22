@@ -45,18 +45,16 @@ class ProfilController extends Controller
     public function update($id, Request $request)
     {
         $this->validate($request, [
-            'password' => 'required',
+            'password' => 'required|min:8',
         ]);
         try {
             $user = User::findOrFail($id);
             $user->password = Hash::make($request->password);
             $user->save();
 
-            return redirect()->route('admin')->with('edit_alert', 'success');
+            return redirect()->route('profil')->with('edit_alert', 'success');
         } catch (Exception $exception) {
-            return redirect()->back()->with(
-                ['edit_alert' => 'error']
-            );
+            return redirect()->back()->with('edit_alert', 'error');
         }
     }
 }

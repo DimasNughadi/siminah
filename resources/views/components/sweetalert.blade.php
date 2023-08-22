@@ -61,6 +61,14 @@
                 'error',
             );
         </script>
+    @elseif(session('verifikasi_alert') === 'tolak')
+        <script>
+            Swal.fire(
+                'Verifikasi!',
+                'Sumbangan di tolak',
+                'success',
+            );
+        </script>
     @endif
 @elseif(!empty(session('edit_alert')))
     @if (session('edit_alert') === 'success')
@@ -80,15 +88,14 @@
             );
         </script>
     @elseif(session('edit_alert') === 'incomplete')
-    <script>
-        Swal.fire(
-            'Edit!',
-            'Pastikan data unique!',
-            'error',
-        );
-    </script>
+        <script>
+            Swal.fire(
+                'Edit!',
+                'Pastikan data unique!',
+                'error',
+            );
+        </script>
     @endif
-
 @elseif(!empty(session('delete_alert')))
     @if (session('delete_alert') === 'success')
         <script>
@@ -107,7 +114,6 @@
             );
         </script>
     @endif
-
 @elseif(!empty(session('permintaan_alert')))
     @if (session('permintaan_alert') === 'success')
         <script>

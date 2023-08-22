@@ -30,8 +30,9 @@ class RedeemController extends Controller
                         $join->on('redeem.id_donatur', '=', 'redeem_count.id_donatur');
                     }
                 )
-                //->orderByDesc('sumbangan_sum_berat')
+                ->orderByDesc('sumbangan_sum_berat')
                 ->get();
+                dd($redeem);
             return view(
                 'after-login.admin-kelurahan.reward.index',
                 ['redeem' => $redeem]

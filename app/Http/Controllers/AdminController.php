@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Lokasi;
 use Illuminate\Http\Request;
 use App\Models\Adminkelurahan;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -132,16 +133,21 @@ class AdminController extends Controller
         }
     }
 
-    public function resetPassword($id)
+    public function resetPassword($id, Request $request) //with check password admin csr
     {
         try {
-            $user = User::findOrFail($id);
-            $id_lokasi = Adminkelurahan::where('id_user', $user->id)->id_lokasi;
-            $nama_kelurahan = Lokasi::findOrFail($id_lokasi)->nama_kelurahan;
-            $form_nama_kelurahan = strtolower(str_replace(' ', '', $nama_kelurahan));
-            $user->password = Hash::make('admin' . $form_nama_kelurahan);
-            $user->save();
-            return redirect()->route('admin')->with('message', 'Password berhasil direset');
+            $inputPassword = $request->input('pwd');
+            if (Hash::check($inputPassword, Auth::user()->password)) {
+                $user = User::findOrFail($id);
+                $id_lokasi = Adminkelurahan::where('id_user', $user->id)->id_lokasi;
+                $nama_kelurahan = Lokasi::findOrFail($id_lokasi)->nama_kelurahan;
+                $form_nama_kelurahan = strtolower(str_replace(' ', '', $nama_kelurahan));
+                $user->password = Hash::make('admin' . $form_nama_kelurahan);
+                $user->save();
+                return redirect()->route('admin')->with('message', 'Password berhasil direset');
+            }else{
+                return redirect()->back()->with('message', 'Password saat ini salah. Password tidak berhasil direset.');
+            }
         } catch (Exception $exception) {
             return redirect()->back()->with(
                 ['message' => 'Password tidak berhasil direset']

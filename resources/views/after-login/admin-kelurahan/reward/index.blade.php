@@ -32,7 +32,6 @@
                                 <th>WAKTU PENUKARAN</th>
                                 <th>TOTAL PENUKARAN</th>
                             @endslot
-
                             @slot('bodySlot')
                                 @if (!empty($redeem))
                                 {{-- {{ dd($redeem[0]) }} --}}

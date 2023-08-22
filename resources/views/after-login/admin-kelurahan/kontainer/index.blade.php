@@ -1,7 +1,7 @@
 @extends('components._partials.default')
 
 @section('content')
-{{-- {{ dd($kontainer) }} --}}
+    {{-- {{ dd($notifikasi) }} --}}
     <div class="container-fluid py-2 ps-4">
         <div class="row">
             <div class="col-md-12">
@@ -24,7 +24,8 @@
                                                 <div class="chart-content">
                                                     <canvas id="myChart2"></canvas>
                                                     <div class="chart-background"></div>
-                                                    <div class="chart-percentage">{{ number_format($kontainer[0]->sumbangan_persentase, 1) }}%</div>
+                                                    <div class="chart-percentage">
+                                                        {{ number_format($kontainer[0]->sumbangan_persentase, 1) }}%</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -50,15 +51,20 @@
                                                     Riwayat penggantian kontainer
                                                 </div>
                                             </div>
-                                            <div class="col-md-4 header-button">
-                                                <div
-                                                    class="btn-reward btn-kontainer-kelurahan btn-danger
-                                                    position-relative cursor-pointer">
-                                                    <span class="position-relative add-reward">
-                                                        Ajukan
-                                                    </span>
-                                                </div>
-                                            </div>
+
+                                            @if (!empty($notifikasi))
+                                                @if ($notifikasi[0]->status === 'HAMPIR PENUH')
+                                                    <div class="col-md-4 header-button">
+                                                        <div class="btn-reward btn-kontainer-kelurahan btn-danger
+                                                        position-relative cursor-pointer"
+                                                            onclick="AjukanPergantianKontainer('{{ route('kontainer.storePermintaan', ['id_kontainer' => $kontainer[0]->id_kontainer]) }}')">
+                                                            <span class="position-relative add-reward">
+                                                                Ajukan
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -126,6 +132,7 @@
                             </div>
                         </div>
                         {{-- alert --}}
+                        {{-- {{ dd($notifikasi[0]->status) }} --}}
 
                         <div class="notifikasi-kontainer animate__animated animate__fadeInUp">
                             <div class="row">
@@ -137,13 +144,22 @@
                             </div>
                             <div class="body">
                                 <div class="row">
+                                    {{-- @dd($notifikasi) --}}
                                     @if (!empty($notifikasi))
                                         @foreach ($notifikasi as $key => $item)
-                                            <div class="col-md-12">
-                                                <x-notifikasi.kontainer action="disable" type="danger"
-                                                    notifikasi="Kontainer Utama hampir penuh"
-                                                    type_detail="Ajukan kontainer yang baru supaya dapat terus menerima sumbangan" />
-                                            </div>
+                                            @if ($item->status === 'HAMPIR PENUH')
+                                                <div class="col-md-12">
+                                                    <x-notifikasi.kontainer action="disable" type="warning"
+                                                        notifikasi="Kontainer Utama hampir penuh"
+                                                        type_detail="Ajukan kontainer yang baru supaya dapat terus menerima sumbangan" />
+                                                </div>
+                                            @else
+                                                <div class="col-md-12">
+                                                    <x-notifikasi.kontainer action="disable" type="success"
+                                                        notifikasi="Kontainer Utama dapat diisi"
+                                                        type_detail="Belum membutuhkan pergantian kontainer" />
+                                                </div>
+                                            @endif
                                             @if ($key === 0)
                                             @break
                                         @endif
@@ -151,8 +167,7 @@
                                 @else
                                     <div class="col-md-12">
                                         <x-notifikasi.kontainer action="disable" type="success"
-                                            notifikasi="Kontainer Utama dapat diisi"
-                                            type_detail="Belum membutuhkan pergantian kontainer" />
+                                            kelurahan="Tidak ada permintaan" type_detail="Seluruh kontainer ready" />
                                     </div>
                                 @endif
                             </div>
@@ -163,6 +178,11 @@
         </div>
     </div>
 </div>
+
+{{-- forms update-permintaan --}}
+<form action="" id="updatePengajuanGantiKontainer" method="POST">
+    @csrf
+</form>
 
 <style>
     .chart-container {
@@ -244,7 +264,11 @@
             }
         }
     });
-
-    
 </script>
 @stop
+
+
+@extends('components._partials.scripts')
+@section('script')
+<x-sweetalert />
+@endsection
