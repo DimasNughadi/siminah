@@ -17,10 +17,13 @@ class DashboardController extends Controller
 
     public function index()
     {
-        $role = Auth::user()->role;
-        $now = Carbon::now();
+        $role=Auth::user()->role;
 
-        $bulanTahun = $now->format('F Y');
+        $now = Carbon::now();
+        $now->locale('id');
+        
+        $bulanTahun = $now->isoFormat('MMMM');
+
         $startOfMonth = Carbon::now()->startOfMonth();
         $endOfMonth = Carbon::now()->endOfMonth();
 
@@ -53,6 +56,7 @@ class DashboardController extends Controller
         // Query untuk mengambil top 5 lokasi dengan sumbangan berat terbanyak
         $topLokasi = Lokasi::join('kontainer', 'lokasi.id_lokasi', '=', 'kontainer.id_lokasi')
             ->join('sumbangan', 'kontainer.id_kontainer', '=', 'sumbangan.id_kontainer')
+            ->whereBetween('sumbangan.created_at', [$startOfMonth, $endOfMonth])
             ->groupBy('lokasi.nama_kelurahan')
             ->select('lokasi.nama_kelurahan', Sumbangan::raw('COALESCE(SUM(sumbangan.berat), 0) AS total_berat'))
             ->orderByDesc('total_berat')

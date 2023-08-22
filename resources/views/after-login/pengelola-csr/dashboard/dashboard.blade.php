@@ -3,97 +3,97 @@
 @section('content')
 
 <style>
-    .chart-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+.chart-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-    .chart-content {
-        position: relative;
-        display: block;
-        width: 250px;
-        height: 250px;
-    }
+.chart-content {
+    position: relative;
+    display: block;
+    width: 230px;
+    height: 230px;
+}
 
-    .chart-content canvas {
-        display: block;
-        max-width: 100%;
-        max-height: 100%;
-        border-radius: 50%;
-        z-index: 2;
-    }
+.chart-content canvas {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 50%;
+    z-index: 2;
+}
 
-    .chart-background {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(101, 174, 56, 0.25);
-        border-radius: 50%;
-        z-index: 1;
-        pointer-events: none;
-    }
+.chart-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(101, 174, 56, 0.25);
+    border-radius: 50%;
+    z-index: 1;
+    pointer-events: none;
+}
 
-    .chart-background2 {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(20, 94, 168, 0.25);
-        border-radius: 50%;
-        z-index: 1;
-        pointer-events: none;
-    }
+.chart-background2 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(20, 94, 168, 0.25);
+    border-radius: 50%;
+    z-index: 1;
+    pointer-events: none;
+}
 
-    .chart-percentage {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        font-size: 32px;
-        font-weight: bold;
-        color: #65AE38;
-    }
+.chart-percentage {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 32px;
+    font-weight: bold;
+    color: #65AE38;
+}
 
-    .chart-percentage2 {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        font-size: 32px;
-        font-weight: bold;
-        color: #145EA8;
-    }
+.chart-percentage2 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 32px;
+    font-weight: bold;
+    color: #145EA8;
+}
 
-    .custom-icon {
-        color: #65AE38;
-    }
+.custom-icon {
+    color: #65AE38;
+}
 
-    .custom-icon2 {
-        color: #145EA8;
-    }
+.custom-icon2 {
+    color: #145EA8;
+}
 
 
-    .custom-popup {
-        background-color: #fff;
-        font-family: 'Roboto', sans-serif;
-        border-radius: 10px;
-    }
+.custom-popup {
+    background-color: #fff;
+    font-family: 'Roboto', sans-serif;
+    border-radius: 10px;
+}
 
-    .custom-popup .custom-popup-title {
-        margin: 0;
-        font-size: 18px;
-        font-weight: 500;
-    }
+.custom-popup .custom-popup-title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 500;
+}
 
-    .custom-popup .custom-popup-lat,
-    .custom-popup .custom-popup-lng {
-        margin: 5px 0;
-        font-size: 14px;
-    }
+.custom-popup .custom-popup-lat,
+.custom-popup .custom-popup-lng {
+    margin: 5px 0;
+    font-size: 14px;
+}
 </style>
 
 <div class="container-fluid py-4">
@@ -106,13 +106,15 @@
                         <i class="material-icons opacity-10">local_drink</i>
                     </div>
                     <div class="text-end pt-1">
-                        <p class="text-sm mb-0 text-capitalize">Total donasi bulan {{$bulanTahun}}</p>
-                        <h4 class="mb-0">{{ $totalSumbangan }} L</h4>
+                        <p class="text-sm mb-0 text-capitalize">Total donasi {{$bulanTahun}}</p>
+                        <h4 class="mb-0">{{ $totalSumbangan }} Kg</h4>
                     </div>
                 </div>
                 <hr class="dark horizontal my-0">
                 <div class="card-footer p-3">
-                    <p class="mb-0"><span class="{{ $perbandinganSumbangan < 0 ? 'text-danger' : 'text-success' }} text-sm font-weight-bolder">{{ $perbandinganSumbangan }}% </span> dari bulan lalu</p>
+                    <p class="mb-0"><span
+                            class="{{ $perbandinganSumbangan < 0 ? 'text-danger' : 'text-success' }} text-sm font-weight-bolder">{{ $perbandinganSumbangan }}%
+                        </span> dari bulan lalu</p>
                 </div>
             </div>
         </div>
@@ -130,7 +132,9 @@
                 </div>
                 <hr class="dark horizontal my-0">
                 <div class="card-footer p-3">
-                    <p class="mb-0"><span class="{{ $perbandinganDonatur < 0 ? 'text-danger' : 'text-success' }} text-sm font-weight-bolder">{{ $perbandinganDonatur }}% </span> dari bulan lalu</p>
+                    <p class="mb-0"><span
+                            class="{{ $perbandinganDonatur < 0 ? 'text-danger' : 'text-success' }} text-sm font-weight-bolder">{{ $perbandinganDonatur }}%
+                        </span> dari bulan lalu</p>
                 </div>
             </div>
         </div>
@@ -182,8 +186,8 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="chart mt-4" style="height: 250px;">
-                        <canvas id="myChart"></canvas>
+                    <div class="chart">
+                        <canvas id="chart-bars1" class="chart-canvas" height="200"></canvas>
                     </div>
                     <hr class="dark horizontal">
                     <div class="d-flex ">
@@ -199,10 +203,10 @@
                     <div class="bg-gradient-success shadow-success border-radius-lg py-3 pe-1">
                         <div class="row">
                             <div class="col-lg-6 col-7">
-                            <div class="text-start pt-1">
-                                <h4 class="text-white text-capitalize text-xl ps-3">Kapasitas Kontainer</h4>
-                            </div>
-                                
+                                <div class="text-start pt-1">
+                                    <h4 class="text-white text-capitalize text-xl ps-3">Kapasitas Kontainer</h4>
+                                </div>
+
                             </div>
                             <div class="col-lg-6 col-5 my-auto text-end">
                                 <div class="dropdown float-lg-end pe-4">
@@ -211,9 +215,12 @@
                                         <i class="fa fa-ellipsis-v text-white"></i>
                                     </a>
                                     <ul class="dropdown-menu px-2 py-3 ms-sm-n4 ms-n5" aria-labelledby="dropdownTable">
-                                        <li><a class="dropdown-item border-radius-md" href="javascript:;">Action</a></li>
-                                        <li><a class="dropdown-item border-radius-md" href="javascript:;">Another action</a></li>
-                                        <li><a class="dropdown-item border-radius-md" href="javascript:;">Something else here</a></li>
+                                        <li><a class="dropdown-item border-radius-md" href="javascript:;">Action</a>
+                                        </li>
+                                        <li><a class="dropdown-item border-radius-md" href="javascript:;">Another
+                                                action</a></li>
+                                        <li><a class="dropdown-item border-radius-md" href="javascript:;">Something else
+                                                here</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -244,14 +251,10 @@
                     <hr class="dark horizontal">
                     <div class="d-flex">
                         <i class="material-icons text-sm my-auto me-1 custom-icon">brightness_1</i>
-                        <p class="mb-0 text-sm"> Kontainer Utama</p>&nbsp;&nbsp;
+                        <p class="mb-0 text-sm"> Kontainer Utama</p>
                         <i class="material-icons text-sm my-auto me-1 custom-icon2">brightness_1</i>
                         <p class="mb-0 text-sm"> Kontainer Cadangan</p>
                     </div>
-                    <!-- <div class="d-flex justify-content-end">
-                        <i class="material-icons text-sm my-auto me-1 custom-icon">brightness_1</i>
-                        <p class="mb-0 text-sm"> Kelurahan</p>
-                    </div> -->
                 </div>
             </div>
         </div>
@@ -265,7 +268,8 @@
                             <h6>Sebaran Lokasi Kontainer</h6>
                             <p class="text-sm mb-0">
                                 <i class="fa fa-map-marker text-info" aria-hidden="true"></i>
-                                <span class="font-weight-bold ms-1">{{ $totalKontainer }} Lokasi</span> pada {{$bulanTahun}}
+                                <span class="font-weight-bold ms-1">{{ $totalKontainer }} Lokasi</span> pada
+                                {{$bulanTahun}}
                             </p>
                         </div>
                         <div class="col-lg-6 col-5 my-auto text-end">
@@ -276,8 +280,10 @@
                                 </a>
                                 <ul class="dropdown-menu px-2 py-3 ms-sm-n4 ms-n5" aria-labelledby="dropdownTable">
                                     <li><a class="dropdown-item border-radius-md" href="javascript:;">Action</a></li>
-                                    <li><a class="dropdown-item border-radius-md" href="javascript:;">Another action</a></li>
-                                    <li><a class="dropdown-item border-radius-md" href="javascript:;">Something else here</a></li>
+                                    <li><a class="dropdown-item border-radius-md" href="javascript:;">Another action</a>
+                                    </li>
+                                    <li><a class="dropdown-item border-radius-md" href="javascript:;">Something else
+                                            here</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -368,128 +374,439 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.css" />
-<link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet' />
+<link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css'
+    rel='stylesheet' />
 <script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js" async></script>
-<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js' async></script>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous" async></script>
+<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js' async>
+</script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous" async></script>
 
 <script>
-    var ctx = document.getElementById('myChart').getContext('2d');
-    var myChart = new Chart(ctx, {
-        type: 'bar',    
-        data: { 
-            labels: {!! json_encode($chartData['labels']) !!},
-            datasets: [{
-                label: 'Total Sumbangan',
-                data: {!! json_encode($chartData['values']) !!},
-                backgroundColor: 'rgba(209, 32, 49, 0.8)',
-                borderColor: 'rgba(209, 32, 49, 1)',
-                borderRadius: 10,
-                borderWidth: 1
-            }]
+
+var ctx = document.getElementById("chart-bars1").getContext("2d");
+
+new Chart(ctx, {
+    type: "bar",
+    data: {
+        labels: {!!json_encode($chartData['labels'])!!},
+        datasets: [{
+            label: "Total Sumbangan",
+            tension: 1,
+            borderWidth: 0,
+            borderRadius: 5,
+            borderSkipped: false,
+            backgroundColor: "rgba(209, 32, 49, 1)",
+            data: {!!json_encode($chartData['values'])!!},
+            maxBarThickness: 8
+        }, ],
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false,
+          }
         },
-        options: {
-            maintainAspectRatio: false,
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true
+        interaction: {
+          intersect: false,
+          mode: 'index',
+        },
+        scales: {
+          y: {
+            grid: {
+              drawBorder: false,
+              display: true,
+              drawOnChartArea: true,
+              drawTicks: false,
+              borderDash: [5, 5],
+              color: '#c1c4ce5c'
+            },
+            ticks: {
+              suggestedMin: 0,
+              suggestedMax: 500,
+              beginAtZero: true,
+              padding: 10,
+              color: "#9ca2b7",
+              font: {
+                size: 10,
+                weight: 300,
+                family: "Roboto",
+                style: 'normal',
+                lineHeight: 2
+              },
+            },
+          },
+          x: {
+            grid: {
+              drawBorder: false,
+              display: true,
+              drawOnChartArea: true,
+              drawTicks: false,
+              borderDash: [5, 5],
+              color: '#c1c4ce5c'
+            },
+            ticks: {
+              display: true,
+              color: '#9ca2b7',
+              padding: 10,
+              font: {
+                size: 12,
+                weight: 300,
+                family: "Roboto",
+                style: 'normal',
+                lineHeight: 2
+              },
+            }
+          },
+        },
+      },
+});
+
+var ctx2 = document.getElementById("chart-line").getContext("2d");
+
+new Chart(ctx2, {
+    type: "line",
+    data: {
+        labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        datasets: [{
+            label: "Mobile apps",
+            tension: 0,
+            borderWidth: 0,
+            pointRadius: 5,
+            pointBackgroundColor: "rgba(255, 255, 255, .8)",
+            pointBorderColor: "transparent",
+            borderColor: "rgba(255, 255, 255, .8)",
+            borderColor: "rgba(255, 255, 255, .8)",
+            borderWidth: 4,
+            backgroundColor: "transparent",
+            fill: true,
+            data: [50, 40, 300, 320, 500, 350, 200, 230, 500],
+            maxBarThickness: 6
+
+        }],
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: false,
+            }
+        },
+        interaction: {
+            intersect: false,
+            mode: 'index',
+        },
+        scales: {
+            y: {
+                grid: {
+                    drawBorder: false,
+                    display: true,
+                    drawOnChartArea: true,
+                    drawTicks: false,
+                    borderDash: [5, 5],
+                    color: 'rgba(255, 255, 255, .2)'
+                },
+                ticks: {
+                    display: true,
+                    color: '#f8f9fa',
+                    padding: 10,
+                    font: {
+                        size: 14,
+                        weight: 300,
+                        family: "Roboto",
+                        style: 'normal',
+                        lineHeight: 2
+                    },
                 }
             },
-            plugins: {
-                legend: false
+            x: {
+                grid: {
+                    drawBorder: false,
+                    display: false,
+                    drawOnChartArea: false,
+                    drawTicks: false,
+                    borderDash: [5, 5]
+                },
+                ticks: {
+                    display: true,
+                    color: '#f8f9fa',
+                    padding: 10,
+                    font: {
+                        size: 14,
+                        weight: 300,
+                        family: "Roboto",
+                        style: 'normal',
+                        lineHeight: 2
+                    },
+                }
+            },
+        },
+    },
+});
+
+var ctx3 = document.getElementById("chart-line-tasks").getContext("2d");
+
+new Chart(ctx3, {
+    type: "line",
+    data: {
+        labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        datasets: [{
+            label: "Mobile apps",
+            tension: 0,
+            borderWidth: 0,
+            pointRadius: 5,
+            pointBackgroundColor: "rgba(255, 255, 255, .8)",
+            pointBorderColor: "transparent",
+            borderColor: "rgba(255, 255, 255, .8)",
+            borderWidth: 4,
+            backgroundColor: "transparent",
+            fill: true,
+            data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
+            maxBarThickness: 6
+
+        }],
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: false,
             }
-        }
-    });
+        },
+        interaction: {
+            intersect: false,
+            mode: 'index',
+        },
+        scales: {
+            y: {
+                grid: {
+                    drawBorder: false,
+                    display: true,
+                    drawOnChartArea: true,
+                    drawTicks: false,
+                    borderDash: [5, 5],
+                    color: 'rgba(255, 255, 255, .2)'
+                },
+                ticks: {
+                    display: true,
+                    padding: 10,
+                    color: '#f8f9fa',
+                    font: {
+                        size: 14,
+                        weight: 300,
+                        family: "Roboto",
+                        style: 'normal',
+                        lineHeight: 2
+                    },
+                }
+            },
+            x: {
+                grid: {
+                    drawBorder: false,
+                    display: false,
+                    drawOnChartArea: false,
+                    drawTicks: false,
+                    borderDash: [5, 5]
+                },
+                ticks: {
+                    display: true,
+                    color: '#f8f9fa',
+                    padding: 10,
+                    font: {
+                        size: 14,
+                        weight: 300,
+                        family: "Roboto",
+                        style: 'normal',
+                        lineHeight: 2
+                    },
+                }
+            },
+        },
+    },
+});
 </script>
 
 <script>
-    var ctx1 = document.getElementById('myChart2').getContext('2d');
-    var data1 = [75, 25];
-    var colors1 = ['rgba(101, 174, 56, 1)', 'rgba(0, 0, 0, 0)'];
-    var cutout1 = '85%';
-    var myChart1 = new Chart(ctx1, {
-        type: 'doughnut',
-        data: {
-            labels: ['Terisi', 'kosong'],
-            datasets: [{
-                label: 'Total',
-                data: data1,
-                backgroundColor: colors1,
-                cutout: cutout1,
-                borderRadius: 50,
-                borderWidth: 0,
-                hoverOffset: 0
-            }]
-        },
-        options: {
-            maintainAspectRatio: false,
-            responsive: true,
-            layout: {
-                padding: 0
-            },
-            plugins: {
-                legend: false
-            }
-        }
-    });
+var ctx = document.getElementById('myChart').getContext('2d');
 
-    var ctx2 = document.getElementById('myChart3').getContext('2d');
-    var data2 = [75, 25];
-    var colors2 = ['rgba(20, 94, 168, 1)', 'rgba(0, 0, 0, 0)'];
-    var cutout2 = '85%';
-    var myChart2 = new Chart(ctx2, {
-        type: 'doughnut',
-        data: {
-            labels: ['Terisi', 'kosong'],
-            datasets: [{
-                label: 'Total',
-                data: data2,
-                backgroundColor: colors2,
-                cutout: cutout2,
-                borderRadius: 50,
-                borderWidth: 0,
-                hoverOffset: 0
-            }]
+new Chart(ctx, {
+    type: "bar",
+    data: {
+        labels: {
+            !!json_encode($chartData['labels']) !!
         },
-        options: {
-            maintainAspectRatio: false,
-            responsive: true,
-            layout: {
-                padding: 0
+        datasets: [{
+            label: "Sales",
+            tension: 0.4,
+            borderWidth: 0,
+            borderRadius: 4,
+            borderSkipped: false,
+            backgroundColor: "rgba(255, 255, 255, .8)",
+            data: {
+                !!json_encode($chartData['values']) !!
             },
-            plugins: {
-                legend: false
+            maxBarThickness: 6
+        }, ],
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: false,
             }
-        }
-    });
+        },
+        interaction: {
+            intersect: false,
+            mode: 'index',
+        },
+        scales: {
+            y: {
+                grid: {
+                    drawBorder: false,
+                    display: true,
+                    drawOnChartArea: true,
+                    drawTicks: false,
+                    borderDash: [5, 5],
+                    color: 'rgba(255, 255, 255, .2)'
+                },
+                ticks: {
+                    suggestedMin: 0,
+                    suggestedMax: 500,
+                    beginAtZero: true,
+                    padding: 10,
+                    font: {
+                        size: 14,
+                        weight: 300,
+                        family: "Roboto",
+                        style: 'normal',
+                        lineHeight: 2
+                    },
+                    color: "#fff"
+                },
+            },
+            x: {
+                grid: {
+                    drawBorder: false,
+                    display: true,
+                    drawOnChartArea: true,
+                    drawTicks: false,
+                    borderDash: [5, 5],
+                    color: 'rgba(255, 255, 255, .2)'
+                },
+                ticks: {
+                    display: true,
+                    color: '#f8f9fa',
+                    padding: 10,
+                    font: {
+                        size: 14,
+                        weight: 300,
+                        family: "Roboto",
+                        style: 'normal',
+                        lineHeight: 2
+                    },
+                }
+            },
+        },
+    },
+});
 </script>
 
 <script>
-    var map = L.map('map').setView([1.6692, 101.4478], 11);
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
-        maxZoom: 16,
-    }).addTo(map);
-
-    map.addControl(new L.Control.Fullscreen());
-
-    var mapData = {!! $mapData !!};
-
-    for (var i = 0; i < mapData.length; i++) {
-        var marker = mapData[i];
-
-        var popupContent = '<div class="custom-popup">' +
-            '<h3 class="custom-popup-title">' + marker.nama + '</h3>' + '<hr class="dark horizontal">' +
-            '<p class="custom-popup-lat">Total Donatur: ' + marker.total_donatur + ' Orang</p>' +
-            '<p class="custom-popup-lng">Total Berat: ' + marker.total_berat + ' L</p>' +
-            '</div>';
-
-        L.marker([marker.lat, marker.lng])
-            .addTo(map)
-            .bindPopup(popupContent, { className: 'custom-popup' });
+var ctx1 = document.getElementById('myChart2').getContext('2d');
+var data1 = [75, 25];
+var colors1 = ['rgba(101, 174, 56, 1)', 'rgba(0, 0, 0, 0)'];
+var cutout1 = '85%';
+var myChart1 = new Chart(ctx1, {
+    type: 'doughnut',
+    data: {
+        labels: ['Terisi', 'kosong'],
+        datasets: [{
+            label: 'Total',
+            data: data1,
+            backgroundColor: colors1,
+            cutout: cutout1,
+            borderRadius: 50,
+            borderWidth: 0,
+            hoverOffset: 0
+        }]
+    },
+    options: {
+        maintainAspectRatio: false,
+        responsive: true,
+        layout: {
+            padding: 0
+        },
+        plugins: {
+            legend: false
+        }
     }
+});
+
+var ctx2 = document.getElementById('myChart3').getContext('2d');
+var data2 = [75, 25];
+var colors2 = ['rgba(20, 94, 168, 1)', 'rgba(0, 0, 0, 0)'];
+var cutout2 = '85%';
+var myChart2 = new Chart(ctx2, {
+    type: 'doughnut',
+    data: {
+        labels: ['Terisi', 'kosong'],
+        datasets: [{
+            label: 'Total',
+            data: data2,
+            backgroundColor: colors2,
+            cutout: cutout2,
+            borderRadius: 50,
+            borderWidth: 0,
+            hoverOffset: 0
+        }]
+    },
+    options: {
+        maintainAspectRatio: false,
+        responsive: true,
+        layout: {
+            padding: 0
+        },
+        plugins: {
+            legend: false
+        }
+    }
+});
+</script>
+
+<script>
+var map = L.map('map').setView([1.6692, 101.4478], 11);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
+    maxZoom: 16,
+}).addTo(map);
+
+map.addControl(new L.Control.Fullscreen());
+
+var mapData = {
+    !!$mapData!!
+};
+
+for (var i = 0; i < mapData.length; i++) {
+    var marker = mapData[i];
+
+    var popupContent = '<div class="custom-popup">' +
+        '<h3 class="custom-popup-title">' + marker.nama + '</h3>' + '<hr class="dark horizontal">' +
+        '<p class="custom-popup-lat">Total Donatur: ' + marker.total_donatur + ' Orang</p>' +
+        '<p class="custom-popup-lng">Total Berat: ' + marker.total_berat + ' L</p>' +
+        '</div>';
+
+    L.marker([marker.lat, marker.lng])
+        .addTo(map)
+        .bindPopup(popupContent, {
+            className: 'custom-popup'
+        });
+}
 </script>
 
 <x-sweetalert />
