@@ -10,6 +10,7 @@
   <script src="{{ asset('assets/js/material-dashboard.min.js?v=3.1.0') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="{{ asset('assets/js/script.js') }}"></script>
+  
   @yield('script')
   
   {{-- End sweetalert --}}
