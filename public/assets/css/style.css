@@ -174,6 +174,14 @@ progress {
     background-color: var(--green-value-color) !important;
 }
 
+.progress-yellow::-webkit-progress-value {
+    background-color: var(--warning-light) !important;
+}
+
+.progress-yellow::-webkit-progress-bar {
+    background-color: rgba(234, 197, 0, 0.2) !important;
+}
+
 .progress-green::-webkit-progress-bar {
     background-color: var(--green-bg-color);
 }
@@ -255,6 +263,11 @@ img.user-image {
     padding: 10px;
 }
 
+.reedem-reward .body {
+    max-height: 500px;
+    overflow-y: scroll;
+}
+
 .reward {
     font-family: "DM Sans", sans-serif;
     font-size: 22px;
@@ -277,6 +290,39 @@ img.user-image {
 .reward-row {
     height: 50px !important;
 }
+
+/* table {
+    border: none!important;
+}
+
+.dataTables_wrapper .pagination > li > a,
+.dataTables_wrapper .pagination > li > span {
+  margin: 0!important;
+  padding: 0!important;
+}
+
+.dataTables_wrapper table {
+    margin-left: -48px!important;
+  }
+
+.dataTables_wrapper table.dataTable {
+    border: none!important;
+}
+
+.dataTables_wrapper table.dataTable thead th {
+    border: none!important;
+}
+
+.dataTables_wrapper table.dataTable tbody {
+    border: none!important;
+}
+
+.dataTables_wrapper table.dataTable tbody td {
+    border: none;
+}
+.dataTables_wrapper table.dataTable tbody tr:last-child {
+    border: none!important;
+} */
 
 .table-header-redeem {
     font-family: "Inter", sans-serif;
@@ -520,6 +566,11 @@ span.add-reward:hover {
     background-color: var(--danger);
 }
 
+.btn-semi-success {
+    background-color: #65ae38;
+    text-decoration: none;
+    color: white !important;
+}
 /* File input */
 input[type="file"] {
     display: none;
@@ -542,6 +593,11 @@ input[type="file"] {
     top: 8px;
     color: var(--input-placeholder);
 }
+#myFileInputNameContainer {
+    position: relative;
+    top: 8px;
+    color: var(--input-placeholder);
+}
 
 #btnFile {
     cursor: pointer;
@@ -558,11 +614,11 @@ input[type="file"] {
     padding: 60px 20px 20px 20px;
 }
 
-.detail-donatur-wrapper .detail-donatur-card .header img {
+/* .detail-donatur-wrapper .detail-donatur-card .header img {
     width: 119px;
     height: 119px;
     border-radius: 50%;
-}
+} */
 
 .detail-donatur-wrapper .detail-donatur-card .header span {
     padding-top: 16px;
@@ -652,7 +708,6 @@ input[type="file"] {
 }
 
 .riwayat-donatur-wrapper {
-    margin-left: 24px;
     border-radius: 15px;
     background-color: white;
 }
@@ -813,6 +868,17 @@ tr.reward-tr .ps-4 .d-flex {
     font-weight: 400;
     line-height: normal;
     border: 1px solid #808080;
+}
+
+.form-control-admin input:disabled {
+    border-radius: 20px;
+    padding: 1rem 1.875rem 1rem 1.875rem;
+    color: #808080;
+    font-family: var(--text-poppins);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
 }
 
 .form-control-admin input:focus {
@@ -984,6 +1050,23 @@ tr.reward-tr .ps-4 .d-flex {
 }
 
 /* detail-manajemen */
+.manajemen-permintaan {
+    background-color: white;
+    border-radius: 16px;
+}
+
+.manajemen-permintaan .header {
+    padding: 20px;
+    color: rgba(58, 53, 65, 0.87);
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: var(--text-poppins);
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 32px; /* 160% */
+    letter-spacing: 0.15px;
+}
+
 .detail-manajemen-kontainer {
     background-color: white;
     border-radius: 16px;
@@ -1006,7 +1089,7 @@ tr.reward-tr .ps-4 .d-flex {
     width: 120px;
 }
 
-.detail-manajemen-kontainer
+/* .detail-manajemen-kontainer */
 
 /* Btn */
 
@@ -1016,24 +1099,6 @@ tr.reward-tr .ps-4 .d-flex {
 
 .bg-light-success {
     background-color: var(--light-success);
-}
-
-/* manajemen-permintaan */
-.manajemen-permintaan {
-    background-color: white;
-    border-radius: 16px;
-}
-
-.manajemen-permintaan .header {
-    padding: 20px;
-    color: rgba(58, 53, 65, 0.87);
-    font-feature-settings: "clig" off, "liga" off;
-    font-family: var(--text-poppins);
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 32px; /* 160% */
-    letter-spacing: 0.15px;
 }
 
 .permintaan-tr .detail-kelurahan .top {
@@ -1067,7 +1132,7 @@ tr.reward-tr .ps-4 .d-flex {
 }
 
 .overflowy {
-    height: 300px !important;
+    max-height: 300px !important;
     overflow-y: scroll;
 }
 
@@ -1090,6 +1155,12 @@ tr.reward-tr .ps-4 .d-flex {
 
 .notifikasi-kontainer .body {
     margin-top: 10px;
+}
+
+.notifikasi-kontainer .body .row {
+    max-height: 200px;
+    overflow-y: scroll;
+    padding: 5px;
 }
 
 .kontainer-kelurahan {
@@ -1115,8 +1186,8 @@ tr.reward-tr .ps-4 .d-flex {
 .kontainer-kelurahan .footer .circle {
     background-color: var(--success);
     border-radius: 50%;
-    width: 6px;
-    height: 6px;
+    width: 14px;
+    height: 14px;
 }
 
 .kontainer-kelurahan .footer span {
@@ -1162,14 +1233,539 @@ tr.reward-tr .ps-4 .d-flex {
     background-color: var(--danger);
 }
 
-.table-kontainer-kelurahan  .main-table {
+.table-kontainer-kelurahan .main-table {
     background-color: white;
     border-radius: 10px;
 }
 
 .table-kontainer-kelurahan .main-table .overflowy-kontainer-kelurahan {
-    height: 300px;
+    max-height: 300px;
     overflow-y: scroll;
+}
+
+/* olah-donatur */
+.olah-donatur {
+    background-color: white;
+    border-radius: 16px;
+}
+
+.olah-donatur .header {
+    padding: 20px;
+    color: rgba(58, 53, 65, 0.87);
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: var(--text-poppins);
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 32px; /* 160% */
+    letter-spacing: 0.15px;
+}
+
+.olah-donatur .header-button {
+    position: absolute;
+    top: 12%;
+    right: 0px;
+}
+
+/* olah-donatur */
+/* .olah-donatur {
+    background-color: white;
+    border-radius: 16px;
+}
+
+.olah-donatur .header {
+    padding: 20px;
+    color: rgba(58, 53, 65, 0.87);
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: var(--text-poppins);
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 32px; 
+    letter-spacing: 0.15px;
+} */
+
+/* .donatur-csr-tr .detail-kelurahan .top {
+    color: rgba(58, 53, 65, 0.87);
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: var(--text-poppins);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 157%; 
+    letter-spacing: 0.1px;
+} */
+
+.donatur-csr-tr .tanggal {
+    color: rgba(58, 53, 65, 0.68);
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: var(--text-poppins);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 143%; /* 20.02px */
+    letter-spacing: 0.15px;
+}
+
+.donatur-csr-tr td.subdata {
+    color: rgba(58, 53, 65, 0.68);
+    font-feature-settings: "clig" off, "liga" off;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 143%; /* 20.02px */
+    letter-spacing: 0.15px;
+}
+
+/* Sumbangan kelurahan  */
+
+.sumbangan-kelurahan {
+    background-color: white;
+    border-radius: 10px;
+    height: 360px;
+}
+
+.sumbangan-kelurahan .header {
+    padding: 30px 0 10px 30px;
+    color: var(--colors-black-100, #000);
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: var(--text-dm-sans);
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.sumbangan-kelurahan .footer {
+    margin: 45px 0 30px 30px;
+}
+
+.sumbangan-kelurahan .footer .circle {
+    border-radius: 50%;
+    width: 14px;
+    height: 14px;
+}
+
+.sumbangan-kelurahan .footer .fill {
+    background-color: #ff3a29;
+}
+
+.sumbangan-kelurahan .footer .transparent {
+    background-color: #ffe5d3;
+}
+
+.sumbangan-kelurahan .footer span {
+    position: relative;
+    top: -10%;
+    color: var(--colors-black-100, #000);
+    font-feature-settings: "clig" off, "liga" off;
+
+    /* H4 */
+    font-family: var(--text-dm-sans);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; /* 142.
+    857% */
+}
+
+.table-sumbangan-kelurahan .header {
+    padding: 20px;
+    color: rgba(58, 53, 65, 0.87);
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: var(--text-poppins);
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 32px; /* 160% */
+    letter-spacing: 0.15px;
+    max-height: 340px;
+}
+
+.table-sumbangan-kelurahan .header-button {
+    padding: 20px;
+    display: flex;
+    align-items: end;
+    justify-content: end;
+}
+
+.table-sumbangan-kelurahan .btn-kontainer-kelurahan {
+    margin-right: 20px;
+    height: 27px;
+    color: white;
+    background-color: var(--danger);
+}
+
+.table-sumbangan-kelurahan .main-table {
+    background-color: white;
+    border-radius: 10px;
+}
+
+.table-sumbangan-kelurahan .main-table .overflowy-kontainer-kelurahan {
+    max-height: 300px;
+    overflow-y: scroll;
+}
+
+/* Input date */
+.input-date {
+    height: 32px!important;
+    background-color: white;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.input-date input {
+    padding: 5px;
+    font-family: var(--text-poppins);
+    color: #414D55;
+}
+
+.input-date input[type="month"]::-webkit-calendar-picker-indicator{
+    color: rgba(0, 0, 0, 0.2);;
+}
+
+.verifikasi-donasi .header {
+    color: var(--colors-black-100, #000);
+    font-family: DM Sans;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.verifikasi-donasi .body {
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+    background-color: white;
+    padding: 16px;
+}
+
+.verifikasi-row .nama {
+    width: 270px;
+}
+
+.verifikasi-donasi .berat {
+    width: 180px;
+}
+
+.verifikasi-donasi .kelurahan {
+    width: 229px;
+}
+
+.verifikasi-donasi .foto-donasi img {
+    width: 112px;
+    height: 116px;
+    border-radius: 20px;
+}
+
+.verifikasi-tr {
+    height: 50px;
+}
+
+.verifikasi-tr .nama .top {
+    color: var(--semi-dark-68);
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: var(--text-poppins);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 157%; /* 21.98px */
+    letter-spacing: 0.1px;
+}
+
+.verifikasi-tr .nama .bottom {
+    position: relative;
+    top: -5px;
+    color: var(--semi-dark-68);
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: Poppins;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 166%; /* 19.92px */
+    letter-spacing: 0.4px;
+}
+
+.verifikasi-tr .tanggal {
+    color: rgba(58, 53, 65, 0.68);
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: var(--text-poppins);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 143%; /* 20.02px */
+    letter-spacing: 0.15px;
+}
+
+.verifikasi-row .nama {
+    color: rgba(58, 53, 65, 0.87);
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: var(--text-poppins);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 157%; /* 21.98px */
+    letter-spacing: 0.1px;
+}
+
+.verifikasi-row .berat {
+    color: rgba(58, 53, 65, 0.87);
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: var(--fs-inter);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 157%; /* 21.98px */
+    letter-spacing: 0.1px;
+}
+
+.verifikasi-row .kelurahan {
+    color: rgba(58, 53, 65, 0.87);
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: var(--fs-inter);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 157%; /* 21.98px */
+    letter-spacing: 0.1px;
+}
+
+.verifikasi-row .tanggal {
+    color: rgba(58, 53, 65, 0.68);
+    font-feature-settings: "clig" off, "liga" off;
+
+    /* Dark/Typography/Body 2 */
+    font-family: var(--fs-inter);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 143%; /* 20.02px */
+    letter-spacing: 0.15px;
+}
+
+.modal-detail-gambar img {
+    width: 100%;
+    height: 100%;
+}
+
+.profil .header h1 {
+    color: var(--colors-black-100, #000);
+    font-feature-settings: "clig" off, "liga" off;
+
+    /* H2 */
+    font-family: var(--text-dm-sans);
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.profil .body {
+    background-color: white;
+    padding: 30px 20px;
+
+    border-radius: 15px;
+    background: #fff;
+
+    /* Light/Elevation/Card */
+    box-shadow: 0px 2px 10px 0px rgba(58, 53, 65, 0.1);
+}
+
+.profil .body .profil-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.profil .body .profil-header h4 {
+    color: rgba(58, 53, 65, 0.87);
+    text-align: center;
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: var(--text-poppins);
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 160%; /* 48px */
+    letter-spacing: 0.15px;
+}
+
+.profil .body .profil-detail {
+    padding: 20px;
+}
+
+.profil .body .profil-detail .header {
+    color: rgba(0, 0, 0, 0.87);
+    /* text-align: center; */
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: var(--text-poppins);
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 160%; /* 35.2px */
+    letter-spacing: 0.15px;
+}
+
+.profil .body .profil-detail .subheader {
+    color: rgba(0, 0, 0, 0.87);
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: var(--text-poppins);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 160%; /* 25.6px */
+    letter-spacing: 0.15px;
+}
+
+.profil .body .profil-detail .detail-data {
+    margin-top: 20px;
+}
+
+.profil .body .profil-detail .detail-data .row:not(:last-child) {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(58, 53, 65, 0.12);
+}
+
+.profil .body .profil-detail .detail-data .left {
+    color: rgba(58, 53, 65, 0.87);
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: Poppins;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 143%; /* 25.74px */
+    letter-spacing: 0.15px;
+}
+.profil .body .profil-detail .detail-data .right {
+    color: rgba(58, 53, 65, 0.87);
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: Poppins;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 143%; /* 28.6px */
+    letter-spacing: 0.15px;
+}
+
+.profil .body .update-buttom {
+    display: flex;
+    padding-top: 50px;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.profil .body .update-buttom .btn-profil-custom {
+    padding: 13px 44px 13px 44px;
+    border-radius: 20px;
+    border: 1px solid #808080;
+    background: #d12031;
+}
+
+/* manajemen admin */
+.edit-profil {
+    margin-top: 1.625rem;
+    background-color: white;
+    filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.25));
+    border-radius: 0.9375rem;
+}
+
+.edit-profil .header {
+    height: 4.5rem !important;
+    padding: 1.1875rem 0px 1.1875rem 2.0625rem;
+}
+
+.edit-profil .header .title h3 {
+    color: black !important;
+    font-family: var(--text-poppins);
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.edit-profil .header .button {
+    position: relative;
+    top: -0.1563rem;
+}
+
+.edit-profil .line {
+    border-top: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+.edit-profil .body {
+    padding: 1.1875rem 2.0625rem 1.1875rem 2.0625rem;
+    padding-top: 1.5rem;
+}
+
+.edit-profil .body .ubah-gambar {
+    margin-bottom: 50px;
+    display: flex;
+    gap: 32px;
+    align-items: center;
+}
+
+.edit-profil .body .ubah-gambar .detail-button .text {
+    color: #9b9b9b;
+    font-family: Poppins;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.edit-profil .body .ubah-gambar .detail-button .btn-ubah {
+    margin-top: 10px;
+}
+
+.edit-profil .body .ubah-gambar .detail-button .btn-ubah .inputFile {
+    display: none;
+}
+
+.edit-profil .body .ubah-gambar .detail-button .btn-ubah button {
+    width: 180px;
+    height: 50px;
+    flex-shrink: 0;
+    border-radius: 20px;
+    border: 1px solid #808080;
+    background: var(--danger);
+    color: white;
+}
+
+.edit-profil .header a.bottom-btn-batal {
+    text-decoration: none;
+    border-radius: 20px;
+    width: 180px;
+    height: 50px;
+    flex-shrink: 0;
+    border: 1px solid var(--danger);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--danger);
+}
+
+.edit-profil .header .simpan-buttom {
+    width: 180px;
+    height: 50px;
+    flex-shrink: 0;
+    border-radius: 20px;
+    border: 1px solid #808080;
+    background: var(--danger);
+    color: white;
+}
+
+.edit-profil .bottom-line {
+    border-top: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+.export-btn {
+    height: 32px!important;
 }
 
 @media (min-width: 576px) {
@@ -1180,6 +1776,16 @@ tr.reward-tr .ps-4 .d-flex {
 
     .detail-manajemen-kontainer {
         margin-top: 0;
+    }
+
+    .olah-donatur .header-button {
+        position: relative;
+        top: 0;
+        right: 0;
+    }
+
+    .riwayat-donatur-wrapper {
+        margin-left: 0;
     }
 }
 
@@ -1205,6 +1811,16 @@ tr.reward-tr .ps-4 .d-flex {
         margin-left: 10.5rem;
         margin-top: 0;
     }
+
+    .olah-donatur .header-button {
+        position: relative;
+        top: 0;
+        right: 0;
+    }
+
+    .riwayat-donatur-wrapper {
+        margin-left: 24px;
+    }
 }
 
 @media (min-width: 992px) {
@@ -1220,6 +1836,12 @@ tr.reward-tr .ps-4 .d-flex {
     .table-kontainer-kelurahan {
         margin-left: 10.5rem;
         margin-top: 0;
+    }
+
+    .olah-donatur .header-button {
+        position: relative;
+        top: 0;
+        right: 0;
     }
 }
 

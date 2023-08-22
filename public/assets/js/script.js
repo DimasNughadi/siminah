@@ -1,10 +1,33 @@
+// File input
+function triggerFileInput() {
+    document.getElementById("fileInput").click();
+}
+
+document.getElementById("fileInput").addEventListener("change", function () {
+    const fileName = this.value.split("\\").pop();
+    document.getElementById("myFileNameContainer").innerHTML = fileName;
+});
+
+// File edit
+function triggerFileEdit() {
+    document.getElementById("fileEdit").click();
+}
+
+document.getElementById("fileEdit").addEventListener("change", function () {
+    const fileName = this.value.split("\\").pop();
+    document.getElementById("myFileInputNameContainer").innerHTML = fileName;
+});
+
 // edit reward
-function editDataReward(id, nama, stok, poin, gambar) {
+function editDataReward(nama, stok, poin, route) {
     // console.log(id);
-    var editNama = document.getElementById('editNama').value = nama;
-    var editStok = document.getElementById('editStok').value = stok;
-    var editPoin = document.getElementById('editPoin').value = poin;
-    var editGambar = gambar
+    var editNama = (document.getElementById("editNama").value = nama);
+    var editStok = (document.getElementById("editStok").value = stok);
+    var editPoin = (document.getElementById("editPoin").value = poin);
+
+    var actionForms = document.querySelector("#modal-forms-edit");
+    actionForms.action = route;
+    console.log(actionForms);
 }
 
 // Swal.fire({
@@ -18,44 +41,128 @@ function editDataReward(id, nama, stok, poin, gambar) {
 
 // Sweetalert2
 // Example delete function  for delete
-function deleteReward(recordId) {
+function deleteReward(route) {
     Swal.fire({
-        title: 'Are you sure?',
-        text: 'You will not be able to recover this record!',
-        icon: 'warning',
+        title: "Apakah ingin melanjutkan?",
+        text: "Data selanjutnya tidak dapat direcovery",
+        icon: "warning",
         showCancelButton: true,
-        confirmButtonText: 'Yes, delete it!',
-        cancelButtonText: 'No, cancel!',
-        reverseButtons: true
+        confirmButtonText: "Ya, lanjut hapus",
+        cancelButtonText: "No",
+        reverseButtons: true,
     }).then((result) => {
         if (result.isConfirmed) {
-            // Perform the delete action
-            // You can make an AJAX request or redirect to a delete route
-            // Example AJAX request:
-            axios.delete(`/records/${recordId}`)
-                .then((response) => {
-                    Swal.fire(
-                        'Deleted!',
-                        'The record has been deleted.',
-                        'success'
-                    );
-                    // Perform any additional actions after successful deletion
-                })
-                .catch((error) => {
-                    Swal.fire(
-                        'Error!',
-                        'The record could not be deleted.',
-                        'error'
-                    );
-                    // Handle the error or perform any additional actions
-                });
+            const deleteData = document.querySelector("#deleteData");
+            deleteData.action = route;
+            deleteData.submit();
         } else if (result.dismiss === Swal.DismissReason.cancel) {
-            Swal.fire(
-                'Cancelled',
-                'The record deletion has been cancelled.',
-                'info'
-            );
+            Swal.fire("Dibatalkan", "Data tidak jadi dihapus", "info");
             // Perform any additional actions if deletion is cancelled
         }
     });
+}
+
+function detailSumbangan(src) {
+    let modalImage = document.getElementById("modal-image-sumbangan");
+
+    modalImage.src = src;
+}
+
+function detailGambarReward(src) {
+    let modalImage = document.getElementById("modal-image-sumbangan");
+
+    modalImage.src = src;
+    // console.log(src)
+}
+
+function updatePermintaanKontainer(href) {
+    Swal.fire({
+        title: "Apakah ingin melanjutkan?",
+        text: "Permintaan akan diterima",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Ya, terima permintaan",
+        cancelButtonText: "No",
+        reverseButtons: true,
+    }).then((result) => {
+        if (result.isConfirmed) {
+            console.log(href);
+            let updatePermintaanKontainer = document.querySelector(
+                "#updatePermintaanKontainer"
+            );
+
+            updatePermintaanKontainer.action = href;
+            updatePermintaanKontainer.submit();
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+            Swal.fire("Dibatalkan", "Data tidak jadi dihapus", "info");
+            // Perform any additional actions if deletion is cancelled
+        }
+    });
+}
+
+// inputUbahGambarAdmin
+function buttonUbahGambarAdmin() {
+    const input = document.querySelector("#inputUbahGambarAdmin").click();
+}
+
+// Verifikasi sumbangan
+
+function verifikasiSumbangan(route) {
+    Swal.fire({
+        title: 'Lanjutkan verifikasi?',
+        text: "Anda tidak dapat membatalkan status kembali",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Lanjutkan verifikasi'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const verifikasiStatusForm = document.querySelector('#verifikasiStatusForm')
+            verifikasiStatusForm.action = route
+            verifikasiStatusForm.submit()
+        }
+    })
+}
+
+
+function AjukanPergantianKontainer(action) {
+    Swal.fire({
+        title: "Apakah ingin melanjutkan?",
+        text: "Pengajuan akan menunggu persetujuan admin CSR",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Ya, lanjutkan",
+        cancelButtonText: "No",
+        reverseButtons: true,
+    }).then((result) => {
+        if (result.isConfirmed) {
+            let updatePengajuanGantiKontainer = document.querySelector('#updatePengajuanGantiKontainer');
+            updatePengajuanGantiKontainer.action = action;
+            console.log(updatePengajuanGantiKontainer);
+            updatePengajuanGantiKontainer.submit()
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+            Swal.fire("Dibatalkan", "Pengajuan dibatalkan", "info");
+            // Perform any additional actions if deletion is cancelled
+        }
+    });
+
+    
+}
+
+
+function Logout() {
+    Swal.fire({
+        title: 'Apakah ingin keluar?',
+        text: "Anda akan dimintai login kembali",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Logout'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            document.getElementById('logout-form').submit();
+        }
+    })
 }

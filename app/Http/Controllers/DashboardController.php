@@ -10,6 +10,7 @@ use App\Models\Kontainer;
 use App\Models\Donatur;
 use App\Models\Sumbangan;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Session;
 
 class DashboardController extends Controller
 {
@@ -22,6 +23,7 @@ class DashboardController extends Controller
         $now->locale('id');
         
         $bulanTahun = $now->isoFormat('MMMM');
+
         $startOfMonth = Carbon::now()->startOfMonth();
         $endOfMonth = Carbon::now()->endOfMonth();
 
@@ -92,8 +94,8 @@ class DashboardController extends Controller
         }
         $percentageChangeSumbangan = round($percentageChangeSumbangan, 2);
 
-        if($role=='admin_kelurahan'){
-    
+        if ($role == 'admin_kelurahan') {
+
             $data = [
                 'mapData' => json_encode($mapData),
                 'chartData' => [
@@ -107,10 +109,10 @@ class DashboardController extends Controller
                 'totalKontainer' => $totalKontainer,
                 'bulanTahun' => $bulanTahun
             ];
-    
+
             return view('after-login.pengelola-csr.dashboard.dashboard', $data);
-        }else{
-    
+        } else {
+
             $data = [
                 'mapData' => json_encode($mapData),
                 'chartData' => [
@@ -124,9 +126,9 @@ class DashboardController extends Controller
                 'totalKontainer' => $totalKontainer,
                 'bulanTahun' => $bulanTahun
             ];
-    
+
             return view('after-login.pengelola-csr.dashboard.dashboard', $data);
         }
-        
+
     }
 }

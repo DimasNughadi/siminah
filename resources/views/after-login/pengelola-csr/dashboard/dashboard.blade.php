@@ -383,6 +383,7 @@
     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous" async></script>
 
 <script>
+
 var ctx = document.getElementById("chart-bars1").getContext("2d");
 
 new Chart(ctx, {
@@ -808,4 +809,5 @@ for (var i = 0; i < mapData.length; i++) {
 }
 </script>
 
+<x-sweetalert />
 @stop

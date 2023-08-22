@@ -19,7 +19,7 @@
                         <div class="col-md-12">
                             <div class="row">
                                 <div class="col-md-12 d-flex justify-content-center align-items-center">
-                                    <x-user.userImage src="{{ 'donatur/' . $donatur->photo }}" width="119" height="119" alt="Gambar {{ $donatur->nama_donatur }}"/>
+                                    <x-user.userImage width="119" height="119"/>
                                 </div>
                                 <div class="col-md-12 d-flex justify-content-center align-items-center">
                                     <span>
