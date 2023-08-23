@@ -136,7 +136,10 @@ class DashboardController extends Controller
                 'totalKontainer' => $totalKontainer,
                 'bulanTahun' => $bulanTahun,
                 'progress' => $progress,
-                'percentageProgress' => $percentageProgress
+                'percentageProgress' => $percentageProgress,
+                'lokasi' => $lokasi,
+                'hampirPenuh' => $hampirPenuh,
+                'notifikasi' => $notifikasi
             ];
     
             return view('after-login.admin-kelurahan.dashboard.dashboard', $data);
