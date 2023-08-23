@@ -8,17 +8,19 @@
                 <div class="row">
                     <div class="col-md-12 reward text-poppins">Reward</div>
                 </div>
-                <div class="row reedem-reward">
-                    <div class="col-md-9">
+                <div class="row reedem-reward animate__animated animate__fadeInLeft">
+                    <div class="col-md-9 col-sm-7 col-7">
                         <div class="table-header-redeem">
                             Riwayat penukaran hadiah
                         </div>
                     </div>
-                    <div
-                        class="col-md-3 text-poppins text-14 btn-reward-position d-flex justify-content-center align-items-center">
-                        <div class="btn-reward btn-custom-success position-relative">
-                            <a href="{{ route('reward/reward-list') }}" class="position-relative add-reward">Lihat Daftar
-                                hadiah</a>
+                    <div class="col-md-3 col-sm-5 col-5">
+                        <div class="text-poppins text-14 btn-reward-position d-flex justify-content-end align-items-end">
+                            <div class="btn-reward btn-custom-success position-relative">
+                                <a href="{{ route('reward/reward-list') }}" class="position-relative add-reward">Lihat
+                                    Daftar
+                                    hadiah</a>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -30,33 +32,38 @@
                                 <th>WAKTU PENUKARAN</th>
                                 <th>TOTAL PENUKARAN</th>
                             @endslot
-
                             @slot('bodySlot')
-                                <tr class="reward-tr table-row-image">
-                                    <td class="ps-4">
-                                        <div class="d-flex align-items-center">
-                                            <x-user.userImage/>
-                                            <div class="ms-2 poppins">
-                                                Abdi
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="ps-4 poppins">
-                                        500
-                                    </td>
-                                    <td class="ps-4">
-                                        <div class="d-flex flex-column gap-0">
-                                            <span class="poppins">as</span>
-                                        </div>
-                                    </td>
-                                    <td class="ps-4">
-                                        14:30, 12 Jan 2023
-                                    </td>
-                                    <td class="ps-4">
-                                        5 Kali
-                                    </td>
-                                </tr>
-                                {{-- @if (!empty($reward))
+                                @if (!empty($redeem))
+                                {{-- {{ dd($redeem[0]) }} --}}
+                                    @foreach ($redeem as $item)
+                                        <tr class="reward-tr table-row-image">
+                                            <td class="ps-4">
+                                                <div class="d-flex align-items-center">
+                                                    <x-user.userImage src="{{ 'donatur/' . $item->donatur->photo }}"/>
+                                                    {{-- <x-user.userImage src="{{ $item->donatur->photo }}"/> --}}
+                                                    <div class="ms-2 poppins">
+                                                        {{ Str::substr($item->donatur->nama_donatur, 0, 5) }}
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="ps-4 poppins">
+                                                {{ $item->reward->jumlah_poin }}
+                                            </td>
+                                            <td class="ps-4">
+                                                <div class="d-flex flex-column gap-0">
+                                                    <span class="poppins">
+                                                        {{ $item->reward->nama_reward }}
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <td class="ps-4">
+                                                {{ datetimeFormat($item->tanggal_redeem) }}
+                                            </td>
+                                            <td class="ps-4">
+                                                {{ $item->redeem_count }} Kali
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 @else
                                     <tr>
                                         <td></td>
@@ -65,7 +72,7 @@
                                         <td></td>
                                         <td></td>
                                     </tr>
-                                @endif --}}
+                                @endif
                             @endslot
                         </x-forms.table>
                     </div>

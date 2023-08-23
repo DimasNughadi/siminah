@@ -380,6 +380,7 @@
 <script src="{{ asset('assets/js/plugins/countup.min.js') }}"></script>
 
 <script>
+
     var ctx = document.getElementById("chart-bars1").getContext("2d");
 
     new Chart(ctx, {
@@ -577,6 +578,8 @@ for (var i = 0; i < mapData.length; i++) {
         });
 }
 </script>
+
+<x-sweetalert />
 
 <script>
     if (document.getElementById('state1')) {

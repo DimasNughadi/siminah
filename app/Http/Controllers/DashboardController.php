@@ -10,6 +10,7 @@ use App\Models\Kontainer;
 use App\Models\Donatur;
 use App\Models\Sumbangan;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Session;
 
 class DashboardController extends Controller
 {
@@ -22,6 +23,7 @@ class DashboardController extends Controller
         $now->locale('id');
         
         $bulanTahun = $now->isoFormat('MMMM');
+
         $currentMonth = [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()];
         $previousMonth = [Carbon::now()->subMonth()->startOfMonth(), Carbon::now()->subMonth()->endOfMonth()];
 
@@ -121,8 +123,8 @@ class DashboardController extends Controller
             }
         });
 
-        if($role=='admin_kelurahan'){
-    
+        if ($role == 'admin_kelurahan') {
+
             $data = [
                 'mapData' => json_encode($mapData),
                 'chartData' => [
@@ -141,7 +143,7 @@ class DashboardController extends Controller
     
             return view('after-login.admin-kelurahan.dashboard.dashboard', $data);
         }else{
-    
+   
             $data = [
                 'mapData' => json_encode($mapData),
                 'chartData' => [
@@ -160,10 +162,10 @@ class DashboardController extends Controller
                 'hampirPenuh' => $hampirPenuh,
                 'notifikasi' => $notifikasi
             ];
-    
+
             return view('after-login.pengelola-csr.dashboard.dashboard', $data);
         }
-        
+
     }
 
     public function fetchChartData($lokasiId)
