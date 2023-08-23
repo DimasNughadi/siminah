@@ -3,49 +3,33 @@
 @section('content')
 
 <style>
-.chart-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.chart-content {
-    position: relative;
-    display: block;
-    width: 230px;
-    height: 230px;
-}
-
-.chart-content canvas {
-    display: block;
-    max-width: 100%;
-    max-height: 100%;
-    border-radius: 50%;
-    z-index: 2;
-}
-
-.chart-background {
-    position: absolute;
-    top: 0;
-    left: 0;
+.chart-background-green {
     width: 100%;
     height: 100%;
     background-color: rgba(101, 174, 56, 0.25);
     border-radius: 50%;
-    z-index: 1;
-    pointer-events: none;
+    position: relative;
 }
 
-.chart-background2 {
-    position: absolute;
-    top: 0;
-    left: 0;
+.chart-background-yellow {
     width: 100%;
     height: 100%;
-    background-color: rgba(20, 94, 168, 0.25);
+    background-color: rgba(255, 167, 38, 0.25);
     border-radius: 50%;
-    z-index: 1;
-    pointer-events: none;
+    position: relative;
+}
+
+.chart-background-red {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(209, 32, 49, 0.25);
+    border-radius: 50%;
+    position: relative;
+}
+
+.chart-content {
+    width: 215px;
+    height: 215px;
 }
 
 .chart-percentage {
@@ -58,28 +42,22 @@
     color: #65AE38;
 }
 
-.chart-percentage2 {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 32px;
-    font-weight: bold;
-    color: #145EA8;
-}
-
 .custom-icon {
     color: #65AE38;
 }
 
 .custom-icon2 {
-    color: #145EA8;
+    color: #FFBD3D;
+}
+
+.custom-icon3 {
+    color: #E31E18;
 }
 
 
 .custom-popup {
     background-color: #fff;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'poppins', sans-serif;
     border-radius: 10px;
 }
 
@@ -97,28 +75,38 @@
 </style>
 
 <div class="container-fluid py-4">
-    <div class="row">
-        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+    <div class="row animate__animated animate__fadeInUp">
+        <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
             <div class="card">
                 <div class="card-header p-3 pt-2">
                     <div
-                        class="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center border-radius-xl mt-n4 position-absolute">
+                        class="icon icon-lg icon-shape bg-gradient-info shadow-info text-center border-radius-xl mt-n4 position-absolute">
                         <i class="material-icons opacity-10">local_drink</i>
                     </div>
                     <div class="text-end pt-1">
-                        <p class="text-sm mb-0 text-capitalize">Total donasi {{$bulanTahun}}</p>
-                        <h4 class="mb-0">{{ $totalSumbangan }} Kg</h4>
+                        <p class="text-sm mb-0 text-capitalize">Total donasi bulan {{$bulanTahun}}</p>
+                        <h4 class="mb-0"><span id="state1" countTo="{{ $totalSumbangan }}"></span> Kg</h4>
                     </div>
                 </div>
                 <hr class="dark horizontal my-0">
                 <div class="card-footer p-3">
+                    @if ($perbandinganSumbangan < 0)
                     <p class="mb-0"><span
-                            class="{{ $perbandinganSumbangan < 0 ? 'text-danger' : 'text-success' }} text-sm font-weight-bolder">{{ $perbandinganSumbangan }}%
+                            class="text-danger text-sm font-weight-bolder">-{{ $perbandinganSumbangan }}%
                         </span> dari bulan lalu</p>
+                    @elseif ($perbandinganSumbangan > 0)
+                    <p class="mb-0"><span
+                            class="text-success text-sm font-weight-bolder">+{{ $perbandinganSumbangan }}%
+                        </span> dari bulan lalu</p>
+                    @else
+                    <p class="mb-0"><span
+                            class="text-info text-sm font-weight-bolder">+{{ $perbandinganSumbangan }}%
+                        </span> dari bulan lalu</p>
+                    @endif
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+        <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
             <div class="card">
                 <div class="card-header p-3 pt-2">
                     <div
@@ -127,27 +115,27 @@
                     </div>
                     <div class="text-end pt-1">
                         <p class="text-sm mb-0 text-capitalize">Total Donatur</p>
-                        <h4 class="mb-0">{{ $totalDonatur }}</h4>
+                        <h4 class="mb-0"><span id="state2" countTo="{{ $totalDonatur }}"></span> Orang</h4>
                     </div>
                 </div>
                 <hr class="dark horizontal my-0">
                 <div class="card-footer p-3">
                     <p class="mb-0"><span
-                            class="{{ $perbandinganDonatur < 0 ? 'text-danger' : 'text-success' }} text-sm font-weight-bolder">{{ $perbandinganDonatur }}%
-                        </span> dari bulan lalu</p>
+                            class="{{ $perbandinganDonatur < 0 ? 'text-danger' : 'text-success' }} text-sm font-weight-bolder">{{ $perbandinganDonatur }}
+                        </span> penambahan dari bulan lalu</p>
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+        <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
             <div class="card">
                 <div class="card-header p-3 pt-2">
                     <div
-                        class="icon icon-lg icon-shape bg-gradient-success shadow-success text-center border-radius-xl mt-n4 position-absolute">
-                        <i class="material-icons opacity-10">person</i>
+                        class="icon icon-lg icon-shape bg-gradient-warning shadow-warning text-center border-radius-xl mt-n4 position-absolute">
+                        <i class="material-icons opacity-10">warning</i>
                     </div>
                     <div class="text-end pt-1">
-                        <p class="text-sm mb-0 text-capitalize">New Clients</p>
-                        <h4 class="mb-0">3,462</h4>
+                        <p class="text-sm mb-0 text-capitalize">Kontainer Hampir Penuh</p>
+                        <h4 class="mb-0"><span id="state3" countTo="{{$hampirPenuh}}"></span> Kontainer</h4>
                     </div>
                 </div>
                 <hr class="dark horizontal my-0">
@@ -156,38 +144,25 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-sm-6">
-            <div class="card">
-                <div class="card-header p-3 pt-2">
-                    <div
-                        class="icon icon-lg icon-shape bg-gradient-info shadow-info text-center border-radius-xl mt-n4 position-absolute">
-                        <i class="material-icons opacity-10">weekend</i>
-                    </div>
-                    <div class="text-end pt-1">
-                        <p class="text-sm mb-0 text-capitalize">Sales</p>
-                        <h4 class="mb-0">$103,430</h4>
-                    </div>
-                </div>
-                <hr class="dark horizontal my-0">
-                <div class="card-footer p-3">
-                    <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+5% </span>than yesterday</p>
-                </div>
-            </div>
-        </div>
     </div>
-    <div class="row mt-4">
+    <div class="row mt-4 animate__animated animate__fadeInUp">
         <div class="col-lg-6 col-md-6 mt-4 mb-4">
             <div class="card z-index-2">
-                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
-                    <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
-                        <div class="text-start pt-1">
-                            <h4 class="text-white text-capitalize text-xl ps-3">Donasi kelurahan</h4>
+                <div class="card-header p-3 pt-2">
+                    <div
+                        class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 me-3 float-start">
+                        <i class="material-icons opacity-10">leaderboard</i>
+                    </div>
+                    <div class="d-block d-md-flex">
+                        <div class="me-auto">
+                            <h6 class="mb-0">Total Sumbangan</h6>
+                            <p class="mb-0 text-sm">5 Kelurahan dengan sumbangan terbanyak</p>
                         </div>
                     </div>
                 </div>
-                <div class="card-body">
+                <div class="card-body p-3 pt-0">
                     <div class="chart">
-                        <canvas id="chart-bars1" class="chart-canvas" height="200"></canvas>
+                        <canvas id="chart-bars1" class="chart-canvas" height="230"></canvas>
                     </div>
                     <hr class="dark horizontal">
                     <div class="d-flex ">
@@ -198,68 +173,81 @@
             </div>
         </div>
         <div class="col-lg-6 col-md-6 mt-4 mb-4">
-            <div class="card z-index-2  ">
-                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
-                    <div class="bg-gradient-success shadow-success border-radius-lg py-3 pe-1">
-                        <div class="row">
-                            <div class="col-lg-6 col-7">
-                                <div class="text-start pt-1">
-                                    <h4 class="text-white text-capitalize text-xl ps-3">Kapasitas Kontainer</h4>
-                                </div>
-
-                            </div>
-                            <div class="col-lg-6 col-5 my-auto text-end">
-                                <div class="dropdown float-lg-end pe-4">
-                                    <a class="cursor-pointer" id="dropdownTable" data-bs-toggle="dropdown"
-                                        aria-expanded="false">
-                                        <i class="fa fa-ellipsis-v text-white"></i>
-                                    </a>
-                                    <ul class="dropdown-menu px-2 py-3 ms-sm-n4 ms-n5" aria-labelledby="dropdownTable">
-                                        <li><a class="dropdown-item border-radius-md" href="javascript:;">Action</a>
-                                        </li>
-                                        <li><a class="dropdown-item border-radius-md" href="javascript:;">Another
-                                                action</a></li>
-                                        <li><a class="dropdown-item border-radius-md" href="javascript:;">Something else
-                                                here</a></li>
-                                    </ul>
-                                </div>
+            <div class="card z-index-2">
+                <div class="card-header p-3 pt-2">
+                    <div
+                        class="icon icon-lg icon-shape bg-gradient-success shadow-success text-center border-radius-xl mt-n4 me-3 float-start">
+                        <i class="material-icons opacity-10">data_usage</i>
+                    </div>
+                    <div class="d-block d-md-flex">
+                        <div class="me-auto">
+                            <h6 class="mb-0">Progress Kontainer</h6>
+                            <p class="mb-0 text-sm">Progress Kontainer</p>
+                        </div>
+                        <div class="col-6 text-end">
+                            <div class="dropdown">
+                                <button class="btn btn-sm bg-gradient-success dropdown-toggle" type="button"
+                                    id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Pilih Kelurahan
+                                </button>
+                                <ul class="dropdown-menu choices overflow-auto blockui" aria-labelledby="dropdownMenuButton" style="max-height: 200px; overflow-y: auto;">
+                                    <li>
+                                        <div class="input-group input-group-outline choices">
+                                            <label class="form-label">Cari kelurahan</label>
+                                            <input type="text" class="form-control">
+                                        </div>
+                                    </li>
+                                    @foreach($lokasi as $l)
+                                    <li><a id="namaKel" class="dropdown-item" onclick="updateChart('{{$l['id_lokasi']}}');">{{$l['nama_kelurahan']}}</a></li>
+                                    @endforeach
+                                </ul>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6 mt-3 d-flex justify-content-center">
-                            <div class="chart-container">
-                                <div class="chart-content">
-                                    <canvas id="myChart2"></canvas>
-                                    <div class="chart-background"></div>
-                                    <div class="chart-percentage">75%</div>
-                                </div>
+                <div class="card-body p-3 pt-0">
+                    <div class="row mt-0 mb-0">
+                        <div class="col-md-7 text-center">
+                            <div class="chart">
+                                <canvas id="myChart1" class="chart-content mx-auto chart-canvas chart-background-green"></canvas>
                             </div>
+                            <h4 class="font-weight-bold mt-n8">
+                                <span id="percentageProgress"><span id="state4" countTo="{{$percentageProgress}}"></span>%</span>
+                                <span id="progressText" class="d-block text-body text-sm">{{ $progress[0] }} /
+                                    {{$progress[0]+$progress[1]}}</span>
+                            </h4>
                         </div>
-                        <div class="col-lg-6 col-md-6 mt-3 d-flex justify-content-center">
-                            <div class="chart-container">
-                                <div class="chart-content">
-                                    <canvas id="myChart3"></canvas>
-                                    <div class="chart-background2"></div>
-                                    <div class="chart-percentage2">75%</div>
-                                </div>
+                        <div class="col-5">
+                            <div class="table-responsive">
+                                <table class="table align-items-center mb-0">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex px-2 py-0">
+                                                    <span class="badge bg-gradient-primary me-3"> </span>
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="mb-0 text-sm">Living Room</h6>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
-                    <hr class="dark horizontal">
+                    <hr class="dark horizontal mt-7">
                     <div class="d-flex">
-                        <i class="material-icons text-sm my-auto me-1 custom-icon">brightness_1</i>
-                        <p class="mb-0 text-sm"> Kontainer Utama</p>
-                        <i class="material-icons text-sm my-auto me-1 custom-icon2">brightness_1</i>
-                        <p class="mb-0 text-sm"> Kontainer Cadangan</p>
+                            <i id="indicator" class="material-icons text-sm my-auto me-1 custom-icon">brightness_1</i>
+                            <p id="indicatorText" class="mb-0 text-sm">Aman</p>
+                        <i id="lokasi" class="material-icons position-relative ms-auto text-lg me-1 my-auto">place</i>
+                        <p id="lokasiText" class="text-sm my-auto"> Bukit Datuk</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row mb-4">
+    <div class="row mb-4 animate__animated animate__fadeInUp">
         <div class="col-lg-8 col-md-6 mb-md-0 mb-4">
             <div class="card">
                 <div class="card-header pb-0">
@@ -271,21 +259,6 @@
                                 <span class="font-weight-bold ms-1">{{ $totalKontainer }} Lokasi</span> pada
                                 {{$bulanTahun}}
                             </p>
-                        </div>
-                        <div class="col-lg-6 col-5 my-auto text-end">
-                            <div class="dropdown float-lg-end pe-4">
-                                <a class="cursor-pointer" id="dropdownTable" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
-                                    <i class="fa fa-ellipsis-v text-secondary"></i>
-                                </a>
-                                <ul class="dropdown-menu px-2 py-3 ms-sm-n4 ms-n5" aria-labelledby="dropdownTable">
-                                    <li><a class="dropdown-item border-radius-md" href="javascript:;">Action</a></li>
-                                    <li><a class="dropdown-item border-radius-md" href="javascript:;">Another action</a>
-                                    </li>
-                                    <li><a class="dropdown-item border-radius-md" href="javascript:;">Something else
-                                            here</a></li>
-                                </ul>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -302,13 +275,42 @@
         <div class="col-lg-4 col-md-6">
             <div class="card h-100">
                 <div class="card-header pb-0">
-                    <h6>Orders overview</h6>
+                    <h6>Notifikasi</h6>
                     <p class="text-sm">
-                        <i class="fa fa-arrow-up text-success" aria-hidden="true"></i>
-                        <span class="font-weight-bold">24%</span> this month
+                        <i class="fa fa-bell text-info" aria-hidden="true"></i>
+                        <span class="font-weight-bold">0</span> notifikasi bulan {{$bulanTahun}}
                     </p>
                 </div>
                 <div class="card-body p-3">
+                    <div class="row">
+                        @if (!empty($notifikasi))
+                            @foreach ($notifikasi as $key => $item)
+                                @if ($item->status === 'HAMPIR PENUH')
+                                    <div class="col-md-12">
+                                        <x-notifikasi.kontainer action="disable" type="warning"
+                                            notifikasi="Kontainer Utama hampir penuh"
+                                            type_detail="Ajukan kontainer yang baru supaya dapat terus menerima sumbangan" />
+                                    </div>
+                                @else
+                                    <div class="col-md-12">
+                                        <x-notifikasi.kontainer action="disable" type="success"
+                                            notifikasi="Kontainer Utama dapat diisi"
+                                            type_detail="Belum membutuhkan pergantian kontainer" />
+                                    </div>
+                                @endif
+                                @if ($key === 0)
+                                    @break
+                                @endif
+                            @endforeach
+                        @else
+                            <div class="col-md-12">
+                                <x-notifikasi.kontainer action="disable" type="success"
+                                    kelurahan="Tidak ada permintaan" type_detail="Seluruh kontainer ready" />
+                            </div>
+                        @endif
+                    </div>
+                </div>
+                <!-- <div class="card-body p-3">
                     <div class="timeline timeline-one-side">
                         <div class="timeline-block mb-3">
                             <span class="timeline-step">
@@ -342,7 +344,8 @@
                                 <i class="material-icons text-warning text-gradient">credit_card</i>
                             </span>
                             <div class="timeline-content">
-                                <h6 class="text-dark text-sm font-weight-bold mb-0">New card added for order #4395133
+                                <h6 class="text-dark text-sm font-weight-bold mb-0">New card added for order
+                                    #4395133
                                 </h6>
                                 <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">20 DEC 2:20 AM</p>
                             </div>
@@ -352,7 +355,8 @@
                                 <i class="material-icons text-primary text-gradient">key</i>
                             </span>
                             <div class="timeline-content">
-                                <h6 class="text-dark text-sm font-weight-bold mb-0">Unlock packages for development</h6>
+                                <h6 class="text-dark text-sm font-weight-bold mb-0">Unlock packages for development
+                                </h6>
                                 <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">18 DEC 4:54 AM</p>
                             </div>
                         </div>
@@ -366,415 +370,183 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.css" />
-<link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css'
-    rel='stylesheet' />
-<script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js" async></script>
-<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js' async>
-</script>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"
-    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous" async></script>
+<script src="{{ asset('assets/js/core/bootstrap.min.js') }}"></script>
+<script src="{{ asset('assets/js/plugins/countup.min.js') }}"></script>
 
 <script>
-var ctx = document.getElementById("chart-bars1").getContext("2d");
+    var ctx = document.getElementById("chart-bars1").getContext("2d");
 
-new Chart(ctx, {
-    type: "bar",
-    data: {
-        labels: {!!json_encode($chartData['labels'])!!},
-        datasets: [{
-            label: "Total Sumbangan",
-            tension: 1,
-            borderWidth: 0,
-            borderRadius: 5,
-            borderSkipped: false,
-            backgroundColor: "rgba(209, 32, 49, 1)",
-            data: {!!json_encode($chartData['values'])!!},
-            maxBarThickness: 8
-        }, ],
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            display: false,
-          }
+    new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: @json($chartData['labels']),
+            datasets: [{
+                label: "Total Sumbangan",
+                tension: 1,
+                borderWidth: 0,
+                borderRadius: 5,
+                borderSkipped: false,
+                backgroundColor: "rgba(209, 32, 49, 1)",
+                data: @json($chartData['values']),
+                maxBarThickness: 12
+            }, ],
         },
-        interaction: {
-          intersect: false,
-          mode: 'index',
-        },
-        scales: {
-          y: {
-            grid: {
-              drawBorder: false,
-              display: true,
-              drawOnChartArea: true,
-              drawTicks: false,
-              borderDash: [5, 5],
-              color: '#c1c4ce5c'
-            },
-            ticks: {
-              suggestedMin: 0,
-              suggestedMax: 500,
-              beginAtZero: true,
-              padding: 10,
-              color: "#9ca2b7",
-              font: {
-                size: 10,
-                weight: 300,
-                family: "Roboto",
-                style: 'normal',
-                lineHeight: 2
-              },
-            },
-          },
-          x: {
-            grid: {
-              drawBorder: false,
-              display: true,
-              drawOnChartArea: true,
-              drawTicks: false,
-              borderDash: [5, 5],
-              color: '#c1c4ce5c'
-            },
-            ticks: {
-              display: true,
-              color: '#9ca2b7',
-              padding: 10,
-              font: {
-                size: 12,
-                weight: 300,
-                family: "Roboto",
-                style: 'normal',
-                lineHeight: 2
-              },
-            }
-          },
-        },
-      },
-});
-
-var ctx2 = document.getElementById("chart-line").getContext("2d");
-
-new Chart(ctx2, {
-    type: "line",
-    data: {
-        labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-        datasets: [{
-            label: "Mobile apps",
-            tension: 0,
-            borderWidth: 0,
-            pointRadius: 5,
-            pointBackgroundColor: "rgba(255, 255, 255, .8)",
-            pointBorderColor: "transparent",
-            borderColor: "rgba(255, 255, 255, .8)",
-            borderColor: "rgba(255, 255, 255, .8)",
-            borderWidth: 4,
-            backgroundColor: "transparent",
-            fill: true,
-            data: [50, 40, 300, 320, 500, 350, 200, 230, 500],
-            maxBarThickness: 6
-
-        }],
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: {
-                display: false,
-            }
-        },
-        interaction: {
-            intersect: false,
-            mode: 'index',
-        },
-        scales: {
-            y: {
-                grid: {
-                    drawBorder: false,
-                    display: true,
-                    drawOnChartArea: true,
-                    drawTicks: false,
-                    borderDash: [5, 5],
-                    color: 'rgba(255, 255, 255, .2)'
-                },
-                ticks: {
-                    display: true,
-                    color: '#f8f9fa',
-                    padding: 10,
-                    font: {
-                        size: 14,
-                        weight: 300,
-                        family: "Roboto",
-                        style: 'normal',
-                        lineHeight: 2
-                    },
-                }
-            },
-            x: {
-                grid: {
-                    drawBorder: false,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
                     display: false,
-                    drawOnChartArea: false,
-                    drawTicks: false,
-                    borderDash: [5, 5]
-                },
-                ticks: {
-                    display: true,
-                    color: '#f8f9fa',
-                    padding: 10,
-                    font: {
-                        size: 14,
-                        weight: 300,
-                        family: "Roboto",
-                        style: 'normal',
-                        lineHeight: 2
-                    },
                 }
             },
-        },
-    },
-});
-
-var ctx3 = document.getElementById("chart-line-tasks").getContext("2d");
-
-new Chart(ctx3, {
-    type: "line",
-    data: {
-        labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-        datasets: [{
-            label: "Mobile apps",
-            tension: 0,
-            borderWidth: 0,
-            pointRadius: 5,
-            pointBackgroundColor: "rgba(255, 255, 255, .8)",
-            pointBorderColor: "transparent",
-            borderColor: "rgba(255, 255, 255, .8)",
-            borderWidth: 4,
-            backgroundColor: "transparent",
-            fill: true,
-            data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
-            maxBarThickness: 6
-
-        }],
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: {
-                display: false,
-            }
-        },
-        interaction: {
-            intersect: false,
-            mode: 'index',
-        },
-        scales: {
-            y: {
-                grid: {
-                    drawBorder: false,
-                    display: true,
-                    drawOnChartArea: true,
-                    drawTicks: false,
-                    borderDash: [5, 5],
-                    color: 'rgba(255, 255, 255, .2)'
-                },
-                ticks: {
-                    display: true,
-                    padding: 10,
-                    color: '#f8f9fa',
-                    font: {
-                        size: 14,
-                        weight: 300,
-                        family: "Roboto",
-                        style: 'normal',
-                        lineHeight: 2
-                    },
-                }
+            interaction: {
+                intersect: false,
+                mode: 'index',
             },
-            x: {
-                grid: {
-                    drawBorder: false,
-                    display: false,
-                    drawOnChartArea: false,
-                    drawTicks: false,
-                    borderDash: [5, 5]
-                },
-                ticks: {
-                    display: true,
-                    color: '#f8f9fa',
-                    padding: 10,
-                    font: {
-                        size: 14,
-                        weight: 300,
-                        family: "Roboto",
-                        style: 'normal',
-                        lineHeight: 2
+            scales: {
+                y: {
+                    grid: {
+                        drawBorder: false,
+                        display: true,
+                        drawOnChartArea: true,
+                        drawTicks: false,
+                        borderDash: [5, 5],
+                        color: '#c1c4ce5c'
                     },
-                }
+                    ticks: {
+                        suggestedMin: 0,
+                        suggestedMax: 500,
+                        beginAtZero: true,
+                        padding: 10,
+                        color: "#9ca2b7",
+                        font: {
+                            size: 10,
+                            weight: 300,
+                            family: "Poppins",
+                            style: 'normal',
+                            lineHeight: 2
+                        },
+                    },
+                },
+                x: {
+                    grid: {
+                        drawBorder: false,
+                        display: true,
+                        drawOnChartArea: true,
+                        drawTicks: false,
+                        borderDash: [5, 5],
+                        color: '#c1c4ce5c'
+                    },
+                    ticks: {
+                        display: true,
+                        color: '#9ca2b7',
+                        padding: 10,
+                        font: {
+                            size: 12,
+                            weight: 300,
+                            family: "Poppins",
+                            style: 'normal',
+                            lineHeight: 2
+                        },
+                    }
+                },
             },
         },
-    },
-});
+    });
 </script>
 
 <script>
-var ctx = document.getElementById('myChart').getContext('2d');
-
-new Chart(ctx, {
-    type: "bar",
-    data: {
-        labels: {
-            !!json_encode($chartData['labels']) !!
-        },
-        datasets: [{
-            label: "Sales",
-            tension: 0.4,
-            borderWidth: 0,
-            borderRadius: 4,
-            borderSkipped: false,
-            backgroundColor: "rgba(255, 255, 255, .8)",
-            data: {
-                !!json_encode($chartData['values']) !!
+    function updateChart(selectedLokasiId) {
+        $.ajax({
+            url: '/dashboard/fetchChartData/' + selectedLokasiId,
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                updateMyChart1(data);
             },
-            maxBarThickness: 6
-        }, ],
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: {
-                display: false,
+            error: function (xhr, textStatus, errorThrown) {
+                console.error('Error fetching data: ' + errorThrown);
             }
-        },
-        interaction: {
-            intersect: false,
-            mode: 'index',
-        },
-        scales: {
-            y: {
-                grid: {
-                    drawBorder: false,
-                    display: true,
-                    drawOnChartArea: true,
-                    drawTicks: false,
-                    borderDash: [5, 5],
-                    color: 'rgba(255, 255, 255, .2)'
-                },
-                ticks: {
-                    suggestedMin: 0,
-                    suggestedMax: 500,
-                    beginAtZero: true,
-                    padding: 10,
-                    font: {
-                        size: 14,
-                        weight: 300,
-                        family: "Roboto",
-                        style: 'normal',
-                        lineHeight: 2
-                    },
-                    color: "#fff"
-                },
-            },
-            x: {
-                grid: {
-                    drawBorder: false,
-                    display: true,
-                    drawOnChartArea: true,
-                    drawTicks: false,
-                    borderDash: [5, 5],
-                    color: 'rgba(255, 255, 255, .2)'
-                },
-                ticks: {
-                    display: true,
-                    color: '#f8f9fa',
-                    padding: 10,
-                    font: {
-                        size: 14,
-                        weight: 300,
-                        family: "Roboto",
-                        style: 'normal',
-                        lineHeight: 2
-                    },
-                }
-            },
-        },
-    },
-});
-</script>
-
-<script>
-var ctx1 = document.getElementById('myChart2').getContext('2d');
-var data1 = [75, 25];
-var colors1 = ['rgba(101, 174, 56, 1)', 'rgba(0, 0, 0, 0)'];
-var cutout1 = '85%';
-var myChart1 = new Chart(ctx1, {
-    type: 'doughnut',
-    data: {
-        labels: ['Terisi', 'kosong'],
-        datasets: [{
-            label: 'Total',
-            data: data1,
-            backgroundColor: colors1,
-            cutout: cutout1,
-            borderRadius: 50,
-            borderWidth: 0,
-            hoverOffset: 0
-        }]
-    },
-    options: {
-        maintainAspectRatio: false,
-        responsive: true,
-        layout: {
-            padding: 0
-        },
-        plugins: {
-            legend: false
-        }
+        });
     }
-});
 
-var ctx2 = document.getElementById('myChart3').getContext('2d');
-var data2 = [75, 25];
-var colors2 = ['rgba(20, 94, 168, 1)', 'rgba(0, 0, 0, 0)'];
-var cutout2 = '85%';
-var myChart2 = new Chart(ctx2, {
-    type: 'doughnut',
-    data: {
-        labels: ['Terisi', 'kosong'],
-        datasets: [{
-            label: 'Total',
-            data: data2,
-            backgroundColor: colors2,
-            cutout: cutout2,
-            borderRadius: 50,
-            borderWidth: 0,
-            hoverOffset: 0
-        }]
-    },
-    options: {
-        maintainAspectRatio: false,
-        responsive: true,
-        layout: {
-            padding: 0
-        },
-        plugins: {
-            legend: false
+    function updateMyChart1(newData) {
+        myChart1.data.datasets[0].data = newData;
+        var totalSumbangan1 = newData[0];
+        var totalKapasitasKontainer = newData[0] + newData[1];
+        var percentageProgress = Math.abs(((totalSumbangan1 / totalKapasitasKontainer) * 100).toFixed(2));
+        document.getElementById('percentageProgress').textContent = percentageProgress + '%';
+        document.getElementById('progressText').textContent = totalSumbangan1.toFixed(2) + '/' + totalKapasitasKontainer;
+        
+        var indicatorIcon = document.getElementById('indicator');
+        var indicatorText = document.getElementById('indicatorText');
+        var chartCanvas = document.getElementById('myChart1');
+
+        indicatorIcon.classList.remove('custom-icon', 'custom-icon2', 'custom-icon3');
+        chartCanvas.classList.remove('chart-background-green', 'chart-background-yellow', 'chart-background-red');
+
+        if (percentageProgress <= 50.0) {
+            indicatorIcon.classList.add('custom-icon');
+            indicatorIcon.textContent = 'brightness_1';
+            indicatorText.textContent = 'Aman';
+            myChart1.data.datasets[0].backgroundColor = ['rgba(101, 174, 56, 1)', 'rgba(0, 0, 0, 0)'];
+            chartCanvas.classList.add('chart-background-green');
+        } else if (percentageProgress > 50.0 && percentageProgress <= 80.0) {
+            indicatorIcon.classList.add('custom-icon2');
+            indicatorIcon.textContent = 'brightness_1';
+            indicatorText.textContent = 'Mulai Penuh';
+            myChart1.data.datasets[0].backgroundColor = ['rgba(255, 167, 38, 1)', 'rgba(0, 0, 0, 0)'];
+            chartCanvas.classList.add('chart-background-yellow');
+        } else {
+            indicatorIcon.classList.add('custom-icon3');
+            indicatorIcon.textContent = 'brightness_1';
+            indicatorText.textContent = 'Perlu penjemputan';
+            myChart1.data.datasets[0].backgroundColor = ['rgba(209, 32, 49, 1)', 'rgba(0, 0, 0, 0)'];
+            chartCanvas.classList.add('chart-background-red');
         }
+
+        myChart1.update();
     }
-});
+
+    var ctx1 = document.getElementById('myChart1').getContext('2d');
+    var colors1 = ['rgba(101, 174, 56, 1)', 'rgba(0, 0, 0, 0)'];
+    var cutout1 = '85%';
+
+    var myChart1 = new Chart(ctx1, {
+        type: 'doughnut',
+        data: {
+            labels: ['Terisi', 'kosong'],
+            datasets: [{
+                label: 'Total',
+                data: @json($progress),
+                backgroundColor: colors1,
+                cutout: cutout1,
+                borderRadius: 50,
+                borderWidth: 0,
+                hoverOffset: 0
+            }]
+        },
+        options: {
+            maintainAspectRatio: false,
+            responsive: true,
+            layout: {
+                padding: 0
+            },
+            interaction: {
+                intersect: false,
+                mode: 'index',
+            },
+            plugins: {
+                legend: false
+            }
+        }
+    });
 </script>
 
 <script>
@@ -787,9 +559,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 map.addControl(new L.Control.Fullscreen());
 
-var mapData = {
-    !!$mapData!!
-};
+var mapData = {!!$mapData!!};
 
 for (var i = 0; i < mapData.length; i++) {
     var marker = mapData[i];
@@ -806,6 +576,72 @@ for (var i = 0; i < mapData.length; i++) {
             className: 'custom-popup'
         });
 }
+</script>
+
+<script>
+    if (document.getElementById('state1')) {
+        var initialValue = parseFloat(document.getElementById("state1").getAttribute("countTo")).toFixed(2);
+
+        const countUp = new CountUp('state1', initialValue, {
+            useGrouping: false, 
+            separator: '',
+            decimalPlaces: 1,
+            duration: 1
+        });
+
+        if (!countUp.error) {
+            countUp.start();
+        } else {
+            console.error(countUp.error);
+        }
+    }
+    if (document.getElementById('state2')) {
+        var initialValue = parseFloat(document.getElementById("state2").getAttribute("countTo")).toFixed(2);
+
+        const countUp = new CountUp('state2', initialValue, {
+            useGrouping: false, 
+            separator: '',
+            duration: 1
+        });
+
+        if (!countUp.error) {
+            countUp.start();
+        } else {
+            console.error(countUp.error);
+        }
+    }
+    if (document.getElementById('state3')) {
+        var initialValue = parseFloat(document.getElementById("state3").getAttribute("countTo")).toFixed(2);
+
+        const countUp = new CountUp('state3', initialValue, {
+            useGrouping: false, 
+            separator: '',
+            decimalPlaces: 0,
+            duration: 1
+        });
+
+        if (!countUp.error) {
+            countUp.start();
+        } else {
+            console.error(countUp.error);
+        }
+    }
+    if (document.getElementById('state4')) {
+        var initialValue = parseFloat(document.getElementById("state4").getAttribute("countTo")).toFixed(2);
+
+        const countUp = new CountUp('state4', initialValue, {
+            useGrouping: false, 
+            separator: '',
+            decimalPlaces: 2,
+            duration: 1
+        });
+
+        if (!countUp.error) {
+            countUp.start();
+        } else {
+            console.error(countUp.error);
+        }
+    }
 </script>
 
 @stop
