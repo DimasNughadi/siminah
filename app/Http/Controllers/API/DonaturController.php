@@ -13,7 +13,7 @@ use Laravel\Sanctum\Sanctum;
 class DonaturController extends Controller
 {
 
-    public function login(Request $request)
+    public function login2(Request $request)
     {
         $credentials = $request->only('no_hp', 'password');
         $donatur = Donatur::where('no_hp', $credentials['no_hp'])->first();
@@ -34,10 +34,11 @@ class DonaturController extends Controller
         }
     }
 
-    public function login2(Request $request)
+    public function login(Request $request)
     {
         $credentials = $request->only('no_hp', 'password');
         $donatur = Donatur::where('no_hp', $credentials['no_hp'])->first();
+        // dd($donatur);
 
         if ($donatur && Hash::check($credentials['password'], $donatur->password)) {
             $accessToken = $donatur->createToken('API Token');
