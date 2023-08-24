@@ -45,7 +45,7 @@
                                                             </div>
                                                         </td>
                                                         <td class="ps-4 tanggal">
-                                                            {{ datetimeFormat($item->tanggal_permintaant) }}
+                                                            {{ datetimeFormat($item->created_at) }}
                                                         </td>
                                                         <td class="ps-4">
                                                             @if (strtolower($item->status_permintaan) === 'menunggu konfirmasi')
@@ -214,7 +214,3 @@
     </div>
 @stop
 
-@extends('components._partials.scripts')
-@section('script')
-    <x-sweetalert />
-@endsection

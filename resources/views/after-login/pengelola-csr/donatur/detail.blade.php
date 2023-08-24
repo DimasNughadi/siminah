@@ -13,13 +13,14 @@
             </div>
         </div>
         <div class="row pt-3">
-            <div class="col-md-4 col-12 col-sm-12 detail-donatur-wrapper margin-left-24 animate__animated animate__fadeInLeft">
+            <div
+                class="col-md-4 col-12 col-sm-12 detail-donatur-wrapper margin-left-24 animate__animated animate__fadeInLeft">
                 <div class="detail-donatur-card">
                     <div class="row header">
                         <div class="col-md-12">
                             <div class="row">
                                 <div class="col-md-12 d-flex justify-content-center align-items-center">
-                                    <x-user.userImage width="119" height="119"/>
+                                    <x-user.userImage width="119" height="119" />
                                 </div>
                                 <div class="col-md-12 d-flex justify-content-center align-items-center">
                                     <span>
@@ -94,7 +95,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <span class="head">Jalan: </span>
-                                    <span class="body">{{ $donatur->alamat_donatur  }}</span>
+                                    <span class="body">{{ $donatur->alamat_donatur }}</span>
                                 </div>
                                 <div class="col-md-12">
                                     <span class="head">Kelurahan: </span>
@@ -129,9 +130,11 @@
                                 <th class="text-semi-dark">JUMLAH KONTAINER</th>
                                 <th class="text-semi-dark">TANGGAL</th>
                                 <th class="text-semi-dark">WAKTU</th>
+                                <th class="text-semi-dark">STATUS</th>
                             @endslot
 
                             @slot('bodySlot')
+                                {{-- @dd($riwayat) --}}
                                 @if (!empty($riwayat))
                                     @foreach ($riwayat as $item)
                                         <tr class="reward-row table-row-image">
@@ -146,6 +149,33 @@
                                             </td>
                                             <td class="ps-4 text-semi-dark-68 text-inter-regular text-14">
                                                 {{ date('h:i', strtotime($item->created_at)) }}
+                                            </td>
+                                            <td class="ps-4">
+                                                @if (strtolower($item->status) === 'ditolak')
+                                                    <div
+                                                        class="btn-reward btn-table-custom bg-danger
+                                                position-relative">
+                                                        <span class="position-relative add-reward">
+                                                            Ditolak
+                                                        </span>
+                                                    </div>
+                                                @elseif(strtolower($item->status) === 'terverifikasi')
+                                                    <div
+                                                        class="btn-reward btn-table-custom bg-success
+                                                position-relative">
+                                                        <span class="position-relative add-reward">
+                                                            Terverifikasi
+                                                        </span>
+                                                    </div>
+                                                @else
+                                                    <div
+                                                        class="btn-reward btn-table-custom 
+                                                position-relative">
+                                                        <span class="position-relative add-reward">
+                                                            Menunggu konfirmasi
+                                                        </span>
+                                                    </div>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach

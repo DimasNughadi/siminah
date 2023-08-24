@@ -128,7 +128,6 @@
         </div>
     </div>
 
-    <x-sweetalert />
     <script>
         let passwordProfil = document.querySelector('#passwordProfil')
         let konfirmasiPasswordProfil = document.querySelector('#konfirmasiPasswordProfil');

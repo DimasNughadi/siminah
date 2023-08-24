@@ -1,16 +1,16 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\SumbanganController;
-use App\Http\Controllers\KontainerController;
-use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\DonaturController;
-use App\Http\Controllers\RewardController;
-use App\Http\Controllers\RedeemController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\LokasiController;
 use App\Http\Controllers\ProfilController;
-use App\Http\Controllerxs\LokasiController;
+use App\Http\Controllers\RedeemController;
+use App\Http\Controllers\RewardController;
+use App\Http\Controllers\DonaturController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\KontainerController;
+use App\Http\Controllers\SumbanganController;
 
 
 Route::get('/contoh', function () {
@@ -31,6 +31,7 @@ Route::middleware(['checksession','role:admin_csr,admin_kelurahan'])->group(func
     Route::get('/lokasi/edit/{id}',[LokasiController::class,'edit'])->name('lokasi.edit');
     Route::put('/lokasi/update/{id}',[LokasiController::class,'update'])->name('lokasi.update');
     Route::delete('/lokasi/delete/{id}',[LokasiController::class,'destroy'])->name('lokasi.destroy');
+    Route::post('/cek-lokasi', [LokasiController::class,'cekLokasi'])->name('cek-lokasi');
 
     //kelola data donatur
     Route::get('/donatur',[donaturController::class,'index'])->name('donatur');
@@ -56,7 +57,7 @@ Route::middleware(['checksession','role:admin_csr,admin_kelurahan'])->group(func
     Route::put('/kontainer/update-permintaan/{id}',[KontainerController::class,'updatePermintaan'])->name('kontainer.updatePermintaan');
     Route::post('/kontainer/storePermintaan/{id_kontainer}',[KontainerController::class,'storePermintaan'])->name('kontainer.storePermintaan');
     Route::post('/kontainer/isPermintaanDiajukan/{id_kontainer}',[KontainerController::class,'isPermintaanDiajukan'])->name('kontainer.isPermintaanDiajukan');
-    
+            
     //manajemen reward (adm-kelurahan)
     Route::get('/reward',[RedeemController::class,'index'])->name('reward');
     Route::get('/reward/reward-list',[RewardController::class,'index'])->name('reward/reward-list');

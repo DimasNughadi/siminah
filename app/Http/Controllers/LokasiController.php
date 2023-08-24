@@ -13,7 +13,13 @@ class LokasiController extends Controller
     public function index()
     {
         try {
-            $lokasi = Lokasi::all();
+            $lokasi = Lokasi::withCount([
+                'kontainer' => function ($query) {
+                    $query->where('keterangan', '!=', 'deleted');
+                }
+            ])
+                ->where('status', '!=', 'deleted')
+            ->get();
             return view('after-login.pengelola-csr.lokasi.index', ['lokasi' => $lokasi]);
         } catch (Exception $exception) {
             return redirect()->back()->with('message', 'Tidak ada data');
@@ -28,6 +34,20 @@ class LokasiController extends Controller
             return redirect()->back()->with('message', 'Halaman tidak ditemukan');
         }
     }
+
+    public function cekLokasi(Request $request)
+    {
+        $namaKelurahan = strtolower(str_replace(' ', '', $request->nama_kelurahan));
+
+        // Periksa apakah entri dengan nama_kelurahan yang sudah diubah sudah ada di database
+        $existingLokasi = Lokasi::whereRaw('LOWER(REPLACE(nama_kelurahan, " ", "")) = ?', [$namaKelurahan])->first();
+
+        if ($existingLokasi) {
+            return response()->json(['exist' => true]);
+        } else {
+            return response()->json(['exist' => false]);
+        }
+    }
     public function store(Request $request)
     {
 
@@ -38,11 +58,14 @@ class LokasiController extends Controller
                 'longitude' => 'required',
                 'deskripsi' => 'required',
             ]);
+
+
             $lokasi = Lokasi::create([
                 'nama_kelurahan' => $request->nama_kelurahan,
                 'latitude' => $request->latitude,
                 'longitude' => $request->longitude,
                 'deskripsi' => $request->deskripsi,
+                'status' => '-',
             ]);
 
             Kontainer::create([
@@ -50,9 +73,10 @@ class LokasiController extends Controller
                 'kapasitas' => '30',
                 'keterangan' => '-',
             ]);
-            return redirect()->route('lokasi');
+            return redirect()->route('lokasi')->with('lokasi_alert', 'success');
+
         } catch (Exception $exception) {
-            return redirect()->back()->with('message', 'Lokasi tidak berhasil ditambahkan');
+            return redirect()->back()->with('lokasi_alert', 'error');
         }
     }
     public function edit($id)
@@ -67,6 +91,7 @@ class LokasiController extends Controller
 
     public function update($id, Request $request)
     {
+        // dd($id);
         $this->validate($request, [
             'id_lokasi' => 'required',
             'nama_kelurahan' => 'required',
@@ -74,27 +99,29 @@ class LokasiController extends Controller
             'longitude' => 'required',
             'deskripsi' => 'required',
         ]);
+
+
         try {
             $lokasi = Lokasi::findOrFail($id);
-            $lokasi->nama = $request->nama;
             $lokasi->nama_kelurahan = $request->nama_kelurahan;
             $lokasi->latitude = $request->latitude;
             $lokasi->longitude = $request->longitude;
             $lokasi->deskripsi = $request->deskripsi;
             $lokasi->save();
-            return redirect()->route('lokasi');
+            return redirect()->route('lokasi')->with('edit_alert', 'success');
         } catch (Exception $exception) {
-            return redirect()->back()->with('message', 'Lokasi tidak berhasil diupdate');
+            return redirect()->back()->with('edit_alert', 'error');
         }
     }
     public function destroy($id)
     {
         try {
             $lokasi = Lokasi::find($id);
-            $lokasi->delete();
-            return redirect()->route('lokasi');
+            $lokasi->status = 'deleted';
+            $lokasi->save();
+            return redirect()->route('lokasi')->with('delete_alert', 'success');
         } catch (Exception $exception) {
-            return redirect()->back()->with('message', 'Lokasi tidak berhasil dihapus');
+            return redirect()->back()->with('delete_alert', 'error');
         }
     }
 }

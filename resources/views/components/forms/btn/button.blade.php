@@ -1,7 +1,9 @@
-@props([
-    'color',
-    'title',
-    'type' =>'button'
-])
+@props(['color', 'title', 'type' => 'button', 'id' => ''])
 
-<button type="{{ $type }}" class="btn btn-{{ $color }} text-capitalize">{{ $title }}</button>
+@if ($id === '')
+    <button type="{{ $type }}"
+        class="forms-sumbit btn btn-{{ $color }} text-capitalize">{{ $title }}</button>
+@else
+    <button type="{{ $type }}"
+        class="forms-sumbit btn btn-{{ $color }} text-capitalize" id="{{ $id }}">{{ $title }}</button>
+@endif

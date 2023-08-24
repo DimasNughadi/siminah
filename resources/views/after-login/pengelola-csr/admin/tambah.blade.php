@@ -57,7 +57,7 @@
                             <div class="row mt-4">
                                 <div class="col-md-4 section-1">
                                     <x-forms.formControlAdmin label="Alamat" name="alamat_rumah"
-                                        placeholder="Alamat tempat tinggal Admin Kelurahan" />
+                                        placeholder="Alamat" />
                                 </div>
                                 <div class="col-md-4 section-2">
                                     <x-forms.selectOption name="id_lokasi" label="Kelurahan">
@@ -78,6 +78,4 @@
             </div>
         </div>
     </div>
-
-    <x-sweetalert />
 @stop

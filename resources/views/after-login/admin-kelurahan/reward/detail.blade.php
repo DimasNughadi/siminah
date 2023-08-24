@@ -156,5 +156,4 @@
                     <x-forms.btn.button type="submit" color="danger" title="Ubah" />
                 @endslot
         </x-modals.Modal>
-        <x-sweetalert />
     @stop

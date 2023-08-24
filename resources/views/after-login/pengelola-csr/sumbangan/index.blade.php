@@ -26,7 +26,7 @@
                                                 <a href="#"
                                                     class="btn-reward 
                                                 btn-semi-success position-relative d-flex align-items-center export-btn"
-                                                    onclick="exportToPdf()">
+                                                    onclick="generate()">
                                                     EXPORT
                                                     <span class="material-symbols-outlined">
                                                         download
@@ -41,7 +41,7 @@
                                         <x-forms.table id="sumbangan-table">
                                             @slot('headSlot')
                                                 <th>KELURAHAN</th>
-                                                <th>JUMLAH (LITER)</th>
+                                                <th>JUMLAH (KG)</th>
                                                 <th>JUMLAH DONATUR</th>
                                                 <th>TANGGAL PELAPORAN</th>
                                             @endslot
@@ -85,11 +85,38 @@
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.6/jspdf.plugin.autotable.min.js"></script>
     <script>
         const input = document.getElementById('bulan');
         const table = document.getElementById('sumbangan-table');
         const tableRows = table.getElementsByTagName('tr');
+
+        // get current Time
+        var tanggalHariIni = new Date();
+        var options = {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+        };
+        var tanggalHariIni = tanggalHariIni.toLocaleDateString('id-ID', options);
+        // console.log(formattedDate);
+
+        var tableData = [];
+        var rows = document.querySelectorAll('#sumbangan-table tr');
+        for (var i = 0; i < rows.length; i++) {
+            var cells = rows[i].querySelectorAll('td');
+            tableData[i] = [];
+            for (var j = 0; j < cells.length; j++) {
+                tableData[i][j] = cells[j].textContent.replace(/\n/g, '').trim();
+            }
+        }
+
+        var tableDataWithRowNumbers;
+        tableData = tableData.slice(1);
+        tableDataWithRowNumbers = tableData.map(function(row, index) {
+            return [index + 1].concat(row).slice(0);
+        });
 
         function isMonth(month) {
             const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September',
@@ -100,8 +127,10 @@
                 input.style.width = '100px'
             } else if (length <= 6) {
                 input.style.width = '120px'
-            } else {
+            } else if (length <= 7) {
                 input.style.width = '140px'
+            } else {
+                input.style.width = '150px'
             }
         }
 
@@ -115,16 +144,31 @@
         }
 
         function searchByMonthAndYear(keyword) {
+            // let sumRowsDeleted = 0;
+            tableData = [];
+
             for (let i = 1; i < tableRows.length; i++) {
                 const row = tableRows[i];
                 const tanggalCell = row.querySelector('td#tanggal');
                 const tanggalText = tanggalCell.textContent;
                 if (tanggalText.includes(keyword)) {
                     row.style.display = '';
+                    var rowData = [];
+                    var cells = row.querySelectorAll('td');
+                    for (let j = 0; j < cells.length; j++) {
+                        rowData.push(cells[j].textContent.trim());
+                    }
+                    tableData.push(rowData);
                 } else {
                     row.style.display = 'none';
                 }
+
             }
+
+            tableDataWithRowNumbers;
+            tableDataWithRowNumbers = tableData.map(function(row, index) {
+                return [index + 1].concat(row).slice(0);
+            });
         }
 
         function setCurrentMonth() {
@@ -151,16 +195,89 @@
 
             // Search
             const keyword = strToDate(selectedMonth)
-            console.log(keyword);
+            // console.log(keyword);
             searchByMonthAndYear(keyword)
         }
 
-        function exportToPdf() {
-            const doc = new jsPDF();
+
+        function generate() {
+            var doc = new jsPDF('p', 'pt', 'a4');
+            var htmlstring = '';
+            var tempVarToCheckPageHeight = 0;
+            var pageHeight = 0;
+            pageHeight = doc.internal.pageSize.height;
+            specialElementHandlers = {
+                // element with id of "bypass" - jQuery style selector  
+                '#bypassme': function(element, renderer) {
+                    // true = "handled elsewhere, bypass text extraction"  
+                    return true
+                }
+            };
+            margins = {
+                top: 150,
+                bottom: 60,
+                left: 40,
+                right: 40,
+                width: 600
+            };
+            var y = 20;
+            doc.setLineWidth(2);
+            doc.setFontSize(10);
+            doc.text(40, y = y + 10, tanggalHariIni);
+            doc.setFontSize(16);
+            doc.text(130, y = y + 30, "LAPORAN SUMBANGAN MINYAK JELANTAH");
+            doc.setFontSize(12);
             doc.autoTable({
-                html: '#sumbangan-table'
-            });
-            doc.save('table.pdf');
+                headStyles: {
+                    fillColor: [101, 174, 56],
+                    valign: 'middle',
+                    halign: 'center',
+                },
+                // html: '#sumbangan-table',
+                head: [
+                    ['NO', 'KELURAHAN', 'JUMLAH (KG)', 'JUMLAH DONATUR', 'TANGGAL PELAPORAN']
+                ],
+                body: tableDataWithRowNumbers,
+                startY: 70,
+                theme: 'striped',
+                columnStyles: {
+                    0: {
+                        cellWidth: 40,
+                    },
+                    1: {
+                        cellWidth: 180,
+                    },
+                    2: {
+                        cellWidth: 80,
+                    },
+                    3: {
+                        cellWidth: 80,
+                    },
+                    4: {
+                        cellWidth: 160
+                    }
+                },
+                styles: {
+                    minCellHeight: 10
+                },
+                columnStyles: {
+                    0: {
+                        valign: 'middle',
+                        halign: 'center',
+                        fontStyle: 'bold',
+                    },
+                },
+                didDrawCell: function(data) {
+                    if (data.section === 'body' && data.column.index !== data.table.columns.length - 1) {
+                        doc.setDrawColor(200, 200, 200); // Set the color of the delimiter
+                        doc.setLineWidth(0.5); // Set the width of the delimiter
+                        doc.line(data.cell.x + data.cell.width, data.cell.y, data.cell.x + data.cell.width, data
+                            .cell.y + data.cell.height); // Draw the delimiter
+                    }
+                },
+            })
+            doc.save('Laporan-sumbangan-minyak-'+ tanggalHariIni.replace(' ', '-') +'.pdf');
         }
     </script>
+
 @stop

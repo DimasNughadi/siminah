@@ -808,6 +808,4 @@ for (var i = 0; i < mapData.length; i++) {
         });
 }
 </script>
-
-<x-sweetalert />
 @stop

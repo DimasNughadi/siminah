@@ -3,6 +3,7 @@
 @section('content')
 {{-- {!! json_encode($chartData['labels']) !!}
 {{!! json_encode(number_format($persentase, 1)) !!}} --}}
+
     <div class="container-fluid py-2 ps-4">
         <div class="row">
             <div class="col-md-12">
@@ -114,7 +115,7 @@
                                                                     </div>
                                                                 </td>
                                                                 <td class="ps-4 tanggal">
-                                                                    {{ datetimeFormat($item->created_at) }}
+                                                                    {{ datetimeFormat($item->updated_at) }}
                                                                 </td>
                                                                 <td class="ps-4 ">
                                                                 @if (strtolower($item->status) === 'terverifikasi')
@@ -187,7 +188,7 @@
                                                                 {{ $item->berat }} Kg
                                                             </td>
                                                             <td class="ps-4 kelurahan">
-                                                                {{ $item->donatur->nama_kelurahan }}
+                                                                {{ $item->donatur->kelurahan }}
                                                             </td>
                                                             <td class="ps-4 tanggal">
                                                                 {{ datetimeFormat($item->created_at) }}
@@ -237,9 +238,6 @@
             </div>
         </div>
     </div>
-
-    {{-- Sweetalert --}}
-    <x-sweetalert />
     {{-- Verifikasi status forms --}}
     <form method="POST" action="" id="verifikasiStatusForm">
         @csrf

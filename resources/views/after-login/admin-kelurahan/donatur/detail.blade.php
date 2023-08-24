@@ -129,6 +129,7 @@
                                 <th class="text-semi-dark">JUMLAH KONTAINER</th>
                                 <th class="text-semi-dark">TANGGAL</th>
                                 <th class="text-semi-dark">WAKTU</th>
+                                <th class="text-semi-dark">STATUS</th>
                             @endslot
 
                             @slot('bodySlot')
@@ -146,6 +147,33 @@
                                             </td>
                                             <td class="ps-4 text-semi-dark-68 text-inter-regular text-14">
                                                 {{ date('h:i', strtotime($item->created_at)) }}
+                                            </td>
+                                            <td class="ps-4">
+                                                @if (strtolower($item->status) === 'ditolak')
+                                                    <div
+                                                        class="btn-reward btn-table-custom bg-danger
+                                                position-relative">
+                                                        <span class="position-relative add-reward">
+                                                            Ditolak
+                                                        </span>
+                                                    </div>
+                                                @elseif(strtolower($item->status) === 'terverifikasi')
+                                                    <div
+                                                        class="btn-reward btn-table-custom bg-success
+                                                position-relative">
+                                                        <span class="position-relative add-reward">
+                                                            Terverifikasi
+                                                        </span>
+                                                    </div>
+                                                @else
+                                                    <div
+                                                        class="btn-reward btn-table-custom 
+                                                position-relative">
+                                                        <span class="position-relative add-reward">
+                                                            Menunggu konfirmasi
+                                                        </span>
+                                                    </div>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach
