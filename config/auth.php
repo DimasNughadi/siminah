@@ -39,6 +39,8 @@ return [
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
+            'lifetime' => 2880,
+            'expire_on_close' => true,
         ],
         'api' => [
             'driver' => 'sanctum',
