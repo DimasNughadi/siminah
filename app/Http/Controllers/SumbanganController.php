@@ -66,17 +66,21 @@ class SumbanganController extends Controller
                 return view('after-login.admin-kelurahan.sumbangan.index', ['verifikasiStatus' => $verifikasiStatus, 'persentase' => $persentase, 'riwayat' => $riwayat]);
             } else {
                 $laporan = Kontainer::join('lokasi', 'kontainer.id_lokasi', '=', 'lokasi.id_lokasi')
-                    ->leftJoin('sumbangan', 'kontainer.id_kontainer', '=', 'sumbangan.id_kontainer')
+                    ->leftJoin('sumbangan', function ($join) {
+                        $join->on('kontainer.id_kontainer', '=', 'sumbangan.id_kontainer')
+                            ->where('sumbangan.status', '=', 'terverifikasi');
+                    })
                     ->select('kontainer.id_kontainer', 'lokasi.nama_kelurahan')
-                    ->selectRaw('SUM(CASE WHEN sumbangan.status = "terverifikasi" THEN COALESCE(sumbangan.berat, 0) ELSE 0 END) as total_berat')
-                    ->selectRaw('COUNT(DISTINCT CASE WHEN sumbangan.status = "terverifikasi" THEN COALESCE(sumbangan.id_donatur, 0) END) as total_donatur')
-                    ->selectRaw('MAX(CASE WHEN sumbangan.status = "terverifikasi" THEN sumbangan.updated_at ELSE "-" END) as tanggal_laporan')
-                    ->selectRaw('YEAR(sumbangan.updated_at) as tahun, MONTH(sumbangan.updated_at) as bulan')
+                    ->selectRaw('SUM(COALESCE(sumbangan.berat, 0)) as total_berat')
+                    ->selectRaw('COUNT(DISTINCT COALESCE(sumbangan.id_donatur, 0)) as total_donatur')
+                    ->selectRaw('MAX(COALESCE(sumbangan.updated_at, "-")) as tanggal_laporan')
+                    ->selectRaw('YEAR(COALESCE(sumbangan.updated_at, NOW())) as tahun, MONTH(COALESCE(sumbangan.updated_at, NOW())) as bulan')
                     ->groupBy('kontainer.id_kontainer', 'lokasi.nama_kelurahan', 'tahun', 'bulan')
                     ->orderByDesc('total_berat')
                     ->orderBy('tahun')
                     ->orderBy('bulan')
                     ->get();
+                
                 return view('after-login.pengelola-csr.sumbangan.index', ['laporan' => $laporan]);
             }
         } catch (Exception $exception) {

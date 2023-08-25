@@ -15,6 +15,7 @@ class Lokasi extends Model
         'latitude',
         'longitude',
         'deskripsi',
+        'status',
         // Add other fillable properties here
     ];
 

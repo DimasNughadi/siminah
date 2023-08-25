@@ -13,7 +13,13 @@ class LokasiController extends Controller
     public function index()
     {
         try {
-            $lokasi = Lokasi::all();
+            $lokasi = Lokasi::withCount([
+                'kontainer' => function ($query) {
+                    $query->where('keterangan', '!=', 'deleted');
+                }
+            ])
+                ->where('status', '!=', 'deleted')
+                ->get();
             return view('after-login.pengelola-csr.lokasi.index', ['lokasi' => $lokasi]);
         } catch (Exception $exception) {
             return redirect()->back()->with('message', 'Tidak ada data');
@@ -28,6 +34,20 @@ class LokasiController extends Controller
             return redirect()->back()->with('message', 'Halaman tidak ditemukan');
         }
     }
+
+    public function cekLokasi(Request $request)
+    {
+        $namaKelurahan = strtolower(str_replace(' ', '', $request->nama_kelurahan));
+
+        // Periksa apakah entri dengan nama_kelurahan yang sudah diubah sudah ada di database
+        $existingLokasi = Lokasi::whereRaw('LOWER(REPLACE(nama_kelurahan, " ", "")) = ?', [$namaKelurahan])->first();
+        return ($existingLokasi);
+        if ($existingLokasi) {
+            return response()->json(['message' => 'Lokasi dengan nama kelurahan tersebut sudah ada.']);
+        } else {
+            return response()->json(['message' => 'Lokasi tersedia.']);
+        }
+    }
     public function store(Request $request)
     {
 
@@ -38,11 +58,14 @@ class LokasiController extends Controller
                 'longitude' => 'required',
                 'deskripsi' => 'required',
             ]);
+
+
             $lokasi = Lokasi::create([
                 'nama_kelurahan' => $request->nama_kelurahan,
                 'latitude' => $request->latitude,
                 'longitude' => $request->longitude,
                 'deskripsi' => $request->deskripsi,
+                'status' => '-',
             ]);
 
             Kontainer::create([
@@ -51,6 +74,7 @@ class LokasiController extends Controller
                 'keterangan' => '-',
             ]);
             return redirect()->route('lokasi');
+
         } catch (Exception $exception) {
             return redirect()->back()->with('message', 'Lokasi tidak berhasil ditambahkan');
         }
@@ -91,7 +115,8 @@ class LokasiController extends Controller
     {
         try {
             $lokasi = Lokasi::find($id);
-            $lokasi->delete();
+            $lokasi->status = 'deleted';
+            $lokasi->save();
             return redirect()->route('lokasi');
         } catch (Exception $exception) {
             return redirect()->back()->with('message', 'Lokasi tidak berhasil dihapus');
