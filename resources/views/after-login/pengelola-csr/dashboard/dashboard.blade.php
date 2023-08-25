@@ -90,19 +90,9 @@
                 </div>
                 <hr class="dark horizontal my-0">
                 <div class="card-footer p-3">
-                    @if ($perbandinganSumbangan < 0)
                     <p class="mb-0"><span
-                            class="text-danger text-sm font-weight-bolder">-{{ $perbandinganSumbangan }}%
+                            class="{{ $perbandinganSumbangan < 0 ? 'text-danger' : 'text-success' }} text-sm font-weight-bolder">{{ $perbandinganSumbangan }}%
                         </span> dari bulan lalu</p>
-                    @elseif ($perbandinganSumbangan > 0)
-                    <p class="mb-0"><span
-                            class="text-success text-sm font-weight-bolder">+{{ $perbandinganSumbangan }}%
-                        </span> dari bulan lalu</p>
-                    @else
-                    <p class="mb-0"><span
-                            class="text-info text-sm font-weight-bolder">+{{ $perbandinganSumbangan }}%
-                        </span> dari bulan lalu</p>
-                    @endif
                 </div>
             </div>
         </div>
@@ -376,6 +366,15 @@
     </div>
 </div>
 
+<script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
+<script src="{{ asset('assets/js/core/bootstrap.min.js') }}"></script>
+<script src="{{ asset('assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
+<script src="{{ asset('assets/js/plugins/smooth-scrollbar.min.js') }}"></script>
+<script src="{{ asset('assets/js/plugins/chartjs.min.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js"></script>
+<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <script src="{{ asset('assets/js/core/bootstrap.min.js') }}"></script>
 <script src="{{ asset('assets/js/plugins/countup.min.js') }}"></script>
 
