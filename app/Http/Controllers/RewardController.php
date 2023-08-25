@@ -15,7 +15,7 @@ class RewardController extends Controller
     public function index()
     {
         try {
-            $reward = Reward::get(); 
+            $reward = Reward::where('status', '!=', 'deleted')->get(); 
             return view(
                 'after-login.admin-kelurahan.reward.detail',
                 ['reward' => RewardResource::collection($reward)]
@@ -58,6 +58,7 @@ class RewardController extends Controller
                 'stok' => $request->stok,
                 'jumlah_poin' => $request->jumlah_poin,
                 'gambar' => $request->gambar->hashName(),
+                'status' => '-',
             ]);
             return redirect()->route('reward/reward-list')->with('tambah_alert', 'success');
         } catch (QueryException | ModelNotFoundException $exception) {
@@ -121,7 +122,8 @@ class RewardController extends Controller
     {
         try {
             $reward = Reward::find($id);
-            $reward->delete();
+            $reward->status='deleted';
+            $reward->save();
             return redirect()->route('reward/reward-list')->with('delete_alert', 'success');    
         } catch (ModelNotFoundException | QueryException $exception) {
             return view(
