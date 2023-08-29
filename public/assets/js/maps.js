@@ -86,18 +86,47 @@ function getAddressFromLatLng(latitude, longitude) {
                 },
                 dataType: "json",
                 success: function (response) {
-                    if (response.exist) {
-                        $("#kelurahan-exist").html("Nama kelurahan sudah ada");
-                        // disable button
-                        $("#sumbit-tambah-lokasi").prop("disabled", true);
+                    // console.log(response);
+                    if (response) {
+                        if (response.submit && response.is_kecamatan === 1) {
+                            $("#sumbit-tambah-lokasi").prop("disabled", false);
+                            $("#kelurahan-exist").html("");
+                            $("#isKecamatanFalse").prop("checked", true);
+                            $("#isKelurahanKontainer").css(
+                                "visibility",
+                                "hidden"
+                            );
+                        } else if (
+                            response.submit &&
+                            response.is_kecamatan === 0
+                        ) {
+                            $("#sumbit-tambah-lokasi").prop("disabled", true);
+                            $("#kelurahan-exist").html(
+                                "Kontainer di kelurahan dan kecamatan sudah ada"
+                            );
+                            $("#isKecamatanTrue").prop("checked", true);
+                        } else if (response.submit && response.is_kecamatan) {
+                            $("#sumbit-tambah-lokasi").prop("disabled", false);
+                            $("#kelurahan-exist").html("");
+                            $("#isKelurahanKontainer").css(
+                                "visibility",
+                                "visible"
+                            );
+                        } else {
+                            $("#sumbit-tambah-lokasi").prop("disabled", false);
+                            $("#kelurahan-exist").html("Kontainer di kelurahan dan kecamatan sudah ada");
+                            $("#isKelurahanKontainer").css(
+                                "visibility",
+                                "hidden"
+                            );
+                        }
                     } else {
                         $("#kelurahan-exist").html("");
-                        $("#sumbit-tambah-lokasi").prop("disabled", false);
                     }
                 },
                 error: function (e) {
                     console.log(e);
-                    alert("An error occurred while checking the username");
+                    // alert("An error occurred while checking the username");
                 },
             });
 

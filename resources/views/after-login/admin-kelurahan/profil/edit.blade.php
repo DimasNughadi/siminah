@@ -51,18 +51,18 @@
                                 </div>
                             </div> --}}
                             <div class="row">
-                                <div class="col-md-4 section-1">
+                                <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-5 ms-xxl-1">
                                     <x-forms.formControlAdmin label="Nama" name="name" placeholder="Nama lengkap"
                                         disabled="true" value="{{ $user->nama_admin }}" />
                                 </div>
-                                <div class="col-md-4 section-2">
+                                <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-5 ms-xxl-4 ms-xl-4 mt-3 mt-xxl-0 mt-xl-0 mt-lg-0 mt-md-0">
                                     <x-forms.formControlAdmin label="Username" name="username" placeholder="Username"
                                         disabled="true" value="{{ $user->username }}" />
                                 </div>
 
                             </div>
                             <div class="row mt-4">
-                                <div class="col-md-4 section-1">
+                                <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-5 ms-xxl-1">
                                     <div class="form-control-admin animate__animated animate__fadeInUp">
                                         <label for="gantiPassword" class="form-label">Password</label>
                                         <input type="password" class="form-control" id="passwordProfil"
@@ -71,7 +71,7 @@
                                         <p class="text-danger position-absolute" id="PasswordNotMatch"></p>
                                     </div>
                                 </div>
-                                <div class="col-md-4 section-2">
+                                <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-5 ms-xxl-4 ms-xl-4 mt-3 mt-xxl-0 mt-xl-0 mt-lg-0 mt-md-0">
                                     <div class="form-control-admin animate__animated animate__fadeInUp">
                                         <label for="konfirmasiPassword" clEditass="form-label">Konfirmasi password</label>
                                         <input type="password" class="form-control" id="konfirmasiPasswordProfil"
@@ -82,15 +82,15 @@
                                 </div>
                             </div>
                             <div class="row mt-4">
-                                <div class="col-md-4 section-1">
+                                <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-5 ms-xxl-1">
                                     <x-forms.formControlAdmin label="No Telepon" name="no_hp" placeholder="Nomor telepon"
                                         disabled="true" value="{{ $user->no_hp }}" />
                                 </div>
-                                <div class="col-md-4 section-2">
+                                <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-5 ms-xxl-4 ms-xl-4 mt-3 mt-xxl-0 mt-xl-0 mt-lg-0 mt-md-0">
                                     <x-forms.formControlAdmin label="Email" name="email" placeholder="Email"
                                         disabled="true" value="{{ $user->email }}" />
                                 </div>
-                                {{-- <div class="col-md-4 section-2">
+                                {{-- <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-5 ms-xxl-4 ms-xl-4 mt-3 mt-xxl-0 mt-xl-0 mt-lg-0 mt-md-0">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <x-forms.formControlAdmin label="No Telepon" name="no_hp" placeholder="Nomor telepon"/>
@@ -99,7 +99,7 @@
                                 </div> --}}
                             </div>
                             <div class="row mt-4">
-                                <div class="col-md-4 section-1">
+                                <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-5 ms-xxl-1">
                                     <x-forms.selectOption name="id_lokasi" label="Kelurahan" disabled="true">
                                         @slot('slotOptions')
                                             <option @if ($user->id_lokasi === $user->id_lokasi) {{ 'selected' }} @endif
@@ -107,7 +107,7 @@
                                         @endslot
                                     </x-forms.selectOption>
                                 </div>
-                                <div class="col-md-4 section-2">
+                                <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-5 ms-xxl-4 ms-xl-4 mt-3 mt-xxl-0 mt-xl-0 mt-lg-0 mt-md-0">
                                     <x-forms.formControlAdmin label="Alamat" name="alamat_rumah"
                                         placeholder="Alamat tempat tinggal Admin Kelurahan" disabled="true"
                                         value="{{ $user->alamat_rumah }}" />

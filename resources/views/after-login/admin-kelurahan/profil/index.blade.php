@@ -1,7 +1,6 @@
 @extends('components._partials.default')
 
 @section('content')
-
     <section class="profil">
         <div class="row">
             <div class="col-md-6">
@@ -85,7 +84,11 @@
                                                 </div>
                                                 <div class="col-md-7 col-sm-7 col-7">
                                                     <div class="right">
-                                                        {{ $user->nama_kelurahan }}
+                                                        @if ($user->is_kecamatan == 0)
+                                                            {{ $user->nama_kelurahan }}
+                                                        @else
+                                                            Kecamatan {{ $user->nama_kelurahan }}
+                                                        @endif
                                                     </div>
                                                 </div>
                                             </div>

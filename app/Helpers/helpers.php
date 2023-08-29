@@ -19,7 +19,11 @@ function isAdminCsr()
 
 function datetimeFormat($timestamp)
 {
-    $data = date('h:i', strtotime($timestamp)) . ', ' . date('d M Y', strtotime($timestamp));
+    if ($timestamp !== 'belum pernah diisi') {
+        $data = date('h:i', strtotime($timestamp)) . ', ' . date('d M Y', strtotime($timestamp));
+    } else {
+        $data = '-';
+    }
     return $data;
 }
 
@@ -45,5 +49,15 @@ function checkFileIsExist($path)
         return true;
     } else {
         return false;
+    }
+}
+
+function limitAlamatLength($data)
+{
+    $words = explode(" ", $data);
+    if (count($words) > 30) {
+        return implode(" ", array_slice($words, 0, 30)) . "...";
+    } else {
+        return implode(" ", array_slice($words, 0, 2));
     }
 }

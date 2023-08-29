@@ -88,12 +88,12 @@
                                                 <div class="maps" id="maps">
                                                 </div>
                                             </div>
-                                            @if (true)
+                                            <div id="isKelurahanKontainer">
                                                 <div class="col-md-12 mt-4 mt-xxl-3 mt-xl-3 mt-lg-3 mt-md-3">
                                                     <x-forms.label title="Tingkat Wilayah" />
                                                     <x-forms.radioButton />
                                                 </div>
-                                            @endif
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -111,4 +111,10 @@
     <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
         crossorigin="anonymous"></script>
     <script src="{{ asset('assets/js/maps.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            // Hide the element with ID "myElement"
+            $('#isKelurahanKontainer').css("visibility", "hidden")
+        });
+    </script>
 @endsection

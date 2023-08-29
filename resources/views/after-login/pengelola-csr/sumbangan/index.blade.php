@@ -40,6 +40,7 @@
                                     <div class="body">
                                         <x-forms.table id="sumbangan-table">
                                             @slot('headSlot')
+                                                <th>KECAMATAN</th>
                                                 <th>KELURAHAN</th>
                                                 <th>JUMLAH (KG)</th>
                                                 <th>JUMLAH DONATUR</th>
@@ -53,7 +54,15 @@
                                                         <tr class="reward-tr donatur-csr-tr">
                                                             <td class="ps-3 detail-kelurahan">
                                                                 <div class="d-flex align-items-center">
-                                                                    {{-- <x-user.userImage width="34" height="34"/> --}}
+                                                                    <div class="ms-2  d-grid">
+                                                                        <span class="top">
+                                                                            {{ $item->nama_kecamatan }}
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td class="ps-3 detail-kelurahan">
+                                                                <div class="d-flex align-items-center">
                                                                     <div class="ms-2  d-grid">
                                                                         <span class="top">
                                                                             {{ $item->nama_kelurahan }}
@@ -171,6 +180,40 @@
             });
         }
 
+        input.addEventListener("input", function() {
+            if (input.value === "") {
+                tableData = [];
+
+                for (let i = 1; i < tableRows.length; i++) {
+                    const row = tableRows[i];
+                    const tanggalCell = row.querySelector('td#tanggal');
+                    const tanggalText = tanggalCell.textContent;
+                    row.style.display = '';
+                    var rowData = [];
+                    var cells = row.querySelectorAll('td');
+                    for (let j = 0; j < cells.length; j++) {
+                        rowData.push(cells[j].textContent.trim());
+                    }
+                    tableData.push(rowData);
+
+                }
+
+                tableDataWithRowNumbers;
+                tableDataWithRowNumbers = tableData.map(function(row, index) {
+                    return [index + 1].concat(row).slice(0);
+                });
+
+                // Set again
+                const currentDate = new Date();
+                const currentMonth = currentDate.getMonth() + 1;
+                const currentMonthString = currentMonth < 10 ? '0' + currentMonth : currentMonth;
+                const currentYear = currentDate.getFullYear();
+                const currentValue = `${currentYear}-${currentMonthString}`;
+                input.value = currentValue;
+            }
+
+        });
+
         function setCurrentMonth() {
             const currentDate = new Date();
             const currentMonth = currentDate.getMonth() + 1;
@@ -235,7 +278,7 @@
                 },
                 // html: '#sumbangan-table',
                 head: [
-                    ['NO', 'KELURAHAN', 'JUMLAH (KG)', 'JUMLAH DONATUR', 'TANGGAL PELAPORAN']
+                    ['NO', 'KECAMATAN', 'KELURAHAN', 'JUMLAH (KG)', 'JUMLAH DONATUR', 'TANGGAL PELAPORAN']
                 ],
                 body: tableDataWithRowNumbers,
                 startY: 70,
@@ -245,17 +288,20 @@
                         cellWidth: 40,
                     },
                     1: {
-                        cellWidth: 180,
+                        cellWidth: 140,
                     },
                     2: {
-                        cellWidth: 80,
+                        cellWidth: 140,
                     },
                     3: {
                         cellWidth: 80,
                     },
                     4: {
-                        cellWidth: 160
-                    }
+                        cellWidth: 80
+                    },
+                    5: {
+                        cellWidth: 60
+                    },
                 },
                 styles: {
                     minCellHeight: 10
@@ -276,7 +322,7 @@
                     }
                 },
             })
-            doc.save('Laporan-sumbangan-minyak-'+ tanggalHariIni.replace(' ', '-') +'.pdf');
+            doc.save('Laporan-sumbangan-minyak-' + tanggalHariIni.replace(' ', '-') + '.pdf');
         }
     </script>
 

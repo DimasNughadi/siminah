@@ -18,6 +18,7 @@
                             @slot('headSlot')
                                 <th>NAMA DONATUR</th>
                                 <th>JUMLAH DONASI</th>
+                                <th>JUMLAH POIN</th>
                                 <th>KELURAHAN</th>
                                 <th>WAKTU DONASI</th>
                                 <th>TOTAL DONASI</th>
@@ -26,7 +27,6 @@
                             
                             @slot('bodySlot')
                                 @if (!empty($donatur))
-                                    {{-- {{ dd($donatur) }} --}}
                                     @foreach ($donatur as $item)
                                         <tr class="table-row-image donatur-row">
                                             <td class="ps-4 data-14">
@@ -45,6 +45,9 @@
                                                 @else
                                                     {{ $item->sumbangan_sum_berat }} Kg
                                                 @endif
+                                            </td>
+                                            <td class="ps-4 data-14">
+                                                {{ $item->sumbangan[0]->poin_reward }}
                                             </td>
                                             <td class="ps-4 data-14">
                                                 {{ $item->kelurahan }}

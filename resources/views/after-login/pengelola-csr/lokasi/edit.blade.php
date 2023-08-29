@@ -38,6 +38,15 @@
                                         <div class="col-md-12">
                                             <x-forms.formControlAdmin label="Alamat lengkap" name="deskripsi"
                                                 placeholder="Detail alamat pengumpulan minyak" value="{{ $lokasi->deskripsi }}"/>
+                                                <p class="text-danger" id="jalan-error"></p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-4">
+                                        <div class="col-md-12">
+                                            <x-forms.formControlAdmin label="Kecamatan" name="nama_kecamatan"
+                                                placeholder="Pilih kecamatan" value="{{ $lokasi->kecamatan->nama_kecamatan }}"/>
+                                            <p class="text-danger" id="kecamatan-exist"></p>
                                         </div>
                                     </div>
 
@@ -79,14 +88,22 @@
                                 <div class="col-md-6">
                                     <div class="row">
                                         <div class="container-maps">
-                                            <div class="d-flex">
-                                                <div class="left">Atur Pin Point</div>
-                                                <div class="right">
-                                                    &nbsp;&nbsp;(Opsional)
+                                            <div class="col-md-12 mt-4 mt-xxl-0 mt-xl-0 mt-lg-0 mt-md-0">
+                                                <div class="d-flex">
+                                                    <div class="left">Atur Pin Point</div>
+                                                    <div class="right">
+                                                        &nbsp;&nbsp;(Opsional)
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-12 mt-1">
                                                 <div class="maps" id="maps">
+                                                </div>
+                                            </div>
+                                            <div id="isKelurahanKontainer">
+                                                <div class="col-md-12 mt-4 mt-xxl-3 mt-xl-3 mt-lg-3 mt-md-3">
+                                                    <x-forms.label title="Tingkat Wilayah" />
+                                                    <x-forms.radioButton value="{{ $lokasi->is_kecamatan }}"/>
                                                 </div>
                                             </div>
                                         </div>

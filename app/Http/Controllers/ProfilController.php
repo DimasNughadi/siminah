@@ -15,26 +15,39 @@ class ProfilController extends Controller
     public function index()
     {
         try {
+
             $user = User::rightJoin('adminkelurahan', 'adminkelurahan.id_user', '=', 'users.id')
                 ->leftJoin('lokasi', 'lokasi.id_lokasi', '=', 'adminkelurahan.id_lokasi')
-                ->select('users.*', 'adminkelurahan.*', 'lokasi.nama_kelurahan')
-                ->where('id', Auth::id())
-                ->get()[0];
+                ->leftJoin('kecamatan', 'kecamatan.id_kecamatan', '=', 'lokasi.id_kecamatan') // Join with kecamatan
+                ->select('users.*', 'adminkelurahan.*', 'lokasi.nama_kelurahan', 'kecamatan.nama_kecamatan', 'lokasi.is_kecamatan')
+                ->where('users.id', Auth::id()) // Assuming 'id' is the primary key of 'users' table
+                ->first();
+
+            $user->each(function ($item) {
+                if ($item->is_kecamatan == 1) {
+                    $item->nama_kelurahan = $item->nama_kecamatan;
+                }
+            });
             return view('after-login.admin-kelurahan.profil.index', ['user' => $user]);
         } catch (Exception $exception) {
             return redirect()->back()->with('message', 'Tidak berhasil membuka profil');
 
         }
     }
-
     public function edit()
     {
         try {
             $user = User::rightJoin('adminkelurahan', 'adminkelurahan.id_user', '=', 'users.id')
                 ->leftJoin('lokasi', 'lokasi.id_lokasi', '=', 'adminkelurahan.id_lokasi')
-                ->select('users.*', 'adminkelurahan.*', 'lokasi.nama_kelurahan')
+                ->leftJoin('kecamatan', 'kecamatan.id_kecamatan', '=', 'lokasi.id_kecamatan') // Join with kecamatan
+                ->select('users.*', 'adminkelurahan.*', 'lokasi.nama_kelurahan', 'kecamatan.nama_kecamatan', 'lokasi.is_kecamatan')
                 ->where('id', Auth::id())
                 ->get()[0];
+            $user->each(function ($item) {
+                if ($item->is_kecamatan == 1) {
+                    $item->nama_kelurahan = $item->nama_kecamatan;
+                }
+            });
             return view('after-login.admin-kelurahan.profil.edit', ['user' => $user]);
         } catch (Exception $exception) {
             return redirect()->back()->with('message', 'Tidak berhasil membuka profil');

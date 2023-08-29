@@ -80,4 +80,5 @@ Route::middleware(['checksession','role:admin_csr'])->group(function() {
     Route::put('/admin-kelurahan/update/{id}',[AdminController::class,'update'])->name('admin.update');
     Route::put('/admin-kelurahan/reset/{id}',[AdminController::class,'resetPassword'])->name('admin.reset');
     Route::delete('/admin-kelurahan/delete/{id}',[AdminController::class,'destroy'])->name('admin.destroy');
+    Route::get('/admin-kelurahan/lokasi/{id}', [AdminController::class, 'cek_kelurahan'])->name('admin.ceklokasi');
 });

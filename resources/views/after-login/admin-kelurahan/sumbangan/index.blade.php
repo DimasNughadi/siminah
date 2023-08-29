@@ -414,7 +414,7 @@
                 }
             });
         </script>
-
+    {{-- {{ dd($sumbanganHarian[0]) }} --}}
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
@@ -424,9 +424,15 @@
             var myChart = new Chart(ctx, {
                 type: 'pie',
                 data: {
-                    labels: ['India', 'China', 'US', 'Canada'],
                     datasets: [{
-                        data: [14, 14, 14, 14, 14, 14, 16],
+                        data: [
+                            {!! json_encode($sumbanganHarian[0]['berat']) !!}, 
+                            {!! json_encode($sumbanganHarian[1]['berat']) !!}, 
+                            {!! json_encode($sumbanganHarian[2]['berat']) !!}, 
+                            {!! json_encode($sumbanganHarian[3]['berat']) !!}, 
+                            {!! json_encode($sumbanganHarian[4]['berat']) !!},
+                            {!! json_encode($sumbanganHarian[5]['berat']) !!},
+                            {!! json_encode($sumbanganHarian[6]['berat']) !!}],
                         backgroundColor: [
                             "#EAC500",
                             "#145EA8",

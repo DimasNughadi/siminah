@@ -184,7 +184,29 @@ function hapusLokasi(url) {
             
         } else if (result.dismiss === Swal.DismissReason.cancel) {
             Swal.fire("Dibatalkan", "Data tidak jadi dihapus", "info");
-            // Perform any additional actions if deletion is cancelled
+            // Perform any additional actions   if deletion is cancelled
+        }
+    });
+}
+
+function deleteRecord(url) {
+    Swal.fire({
+        title: "Apakah ingin melanjutkan?",
+        text: "Data akun akan dihapus",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Ya, hapus",
+        cancelButtonText: "Tidak",
+        reverseButtons: true,
+    }).then((result) => {
+        if (result.isConfirmed) {
+            let formDeleteAdmin = document.querySelector('#formDeleteAdmin')
+            formDeleteAdmin.action = url
+            console.log(formDeleteAdmin);
+            formDeleteAdmin.submit()
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+            Swal.fire("Dibatalkan", "Data tidak jadi dihapus", "info");
+            // Perform any additional actions   if deletion is cancelled
         }
     });
 }

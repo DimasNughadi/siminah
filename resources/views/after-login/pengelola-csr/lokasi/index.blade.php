@@ -35,6 +35,7 @@
                                         <x-forms.table id="sumbangan-table">
                                             @slot('headSlot')
                                                 <th>ALAMAT</th>
+                                                <th>KECAMATAN</th>
                                                 <th>KELURAHAN</th>
                                                 <th>JUMLAH KONTAINER</th>
                                                 <th>KOORDINAT</th>
@@ -46,7 +47,10 @@
                                                 @foreach ($lokasi as $item)
                                                 <tr class="reward-tr lokasi-tr">
                                                     <td class="ps-4">
-                                                        {{ $item->deskripsi }}
+                                                        {{ limitAlamatLength($item->deskripsi) }}
+                                                    </td>
+                                                    <td class="ps-4">
+                                                        {{ $item->kecamatan->nama_kecamatan }}
                                                     </td>
                                                     <td class="ps-4">
                                                         {{ $item->nama_kelurahan }}
