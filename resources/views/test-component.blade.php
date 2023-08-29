@@ -1,105 +1,116 @@
-<!DOCTYPE html>
-<html>
-<meta name="csrf-token" content="{{ csrf_token() }}">
+@extends('components._partials.default')
 
-<head>
-    <!--   Core JS Files   -->
+@section('content')
+    <div class="container-fluid py-2 ps-4">
+        <div class="row">
+            <div class="col-md-12 page-header text-poppins">
+                <a href="{{ route('lokasi') }}" class="text-secondary link-secondary">Lokasi</a>
+                <span>
+                    <b>
+                        &nbsp;/ Tambah
+                    </b>
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="container-fluid lokasi">
+                <form action="{{ route('lokasi.store') }}" method="POST">
+                    @csrf
+                    <div class="col-md-12">
+                        <div class="row header d-flex justify-content middle">
+                            <div class="col-md-9 col-sm-9 col-9 title">
+                                <h3 class="align-middle">Tambah lokasi pengumpulan minyak</h3>
+                            </div>
+                            <div class="col-md-3 col-sm-3 col-3 button d-flex justify-content-end">
+                                {{-- <button type="submit">ss</button> --}}
+                                <x-forms.btn.button type="submit" color="danger" title="Simpan"
+                                    id="sumbit-tambah-lokasi" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-11 line">
+                        <div class="container-fluid body">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <x-forms.formControlAdmin label="Alamat lengkap" name="deskripsi"
+                                                placeholder="Detail alamat pengumpulan minyak" />
+                                            <p class="text-danger" id="jalan-error"></p>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-4">
+                                        <div class="col-md-12">
+                                            <x-forms.formControlAdmin label="Kecamatan" name="nama_kecamatan"
+                                                placeholder="Pilih kecamatan" />
+                                            <p class="text-danger" id="kecamatan-exist"></p>
+                                        </div>
+                                    </div>
 
+                                    <div class="row mt-3">
+                                        <div class="col-md-12">
+                                            <x-forms.formControlAdmin label="Kelurahan" name="nama_kelurahan"
+                                                placeholder="Pilih kelurahan" />
+                                            <p class="text-danger" id="kelurahan-exist"></p>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-md-12">
+                                            <x-forms.formControlAdmin label="Koordinat" name="koordinat"
+                                                placeholder="Koordinat (Longitude  Latitude)" />
+                                        </div>
+                                    </div>
+                                    <div class="row d-none">
+                                        <div class="col-md-12">
+                                            <x-forms.formControlAdmin label="Latitude" name="latitude"
+                                                placeholder="Pilih latitude" />
+                                        </div>
+                                    </div>
+                                    <div class="row d-none">
+                                        <div class="col-md-12">
+                                            <x-forms.formControlAdmin label="Longitude" name="longitude"
+                                                placeholder="Pilih longitude" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="container-maps">
+                                            <div class="col-md-12 mt-sm-3">
+                                                <div class="d-flex">
+                                                    <div class="left">Atur Pin Point</div>
+                                                    <div class="right">
+                                                        &nbsp;&nbsp;(Opsional)
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 mt-1">
+                                                <div class="maps" id="maps">
+                                                </div>
+                                            </div>
+                                            @if (true)
+                                                <div class="col-md-12 mt-2">
+                                                    <x-forms.label title="Tingkat Wilayah" />
+                                                    <x-forms.radioButton />
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <x-sweetalert />
+@stop
+
+@extends('components._partials.scripts')
+@section('script')
     <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
         crossorigin="anonymous"></script>
-    <script type='text/javascript'
-        src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=AlUje-BfB7q-XcFYespJdjtmZY9wrhc1ismON5fsYXgvCUfb2hzSfiEN8UwdqqJ9'
-        async defer></script>
-    <script>
-        var map;
-
-        function getAddressFromLatLng(latitude, longitude) {
-            // Make a request to the Mapbox Geocoding API to get the address
-            fetch(
-                    `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?access_token=pk.eyJ1IjoibXJqcmZzMjIiLCJhIjoiY2xsOGNyZTkxMDNjZjNjbWE1M3J2cHFscyJ9.CsbC7todtywY-2ZMFYaQAg`
-                )
-                .then(response => response.json())
-                .then(datas => {
-					// get kecamatan
-					console.log(datas);
-                    const neighborhoodFeatures = datas.features.filter(feature => feature.place_type.includes(
-                        'neighborhood'));
-                    const neighborhoodId = neighborhoodFeatures[0].id;
-                    const neighborhoodFeature = datas.features.find(feature => feature.id === neighborhoodId);
-                    const neighborhoodData = neighborhoodFeature.place_name;
-
-                    var kelurahan = document.getElementById("kelurahan")
-                    let getKelurahan;
-                    getKelurahan = neighborhoodData.split(',')[0];
-                    // // console.log(datas.features.length);
-                    // if (datas.features.length == 6) {
-                    //     getKelurahan = datas.features[2].place_name.split(',')[0];
-
-                    // } else {
-                    //     getKelurahan = datas.features[1].place_name.split(',')[0];
-                    // }
-
-                    // // Cek
-                    // $.ajax({
-                    //     url: `/cek-lokasi`,
-                    //     type: 'POST',
-                    //     headers: {
-                    //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    //     },
-                    //     data: {
-                    //         nama_kelurahan: getKelurahan
-                    //     },
-                    //     dataType: 'json',
-                    //     success: function(response) {
-                    //         // console.log(response)
-                    //         if (response.exist) {
-                    //             $('#kelurahan-exist').html('Nama kelurahan sudah ada')
-                    //             //    console.log('exists')
-                    //         }
-                    //     },
-                    //     error: function(e) {
-                    //         console.log(e)
-                    //         alert('An error occurred while checking the username');
-                    //     }
-                    // });
-
-                    kelurahan.innerHTML = getKelurahan
-                    // Log the address to the console
-                })
-                .catch(error => {
-                    console.error(error);
-                });
-            // return data;
-        }
-
-        function GetMap() {
-            map = new Microsoft.Maps.Map('#myMap', {
-                credentials: 'AlUje-BfB7q-XcFYespJdjtmZY9wrhc1ismON5fsYXgvCUfb2hzSfiEN8UwdqqJ9'
-            });
-
-            Microsoft.Maps.Events.addHandler(map, 'click', function(e) {
-                var location = e.location;
-                var latitude = location.latitude;
-                var longitude = location.longitude;
-                document.getElementById('latitude').value = latitude;
-                document.getElementById('longitude').value = longitude;
-                getAddressFromLatLng(latitude, longitude);
-            });
-        }
-    </script>
-
-</head>
-
-<body>
-    <div id="myMap" style="width: 500px; height: 400px;"></div>
-    <br>
-    <label for="latitude">Latitude:</label>
-    <input type="text" id="latitude" readonly>
-    <br>
-    <label for="longitude">Longitude:</label>
-    <input type="text" id="longitude" readonly>
-    <h1 id="kelurahan"></h1>
-    <p id="kelurahan-exist"></p>
-</body>
-
-</html>
+    <script src="{{ asset('assets/js/maps.js') }}"></script>
+@endsection

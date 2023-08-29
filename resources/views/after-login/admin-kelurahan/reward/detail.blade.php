@@ -3,7 +3,7 @@
 @section('content')
     <div class="container-fluid py-2 ps-4">
         <div class="row">
-            <div class="col-md-10">
+            <div class="col-xxl-10 col-xl-10 col-lg-10 col-md-11 col-sm-12 col-12">
                 <div class="row animate__animated animate__fadeInLeft">
                     <div class="col-md-12 page-header">
                         <a href="{{ route('reward') }}" class="link-dark">
@@ -20,7 +20,7 @@
                     </div>
                 </div>
                 <div class="row reedem-reward animate__animated animate__fadeInLeft">
-                    <div class="col-md-10 col-sm-10 col-10">
+                    <div class="col-xxl-10 col-xl-10 col-xl-10 col-md-10 col-sm-10 col-10">
                         <div class="table-header-redeem">
                             Daftar hadiah
                         </div>

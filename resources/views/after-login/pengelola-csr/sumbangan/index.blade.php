@@ -9,7 +9,7 @@
                     <div class="col-md-12 reward text-poppins">Sumbangan</div>
                 </div>
                 <div class="row mt-3">
-                    <div class="col-md-10 col-sm-12 col-12">
+                    <div class="col-xxl-10 col-xl-10 col-lg-11 col-md-12 col-sm-12 col-12">
                         <div class="container-fluid olah-donatur animate__animated animate__fadeInUp">
                             <div class="row">
                                 <div class="col-md-8 col-sm-7 col-7">
@@ -17,7 +17,7 @@
                                         Laporan Sumbangan Minyak Jelantah
                                     </div>
                                 </div>
-                                <div class="col-md-4 col-sm-5 col-sm-5">
+                                <div class="col-md-4 col-sm-5 col-5 mt-4 mt-xxl-0 mt-xl-0 mt-lg-0 mt-md-0 col-sm-0">
                                     <div class="laporan-button d-flex align-items-center justify-content-end">
                                         <x-forms.inputDate />
                                         <div class="header-button">

@@ -9,7 +9,7 @@
                     <div class="col-md-12 reward text-poppins">Olah Kontainer</div>
                 </div>
                 <div class="row mt-3">
-                    <div class="col-md-7 col-sm-12 col-12">
+                    <div class="col-xxl-7 col-xl-7 col-lg-6 col-md-12 col-sm-12 col-12">
                         <div class="container-fluid manajemen-permintaan animate__animated animate__fadeInUp">
                             <div class="row">
                                 <div class="col-md-12">
@@ -123,7 +123,7 @@
                     </div>
                     
                                 {{-- {{ dd($kontainer) }} --}}
-                    <div class="col-md-5">
+                    <div class="col-xxl-5 col-xl-5 col-lg-6 col-md-12 col-sm-12 col-12 mt-md-4 mt-sm-4">
                         <div class="container-fluid detail-manajemen-kontainer animate__animated animate__fadeInUp">
                             <div class="row">
                                 <div class="col-md-12">

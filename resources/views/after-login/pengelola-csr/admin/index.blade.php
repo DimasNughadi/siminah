@@ -4,7 +4,7 @@
 
     <div class="container-fluid py-2 ps-4">
         <div class="row">
-            <div class="col-md-10">
+            <div class="col-xxl-10 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                 <div class="row">
                     <div class="col-md-12 reward text-poppins">
                         Admin Kelurahan

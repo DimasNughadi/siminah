@@ -8,13 +8,15 @@
     <main class="main-content">
         <section class="login-page container-fluid">
             <div class="row">
-                <div class="col-md-4 ps-4">
+                <div class="col-xxl-4 col-xl-5 col-lg-6 col-md-7 col-sm-12 col-12 ps-4">
                     <div class="row mt-6 ps-4">
-                        <div class="col-md-5">
-                            <img class="navbar-brand-img" src="{{ asset('siminah-login.png') }}" alt="Logo pertamina">
-                        </div>
-                        <div class="col-md-2 text-poppins login-header-color">
-                            <span class="siminah">Siminah</span>
+                        <div class="login-header">
+                            <div class="col-xxl-5 col-xl-5 col-lg-5 col-md-5 col-sm-5 col-5">
+                                <img class="navbar-brand-img" src="{{ asset('siminah-login.png') }}" alt="Logo pertamina">
+                            </div>
+                            <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2 text-poppins login-header-color">
+                                <span class="siminah">Siminah</span>
+                            </div>
                         </div>
 
                         <div class="col-md-12 mt-6 ps-4 animate__animated animate__fadeInUp">
@@ -50,7 +52,7 @@
                         </form>
                     </div>
                 </div>
-                <div class="col-md-8 bg-pertamina" style="background-image: url('{{ asset('bg-pertamina.jpg') }}')">
+                <div class="col-xxl-8 col-xl-7 col-lg-6 col-md-5 bg-pertamina" style="background-image: url('{{ asset('bg-pertamina.jpg') }}')">
                 </div>
             </div>
         </section>

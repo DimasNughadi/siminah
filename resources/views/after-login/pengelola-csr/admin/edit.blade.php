@@ -32,29 +32,29 @@
                     <div class="col-md-12 line">
                         <div class="container-fluid body">
                             <div class="row">
-                                <div class="col-md-4 section-1">
+                                <div class="col-md-4 col-xxl-4 col-xl-5 col-lg-5 col-md-5 ms-xxl-1">
                                     <x-forms.formControlAdmin label="Nama" name="name" placeholder="Nama lengkap"  value="{{ $user[0]->name }}"/>
                                 </div>
-                                <div class="col-md-4 section-2">
+                                <div class="col-md-4 col-xxl-4 col-xl-5 col-lg-5 col-md-5 ms-xxl-4 ms-xl-4 mt-3 mt-xxl-0 mt-xl-0 mt-lg-0 mt-md-0">
                                     <x-forms.formControlAdmin label="Email" name="email" placeholder="Email"  value="{{ $user[0]->email }}"/>
                                 </div>
                             </div>
                             <div class="row mt-4">
-                                <div class="col-md-4 section-1">
+                                <div class="col-md-4 col-xxl-4 col-xl-5 col-lg-5 col-md-5 ms-xxl-1">
                                     <x-forms.formControlAdmin label="Username" name="username"
                                         placeholder="Username"  value="{{ $user[0]->username }}"/>
                                 </div>
-                                <div class="col-md-4 section-2">
+                                <div class="col-md-4 col-xxl-4 col-xl-5 col-lg-5 col-md-5 ms-xxl-4 ms-xl-4 mt-3 mt-xxl-0 mt-xl-0 mt-lg-0 mt-md-0">
                                     <x-forms.formControlAdmin label="No Telepon" name="no_hp"
                                         placeholder="Nomor telepon"  value="{{ $user[0]->no_hp }}"/>
                                 </div>
                             </div>
                             <div class="row mt-4">
-                                <div class="col-md-4 section-1">
+                                <div class="col-md-4 col-xxl-4 col-xl-5 col-lg-5 col-md-5 ms-xxl-1">
                                     <x-forms.formControlAdmin label="Alamat" name="alamat_rumah"
                                         placeholder="Alamat tempat tinggal Admin Kelurahan"  value="{{ $user[0]->alamat_rumah }}"/>
                                 </div>
-                                <div class="col-md-4 section-2">
+                                <div class="col-md-4 col-xxl-4 col-xl-5 col-lg-5 col-md-5 ms-xxl-4 ms-xl-4 mt-3 mt-xxl-0 mt-xl-0 mt-lg-0 mt-md-0">
                                     <x-forms.selectOption name="id_lokasi" label="Kelurahan">
                                         @slot('slotOptions')
                                             {{-- {{ dd($lokasi) }} --}}

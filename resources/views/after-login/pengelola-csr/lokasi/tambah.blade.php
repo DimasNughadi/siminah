@@ -18,10 +18,10 @@
                     @csrf
                     <div class="col-md-12">
                         <div class="row header d-flex justify-content middle">
-                            <div class="col-md-9 col-sm-9 col-9 title">
+                            <div class="col-md-9 col-sm-9 col-7 title">
                                 <h3 class="align-middle">Tambah lokasi pengumpulan minyak</h3>
                             </div>
-                            <div class="col-md-3 col-sm-3 col-3 button d-flex justify-content-end">
+                            <div class="col-md-3 col-sm-3 col-5 button d-flex align-items-center justify-content-end">
                                 {{-- <button type="submit">ss</button> --}}
                                 <x-forms.btn.button type="submit" color="danger" title="Simpan"
                                     id="sumbit-tambah-lokasi" />
@@ -36,23 +36,28 @@
                                         <div class="col-md-12">
                                             <x-forms.formControlAdmin label="Alamat lengkap" name="deskripsi"
                                                 placeholder="Detail alamat pengumpulan minyak" />
+                                            <p class="text-danger" id="jalan-error"></p>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-4">
+                                        <div class="col-md-12">
+                                            <x-forms.formControlAdmin label="Kecamatan" name="nama_kecamatan"
+                                                placeholder="Pilih kecamatan" />
+                                            <p class="text-danger" id="kecamatan-exist"></p>
                                         </div>
                                     </div>
 
-                                    <div class="row mt-4">
+                                    <div class="row mt-3">
                                         <div class="col-md-12">
                                             <x-forms.formControlAdmin label="Kelurahan" name="nama_kelurahan"
                                                 placeholder="Pilih kelurahan" />
                                             <p class="text-danger" id="kelurahan-exist"></p>
                                         </div>
-                                        {{-- <div class="col-md-12 section-2">
-                                            <x-forms.formControlAdmin label="Kota" name="kota" placeholder="Pilih Kota" />
-                                        </div> --}}
                                     </div>
-                                    <div class="row mt-4">
+                                    <div class="row mt-3">
                                         <div class="col-md-12">
                                             <x-forms.formControlAdmin label="Koordinat" name="koordinat"
-                                                placeholder="Koordinat (Longitude  Latitude)" />
+                                                placeholder="Koordinat (Longitude, Latitude)" />
                                         </div>
                                     </div>
                                     <div class="row d-none">
@@ -71,16 +76,24 @@
                                 <div class="col-md-6">
                                     <div class="row">
                                         <div class="container-maps">
-                                            <div class="d-flex">
-                                                <div class="left">Atur Pin Point</div>
-                                                <div class="right">
-                                                    &nbsp;&nbsp;(Opsional)
+                                            <div class="col-md-12 mt-4 mt-xxl-0 mt-xl-0 mt-lg-0 mt-md-0">
+                                                <div class="d-flex">
+                                                    <div class="left">Atur Pin Point</div>
+                                                    <div class="right">
+                                                        &nbsp;&nbsp;(Opsional)
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-12 mt-1">
                                                 <div class="maps" id="maps">
                                                 </div>
                                             </div>
+                                            @if (true)
+                                                <div class="col-md-12 mt-4 mt-xxl-3 mt-xl-3 mt-lg-3 mt-md-3">
+                                                    <x-forms.label title="Tingkat Wilayah" />
+                                                    <x-forms.radioButton />
+                                                </div>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -91,8 +104,6 @@
             </div>
         </div>
     </div>
-
-    <x-sweetalert />
 @stop
 
 @extends('components._partials.scripts')

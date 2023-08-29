@@ -53,6 +53,16 @@ h4.login-header-color {
     position: relative;
 }
 
+.login-header {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+
+.login-header img.navbar-brand-img {
+    width: 167px;
+}
+
 .login-page .row .icon {
     position: absolute;
     left: 25px;
@@ -121,7 +131,7 @@ h4.login-header-color {
   } */
 
 .btn-login {
-    width: 98%;
+    width: 418px;
     left: -15px;
     background-color: var(--danger);
     color: white;
@@ -1263,8 +1273,9 @@ tr.reward-tr .ps-4 .d-flex {
 
 .olah-donatur .header-button {
     position: absolute;
-    top: 12%;
-    right: 0px;
+    top: 3%;
+    right: -7px;
+
 }
 
 /* olah-donatur */
@@ -1367,6 +1378,155 @@ tr.reward-tr .ps-4 .d-flex {
     font-weight: 400;
     line-height: 20px; /* 142.
     857% */
+}
+
+.total-sumbangan {
+    background-color: white;
+    border-radius: 10px;
+    height: 360px;
+}
+
+.total-sumbangan .header {
+    padding: 30px 0 10px 30px;
+    color: var(--colors-black-100, #000);
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: var(--text-dm-sans);
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.total-sumbangan .body {
+    position: relative;
+    top: 50%;
+    left: 55%;
+    transform: translate(-50%, -50%);
+}
+
+.total-sumbangan .footer {
+    margin: 45px 0 30px 30px;
+    position: relative;
+    top: -230px;
+    color: var(--colors-black-100, #000);
+    font-feature-settings: "clig" off, "liga" off;
+
+    /* H4 */
+    font-family: var(--text-dm-sans);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; /* 142.857% */
+}
+
+.total-sumbangan .footer .senin {
+    margin-left: 6px;
+}
+.total-sumbangan .footer .selasa {
+    margin-left: 11px;
+}
+.total-sumbangan .footer .rabu {
+    margin-left: 6px;
+}
+.total-sumbangan .footer .kamis {
+    margin-left: 6px;
+}
+.total-sumbangan .footer .jumat {
+    margin-left: 6px;
+}
+.total-sumbangan .footer .sabtu {
+    margin-left: 6px;
+}
+.total-sumbangan .footer .minggu {
+    margin-left: 9px;
+}
+
+.total-sumbangan .footer .senin::before {
+    content: "";
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background-color: #d12031;
+    margin-right: 5px;
+    position: relative;
+    top: 1.5px;
+    left: 4.5px;
+}
+
+.total-sumbangan .footer .selasa::before {
+    content: "";
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background-color: #eac500;
+    margin-right: 5px;
+    position: relative;
+    top: 1.5px;
+    left: 4.5px;
+}
+
+.total-sumbangan .footer .rabu::before {
+    content: "";
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background-color: #9747ff;
+    margin-right: 5px;
+    position: relative;
+    top: 1.5px;
+    left: 4.5px;
+}
+
+.total-sumbangan .footer .kamis::before {
+    content: "";
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background-color: #65ae38;
+    margin-right: 5px;
+    position: relative;
+    top: 1.5px;
+    left: 4.5px;
+}
+.total-sumbangan .footer .jumat::before {
+    content: "";
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background-color: #145ea8;
+    margin-right: 5px;
+    position: relative;
+    top: 1.5px;
+    left: 4.5px;
+}
+.total-sumbangan .footer .sabtu::before {
+    content: "";
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background-color: #a8ae38;
+    margin-right: 5px;
+    position: relative;
+    top: 1.5px;
+    left: 4.5px;
+}
+.total-sumbangan .footer .minggu::before {
+    content: "";
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background-color: #e5e5e5;
+    margin-right: 5px;
+    position: relative;
+    top: 1.5px;
+    left: 5px;
 }
 
 .table-sumbangan-kelurahan .header {
@@ -1777,7 +1937,7 @@ tr.reward-tr .ps-4 .d-flex {
 }
 
 .lokasi .header {
-    height: 4.5rem !important;
+    height: 8rem !important;
     padding: 1.1875rem 0px 1.1875rem 2.0625rem;
 }
 
@@ -1847,6 +2007,7 @@ tr.reward-tr .ps-4 .d-flex {
     font-size: 20px;
     font-style: normal;
     line-height: normal;
+    max-width: 577px !important;
 }
 
 .container-maps .left {
@@ -1860,13 +2021,100 @@ tr.reward-tr .ps-4 .d-flex {
 }
 
 .maps {
-    width: 577px !important;
+    width: 100%;
     height: 327px !important;
     border-radius: 20px !important;
 }
 
+/* isKecamatan */
+.radio-wrapper {
+    max-height: 63px !important;
+    max-width: 577px !important;
+    max-width: 569px;
+    margin: 0;
+    padding: 0;
+}
+
+.radio-wrapper .left-side {
+    max-width: 287px;
+}
+
+.radio-wrapper .right-side {
+    max-width: 287px;
+    position: relative;
+    left: -5px;
+}
+
+.radio-wrapper .left-side input {
+    display: none;
+    visibility: hidden;
+}
+
+.radio-wrapper .right-side input {
+    display: none;
+    visibility: hidden;
+}
+
+.radio-wrapper .left-side label {
+    border: 1.5px solid var(--danger);
+    border-radius: 20px 0 0 20px;
+    padding: 19px 86px 19px 86px;
+    background-color: white;
+    color: var(--danger);
+    text-align: center;
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: var(--text-poppins);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 157%; /* 25.12px */
+    letter-spacing: 0.1px;
+    cursor: pointer;
+}
+
+.radio-wrapper .right-side label {
+    border: 1.5px solid var(--danger);
+    border-radius: 0 20px 20px 0;
+    padding: 19px 86px 19px 86px;
+    background-color: white;
+    color: var(--danger);
+    text-align: center;
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: var(--text-poppins);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 157%; /* 25.12px */
+    letter-spacing: 0.1px;
+    cursor: pointer;
+}
+
+input[type="radio"]:checked + label {
+    color: white;
+    background-color: var(--danger);
+}
+
+.custom-label {
+    color: #000;
+    font-family: var(--text-poppins);
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.laporan-button {
+    position: relative;
+    top: -100px;
+}
+
 @media (min-width: 576px) {
     /* sm */
+
+    .btn-login {
+        width: 613.31px;
+    }
+
     .notifikasi-kontainer {
         margin-top: 25px;
     }
@@ -1882,12 +2130,34 @@ tr.reward-tr .ps-4 .d-flex {
     }
 
     .riwayat-donatur-wrapper {
-        margin-left: 0;
+        margin-left: -10px;
+    }
+
+    .total-sumbangan .body {
+        position: relative;
+        top: 50%;
+        left: 70%;
+        transform: translate(-50%, -50%);
+    }
+
+    .laporan-button {
+        position: relative;
+        top: 0;
+    }
+
+    .lokasi .header {
+        height: 6rem !important;
+        padding: 1.1875rem 0px 1.1875rem 2.0625rem;
     }
 }
 
 @media (min-width: 768px) {
     /* md */
+
+    .btn-login {
+        width: 385px;
+    }
+
     .manajemen-admin {
         height: 500px;
     }
@@ -1905,7 +2175,7 @@ tr.reward-tr .ps-4 .d-flex {
     }
 
     .table-kontainer-kelurahan {
-        margin-left: 10.5rem;
+        /* margin-left: 10.5rem; */
         margin-top: 0;
     }
 
@@ -1915,17 +2185,39 @@ tr.reward-tr .ps-4 .d-flex {
         right: 0;
     }
 
-    .riwayat-donatur-wrapper {
-        margin-left: 24px;
-    }
-
     .container-maps {
         margin-left: 70px;
+    }
+
+    /* .total-sumbangan {
+        width: 326px;
+    } */
+
+    .total-sumbangan .body {
+        position: relative;
+        top: 50%;
+        left: 55%;
+        transform: translate(-50%, -50%);
+    }
+
+    .laporan-button {
+        position: relative;
+        top: 0;
+    }
+
+    .lokasi .header {
+        height: 4.5rem !important;
+        padding: 1.1875rem 0px 1.1875rem 2.0625rem;
     }
 }
 
 @media (min-width: 992px) {
     /* lg */
+
+    .btn-login {
+        width: 451.25px;
+    }
+
     .manajemen-admin {
         height: 500px;
     }
@@ -1944,12 +2236,98 @@ tr.reward-tr .ps-4 .d-flex {
         top: 0;
         right: 0;
     }
+
+    /* .total-sumbangan {
+        width: 326px;
+    } */
+
+    .total-sumbangan .body {
+        position: relative;
+        top: 50%;
+        left: 60%;
+        transform: translate(-50%, -50%);
+    }
+
+    .riwayat-donatur-wrapper {
+        margin-left: 24px;
+    }
+
+    .laporan-button {
+        position: relative;
+        top: 0;
+    }
+
+    .lokasi .header {
+        height: 4.5rem !important;
+        padding: 1.1875rem 0px 1.1875rem 2.0625rem;
+    }
 }
 
 @media (min-width: 1200px) {
     /* xl */
+    .btn-login {
+        width: 456.25px;
+    }
+
+
+    .riwayat-donatur-wrapper {
+        margin-left: 24px;
+    }
+    .total-sumbangan .body {
+        position: relative;
+        top: 50%;
+        left: 35%;
+        transform: translate(-50%, -50%);
+    }
+
+    .olah-donatur .header-button {
+        position: relative;
+        top: 0;
+        right: 0;
+    }
+
+    .laporan-button {
+        position: relative;
+        top: 0;
+    }
+
+
+    .lokasi .header {
+        height: 4.5rem !important;
+        padding: 1.1875rem 0px 1.1875rem 2.0625rem;
+    }
 }
 
 @media (min-width: 1400px) {
     /* xxl */
+    .btn-login {
+        width: 426.25px;
+    }
+
+    .riwayat-donatur-wrapper {
+        margin-left: 24px;
+    }
+
+    .total-sumbangan .body {
+        position: relative;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .olah-donatur .header-button {
+        position: relative;
+        top: 0;
+        right: 0;
+    }
+
+    .laporan-button {
+        position: relative;
+        top: 0;
+    }
+
+    .lokasi .header {
+        height: 4.5rem !important;
+        padding: 1.1875rem 0px 1.1875rem 2.0625rem;
+    }
 }

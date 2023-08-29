@@ -11,7 +11,7 @@
             </div>
         </div>
         <div class="row mt-3">
-            <div class="col-md-6">
+            <div class="col-xxl-6 col-xl-7 col-lg-8 col-md-10 col-sm-12 col-12">
                 <div class="body">
                     <div class="row">
                         <div class="col-md-12">
@@ -54,12 +54,12 @@
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-md-5 col-sm-5 col-5">
+                                                <div class="col-md-5 col-sm-5 col-3">
                                                     <div class="left">
                                                         Email
                                                     </div>
                                                 </div>
-                                                <div class="col-md-7 col-sm-7 col-7">
+                                                <div class="col-md-7 col-sm-7 col-9">
                                                     <div class="right">
                                                         {{ $user->email }}
                                                     </div>

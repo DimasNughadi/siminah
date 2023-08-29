@@ -1,7 +1,6 @@
 @extends('components._partials.default')
 
 @section('content')
-    {{-- {{ dd($lokasi) }} --}}
     <div class="container-fluid py-2 ps-4">
         <div class="row">
             <div class="col-md-12">
