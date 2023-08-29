@@ -9,6 +9,9 @@ use App\Models\Lokasi;
 use App\Models\Kontainer;
 use App\Models\Donatur;
 use App\Models\Sumbangan;
+use App\Models\Permintaan;
+use App\Models\Adminkelurahan;
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Session;
 
@@ -53,37 +56,33 @@ class DashboardController extends Controller
             }
         }
 
-        // Query untuk mengambil top 5 lokasi dengan sumbangan berat terbanyak
-        $topLokasi = Lokasi::join('kontainer', 'lokasi.id_lokasi', '=', 'kontainer.id_lokasi')
-            ->join('sumbangan', 'kontainer.id_kontainer', '=', 'sumbangan.id_kontainer')
-            ->whereBetween('sumbangan.created_at', $currentMonth)
-            ->groupBy('lokasi.nama_kelurahan')
-            ->select('lokasi.nama_kelurahan', Sumbangan::raw('COALESCE(SUM(sumbangan.berat), 0) AS total_berat'))
-            ->orderByDesc('total_berat')
-            ->limit(5)
-            ->get();
-
-        $labels = $topLokasi->pluck('nama_kelurahan');
-        $values = $topLokasi->pluck('total_berat');
-
         $totalDonatur = Donatur::count();
         $totalDonaturBulanini = Donatur::whereBetween('created_at', $currentMonth)->count();
         $totalKontainer = Kontainer::count();
-        $totalSumbangan = Sumbangan::whereBetween('created_at', $currentMonth)->sum('berat');
+        $totalSumbangan = Sumbangan::whereBetween('created_at', $currentMonth)
+            ->where('sumbangan.status', 'terverifikasi')
+            ->sum('berat');
 
-        $currentMonthSumbangan = Sumbangan::whereBetween('created_at', $currentMonth)->sum('berat');
-        $previousMonthSumbangan = Sumbangan::whereBetween('created_at', $previousMonth)->sum('berat');
+        $totalSumbanganBulanLalu = Sumbangan::whereBetween('created_at', $previousMonth)->sum('berat');
 
         $percentageChangeSumbangan = 0;
-        if ($previousMonthSumbangan != 0) {
-            $percentageChangeSumbangan = (($currentMonthSumbangan - $previousMonthSumbangan) / $previousMonthSumbangan) * 100;
+        if ($totalSumbanganBulanLalu != 0) {
+            $percentageChangeSumbangan = (($totalSumbangan - $totalSumbanganBulanLalu) / $totalSumbanganBulanLalu) * 100;
         }
         $percentageChangeSumbangan = round($percentageChangeSumbangan, 2);
         
-        (float)$totalKapasitasKontainer = Kontainer::where('id_lokasi', 24)->value('kapasitas');
+        $currentContainer = Permintaan::where('id_kontainer', 15)
+                ->where('status_permintaan', 'berhasil')
+                ->max('updated_at');
 
-        $totalSumbangan1 = Sumbangan::where('id_kontainer', 24)
-            ->whereBetween('created_at', $currentMonth)
+        (float)$totalKapasitasKontainer = Kontainer::where('id_lokasi', 15)->value('kapasitas');
+
+        $totalSumbangan1 = Sumbangan::where('id_kontainer', 15)
+            ->where(function ($query) use ($currentContainer) {
+                $query->where('created_at', '>=', $currentContainer)
+                    ->orWhere('created_at', '=', 'kontainer.created_at');
+            })
+            ->where('status', 'terverifikasi')
             ->sum('berat');
 
         $progress = [
@@ -101,6 +100,7 @@ class DashboardController extends Controller
                     ->whereBetween('sumbangan.created_at', $currentMonth);
             })
             ->select('kontainer.id_kontainer', Sumbangan::raw('COALESCE(SUM(sumbangan.berat), 0) AS total_berat'))
+            ->where('sumbangan.status', 'terverifikasi')
             ->groupBy('kontainer.id_kontainer')
             ->havingRaw('total_berat >= ?', [$yourThresholdValue])
             ->count();
@@ -125,6 +125,78 @@ class DashboardController extends Controller
 
         if ($role == 'admin_kelurahan') {
 
+            $id_lokasi = Adminkelurahan::where('id_user', Auth::id())->value('id_lokasi');
+
+            $id_kontainer = Kontainer::where('id_lokasi', $id_lokasi)->value('id_kontainer');
+            
+            $namaKel = Lokasi::where('id_lokasi', $id_lokasi)->value('nama_kelurahan');
+
+            $totalSumbangan = Sumbangan::whereBetween('created_at', $currentMonth)
+                ->where('id_kontainer', $id_kontainer)
+                ->where('sumbangan.status', 'terverifikasi')
+                ->sum('berat');
+
+            $totalSumbanganBulanLalu = Sumbangan::whereBetween('created_at', $previousMonth)->sum('berat');
+
+            $percentageChangeSumbangan = 0;
+            if ($totalSumbanganBulanLalu != 0) {
+                $percentageChangeSumbangan = number_format((($totalSumbangan - $totalSumbanganBulanLalu) / $totalSumbanganBulanLalu) * 100, 2);
+            }
+            
+            $totalDonatur = Sumbangan::whereBetween('created_at', $currentMonth)
+                ->where('id_kontainer', $id_kontainer)
+                ->where('sumbangan.status', 'terverifikasi')
+                ->count();
+
+            $previousMonthSumbangan = Sumbangan::whereBetween('created_at', $previousMonth)
+                ->where('id_kontainer', $id_kontainer)
+                ->where('sumbangan.status', 'terverifikasi')
+                ->count();
+
+            $perbandinganDonatur = $totalDonatur - $previousMonthSumbangan;
+
+            $pengajuanBelumVerif = Sumbangan::whereBetween('created_at', $currentMonth)
+                ->where('id_kontainer', $id_kontainer)
+                ->where('sumbangan.status', 'belum terverifikasi')
+                ->count();
+
+            $currentContainer = Permintaan::where('id_kontainer', $id_kontainer)
+                ->where('status_permintaan', 'berhasil')
+                ->max('updated_at');
+
+            $top_donatur = Lokasi::join('kontainer', 'lokasi.id_lokasi', '=', 'kontainer.id_lokasi')
+                ->join('sumbangan', 'kontainer.id_kontainer', '=', 'sumbangan.id_kontainer')
+                ->join('donatur', 'sumbangan.id_donatur', '=', 'donatur.id_donatur')
+                ->where('lokasi.id_lokasi', $id_lokasi)
+                ->where('sumbangan.created_at', '>=', $currentContainer)
+                ->where('sumbangan.status', 'terverifikasi')
+                ->groupBy('donatur.nama_donatur')
+                ->select('donatur.nama_donatur', 
+                         Sumbangan::raw('COALESCE(SUM(sumbangan.berat), 0) AS total_berat'))
+                ->orderByDesc('total_berat')
+                ->limit(5)
+                ->get();
+
+            $labels = $top_donatur->pluck('nama_donatur');
+            $values = $top_donatur->pluck('total_berat');
+
+            (float)$totalKapasitasKontainer = Kontainer::where('id_lokasi', $id_lokasi)->value('kapasitas');
+
+            $totalSumbangan1 = Sumbangan::where('id_kontainer', 15)
+                ->where(function ($query) use ($currentContainer) {
+                    $query->where('created_at', '>=', $currentContainer)
+                        ->orWhere('created_at', '=', 'kontainer.created_at');
+                })
+                ->where('status', 'terverifikasi')
+                ->sum('berat');
+
+            $progress = [
+                $totalSumbangan1,
+                $totalKapasitasKontainer - $totalSumbangan1
+            ];
+
+            $percentageProgress = number_format(($totalSumbangan1 / $totalKapasitasKontainer) * 100, 2);
+
             $data = [
                 'mapData' => json_encode($mapData),
                 'chartData' => [
@@ -132,17 +204,34 @@ class DashboardController extends Controller
                     'values' => $values->toArray()
                 ],
                 'totalDonatur' => $totalDonatur,
-                'perbandinganDonatur' => $totalDonaturBulanini,
+                'perbandinganDonatur' => $perbandinganDonatur,
                 'totalSumbangan' => $totalSumbangan,
                 'perbandinganSumbangan' => $percentageChangeSumbangan,
                 'totalKontainer' => $totalKontainer,
                 'bulanTahun' => $bulanTahun,
                 'progress' => $progress,
-                'percentageProgress' => $percentageProgress
+                'percentageProgress' => $percentageProgress,
+                'lokasi' => $lokasi,
+                'pengajuanBelumVerif' => $pengajuanBelumVerif,
+                'notifikasi' => $notifikasi,
+                'namaKel' => $namaKel
             ];
-    
+
             return view('after-login.admin-kelurahan.dashboard.dashboard', $data);
         }else{
+
+            $topLokasi = Lokasi::join('kontainer', 'lokasi.id_lokasi', '=', 'kontainer.id_lokasi')
+                ->join('sumbangan', 'kontainer.id_kontainer', '=', 'sumbangan.id_kontainer')
+                ->whereBetween('sumbangan.created_at', $currentMonth)
+                ->where('sumbangan.status', 'terverifikasi')
+                ->groupBy('lokasi.nama_kelurahan')
+                ->select('lokasi.nama_kelurahan', Sumbangan::raw('COALESCE(SUM(sumbangan.berat), 0) AS total_berat'))
+                ->orderByDesc('total_berat')
+                ->limit(5)
+                ->get();
+
+            $labels = $topLokasi->pluck('nama_kelurahan');
+            $values = $topLokasi->pluck('total_berat');
    
             $data = [
                 'mapData' => json_encode($mapData),
@@ -177,6 +266,7 @@ class DashboardController extends Controller
 
         $totalSumbangan1 = Sumbangan::where('id_kontainer', $lokasiId)
             ->whereBetween('created_at', $currentMonth)
+            ->where('sumbangan.status', 'terverifikasi')
             ->sum('berat');
 
         $progress = [
