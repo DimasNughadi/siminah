@@ -34,6 +34,19 @@ return new class extends Migration
             $table->foreign('id_donatur')->references('id_donatur')->on('donatur')->onDelete('cascade');
             $table->foreign('id_kontainer')->references('id_kontainer')->on('kontainer')->onDelete('cascade');
         });
+
+        Schema::table('log', function (Blueprint $table) {
+            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
+        });
+
+        Schema::table('notifikasi', function (Blueprint $table) {
+            $table->foreign('id_donatur')->references('id_donatur')->on('donatur')->onDelete('cascade');
+            $table->foreign('id_sumbangan')->references('id_sumbangan')->on('sumbangan')->onDelete('cascade');
+        });
+
+        Schema::table('lokasi', function (Blueprint $table) {
+            $table->foreign('id_kecamatan')->references('id_kecamatan')->on('kecamatan')->onDelete('cascade');
+        });
     }
 
     /**
@@ -63,6 +76,19 @@ return new class extends Migration
         Schema::table('sumbangan', function (Blueprint $table) {
             $table->foreign('id_donatur')->references('id')->on('donatur')->onDelete('cascade');
             $table->foreign('id_kontainer')->references('id')->on('kontainer')->onDelete('cascade');
+        });
+
+        Schema::table('log', function (Blueprint $table) {
+            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
+        });
+
+        Schema::table('notifikasi', function (Blueprint $table) {
+            $table->foreign('id_donatur')->references('id_donatur')->on('donatur')->onDelete('cascade');
+            $table->foreign('id_sumbangan')->references('id_sumbangan')->on('sumbangan')->onDelete('cascade');
+        });
+
+        Schema::table('lokasi', function (Blueprint $table) {
+            $table->foreign('id_kecamatan')->references('id_kecamatan')->on('kecamatan')->onDelete('cascade');
         });
     }
 };

@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('lokasi', function (Blueprint $table) {
             $table->uuid('id_lokasi')->primary()->default(DB::raw('UUID()'));
+            $table->uuid('id_kecamatan');
+            $table->boolean('isKecamatan', 0);
             $table->string('nama_kelurahan', 50);
             $table->string('latitude', 50);
             $table->string('longitude', 50);
