@@ -3,7 +3,7 @@ https://trello.com/b/Z6ipoLHR/siminah-sistemmanagementminyakjelantah
 
 ### Meet the contributors 👋
 - Dimas a.k.a [@DimasNughadi](https://github.com/DimasNughadi) as Backend Developer
-
+- Josep Ronaldo Francis Siregar a.k.a [@jrfs22](https://github.com/jrfs22) as Frontend Developer
 ## Requirements ⚠️
 
 This project using Laravel 9 for the framework and using MySQL for the database, this following list is need to install to your environment to run this project locally.
