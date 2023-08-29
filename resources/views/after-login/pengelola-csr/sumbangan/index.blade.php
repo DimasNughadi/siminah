@@ -9,7 +9,7 @@
                     <div class="col-md-12 reward text-poppins">Sumbangan</div>
                 </div>
                 <div class="row mt-3">
-                    <div class="col-md-10 col-sm-12 col-12">
+                    <div class="col-xxl-10 col-xl-10 col-lg-11 col-md-12 col-sm-12 col-12">
                         <div class="container-fluid olah-donatur animate__animated animate__fadeInUp">
                             <div class="row">
                                 <div class="col-md-8 col-sm-7 col-7">
@@ -17,7 +17,7 @@
                                         Laporan Sumbangan Minyak Jelantah
                                     </div>
                                 </div>
-                                <div class="col-md-4 col-sm-5 col-sm-5">
+                                <div class="col-md-4 col-sm-5 col-5 mt-4 mt-xxl-0 mt-xl-0 mt-lg-0 mt-md-0 col-sm-0">
                                     <div class="laporan-button d-flex align-items-center justify-content-end">
                                         <x-forms.inputDate />
                                         <div class="header-button">
@@ -26,7 +26,7 @@
                                                 <a href="#"
                                                     class="btn-reward 
                                                 btn-semi-success position-relative d-flex align-items-center export-btn"
-                                                    onclick="exportToPdf()">
+                                                    onclick="generate()">
                                                     EXPORT
                                                     <span class="material-symbols-outlined">
                                                         download
@@ -40,8 +40,9 @@
                                     <div class="body">
                                         <x-forms.table id="sumbangan-table">
                                             @slot('headSlot')
+                                                <th>KECAMATAN</th>
                                                 <th>KELURAHAN</th>
-                                                <th>JUMLAH (LITER)</th>
+                                                <th>JUMLAH (KG)</th>
                                                 <th>JUMLAH DONATUR</th>
                                                 <th>TANGGAL PELAPORAN</th>
                                             @endslot
@@ -53,7 +54,15 @@
                                                         <tr class="reward-tr donatur-csr-tr">
                                                             <td class="ps-3 detail-kelurahan">
                                                                 <div class="d-flex align-items-center">
-                                                                    {{-- <x-user.userImage width="34" height="34"/> --}}
+                                                                    <div class="ms-2  d-grid">
+                                                                        <span class="top">
+                                                                            {{ $item->nama_kecamatan }}
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td class="ps-3 detail-kelurahan">
+                                                                <div class="d-flex align-items-center">
                                                                     <div class="ms-2  d-grid">
                                                                         <span class="top">
                                                                             {{ $item->nama_kelurahan }}
@@ -85,11 +94,38 @@
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.6/jspdf.plugin.autotable.min.js"></script>
     <script>
         const input = document.getElementById('bulan');
         const table = document.getElementById('sumbangan-table');
         const tableRows = table.getElementsByTagName('tr');
+
+        // get current Time
+        var tanggalHariIni = new Date();
+        var options = {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+        };
+        var tanggalHariIni = tanggalHariIni.toLocaleDateString('id-ID', options);
+        // console.log(formattedDate);
+
+        var tableData = [];
+        var rows = document.querySelectorAll('#sumbangan-table tr');
+        for (var i = 0; i < rows.length; i++) {
+            var cells = rows[i].querySelectorAll('td');
+            tableData[i] = [];
+            for (var j = 0; j < cells.length; j++) {
+                tableData[i][j] = cells[j].textContent.replace(/\n/g, '').trim();
+            }
+        }
+
+        var tableDataWithRowNumbers;
+        tableData = tableData.slice(1);
+        tableDataWithRowNumbers = tableData.map(function(row, index) {
+            return [index + 1].concat(row).slice(0);
+        });
 
         function isMonth(month) {
             const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September',
@@ -100,8 +136,10 @@
                 input.style.width = '100px'
             } else if (length <= 6) {
                 input.style.width = '120px'
-            } else {
+            } else if (length <= 7) {
                 input.style.width = '140px'
+            } else {
+                input.style.width = '150px'
             }
         }
 
@@ -115,17 +153,66 @@
         }
 
         function searchByMonthAndYear(keyword) {
+            // let sumRowsDeleted = 0;
+            tableData = [];
+
             for (let i = 1; i < tableRows.length; i++) {
                 const row = tableRows[i];
                 const tanggalCell = row.querySelector('td#tanggal');
                 const tanggalText = tanggalCell.textContent;
                 if (tanggalText.includes(keyword)) {
                     row.style.display = '';
+                    var rowData = [];
+                    var cells = row.querySelectorAll('td');
+                    for (let j = 0; j < cells.length; j++) {
+                        rowData.push(cells[j].textContent.trim());
+                    }
+                    tableData.push(rowData);
                 } else {
                     row.style.display = 'none';
                 }
+
             }
+
+            tableDataWithRowNumbers;
+            tableDataWithRowNumbers = tableData.map(function(row, index) {
+                return [index + 1].concat(row).slice(0);
+            });
         }
+
+        input.addEventListener("input", function() {
+            if (input.value === "") {
+                tableData = [];
+
+                for (let i = 1; i < tableRows.length; i++) {
+                    const row = tableRows[i];
+                    const tanggalCell = row.querySelector('td#tanggal');
+                    const tanggalText = tanggalCell.textContent;
+                    row.style.display = '';
+                    var rowData = [];
+                    var cells = row.querySelectorAll('td');
+                    for (let j = 0; j < cells.length; j++) {
+                        rowData.push(cells[j].textContent.trim());
+                    }
+                    tableData.push(rowData);
+
+                }
+
+                tableDataWithRowNumbers;
+                tableDataWithRowNumbers = tableData.map(function(row, index) {
+                    return [index + 1].concat(row).slice(0);
+                });
+
+                // Set again
+                const currentDate = new Date();
+                const currentMonth = currentDate.getMonth() + 1;
+                const currentMonthString = currentMonth < 10 ? '0' + currentMonth : currentMonth;
+                const currentYear = currentDate.getFullYear();
+                const currentValue = `${currentYear}-${currentMonthString}`;
+                input.value = currentValue;
+            }
+
+        });
 
         function setCurrentMonth() {
             const currentDate = new Date();
@@ -151,16 +238,92 @@
 
             // Search
             const keyword = strToDate(selectedMonth)
-            console.log(keyword);
+            // console.log(keyword);
             searchByMonthAndYear(keyword)
         }
 
-        function exportToPdf() {
-            const doc = new jsPDF();
+
+        function generate() {
+            var doc = new jsPDF('p', 'pt', 'a4');
+            var htmlstring = '';
+            var tempVarToCheckPageHeight = 0;
+            var pageHeight = 0;
+            pageHeight = doc.internal.pageSize.height;
+            specialElementHandlers = {
+                // element with id of "bypass" - jQuery style selector  
+                '#bypassme': function(element, renderer) {
+                    // true = "handled elsewhere, bypass text extraction"  
+                    return true
+                }
+            };
+            margins = {
+                top: 150,
+                bottom: 60,
+                left: 40,
+                right: 40,
+                width: 600
+            };
+            var y = 20;
+            doc.setLineWidth(2);
+            doc.setFontSize(10);
+            doc.text(40, y = y + 10, tanggalHariIni);
+            doc.setFontSize(16);
+            doc.text(130, y = y + 30, "LAPORAN SUMBANGAN MINYAK JELANTAH");
+            doc.setFontSize(12);
             doc.autoTable({
-                html: '#sumbangan-table'
-            });
-            doc.save('table.pdf');
+                headStyles: {
+                    fillColor: [101, 174, 56],
+                    valign: 'middle',
+                    halign: 'center',
+                },
+                // html: '#sumbangan-table',
+                head: [
+                    ['NO', 'KECAMATAN', 'KELURAHAN', 'JUMLAH (KG)', 'JUMLAH DONATUR', 'TANGGAL PELAPORAN']
+                ],
+                body: tableDataWithRowNumbers,
+                startY: 70,
+                theme: 'striped',
+                columnStyles: {
+                    0: {
+                        cellWidth: 40,
+                    },
+                    1: {
+                        cellWidth: 140,
+                    },
+                    2: {
+                        cellWidth: 140,
+                    },
+                    3: {
+                        cellWidth: 80,
+                    },
+                    4: {
+                        cellWidth: 80
+                    },
+                    5: {
+                        cellWidth: 60
+                    },
+                },
+                styles: {
+                    minCellHeight: 10
+                },
+                columnStyles: {
+                    0: {
+                        valign: 'middle',
+                        halign: 'center',
+                        fontStyle: 'bold',
+                    },
+                },
+                didDrawCell: function(data) {
+                    if (data.section === 'body' && data.column.index !== data.table.columns.length - 1) {
+                        doc.setDrawColor(200, 200, 200); // Set the color of the delimiter
+                        doc.setLineWidth(0.5); // Set the width of the delimiter
+                        doc.line(data.cell.x + data.cell.width, data.cell.y, data.cell.x + data.cell.width, data
+                            .cell.y + data.cell.height); // Draw the delimiter
+                    }
+                },
+            })
+            doc.save('Laporan-sumbangan-minyak-' + tanggalHariIni.replace(' ', '-') + '.pdf');
         }
     </script>
+
 @stop

@@ -132,6 +132,24 @@
             );
         </script>
     @endif
+@elseif(!empty(session('lokasi_alert')))
+    @if (session('lokasi_alert') === 'success')
+        <script>
+            Swal.fire(
+                'Lokasi!',
+                'Lokasi baru berhasil diinputkan',
+                'success',
+            );
+        </script>
+    @elseif(session('lokasi_alert') === 'error')
+        <script>
+            Swal.fire(
+                'Lokasi!',
+                'Terjadi error pada saat penambahan lokasi!',
+                'error',
+            );
+        </script>
+    @endif
     {{-- Swal.fire({
         position: 'bottom-end',
         title: 'Your work has been saved',

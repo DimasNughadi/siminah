@@ -1,8 +1,9 @@
 @extends('components._partials.default')
 
 @section('content')
-{{-- {!! json_encode($chartData['labels']) !!}
-{{!! json_encode(number_format($persentase, 1)) !!}} --}}
+
+{{-- {{ dd($persentase) }} --}}
+
     <div class="container-fluid py-2 ps-4">
         <div class="row">
             <div class="col-md-12">
@@ -10,7 +11,7 @@
                     <div class="col-md-12 reward text-poppins">Sumbangan</div>
                 </div>
                 <div class="row mt-3">
-                    <div class="col-md-3 col-sm-12 col-12">
+                    <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
                         <div class="container-fluid sumbangan-kelurahan">
                             <div class="row">
                                 <div class="col-md-12">
@@ -50,31 +51,57 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4 col-sm-12 col-12">
-                        <div class="container-fluid sumbangan-kelurahan mt-sm-3 mt-3 mt-md-0">
+                    <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">
+                        <div class="total-sumbangan mt-sm-3 mt-3 mt-md-0">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="header">
-                                        Total verifikasi
+                                        Total sumbangan (persentase)
                                     </div>
                                 </div>
                                 <div class="col-md-12 col-sm-12 col-12">
                                     <div class="body">
+                                        <div class="chartPie">
+                                            <canvas id="myPieChart"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="footer">
                                         <div class="row">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="196" height="196"
-                                                viewBox="0 0 196 196" fill="none">
-                                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                                    d="M98 196C152.124 196 196 152.124 196 98C196 43.8761 152.124 0 98 0C43.8761 0 0 43.8761 0 98C0 152.124 43.8761 196 98 196Z"
-                                                    fill="#E2FBD7" />
-                                            </svg>
+                                            <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 d-flex">
+                                                <div class="senin">
+                                                    Senin
+                                                </div>
+                                                <div class="selasa">
+                                                    Selasa
+                                                </div>
+                                                <div class="rabu">
+                                                    Rabu
+                                                </div>
+                                                <div class="kamis">
+                                                    Kamis
+                                                </div>
+                                            </div>
+                                            <div class="col-xxl-12 col-xl-12 col-lg-5 col-md-12 d-flex">
+                                                <div class="jumat">
+                                                    Jumat
+                                                </div>
+                                                <div class="sabtu">
+                                                    Sabtu
+                                                </div>
+                                                <div class="minggu">
+                                                    Minggu
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-5 col-sm-12 col-12">
-                        <div class="table-sumbangan-kelurahan mt-sm-3 mt-3 mt-md-0">
+                    <div class="col-xxl-5 col-xl-5 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="table-sumbangan-kelurahan mt-xl-0 mt-xxl-0 mt-xl-0 mt-sm-3 mt-3 mt-md-4">
                             <div class="main-table">
                                 <div class="row">
                                     <div class="col-md-12">
@@ -114,12 +141,12 @@
                                                                     </div>
                                                                 </td>
                                                                 <td class="ps-4 tanggal">
-                                                                    {{ datetimeFormat($item->created_at) }}
+                                                                    {{ datetimeFormat($item->updated_at) }}
                                                                 </td>
                                                                 <td class="ps-4 ">
-                                                                @if (strtolower($item->status) === 'terverifikasi')
-                                                                    <div
-                                                                        class="btn-reward btn-table-custom bg-success
+                                                                    @if (strtolower($item->status) === 'terverifikasi')
+                                                                        <div
+                                                                            class="btn-reward btn-table-custom bg-success
                                                                     position-relative">
                                                                             <span class="position-relative add-reward">
                                                                                 Terverifikasi
@@ -187,7 +214,7 @@
                                                                 {{ $item->berat }} Kg
                                                             </td>
                                                             <td class="ps-4 kelurahan">
-                                                                {{ $item->donatur->nama_kelurahan }}
+                                                                {{ $item->donatur->kelurahan }}
                                                             </td>
                                                             <td class="ps-4 tanggal">
                                                                 {{ datetimeFormat($item->created_at) }}
@@ -237,9 +264,6 @@
             </div>
         </div>
     </div>
-
-    {{-- Sweetalert --}}
-    <x-sweetalert />
     {{-- Verifikasi status forms --}}
     <form method="POST" action="" id="verifikasiStatusForm">
         @csrf
@@ -259,22 +283,22 @@
         <x-modals.Modal modalName="deskripsi-penolakan" route="sumbangan.update" title="Deskripsi penolakan">
             @slot('slotMethod')
                 <form action="" id="FormPenolakanSumbangan" method="POST">
-                @csrf
-                @method('PUT')
-            @endslot
+                    @csrf
+                    @method('PUT')
+                @endslot
 
-            @slot('slotBody')
-                <input type="hidden" name="status" value="ditolak">
-                <div class="form-floating border rounded">
-                    <textarea class="form-control ps-2" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 200px"
-                        name="keterangan"></textarea>
-                    <label for="floatingTextarea2">Deskripsi</label>
-                </div>
-            @endslot
+                @slot('slotBody')
+                    <input type="hidden" name="status" value="ditolak">
+                    <div class="form-floating border rounded">
+                        <textarea class="form-control ps-2" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 200px"
+                            name="keterangan"></textarea>
+                        <label for="floatingTextarea2">Deskripsi</label>
+                    </div>
+                @endslot
 
-            @slot('slotFooter')
-                <x-forms.btn.button type="submit" color="danger" title="Simpan" />
-            @endslot
+                @slot('slotFooter')
+                    <x-forms.btn.button type="submit" color="danger" title="Simpan" />
+                @endslot
         </x-modals.Modal>
         <style>
             .chart-container {
@@ -282,14 +306,14 @@
                 justify-content: center;
                 align-items: center;
             }
-        
+
             .chart-content {
                 position: relative;
                 display: block;
                 width: 194px;
                 height: 194px;
             }
-        
+
             .chart-content canvas {
                 display: block;
                 max-width: 100%;
@@ -297,7 +321,7 @@
                 border-radius: 50%;
                 z-index: 2;
             }
-        
+
             .chart-background {
                 position: absolute;
                 top: 0;
@@ -309,19 +333,18 @@
                 z-index: 1;
                 pointer-events: none;
             }
-        
+
             .chart-percentage {
                 position: absolute;
                 top: 50%;
                 left: 50%;
                 transform: translate(-50%, -50%);
                 font-size: 22px;
-                font-family: DM Sans
-                font-weight: bold;
+                font-family: DM Sans font-weight: bold;
                 color: white;
                 z-index: 5;
             }
-        
+
             .chart-circle-colored {
                 position: absolute;
                 top: 50%;
@@ -333,7 +356,7 @@
                 background-color: #FF3A29;
                 z-index: 4;
             }
-        
+
             .chart-circle-white {
                 position: absolute;
                 top: 50%;
@@ -345,16 +368,24 @@
                 background-color: white;
                 z-index: 3;
             }
+
+            .chartPie{
+                width: 396px!important;
+                height: 396px!important;
+            }
+
         </style>
 
+
         <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"
             integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous" async></script>
 
 
         <script>
             var ctx1 = document.getElementById('myChart2').getContext('2d');
-            var data1 = [{!! json_encode(number_format($persentase ,1)) !!}, {!! json_encode(100 - number_format($persentase ,1)) !!}];;
+            var data1 = [{!! json_encode(number_format($persentase, 1)) !!}, {!! json_encode(100 - number_format($persentase, 1)) !!}];;
             var colors1 = ['rgba(255, 58, 41, 1)', 'rgba(0, 0, 0, 0)'];
             var cutout1 = '85%';
             var myChart1 = new Chart(ctx1, {
@@ -383,18 +414,75 @@
                 }
             });
         </script>
+    {{-- {{ dd($sumbanganHarian[0]) }} --}}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
+
+        <script>
+            var ctx = document.getElementById("myPieChart").getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    datasets: [{
+                        data: [
+                            {!! json_encode($sumbanganHarian[0]['berat']) !!}, 
+                            {!! json_encode($sumbanganHarian[1]['berat']) !!}, 
+                            {!! json_encode($sumbanganHarian[2]['berat']) !!}, 
+                            {!! json_encode($sumbanganHarian[3]['berat']) !!}, 
+                            {!! json_encode($sumbanganHarian[4]['berat']) !!},
+                            {!! json_encode($sumbanganHarian[5]['berat']) !!},
+                            {!! json_encode($sumbanganHarian[6]['berat']) !!}],
+                        backgroundColor: [
+                            "#EAC500",
+                            "#145EA8",
+                            "#E5E5E5",
+                            "#D12031",
+                            "#A8AE38",
+                            "#9747FF",
+                            "#65AE38"
+                        ],
+                        borderWidth: 0,
+                        borderAlign: 'inner'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    legend: {
+                        display: false
+                    },
+                    tooltips: {
+                        enabled: false
+                    },
+                    plugins: {
+                        datalabels: {
+                            formatter: (value, ctx) => {
+                                let sum = ctx.dataset._meta[0].total;
+                                let percentage = (value * 100 / sum).toFixed(0) + "%";
+                                return percentage;
+                            },
+                            color: '#000',
+                            font: {
+                                size: 12 // Adjust the font size as needed
+                            }
+                        }
+                    }
+                }
+            });
+        </script>
 
 
-@stop
 
-@extends('components._partials.scripts')
-@section('script')
-    <script>
-        function TolakSumbangan(action) {
-            const FormPenolakanSumbangan = document.querySelector('#FormPenolakanSumbangan')
+    @stop
 
-            FormPenolakanSumbangan.action = action;
-            FormPenolakanSumbangan.sumbit()
-        }
-    </script>
-@endsection
+    @extends('components._partials.scripts')
+    @section('script')
+        <script>
+            function TolakSumbangan(action) {
+                const FormPenolakanSumbangan = document.querySelector('#FormPenolakanSumbangan')
+
+                FormPenolakanSumbangan.action = action;
+                FormPenolakanSumbangan.sumbit()
+            }
+        </script>
+    @endsection

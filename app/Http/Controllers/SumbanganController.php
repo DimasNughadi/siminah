@@ -3,19 +3,20 @@
 namespace App\Http\Controllers;
 
 use Exception;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Database\QueryException;
+use Carbon\Carbon;
+use App\Models\Lokasi;
+use Nette\IOException;
+use App\Models\Donatur;
+use Barryvdh\DomPDF\PDF;
+use App\Models\Kontainer;
+use App\Models\Sumbangan;
 use Illuminate\Http\Request;
 use App\Models\Adminkelurahan;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Lokasi;
-use App\Models\Kontainer;
-use App\Models\Donatur;
-use App\Models\Sumbangan;
-use Carbon\Carbon;
-use Nette\IOException;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Database\QueryException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class SumbanganController extends Controller
 {
@@ -28,6 +29,43 @@ class SumbanganController extends Controller
                 $id_lokasi = DB::table('adminkelurahan')
                     ->where('id_user', Auth::id())
                     ->value('id_lokasi');
+                $now = Carbon::now();
+                $lastWeekStart = $now->subDays(6 + $now->dayOfWeek)->startOfDay()->format('Y-m-d');
+                $lastWeekEnd = $now->copy()->addDays(7)->endOfDay()->format('Y-m-d');
+                $lastWeekStart = '2023-07-03'; //untuk tes
+                $lastWeekEnd = '2023-07-10'; //untuk tes
+
+                $SumbanganHarian = Sumbangan::where('status', 'terverifikasi')
+                    ->whereHas('kontainer.lokasi', function ($query) use ($id_lokasi) {
+                        $query->where('id_lokasi', $id_lokasi);
+                    })
+                    ->whereBetween('created_at', [$lastWeekStart, $lastWeekEnd])
+                    ->selectRaw('DAYOFWEEK(created_at) as day_of_week, sum(berat) as total_berat')
+                    ->groupBy('day_of_week')
+                    ->orderBy('day_of_week')
+                    ->get();
+                $daysOfWeek = range(1, 7);
+                // Initialize an empty result array
+                $result = [];
+                // Loop through each day of the week
+                foreach ($daysOfWeek as $dayOfWeek) {
+                    // Check if the queried data has a matching day of the week
+                    $matchingData = $SumbanganHarian->where('day_of_week', $dayOfWeek)->first();
+
+                    // If matching data is found, add it to the result
+                    if ($matchingData) {
+                        $result[] = [
+                            'dayofweek' => $matchingData->day_of_week,
+                            'berat' => $matchingData->total_berat,
+                        ];
+                    } else {
+                        // If no matching data is found, add an entry with berat = 0
+                        $result[] = [
+                            'dayofweek' => $dayOfWeek,
+                            'berat' => 0,
+                        ];
+                    }
+                }
                 $riwayat = Sumbangan::with('donatur', 'kontainer')
                     ->whereHas('kontainer.lokasi', function ($query) use ($id_lokasi) {
                         $query->where('id_lokasi', $id_lokasi);
@@ -50,8 +88,7 @@ class SumbanganController extends Controller
                     })->count();
                 $TotalSumbangan = Sumbangan::whereHas('kontainer.lokasi', function ($query) use ($id_lokasi) {
                     $query->where('id_lokasi', $id_lokasi);
-                })
-                    ->count();
+                })->count();
                 if ($TotalSumbangan == 0) {
                     $persentase = 0;
                 } else {
@@ -62,25 +99,24 @@ class SumbanganController extends Controller
                         $item->status = 'belum verifikasi';
                     }
                 });
-                // dd($verifikasiStatus);
-                return view('after-login.admin-kelurahan.sumbangan.index', ['verifikasiStatus' => $verifikasiStatus, 'persentase' => $persentase, 'riwayat' => $riwayat]);
+                return view('after-login.admin-kelurahan.sumbangan.index', ['verifikasiStatus' => $verifikasiStatus, 'persentase' => $persentase, 'riwayat' => $riwayat, 'sumbanganHarian' => $result]);
             } else {
                 $laporan = Kontainer::join('lokasi', 'kontainer.id_lokasi', '=', 'lokasi.id_lokasi')
                     ->leftJoin('sumbangan', function ($join) {
                         $join->on('kontainer.id_kontainer', '=', 'sumbangan.id_kontainer')
                             ->where('sumbangan.status', '=', 'terverifikasi');
                     })
-                    ->select('kontainer.id_kontainer', 'lokasi.nama_kelurahan')
+                    ->join('kecamatan', 'lokasi.id_kecamatan', '=', 'kecamatan.id_kecamatan') // Join with kecamatan
+                    ->select('kontainer.id_kontainer', 'lokasi.nama_kelurahan', 'lokasi.is_kecamatan', 'kecamatan.nama_kecamatan') // Select the kecamatan's name
                     ->selectRaw('SUM(COALESCE(sumbangan.berat, 0)) as total_berat')
                     ->selectRaw('COUNT(DISTINCT COALESCE(sumbangan.id_donatur, 0)) as total_donatur')
                     ->selectRaw('MAX(COALESCE(sumbangan.updated_at, "-")) as tanggal_laporan')
                     ->selectRaw('YEAR(COALESCE(sumbangan.updated_at, NOW())) as tahun, MONTH(COALESCE(sumbangan.updated_at, NOW())) as bulan')
-                    ->groupBy('kontainer.id_kontainer', 'lokasi.nama_kelurahan', 'tahun', 'bulan')
+                    ->groupBy('kontainer.id_kontainer', 'lokasi.nama_kelurahan', 'lokasi.is_kecamatan', 'kecamatan.nama_kecamatan', 'tahun', 'bulan')
                     ->orderByDesc('total_berat')
                     ->orderBy('tahun')
                     ->orderBy('bulan')
                     ->get();
-                
                 return view('after-login.pengelola-csr.sumbangan.index', ['laporan' => $laporan]);
             }
         } catch (Exception $exception) {
@@ -120,6 +156,15 @@ class SumbanganController extends Controller
                 Sumbangan::where('created_at', $created_at)
                     ->where('id_donatur', $id)
                     ->update(['status' => $request->status]);
+                $sumPoin = Sumbangan::where('created_at', $created_at)
+                    ->where('id_donatur', $id)
+                    ->value('poin_reward');
+                if ($sumPoin !== null) {
+                    // Update the poin attribute of the Donatur
+                    Donatur::where('id_donatur', $id)
+                        ->increment('poin', $sumPoin);
+                }
+
                 return redirect()->route('sumbangan')->with('verifikasi_alert', 'success');
             }
         } catch (Exception $exception) {

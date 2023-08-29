@@ -9,12 +9,12 @@
                     <div class="col-md-12 reward text-poppins">Reward</div>
                 </div>
                 <div class="row reedem-reward animate__animated animate__fadeInLeft">
-                    <div class="col-md-9 col-sm-7 col-7">
+                    <div class="col-xxl-8 col-xl-8 col-lg-8 col-md-8 col-sm-7 col-7">
                         <div class="table-header-redeem">
                             Riwayat penukaran hadiah
                         </div>
                     </div>
-                    <div class="col-md-3 col-sm-5 col-5">
+                    <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-5 col-5">
                         <div class="text-poppins text-14 btn-reward-position d-flex justify-content-end align-items-end">
                             <div class="btn-reward btn-custom-success position-relative">
                                 <a href="{{ route('reward/reward-list') }}" class="position-relative add-reward">Lihat

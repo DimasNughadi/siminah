@@ -48,7 +48,7 @@ function deleteReward(route) {
         icon: "warning",
         showCancelButton: true,
         confirmButtonText: "Ya, lanjut hapus",
-        cancelButtonText: "No",
+        cancelButtonText: "Tidak",
         reverseButtons: true,
     }).then((result) => {
         if (result.isConfirmed) {
@@ -82,11 +82,10 @@ function updatePermintaanKontainer(href) {
         icon: "warning",
         showCancelButton: true,
         confirmButtonText: "Ya, terima permintaan",
-        cancelButtonText: "No",
+        cancelButtonText: "Tidak",
         reverseButtons: true,
     }).then((result) => {
         if (result.isConfirmed) {
-            console.log(href);
             let updatePermintaanKontainer = document.querySelector(
                 "#updatePermintaanKontainer"
             );
@@ -133,7 +132,7 @@ function AjukanPergantianKontainer(action) {
         icon: "warning",
         showCancelButton: true,
         confirmButtonText: "Ya, lanjutkan",
-        cancelButtonText: "No",
+        cancelButtonText: "Tidak",
         reverseButtons: true,
     }).then((result) => {
         if (result.isConfirmed) {
@@ -165,4 +164,49 @@ function Logout() {
             document.getElementById('logout-form').submit();
         }
     })
+}
+
+function hapusLokasi(url) {
+    Swal.fire({
+        title: "Apakah ingin melanjutkan?",
+        text: "Data lokasi beserta turunan nya akan dihapus",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Ya, hapus",
+        cancelButtonText: "Tidak",
+        reverseButtons: true,
+    }).then((result) => {
+        if (result.isConfirmed) {
+            let formsDeleteLokasi = document.querySelector('#formsDeleteLokasi')
+            formsDeleteLokasi.action = url
+            // console.log(formsDeleteLokasi);
+            formsDeleteLokasi.submit();
+            
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+            Swal.fire("Dibatalkan", "Data tidak jadi dihapus", "info");
+            // Perform any additional actions   if deletion is cancelled
+        }
+    });
+}
+
+function deleteRecord(url) {
+    Swal.fire({
+        title: "Apakah ingin melanjutkan?",
+        text: "Data akun akan dihapus",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Ya, hapus",
+        cancelButtonText: "Tidak",
+        reverseButtons: true,
+    }).then((result) => {
+        if (result.isConfirmed) {
+            let formDeleteAdmin = document.querySelector('#formDeleteAdmin')
+            formDeleteAdmin.action = url
+            console.log(formDeleteAdmin);
+            formDeleteAdmin.submit()
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+            Swal.fire("Dibatalkan", "Data tidak jadi dihapus", "info");
+            // Perform any additional actions   if deletion is cancelled
+        }
+    });
 }

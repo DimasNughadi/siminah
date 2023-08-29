@@ -1,70 +1,116 @@
-<a href="javascript:demoFromHTML()" class="button">Run Code</a>
-<div id="content">
-    <table id="my-table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Tanggal</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>1</td>
-                <td>John Doe</td>
-                <td id="tanggal">2023-08-01</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Jane Smith</td>
-                <td id="tanggal">2023-08-02</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Mike Johnson</td>
-                <td id="tanggal">2023-08-03</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+@extends('components._partials.default')
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"
-    integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
-<script>
-    function demoFromHTML() {
-        var pdf = new jsPDF('p', 'pt', 'letter');
-        source = $('#content')[0];
+@section('content')
+    <div class="container-fluid py-2 ps-4">
+        <div class="row">
+            <div class="col-md-12 page-header text-poppins">
+                <a href="{{ route('lokasi') }}" class="text-secondary link-secondary">Lokasi</a>
+                <span>
+                    <b>
+                        &nbsp;/ Tambah
+                    </b>
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="container-fluid lokasi">
+                <form action="{{ route('lokasi.store') }}" method="POST">
+                    @csrf
+                    <div class="col-md-12">
+                        <div class="row header d-flex justify-content middle">
+                            <div class="col-md-9 col-sm-9 col-9 title">
+                                <h3 class="align-middle">Tambah lokasi pengumpulan minyak</h3>
+                            </div>
+                            <div class="col-md-3 col-sm-3 col-3 button d-flex justify-content-end">
+                                {{-- <button type="submit">ss</button> --}}
+                                <x-forms.btn.button type="submit" color="danger" title="Simpan"
+                                    id="sumbit-tambah-lokasi" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-11 line">
+                        <div class="container-fluid body">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <x-forms.formControlAdmin label="Alamat lengkap" name="deskripsi"
+                                                placeholder="Detail alamat pengumpulan minyak" />
+                                            <p class="text-danger" id="jalan-error"></p>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-4">
+                                        <div class="col-md-12">
+                                            <x-forms.formControlAdmin label="Kecamatan" name="nama_kecamatan"
+                                                placeholder="Pilih kecamatan" />
+                                            <p class="text-danger" id="kecamatan-exist"></p>
+                                        </div>
+                                    </div>
 
-        specialElementHandlers = {
-            // element with id of "bypass" - jQuery style selector
-            '#bypassme': function(element, renderer) {
-                // true = "handled elsewhere, bypass text extraction"
-                return true
-            }
-        };
-        margins = {
-            top: 80,
-            bottom: 60,
-            left: 40,
-            width: 522
-        };
-        // all coords and widths are in jsPDF instance's declared units
-        // 'inches' in this case
-        pdf.fromHTML(
-            source, // HTML string or DOM elem ref.
-            margins.left, // x coord
-            margins.top, { // y coord
-                'width': margins.width, // max width of content on PDF
-                'elementHandlers': specialElementHandlers
-            },
+                                    <div class="row mt-3">
+                                        <div class="col-md-12">
+                                            <x-forms.formControlAdmin label="Kelurahan" name="nama_kelurahan"
+                                                placeholder="Pilih kelurahan" />
+                                            <p class="text-danger" id="kelurahan-exist"></p>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-md-12">
+                                            <x-forms.formControlAdmin label="Koordinat" name="koordinat"
+                                                placeholder="Koordinat (Longitude  Latitude)" />
+                                        </div>
+                                    </div>
+                                    <div class="row d-none">
+                                        <div class="col-md-12">
+                                            <x-forms.formControlAdmin label="Latitude" name="latitude"
+                                                placeholder="Pilih latitude" />
+                                        </div>
+                                    </div>
+                                    <div class="row d-none">
+                                        <div class="col-md-12">
+                                            <x-forms.formControlAdmin label="Longitude" name="longitude"
+                                                placeholder="Pilih longitude" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="container-maps">
+                                            <div class="col-md-12 mt-sm-3">
+                                                <div class="d-flex">
+                                                    <div class="left">Atur Pin Point</div>
+                                                    <div class="right">
+                                                        &nbsp;&nbsp;(Opsional)
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 mt-1">
+                                                <div class="maps" id="maps">
+                                                </div>
+                                            </div>
+                                            @if (true)
+                                                <div class="col-md-12 mt-2">
+                                                    <x-forms.label title="Tingkat Wilayah" />
+                                                    <x-forms.radioButton />
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
-            function(dispose) {
-                // dispose: object with X, Y of the last line add to the PDF 
-                //          this allow the insertion of new lines after html
-                pdf.save('Test.pdf');
-            }, margins
-        );
-    }
-</script>
+    <x-sweetalert />
+@stop
+
+@extends('components._partials.scripts')
+@section('script')
+    <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
+        crossorigin="anonymous"></script>
+    <script src="{{ asset('assets/js/maps.js') }}"></script>
+@endsection

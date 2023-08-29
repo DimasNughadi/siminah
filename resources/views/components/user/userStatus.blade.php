@@ -1,3 +1,4 @@
+
 <div class="user-status-wrapper">
     <div class="container-fluid">
         <div class="row">
@@ -8,7 +9,7 @@
                             <a href="{{ route('profil') }}">
                                 <div class="row">
                                     <div class="col-md-6 col-sm-6 col-6 image">
-                                        <x-user.userImage />
+                                        <x-user.userImage role="admin"/>
                                         <div class="aktif"></div>
                                     </div>
                                     <div class="col-md-6 col-sm-6 col-6 name ">
@@ -25,7 +26,7 @@
                         @else
                             <div class="row">
                                 <div class="col-md-6 col-sm-6 col-6 image">
-                                    <x-user.userImage />
+                                    <x-user.userImage role="admin"/>
                                     <div class="aktif"></div>
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-6 name ">

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kecamatan;
 use App\Models\Kontainer;
 use App\Models\Lokasi;
 use Exception;
@@ -13,7 +14,7 @@ class LokasiController extends Controller
     public function index()
     {
         try {
-            $lokasi = Lokasi::withCount([
+            $lokasi = Lokasi::with('kecamatan')->withCount([
                 'kontainer' => function ($query) {
                     $query->where('keterangan', '!=', 'deleted');
                 }
@@ -38,46 +39,81 @@ class LokasiController extends Controller
     public function cekLokasi(Request $request)
     {
         $namaKelurahan = strtolower(str_replace(' ', '', $request->nama_kelurahan));
+        $lokasi = Lokasi::whereRaw('LOWER(REPLACE(nama_kelurahan, " ", "")) = ?', [$namaKelurahan])
+            ->where(function ($query) {
+                $query->where('is_kecamatan', 1)
+                    ->orWhere('is_kecamatan', 0);
+            })
+            ->where('status', '!=', 'deleted')
+            ->get();
+        // return response()->json($lokasi);
+        $result = new \stdClass(); // Membuat objek baru untuk hasil kembalian
 
-        // Periksa apakah entri dengan nama_kelurahan yang sudah diubah sudah ada di database
-        $existingLokasi = Lokasi::whereRaw('LOWER(REPLACE(nama_kelurahan, " ", "")) = ?', [$namaKelurahan])->first();
-        return ($existingLokasi);
-        if ($existingLokasi) {
-            return response()->json(['message' => 'Lokasi dengan nama kelurahan tersebut sudah ada.']);
+        if ($lokasi->count() >= 2) {
+            $result->submit = false;
+            $result->tingkat_wilayah = false;
+            $result->is_kecamatan = false;
+        } else if ($lokasi->count() == 1) {
+            $is_kecamatan = $lokasi->first()->is_kecamatan;
+            if ($is_kecamatan == 1) {
+                $result->submit = true;
+                $result->tingkat_wilayah = false;
+                $result->is_kecamatan = 1;
+            } else {
+                $result->submit = true;
+                $result->tingkat_wilayah = false;
+                $result->is_kecamatan = 0;
+            }
         } else {
-            return response()->json(['message' => 'Lokasi tersedia.']);
+            $result->submit = true;
+            $result->tingkat_wilayah = true;
+            $result->is_kecamatan = true;
         }
+        return response()->json($result);
     }
     public function store(Request $request)
     {
+        // try {
+        $this->validate($request, [
+            'nama_kelurahan' => 'required',
+            'nama_kecamatan' => 'required',
+            'is_kecamatan' => 'required',
+            'latitude' => 'required',
+            'longitude' => 'required',
+            'deskripsi' => 'required',
+        ]);
 
-        try {
-            $this->validate($request, [
-                'nama_kelurahan' => 'required',
-                'latitude' => 'required',
-                'longitude' => 'required',
-                'deskripsi' => 'required',
+        $nama_kecamatan = strtolower(str_replace(' ', '', $request->nama_kecamatan));
+        $kecamatan = Kecamatan::whereRaw('LOWER(REPLACE(nama_kecamatan, " ", "")) = ?', [$nama_kecamatan])
+            ->first();
+        if (!$kecamatan) {
+            $create_kecamatan = Kecamatan::create([
+                'nama_kecamatan' => $request->nama_kecamatan,
             ]);
-
-
-            $lokasi = Lokasi::create([
-                'nama_kelurahan' => $request->nama_kelurahan,
-                'latitude' => $request->latitude,
-                'longitude' => $request->longitude,
-                'deskripsi' => $request->deskripsi,
-                'status' => '-',
-            ]);
-
-            Kontainer::create([
-                'id_lokasi' => $lokasi->id_lokasi,
-                'kapasitas' => '30',
-                'keterangan' => '-',
-            ]);
-            return redirect()->route('lokasi');
-
-        } catch (Exception $exception) {
-            return redirect()->back()->with('message', 'Lokasi tidak berhasil ditambahkan');
+            $id_kecamatan = $create_kecamatan->id_kecamatan;
+        } else {
+            $id_kecamatan = $kecamatan->id_kecamatan;
         }
+        $lokasi = Lokasi::create([
+            'nama_kelurahan' => $request->nama_kelurahan,
+            'id_kecamatan' => $id_kecamatan,
+            'is_kecamatan' => $request->is_kecamatan,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
+            'deskripsi' => $request->deskripsi,
+            'status' => '-',
+        ]);
+
+        Kontainer::create([
+            'id_lokasi' => $lokasi->id_lokasi,
+            'kapasitas' => '30',
+            'keterangan' => '-',
+        ]);
+        return redirect()->route('lokasi')->with('lokasi_alert', 'success');
+
+        // } catch (Exception $exception) {
+        //     return redirect()->back()->with('lokasi_alert', 'error');
+        // }
     }
     public function edit($id)
     {
@@ -91,6 +127,7 @@ class LokasiController extends Controller
 
     public function update($id, Request $request)
     {
+        // dd($id);
         $this->validate($request, [
             'id_lokasi' => 'required',
             'nama_kelurahan' => 'required',
@@ -98,17 +135,18 @@ class LokasiController extends Controller
             'longitude' => 'required',
             'deskripsi' => 'required',
         ]);
+
+
         try {
             $lokasi = Lokasi::findOrFail($id);
-            $lokasi->nama = $request->nama;
             $lokasi->nama_kelurahan = $request->nama_kelurahan;
             $lokasi->latitude = $request->latitude;
             $lokasi->longitude = $request->longitude;
             $lokasi->deskripsi = $request->deskripsi;
             $lokasi->save();
-            return redirect()->route('lokasi');
+            return redirect()->route('lokasi')->with('edit_alert', 'success');
         } catch (Exception $exception) {
-            return redirect()->back()->with('message', 'Lokasi tidak berhasil diupdate');
+            return redirect()->back()->with('edit_alert', 'error');
         }
     }
     public function destroy($id)
@@ -117,9 +155,13 @@ class LokasiController extends Controller
             $lokasi = Lokasi::find($id);
             $lokasi->status = 'deleted';
             $lokasi->save();
-            return redirect()->route('lokasi');
+            Kontainer::where('id_lokasi', $id)
+                ->where('keterangan', '!=', 'deleted')
+                ->update(['keterangan' => 'deleted']);
+
+            return redirect()->route('lokasi')->with('delete_alert', 'success');
         } catch (Exception $exception) {
-            return redirect()->back()->with('message', 'Lokasi tidak berhasil dihapus');
+            return redirect()->back()->with('delete_alert', 'error');
         }
     }
 }

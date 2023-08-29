@@ -1,16 +1,16 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\SumbanganController;
-use App\Http\Controllers\KontainerController;
-use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\DonaturController;
-use App\Http\Controllers\RewardController;
-use App\Http\Controllers\RedeemController;
-use App\Http\Controllers\ProfilController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LokasiController;
+use App\Http\Controllers\ProfilController;
+use App\Http\Controllers\RedeemController;
+use App\Http\Controllers\RewardController;
+use App\Http\Controllers\DonaturController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\KontainerController;
+use App\Http\Controllers\SumbanganController;
 
 
 Route::get('/contoh', function () {
@@ -24,16 +24,14 @@ Route::post('/ceklogin',[LoginController::class,'ceklogin'])->name('ceklogin');
 Route::middleware(['checksession','role:admin_csr,admin_kelurahan'])->group(function() {
     Route::post('/logout',[LoginController::class,'logout'])->name('logout');
     Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard');
-    Route::get('/dashboard/fetchChartData/{lokasiId}', [DashboardController::class,'fetchChartData'])->name('dashboard.fetchChartData/{id}');
-    
     //manajemen lokasi kontainer(csr)
     Route::get('/lokasi',[LokasiController::class,'index'])->name('lokasi');
-    Route::post('/cek-lokasi', [LokasiController::class,'cekLokasi'])->name('cek-lokasi');
     Route::get('/lokasi/create',[LokasiController::class,'create'])->name('lokasi.create');
     Route::post('/lokasi',[LokasiController::class,'store'])->name('lokasi.store');
     Route::get('/lokasi/edit/{id}',[LokasiController::class,'edit'])->name('lokasi.edit');
     Route::put('/lokasi/update/{id}',[LokasiController::class,'update'])->name('lokasi.update');
     Route::delete('/lokasi/delete/{id}',[LokasiController::class,'destroy'])->name('lokasi.destroy');
+    Route::post('/cek-lokasi', [LokasiController::class,'cekLokasi'])->name('cek-lokasi');
 
     //kelola data donatur
     Route::get('/donatur',[donaturController::class,'index'])->name('donatur');
@@ -59,7 +57,7 @@ Route::middleware(['checksession','role:admin_csr,admin_kelurahan'])->group(func
     Route::put('/kontainer/update-permintaan/{id}',[KontainerController::class,'updatePermintaan'])->name('kontainer.updatePermintaan');
     Route::post('/kontainer/storePermintaan/{id_kontainer}',[KontainerController::class,'storePermintaan'])->name('kontainer.storePermintaan');
     Route::post('/kontainer/isPermintaanDiajukan/{id_kontainer}',[KontainerController::class,'isPermintaanDiajukan'])->name('kontainer.isPermintaanDiajukan');
-    
+            
     //manajemen reward (adm-kelurahan)
     Route::get('/reward',[RedeemController::class,'index'])->name('reward');
     Route::get('/reward/reward-list',[RewardController::class,'index'])->name('reward/reward-list');
@@ -82,4 +80,5 @@ Route::middleware(['checksession','role:admin_csr'])->group(function() {
     Route::put('/admin-kelurahan/update/{id}',[AdminController::class,'update'])->name('admin.update');
     Route::put('/admin-kelurahan/reset/{id}',[AdminController::class,'resetPassword'])->name('admin.reset');
     Route::delete('/admin-kelurahan/delete/{id}',[AdminController::class,'destroy'])->name('admin.destroy');
+    Route::get('/admin-kelurahan/lokasi/{id}', [AdminController::class, 'cek_kelurahan'])->name('admin.ceklokasi');
 });
