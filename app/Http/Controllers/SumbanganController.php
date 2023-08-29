@@ -81,6 +81,7 @@ class SumbanganController extends Controller
                     ->orderBy('tahun')
                     ->orderBy('bulan')
                     ->get();
+                
                 return view('after-login.pengelola-csr.sumbangan.index', ['laporan' => $laporan]);
             }
         } catch (Exception $exception) {

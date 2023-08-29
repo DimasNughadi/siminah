@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('latitude', 50);
             $table->string('longitude', 50);
             $table->string('deskripsi', 50);
+            $table->string('status', 50);
             $table->timestamps();
         });
     }

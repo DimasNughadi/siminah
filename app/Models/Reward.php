@@ -15,6 +15,7 @@ class Reward extends Model
         'stok',
         'jumlah_poin',
         'gambar',
+        'status',
         // Add other fillable properties here
     ];
 

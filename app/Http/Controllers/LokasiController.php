@@ -60,11 +60,14 @@ class LokasiController extends Controller
             ]);
 
 
+
+
             $lokasi = Lokasi::create([
                 'nama_kelurahan' => $request->nama_kelurahan,
                 'latitude' => $request->latitude,
                 'longitude' => $request->longitude,
                 'deskripsi' => $request->deskripsi,
+                'status' => '-',
                 'status' => '-',
             ]);
 

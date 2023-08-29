@@ -4,6 +4,10 @@
   <script src="{{ asset('assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
   <script src="{{ asset('assets/js/plugins/smooth-scrollbar.min.js') }}"></script>
   <script src="{{ asset('assets/js/plugins/chartjs.min.js') }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js"></script>
+  <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
   <!-- Github buttons -->
   <!-- <script async defer src="https://buttons.github.io/buttons.js') }}"></script> -->
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
@@ -15,7 +19,7 @@
   
   {{-- End sweetalert --}}
 
-  <script>
+  <!-- <script>
     var ctx = document.getElementById("chart-bars").getContext("2d");
 
     new Chart(ctx, {
@@ -261,7 +265,7 @@
         },
       },
     });
-  </script>
+  </script> -->
 
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
