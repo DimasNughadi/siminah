@@ -4,7 +4,7 @@
 
     <div class="container-fluid py-2 ps-4">
         <div class="row">
-            <div class="col-md-10">
+            <div class="col-xxl-10 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                 <div class="row">
                     <div class="col-md-12 reward text-poppins">
                         Admin Kelurahan
@@ -49,18 +49,18 @@
                                                 {{ $item->no_hp }}
                                             </td>
                                             <td class="ps-4 text-semi-dark-68 text-inter-regular text-14">
-                                                {{ $item->alamat_rumah }}
+                                                {{ limitAlamatLength($item->alamat_rumah) }}
                                             </td>
                                             <td>
                                                 <div class="btn-reward btn-list position-relative">
                                                     <a href="{{ route('admin.edit', ['id' => $item->id_user]) }}" class="position-relative add-reward">EDIT
                                                     </a>
                                                 </div>
-                                                {{-- &nbsp;&nbsp;&nbsp;
+                                                &nbsp;&nbsp;&nbsp;
                                                 <div class="btn-reward btn-list btn-custom-danger position-relative">
                                                     <a href="#" class="position-relative add-reward"
-                                                        onclick="deleteRecord($item->id_admin_kelurahan)">DELETE</a>
-                                                </div> --}}
+                                                        onclick="deleteRecord('{{ route('admin.destroy', ['id' => $item->id_admin_kelurahan]) }}')">DELETE</a>
+                                                </div>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -73,6 +73,9 @@
         </div>
     </div>
 
-    <x-sweetalert />
-
+    {{-- Forms --}}
+    <form id="formDeleteAdmin" action="" method="POST" class="d-none">
+        @csrf
+        @method('delete')
+    </form>
 @stop

@@ -192,11 +192,16 @@ class DonaturController extends Controller
     {
         try {
             $donatur = Donatur::findOrFail($id);
-            $riwayat = Sumbangan::with(['kontainer', 'kontainer.lokasi'])
+            $riwayat = Sumbangan::with(['kontainer', 'kontainer.lokasi', 'kontainer.lokasi.kecamatan'])
                 ->where('id_donatur', $id)
                 ->orderByDesc('created_at')
                 ->get();
 
+            $riwayat->each(function ($item) {
+                if ($item->kontainer->lokasi->is_kecamatan == 1) {
+                    $item->kontainer->lokasi->nama_kelurahan = $item->kontainer->lokasi->kecamatan->nama_kecamatan;
+                }
+            });
             $total = Donatur::with([
                 'sumbangan' => function ($query) {
                     $query->where('status', 'terverifikasi');
@@ -215,6 +220,7 @@ class DonaturController extends Controller
                 ], 'id_donatur')
                 ->groupBy('donatur.id_donatur')
                 ->find($id);
+
             $total->each(function ($item) {
                 if ($item->sumbangan_sum_berat == null) {
                     $item->sumbangan_sum_berat = 0;

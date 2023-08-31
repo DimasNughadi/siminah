@@ -9,7 +9,7 @@
                     <div class="col-md-12 reward text-poppins">Kontainer</div>
                 </div>
                 <div class="row mt-3">
-                    <div class="col-md-4 col-sm-12 col-12">
+                    <div class="col-xl-4 col-lg-4 col-md-5 col-sm-12 col-12">
                         <div class="container-fluid kontainer-kelurahan">
                             <div class="row">
                                 <div class="col-md-12">
@@ -40,7 +40,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-8 col-sm-12 col-12">
+                    <div class="col-xl-8 col-lg-8 col-md-7 col-sm-12 col-12">
                         <div class="table-kontainer-kelurahan animate__animated animate__fadeInUp">
                             <div class="main-table">
                                 <div class="row">
@@ -167,7 +167,7 @@
                                 @else
                                     <div class="col-md-12">
                                         <x-notifikasi.kontainer action="disable" type="success"
-                                            kelurahan="Tidak ada permintaan" type_detail="Seluruh kontainer ready" />
+                                            kelurahan="Kontainer masih dapat diisi" type_detail="Seluruh kontainer ready" />
                                     </div>
                                 @endif
                             </div>
@@ -266,9 +266,3 @@
     });
 </script>
 @stop
-
-
-@extends('components._partials.scripts')
-@section('script')
-<x-sweetalert />
-@endsection

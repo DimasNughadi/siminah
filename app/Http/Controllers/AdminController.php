@@ -18,9 +18,15 @@ class AdminController extends Controller
         try {
             $user = User::rightJoin('adminkelurahan', 'adminkelurahan.id_user', '=', 'users.id')
                 ->leftJoin('lokasi', 'lokasi.id_lokasi', '=', 'adminkelurahan.id_lokasi')
-                ->select('users.*', 'adminkelurahan.*', 'lokasi.nama_kelurahan')
+                ->leftJoin('kecamatan', 'kecamatan.id_kecamatan', '=', 'lokasi.id_kecamatan') // Join ke tabel kecamatan
+                ->select('users.*', 'adminkelurahan.*', 'lokasi.nama_kelurahan', 'kecamatan.nama_kecamatan') // Memilih kolom yang diinginkan
                 ->orderByDesc('nama_admin')
                 ->get();
+            $user->each(function ($item) {
+                if ($item->is_kecamatan == 1) {
+                    $item->nama_kelurahan = "Kecamatan " . $item->nama_kecamatan;
+                }
+            });
             return view('after-login.pengelola-csr.admin.index', ['user' => $user]);
         } catch (Exception $exception) {
             return view(
@@ -34,7 +40,16 @@ class AdminController extends Controller
     public function create()
     {
         try {
-            $lokasi = Lokasi::get();
+            $lokasi = Lokasi::with('kecamatan')->get();
+            $lokasi->each(function ($item) {
+                if ($item->is_kecamatan == 1) {
+                    $item->nama_kelurahan = 'Kecamatan ' . $item->kecamatan->nama_kecamatan;
+                } else {
+                    $item->nama_kelurahan = 'Kelurahan ' . $item->nama_kelurahan;
+
+                }
+            });
+            // dd($lokasi);
             return view('after-login.pengelola-csr.admin.tambah', ['lokasi' => $lokasi]);
         } catch (Exception $exception) {
             return view(
@@ -55,7 +70,7 @@ class AdminController extends Controller
             'email' => 'required',
         ]);
 
-        if($validate->fails()){
+        if ($validate->fails()) {
             return redirect()->back()->with('tambah_alert', 'incomplete');
         }
 
@@ -89,13 +104,20 @@ class AdminController extends Controller
     public function edit($id)
     {
         try {
-            $lokasi = Lokasi::get();
+            $lokasi = Lokasi::with('kecamatan');
+            $lokasi->each(function ($item) {
+                if ($item->is_kecamatan == 1) {
+                    $item->nama_kelurahan = 'Kecamatan ' . $item->kecamatan->nama_kecamatan;
+                } else {
+                    $item->nama_kelurahan = 'Kelurahan ' . $item->nama_kelurahan;
+
+                }
+            });
             $user = User::rightJoin('adminkelurahan', 'adminkelurahan.id_user', '=', 'users.id')
                 ->leftJoin('lokasi', 'lokasi.id_lokasi', '=', 'adminkelurahan.id_lokasi')
                 ->select('users.*', 'adminkelurahan.*', 'lokasi.nama_kelurahan')
                 ->where('id', $id)
                 ->get();
-                // dd($user);
             return view('after-login.pengelola-csr.admin.edit', ['user' => $user, 'lokasi' => $lokasi]);
         } catch (Exception $exception) {
             return redirect()->back()->with('message', 'Data tidak ditemukan');
@@ -145,7 +167,7 @@ class AdminController extends Controller
                 $user->password = Hash::make('admin' . $form_nama_kelurahan);
                 $user->save();
                 return redirect()->route('admin')->with('message', 'Password berhasil direset');
-            }else{
+            } else {
                 return redirect()->back()->with('message', 'Password saat ini salah. Password tidak berhasil direset.');
             }
         } catch (Exception $exception) {
@@ -154,18 +176,32 @@ class AdminController extends Controller
             );
         }
     }
+
+    public function cek_kelurahan($id)
+    {
+        $kelurahan = Lokasi::leftJoin('kecamatan', 'kecamatan.id_kecamatan', '=', 'lokasi.id_kecamatan')
+            ->where('lokasi.id_kecamatan', $id)
+            ->select('lokasi.*', 'kecamatan.nama_kecamatan')
+            ->get();
+
+        foreach ($kelurahan as $item) {
+            if ($item->is_kecamatan == 1) {
+                $item->nama_kelurahan = "Kecamatan " . $item->nama_kecamatan;
+            }
+        }
+    }
     public function destroy($id)
     {
-        try {
+        // try {
             $user2 = Adminkelurahan::where('id_user', $id);
             $user2->delete();
             $user = User::findOrFail($id);
             $user->delete();
-            return redirect()->route('admin')->with('message', 'Admin berhasil dihapus');
-        } catch (Exception $exception) {
-            return redirect()->route('admin')->with(
-                ['message' => 'Tidak berhasil menghapus data']
-            );
-        }
+            return redirect()->route('admin')->with('delete_alert', 'succcess');
+        // } catch (Exception $exception) {
+        //     return redirect()->route('admin')->with(
+        //         ['delete_alert' => 'error']
+        //     );
+        // }
     }
 }

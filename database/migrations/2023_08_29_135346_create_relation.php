@@ -11,6 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::table('lokasi', function (Blueprint $table) {
+            $table->foreign('id_kecamatan')->references('id_kecamatan')->on('kecamatan')->onDelete('cascade');
+        });
         Schema::table('adminkelurahan', function (Blueprint $table) {
             $table->foreign('id_lokasi')->references('id_lokasi')->on('lokasi')->onDelete('cascade');
         });
@@ -54,6 +57,9 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('lokasi', function (Blueprint $table) {
+            $table->foreign('id_kecamatan')->references('id_kecamatan')->on('kecamatan')->onDelete('cascade');
+        });
         Schema::table('adminkelurahan', function (Blueprint $table) {
             $table->foreign('id_lokasi')->references('id_lokasi')->on('lokasi')->onDelete('cascade');
         });

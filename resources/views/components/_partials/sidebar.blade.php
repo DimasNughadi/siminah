@@ -27,15 +27,6 @@
                 </a>
             </li>
 
-            <li class="nav-item">
-                <a class="{{ isRouteActive('sumbangan') ? 'active bg-gradient-primary text-white' : ' text-dark' }} nav-link"
-                    href="{{ route('sumbangan') }}">
-                    <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">vertical_align_bottom</i>
-                    </div>
-                    <span class="nav-link-text ms-1">Sumbangan</span>
-                </a>
-            </li>
             @if (isAdminCsr())
                 <li class="nav-item">
                     <a class="{{ isRouteActive('admin') ? 'active bg-gradient-primary text-white' : (isRouteActive('admin.create') ? 'active bg-gradient-primary text-white' : (isRouteActive('admin.edit') ? 'active bg-gradient-primary text-white' : 'text-dark')) }} nav-link"
@@ -56,6 +47,28 @@
                     <span class="nav-link-text ms-1">Kontainer</span>
                 </a>
             </li>
+
+            <li class="nav-item">
+                <a class="{{ isRouteActive('sumbangan') ? 'active bg-gradient-primary text-white' : ' text-dark' }} nav-link"
+                    href="{{ route('sumbangan') }}">
+                    <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">vertical_align_bottom</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Sumbangan</span>
+                </a>
+            </li>
+            
+            @if (isAdminCsr())
+                <li class="nav-item">
+                    <a class="{{ isRouteActive('lokasi') ? 'active bg-gradient-primary text-white' : (isRouteActive('lokasi.create') ? 'active bg-gradient-primary text-white' : (isRouteActive('lokasi.edit') ? 'active bg-gradient-primary text-white' : 'text-dark')) }} nav-link"
+                        href="{{ route('lokasi') }}">
+                        <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">location_on</i>
+                        </div>
+                        <span class="nav-link-text ms-1">Lokasi</span>
+                    </a>
+                </li>
+            @endif
             <li class="nav-item">
                 <a class="{{ isRouteActive('donatur') ? 'active bg-gradient-primary text-white' : (isRouteActive('donatur.getById') ? 'active bg-gradient-primary text-white' : 'text-dark') }} nav-link"
                     href="{{ route('donatur') }}">

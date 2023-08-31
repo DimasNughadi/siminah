@@ -13,7 +13,7 @@
             </div>
         </div>
         <div class="row pt-3">
-            <div class="col-md-4 col-12 col-sm-12 detail-donatur-wrapper margin-left-24 animate__animated animate__fadeInLeft">
+            <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-5 col-sm-12 col-12 detail-donatur-wrapper margin-left-24 animate__animated animate__fadeInLeft">
                 <div class="detail-donatur-card">
                     <div class="row header">
                         <div class="col-md-12">
@@ -113,7 +113,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-8 col-sm-12 col-12 mt-md-0 mt-sm-3 mt-4">
+            <div class="col-xxl-8 col-xl-7 col-lg-7 col-md-6 col-md-7 col-sm-12 col-12 mt-md-0 mt-sm-3 mt-4">
                 <div class="row riwayat-donatur-wrapper animate__animated animate__fadeInRight ">
                     <div class="col-md-12">
                         <div class="container-fluid">
@@ -129,6 +129,7 @@
                                 <th class="text-semi-dark">JUMLAH KONTAINER</th>
                                 <th class="text-semi-dark">TANGGAL</th>
                                 <th class="text-semi-dark">WAKTU</th>
+                                <th class="text-semi-dark">STATUS</th>
                             @endslot
 
                             @slot('bodySlot')
@@ -146,6 +147,33 @@
                                             </td>
                                             <td class="ps-4 text-semi-dark-68 text-inter-regular text-14">
                                                 {{ date('h:i', strtotime($item->created_at)) }}
+                                            </td>
+                                            <td class="ps-4">
+                                                @if (strtolower($item->status) === 'ditolak')
+                                                    <div
+                                                        class="btn-reward btn-table-custom bg-danger
+                                                position-relative">
+                                                        <span class="position-relative add-reward">
+                                                            Ditolak
+                                                        </span>
+                                                    </div>
+                                                @elseif(strtolower($item->status) === 'terverifikasi')
+                                                    <div
+                                                        class="btn-reward btn-table-custom bg-success
+                                                position-relative">
+                                                        <span class="position-relative add-reward">
+                                                            Terverifikasi
+                                                        </span>
+                                                    </div>
+                                                @else
+                                                    <div
+                                                        class="btn-reward btn-table-custom 
+                                                position-relative">
+                                                        <span class="position-relative add-reward">
+                                                            Menunggu konfirmasi
+                                                        </span>
+                                                    </div>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach

@@ -11,6 +11,8 @@ class Lokasi extends Model
     protected $primaryKey = 'id_lokasi';
     protected $fillable = [
         'id_lokasi',
+        'id_kecamatan',
+        'is_kecamatan',
         'nama_kelurahan',
         'latitude',
         'longitude',
@@ -18,6 +20,10 @@ class Lokasi extends Model
         // Add other fillable properties here
     ];
 
+    public function kecamatan()
+    {
+        return $this->belongsTo(Kecamatan::class, 'id_kecamatan', 'id_kecamatan');
+    }
     public function adminkelurahan()
     {
         return $this->hasMany(Adminkelurahan::class, 'id_lokasi', 'id_lokasi');
