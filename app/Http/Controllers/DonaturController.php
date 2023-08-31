@@ -32,7 +32,7 @@ class DonaturController extends Controller
                         $query->where('status', 'terverifikasi');
                     }
                 ])
-                    ->select('donatur.id_donatur', 'nama_donatur', 'kelurahan', 'donatur.photo', 'id_lokasi')
+                    ->select('donatur.id_donatur', 'nama_donatur', 'donatur.poin','kelurahan', 'donatur.photo', 'id_lokasi')
                     ->withSum([
                         'sumbangan' => function ($query) {
                             $query->where('status', 'terverifikasi');
@@ -48,7 +48,7 @@ class DonaturController extends Controller
                     ->join('kontainer', 'sumbangan.id_kontainer', '=', 'kontainer.id_kontainer')
                     ->where('id_lokasi', $id_lokasi)
                     ->where('status', 'terverifikasi')
-                    ->groupBy('donatur.photo', 'donatur.id_donatur', 'nama_donatur', 'kelurahan', 'id_lokasi')
+                    ->groupBy('donatur.photo', 'donatur.id_donatur','donatur.poin', 'nama_donatur', 'kelurahan', 'id_lokasi')
                     ->orderByDesc('sumbangan_sum_berat')
                     ->get();
                 $donatur->each(function ($item) {

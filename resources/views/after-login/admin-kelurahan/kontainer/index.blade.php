@@ -41,135 +41,144 @@
                         </div>
                     </div>
                     <div class="col-xl-8 col-lg-8 col-md-7 col-sm-12 col-12">
-                        <div class="table-kontainer-kelurahan animate__animated animate__fadeInUp">
-                            <div class="main-table">
-                                <div class="row">
-                                    <div class="col-md-12">
+                        <div class="left-side-kontainer-kelurahan">
+                            <div class="row">
+                                <div class="col-12 mt-md-4 mt-4 mt-xxl-0 mt-xl-0 mt-lg-0">
+                                    <div class="notifikasi-kontainer animate__animated animate__fadeInUp">
                                         <div class="row">
-                                            <div class="col-md-8 col-sm-12 col-12">
+                                            <div class="col-md-12">
                                                 <div class="header">
-                                                    Riwayat penggantian kontainer
+                                                    Notifikasi
                                                 </div>
                                             </div>
-
-                                            @if (!empty($notifikasi))
-                                                @if ($notifikasi[0]->status === 'HAMPIR PENUH')
-                                                    <div class="col-md-4 header-button">
-                                                        <div class="btn-reward btn-kontainer-kelurahan btn-danger
-                                                        position-relative cursor-pointer"
-                                                            onclick="AjukanPergantianKontainer('{{ route('kontainer.storePermintaan', ['id_kontainer' => $kontainer[0]->id_kontainer]) }}')">
-                                                            <span class="position-relative add-reward">
-                                                                Ajukan
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                @endif
+                                        </div>
+                                        <div class="body">
+                                            <div class="row">
+                                                {{-- @dd($notifikasi) --}}
+                                                @if (!empty($notifikasi))
+                                                    @foreach ($notifikasi as $key => $item)
+                                                        @if ($item->status === 'HAMPIR PENUH')
+                                                            <div class="col-md-12">
+                                                                <x-notifikasi.kontainer action="disable" type="warning"
+                                                                    notifikasi="Kontainer Utama hampir penuh"
+                                                                    type_detail="Ajukan kontainer yang baru supaya dapat terus menerima sumbangan" />
+                                                            </div>
+                                                        @else
+                                                            <div class="col-md-12">
+                                                                <x-notifikasi.kontainer action="disable" type="success"
+                                                                    notifikasi="Kontainer Utama dapat diisi"
+                                                                    type_detail="Belum membutuhkan pergantian kontainer" />
+                                                            </div>
+                                                        @endif
+                                                        @if ($key === 0)
+                                                        @break
+                                                    @endif
+                                                @endforeach
+                                            @else
+                                                <div class="col-md-12">
+                                                    <x-notifikasi.kontainer action="disable" type="success"
+                                                        kelurahan="Kontainer masih dapat diisi"
+                                                        type_detail="Seluruh kontainer ready" />
+                                                </div>
                                             @endif
                                         </div>
                                     </div>
                                 </div>
-                                {{-- {{ ($kontainer) }} --}}
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="body overflowy-kontainer-kelurahan">
-                                            <x-forms.table>
-                                                @slot('headSlot')
-                                                    <th>WAKTU PERMINTAAN PERGANTIAN</th>
-                                                    <th>STATUS</th>
-                                                @endslot
+                                <div class="row mt-4">
+                                    <div class="col-12">
+                                        <div class="table-kontainer-kelurahan animate__animated animate__fadeInUp">
+                                            <div class="main-table">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-8 col-sm-12 col-12">
+                                                                <div class="header">
+                                                                    Riwayat penggantian kontainer
+                                                                </div>
+                                                            </div>
 
-                                                @slot('bodySlot')
-                                                    @if (!empty($permintaan))
-                                                        @foreach ($permintaan as $item)
+                                                            @if (!empty($notifikasi))
+                                                                @if ($notifikasi[0]->status === 'HAMPIR PENUH')
+                                                                    <div class="col-md-4 header-button">
+                                                                        <div class="btn-reward btn-kontainer-kelurahan btn-danger
+                                                                        position-relative cursor-pointer"
+                                                                            onclick="AjukanPergantianKontainer('{{ route('kontainer.storePermintaan', ['id_kontainer' => $kontainer[0]->id_kontainer]) }}')">
+                                                                            <span class="position-relative add-reward">
+                                                                                Ajukan
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+                                                                @endif
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {{-- {{ ($kontainer) }} --}}
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="body overflowy-kontainer-kelurahan">
+                                                            <x-forms.table>
+                                                                @slot('headSlot')
+                                                                    <th>WAKTU PERMINTAAN PERGANTIAN</th>
+                                                                    <th>STATUS</th>
+                                                                @endslot
+
+                                                                @slot('bodySlot')
+                                                                    @if (!empty($permintaan))
+                                                                        @foreach ($permintaan as $item)
+                                                                            <tr class="reward-tr permintaan-tr">
+                                                                                <td class="ps-4 tanggal">
+                                                                                    {{ datetimeFormat($item->created_at) }}
+                                                                                </td>
+                                                                                <td class="ps-4 ">
+                                                                                    @if (strtolower($item->status_permintaan) === 'diterima')
+                                                                                        <div
+                                                                                            class="btn-reward btn-table-custom bg-success
+                                                                          position-relative">
+                                                                                        @elseif(strtolower($item->status_permintaan) === 'ditolak')
+                                                                                            <div
+                                                                                                class="btn-reward btn-table-custom bg-danger
+                                                                                position-relative">
+                                                                                            @else
+                                                                                                <div
+                                                                                                    class="btn-reward btn-table-custom bg-success
+                                                                                position-relative">
+                                                                                    @endif
+                                                                                    <span
+                                                                                        class="position-relative add-reward text-capitalize">
+                                                                                        {{ $item->status_permintaan }}
+                                                                                    </span>
+                                                            </div>
+                                                            </td>
+                                                            </tr>
+                                                            @endforeach
+                                                        @else
                                                             <tr class="reward-tr permintaan-tr">
                                                                 <td class="ps-4 tanggal">
-                                                                    {{ datetimeFormat($item->created_at) }}
+                                                                    18:42, 1 Agustus 2023
                                                                 </td>
                                                                 <td class="ps-4 ">
                                                                     @if (strtolower($item->status_permintaan) === 'diterima')
                                                                         <div
                                                                             class="btn-reward btn-table-custom bg-success
-                                                          position-relative">
-                                                                        @elseif(strtolower($item->status_permintaan) === 'ditolak')
-                                                                            <div
-                                                                                class="btn-reward btn-table-custom bg-danger
-                                                                position-relative">
-                                                                            @else
-                                                                                <div
-                                                                                    class="btn-reward btn-table-custom bg-success
-                                                                position-relative">
+                                                                                position-relative">
+                                                                            <span class="position-relative add-reward">
+                                                                                Berhasil
+                                                                            </span>
+                                                                        </div>
+                                                                    @else
                                                                     @endif
-                                                                    <span class="position-relative add-reward text-capitalize">
-                                                                        {{ $item->status_permintaan }}
-                                                                    </span>
+                                                                </td>
+                                                            </tr>
+                                                            @endif
+                                                        @endslot
+                                                        </x-forms.table>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            </td>
-                                            </tr>
-                                            @endforeach
-                                        @else
-                                            <tr class="reward-tr permintaan-tr">
-                                                <td class="ps-4 tanggal">
-                                                    18:42, 1 Agustus 2023
-                                                </td>
-                                                <td class="ps-4 ">
-                                                    @if (strtolower($item->status_permintaan) === 'diterima')
-                                                        <div
-                                                            class="btn-reward btn-table-custom bg-success
-                                                                position-relative">
-                                                            <span class="position-relative add-reward">
-                                                                Berhasil
-                                                            </span>
-                                                        </div>
-                                                    @else
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                            @endif
-                                        @endslot
-                                        </x-forms.table>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        {{-- alert --}}
-                        {{-- {{ dd($notifikasi[0]->status) }} --}}
-
-                        <div class="notifikasi-kontainer animate__animated animate__fadeInUp">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="header">
-                                        Notifikasi
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="body">
-                                <div class="row">
-                                    {{-- @dd($notifikasi) --}}
-                                    @if (!empty($notifikasi))
-                                        @foreach ($notifikasi as $key => $item)
-                                            @if ($item->status === 'HAMPIR PENUH')
-                                                <div class="col-md-12">
-                                                    <x-notifikasi.kontainer action="disable" type="warning"
-                                                        notifikasi="Kontainer Utama hampir penuh"
-                                                        type_detail="Ajukan kontainer yang baru supaya dapat terus menerima sumbangan" />
-                                                </div>
-                                            @else
-                                                <div class="col-md-12">
-                                                    <x-notifikasi.kontainer action="disable" type="success"
-                                                        notifikasi="Kontainer Utama dapat diisi"
-                                                        type_detail="Belum membutuhkan pergantian kontainer" />
-                                                </div>
-                                            @endif
-                                            @if ($key === 0)
-                                            @break
-                                        @endif
-                                    @endforeach
-                                @else
-                                    <div class="col-md-12">
-                                        <x-notifikasi.kontainer action="disable" type="success"
-                                            kelurahan="Kontainer masih dapat diisi" type_detail="Seluruh kontainer ready" />
-                                    </div>
-                                @endif
                             </div>
                         </div>
                     </div>

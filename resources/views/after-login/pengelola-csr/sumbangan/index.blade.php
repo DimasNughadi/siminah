@@ -312,6 +312,16 @@
                         halign: 'center',
                         fontStyle: 'bold',
                     },
+                    3: {
+                        valign: 'middle',
+                        halign: 'center',
+                        fontStyle: 'bold',
+                    },
+                    4: {
+                        valign: 'middle',
+                        halign: 'center',
+                        fontStyle: 'bold',
+                    },
                 },
                 didDrawCell: function(data) {
                     if (data.section === 'body' && data.column.index !== data.table.columns.length - 1) {

@@ -86,12 +86,13 @@ function getAddressFromLatLng(latitude, longitude) {
                 },
                 dataType: "json",
                 success: function (response) {
-                    // console.log(response);
+                    console.log(response);
                     if (response) {
                         if (response.submit && response.is_kecamatan === 1) {
                             $("#sumbit-tambah-lokasi").prop("disabled", false);
                             $("#kelurahan-exist").html("");
                             $("#isKecamatanFalse").prop("checked", true);
+                            $("#isKecamatanTrue").prop("disabled", true);
                             $("#isKelurahanKontainer").css(
                                 "visibility",
                                 "hidden"
@@ -104,6 +105,7 @@ function getAddressFromLatLng(latitude, longitude) {
                             $("#kelurahan-exist").html(
                                 "Kontainer di kelurahan dan kecamatan sudah ada"
                             );
+                            $("#isKecamatanFalse").prop("disabled", true);
                             $("#isKecamatanTrue").prop("checked", true);
                         } else if (response.submit && response.is_kecamatan) {
                             $("#sumbit-tambah-lokasi").prop("disabled", false);

@@ -56,11 +56,11 @@
                                                     <a href="{{ route('admin.edit', ['id' => $item->id_user]) }}" class="position-relative add-reward">EDIT
                                                     </a>
                                                 </div>
-                                                &nbsp;&nbsp;&nbsp;
+                                                {{-- &nbsp;&nbsp;&nbsp;
                                                 <div class="btn-reward btn-list btn-custom-danger position-relative">
                                                     <a href="#" class="position-relative add-reward"
                                                         onclick="deleteRecord('{{ route('admin.destroy', ['id' => $item->id_admin_kelurahan]) }}')">DELETE</a>
-                                                </div>
+                                                </div> --}}
                                             </td>
                                         </tr>
                                     @endforeach
@@ -74,8 +74,8 @@
     </div>
 
     {{-- Forms --}}
-    <form id="formDeleteAdmin" action="" method="POST" class="d-none">
+    <form id="formDeleteAdmin" method="POST" class="d-none">
         @csrf
-        @method('delete')
+        @method('DELETE')
     </form>
 @stop

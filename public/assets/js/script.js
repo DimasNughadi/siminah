@@ -204,6 +204,7 @@ function deleteRecord(url) {
             formDeleteAdmin.action = url
             console.log(formDeleteAdmin);
             formDeleteAdmin.submit()
+            console.log(formDeleteAdmin);
         } else if (result.dismiss === Swal.DismissReason.cancel) {
             Swal.fire("Dibatalkan", "Data tidak jadi dihapus", "info");
             // Perform any additional actions   if deletion is cancelled

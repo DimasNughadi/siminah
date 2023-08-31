@@ -251,18 +251,24 @@ img.user-image {
 }
 
 /* Navbar override */
-.new-navbar-brand {
-    position: relative;
-    left: 15%;
-    align-items: center;
-    text-align: center;
+.logo-utama {
+    width: 35% !important;
 }
 
-.new-navbar-brand span.app-name {
+.logo-siminah span.app-name {
     font-family: "Poppins", sans-serif !important;
     font-size: 15px !important;
     font-weight: 800 !important;
     color: black !important;
+}
+
+.logo-siminah img {
+    width: 300%;
+}
+
+.logo-psti img {
+    position: relative;
+    width: 60px;
 }
 
 .reedem-reward {
@@ -1146,8 +1152,12 @@ tr.reward-tr .ps-4 .d-flex {
     overflow-y: scroll;
 }
 
+.left-side-kontainer-kelurahan {
+    margin-left: 0px;
+}
+
 .notifikasi-kontainer {
-    margin-top: 25px;
+    /* margin-top: 85px; */
     background-color: white;
     border-radius: 16px;
     font-family: var(--text-poppins);
@@ -1214,7 +1224,7 @@ tr.reward-tr .ps-4 .d-flex {
 }
 
 .table-kontainer-kelurahan {
-    margin-top: 20px;
+    margin-top: 85px;
 }
 
 .table-kontainer-kelurahan .header {
@@ -1275,7 +1285,6 @@ tr.reward-tr .ps-4 .d-flex {
     position: absolute;
     top: 3%;
     right: -7px;
-
 }
 
 /* olah-donatur */
@@ -2109,18 +2118,63 @@ input[type="radio"]:checked + label {
 }
 
 #isKelurahanKontainer {
-    /* display: none; */
-    visibility: hidden;
+    display: none;
+}
+
+/* logo PCR*/
+.logo-pcr-mobile {
+    display: none;
+}
+
+.logo-pcr-mobile img {
+    width: 150px;
+}
+
+
+.logo-pcr img {
+    display: block;
+    width: 150px;
+}
+
+@media (min-width: 320px) {
+    .login-header {
+        position: relative;
+        left: -20px;
+    }
+
+    .login-body {
+        position: relative;
+        left: -20px;
+    }
+
+    .text-poppins span.siminah {
+        margin-left: 45px;
+    }
+
+    .btn-login {
+        width: 310px;
+    }
+
+    .table-kontainer-kelurahan {
+        margin-top: 0;
+    }
+
+    .logo-pcr-mobile {
+        display: block;
+    }
+
+    .logo-pcr img {
+        display: none;
+    }
 }
 
 @media (min-width: 576px) {
     /* sm */
-
     .btn-login {
         width: 613.31px;
     }
 
-    .notifikasi-kontainer {
+    .detail-manajemen-kontainer {
         margin-top: 25px;
     }
 
@@ -2154,6 +2208,18 @@ input[type="radio"]:checked + label {
         height: 6rem !important;
         padding: 1.1875rem 0px 1.1875rem 2.0625rem;
     }
+
+    .table-kontainer-kelurahan {
+        margin-top: 0;
+    }
+
+    .logo-pcr-mobile {
+        display: block;
+    }
+
+    .logo-pcr img {
+        display: none;
+    }
 }
 
 @media (min-width: 768px) {
@@ -2175,13 +2241,8 @@ input[type="radio"]:checked + label {
         margin-top: 0;
     }
 
-    .notifikasi-kontainer {
+    .detail-manajemen-kontainer {
         margin-top: 65px;
-    }
-
-    .table-kontainer-kelurahan {
-        /* margin-left: 10.5rem; */
-        margin-top: 0;
     }
 
     .olah-donatur .header-button {
@@ -2214,6 +2275,22 @@ input[type="radio"]:checked + label {
         height: 4.5rem !important;
         padding: 1.1875rem 0px 1.1875rem 2.0625rem;
     }
+
+    .table-kontainer-kelurahan {
+        margin-top: 85px;
+    }
+
+    .logo-pcr img {
+        width: 200px;
+    }
+
+    .logo-pcr-mobile {
+        display: none;
+    }
+
+    .logo-pcr img {
+        display: block;
+    }
 }
 
 @media (min-width: 992px) {
@@ -2229,11 +2306,6 @@ input[type="radio"]:checked + label {
 
     .manajemen-admin .body .section-2 {
         margin-left: 4.8125rem;
-    }
-
-    .table-kontainer-kelurahan {
-        margin-left: 10.5rem;
-        margin-top: 0;
     }
 
     .olah-donatur .header-button {
@@ -2266,6 +2338,18 @@ input[type="radio"]:checked + label {
         height: 4.5rem !important;
         padding: 1.1875rem 0px 1.1875rem 2.0625rem;
     }
+
+    .logo-pcr img {
+        width: 200px;
+    }
+
+    .logo-pcr-mobile {
+        display: none;
+    }
+
+    .logo-pcr img {
+        display: block;
+    }
 }
 
 @media (min-width: 1200px) {
@@ -2273,7 +2357,6 @@ input[type="radio"]:checked + label {
     .btn-login {
         width: 456.25px;
     }
-
 
     .riwayat-donatur-wrapper {
         margin-left: 24px;
@@ -2296,17 +2379,36 @@ input[type="radio"]:checked + label {
         top: 0;
     }
 
-
     .lokasi .header {
         height: 4.5rem !important;
         padding: 1.1875rem 0px 1.1875rem 2.0625rem;
     }
+
+    .left-side-kontainer-kelurahan {
+        margin-left: 10.5rem;
+    }
+
+    .logo-pcr img {
+        width: 200px;
+    }
+
+    .logo-pcr-mobile {
+        display: none;
+    }
+
+    .logo-pcr img {
+        display: block;
+    }
 }
 
-@media (min-width: 1400px) {
+@media (min-width: 1536px) {
     /* xxl */
     .btn-login {
         width: 426.25px;
+    }
+
+    .text-poppins span.siminah {
+        margin-left: 0 !important;
     }
 
     .riwayat-donatur-wrapper {
@@ -2334,5 +2436,62 @@ input[type="radio"]:checked + label {
     .lokasi .header {
         height: 4.5rem !important;
         padding: 1.1875rem 0px 1.1875rem 2.0625rem;
+    }
+
+    .left-side-kontainer-kelurahan {
+        margin-left: 10.5rem;
+    }
+
+    .logo-pcr img {
+        width: 200px;
+    }
+
+    .logo-pcr-mobile {
+        display: none;
+    }
+
+    .logo-pcr img {
+        display: block;
+    }
+}
+
+@media (min-width: 1537px) and (max-width: 1920px) {
+    /* Desktop size */
+    .btn-login {
+        width: 95%;
+    }
+
+    .text-poppins span.siminah {
+        margin-left: -50px !important;
+    }
+
+    .bg-pertamina {
+        height: 1080px;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    .login-header {
+        margin-top: 5%;
+    }
+
+    .login-body {
+        margin-top: 5%;
+    }
+
+    .left-side-kontainer-kelurahan {
+        margin-left: 10.5rem;
+    }
+
+    .logo-pcr img {
+        width: 200px;
+    }
+
+    .logo-pcr-mobile {
+        display: none;
+    }
+
+    .logo-pcr img {
+        display: block;
     }
 }

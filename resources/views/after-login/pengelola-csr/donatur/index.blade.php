@@ -13,11 +13,13 @@
                             Data donatur
                         </div>
                     </div>
+                    {{-- @dd($donatur) --}}
                     <div class="col-lg-12">
                         <x-forms.table>
                             @slot('headSlot')
                                 <th>NAMA DONATUR</th>
                                 <th>JUMLAH DONASI</th>
+                                <th>JUMLAH POIN</th>
                                 <th>KELURAHAN</th>
                                 <th>WAKTU DONASI</th>
                                 <th>TOTAL DONASI</th>
@@ -26,7 +28,6 @@
                             
                             @slot('bodySlot')
                                 @if (!empty($donatur))
-                                    {{-- {{ dd($donatur) }} --}}
                                     @foreach ($donatur as $item)
                                         <tr class="table-row-image donatur-row">
                                             <td class="ps-4 data-14">
@@ -45,6 +46,9 @@
                                                 @else
                                                     {{ $item->sumbangan_sum_berat }} Kg
                                                 @endif
+                                            </td>
+                                            <td class="ps-4 data-14">
+                                                {{ $item->poin }}
                                             </td>
                                             <td class="ps-4 data-14">
                                                 {{ $item->kelurahan }}

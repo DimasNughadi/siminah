@@ -13,6 +13,7 @@
                             Data donatur
                         </div>
                     </div>
+                    {{-- @dd($donatur) --}}
                     <div class="col-lg-12">
                         <x-forms.table>
                             @slot('headSlot')
@@ -47,7 +48,7 @@
                                                 @endif
                                             </td>
                                             <td class="ps-4 data-14">
-                                                {{ $item->sumbangan[0]->poin_reward }}
+                                                {{ $item->poin }}
                                             </td>
                                             <td class="ps-4 data-14">
                                                 {{ $item->kelurahan }}

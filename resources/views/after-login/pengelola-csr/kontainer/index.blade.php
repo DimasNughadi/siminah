@@ -2,7 +2,7 @@
 
 @section('content')
     {{-- {{ dd($notifikasi) }} --}}
-    <div class="container-fluid py-2 ps-4">
+    <div class="container-fluid py-2 ps-2 ps-xxl-3 ps-xl-3 ps-lg-3 ps-md-3 ps-sm-3">
         <div class="row">
             <div class="col-md-12">
                 <div class="row">
@@ -59,7 +59,7 @@
                                                                     <div
                                                                         class="btn-reward btn-table-custom bg-success position-relative">
                                                                         <span class="position-relative add-reward">
-                                                                            Berhasil diganti
+                                                                            Sudah diganti
                                                                         </span>
                                                                     </div>
                                                                 @endif
@@ -124,9 +124,39 @@
                         </div>
                     </div>
 
-                    {{-- {{ dd($notifikasi) }} --}}
                     <div
                         class="col-xxl-5 col-xl-5 col-lg-6 col-md-12 col-sm-12 col-12 mt-xxl-0 mt-xl-0 mt-lg-0 mt-md-4 mt-sm-4">
+                        {{-- {{ dd($notifikasi) }} --}}
+
+                        <div class="notifikasi-kontainer animate__animated animate__fadeInUp mt-xxl-0 mt-xl-0 mt-lg-0 mt-md-4 mt-sm-4 mt-4">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="header">
+                                        Notifikasi
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="body">
+                                <div class="row">
+                                    @if (!empty($notifikasi))
+                                        @foreach ($notifikasi as $item)
+                                            <div class="col-md-12">
+                                                <x-notifikasi.kontainer action="enable" type="danger"
+                                                    notifikasi="Kelurahan {{ $item['nama_kelurahan'] }}"
+                                                    type_detail="Meminta pengajuan pergantian kontainer"
+                                                    id="{{ $item['id_permintaan'] }}" />
+                                            </div>
+                                        @endforeach
+                                    @else
+                                        <div class="col-md-12">
+                                            <x-notifikasi.kontainer action="disable" type="success"
+                                                kelurahan="Tidak ada permintaan" type_detail="Seluruh kontainer ready" />
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="container-fluid detail-manajemen-kontainer animate__animated animate__fadeInUp">
                             <div class="row">
                                 <div class="col-md-12">
@@ -181,37 +211,6 @@
                                             @endslot
                                         </x-forms.table>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        {{-- {{ dd($notifikasi) }} --}}
-
-                        <div class="notifikasi-kontainer animate__animated animate__fadeInUp">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="header">
-                                        Notifikasi
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="body">
-                                <div class="row">
-                                    @if (!empty($notifikasi))
-                                        @foreach ($notifikasi as $item)
-                                            <div class="col-md-12">
-                                                <x-notifikasi.kontainer action="enable" type="danger"
-                                                    notifikasi="Kelurahan {{ $item['nama_kelurahan'] }}"
-                                                    type_detail="Meminta pengajuan pergantian kontainer"
-                                                    id="{{ $item['id_permintaan'] }}" />
-                                            </div>
-                                        @endforeach
-                                    @else
-                                        <div class="col-md-12">
-                                            <x-notifikasi.kontainer action="disable" type="success"
-                                                kelurahan="Tidak ada permintaan" type_detail="Seluruh kontainer ready" />
-                                        </div>
-                                    @endif
                                 </div>
                             </div>
                         </div>

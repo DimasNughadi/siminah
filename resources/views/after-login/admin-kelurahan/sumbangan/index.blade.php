@@ -2,7 +2,7 @@
 
 @section('content')
 
-{{-- {{ dd($persentase) }} --}}
+    {{-- {{ dd($persentase) }} --}}
 
     <div class="container-fluid py-2 ps-4">
         <div class="row">
@@ -369,11 +369,10 @@
                 z-index: 3;
             }
 
-            .chartPie{
-                width: 396px!important;
-                height: 396px!important;
+            .chartPie {
+                width: 396px !important;
+                height: 396px !important;
             }
-
         </style>
 
 
@@ -414,7 +413,7 @@
                 }
             });
         </script>
-    {{-- {{ dd($sumbanganHarian[0]) }} --}}
+        {{-- {{ dd($sumbanganHarian[0]) }} --}}
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
@@ -426,13 +425,14 @@
                 data: {
                     datasets: [{
                         data: [
-                            {!! json_encode($sumbanganHarian[0]['berat']) !!}, 
-                            {!! json_encode($sumbanganHarian[1]['berat']) !!}, 
-                            {!! json_encode($sumbanganHarian[2]['berat']) !!}, 
-                            {!! json_encode($sumbanganHarian[3]['berat']) !!}, 
+                            {!! json_encode($sumbanganHarian[0]['berat']) !!},
+                            {!! json_encode($sumbanganHarian[1]['berat']) !!},
+                            {!! json_encode($sumbanganHarian[2]['berat']) !!},
+                            {!! json_encode($sumbanganHarian[3]['berat']) !!},
                             {!! json_encode($sumbanganHarian[4]['berat']) !!},
                             {!! json_encode($sumbanganHarian[5]['berat']) !!},
-                            {!! json_encode($sumbanganHarian[6]['berat']) !!}],
+                            {!! json_encode($sumbanganHarian[6]['berat']) !!}
+                        ],
                         backgroundColor: [
                             "#EAC500",
                             "#145EA8",
@@ -459,7 +459,11 @@
                             formatter: (value, ctx) => {
                                 let sum = ctx.dataset._meta[0].total;
                                 let percentage = (value * 100 / sum).toFixed(0) + "%";
-                                return percentage;
+                                if (value === 0) {
+                                    return '';
+                                } else {
+                                    return percentage;
+                                }
                             },
                             color: '#000',
                             font: {
