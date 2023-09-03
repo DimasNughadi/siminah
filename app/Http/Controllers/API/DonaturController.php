@@ -41,7 +41,11 @@ class DonaturController extends Controller
 
         if ($donatur && Hash::check($credentials['password'], $donatur->password)) {
             $accessToken = $donatur->createToken('API Token');
-            return response()->json(['access_token' => $accessToken], Response::HTTP_OK);
+			$data = [
+				'donatur' => $donatur,
+				'access_token' => $accessToken
+			];
+            return response()->json($data, Response::HTTP_OK);
         } else {
             return response()->json(['error' => 'Invalid credentials'], Response::HTTP_UNAUTHORIZED);
         }

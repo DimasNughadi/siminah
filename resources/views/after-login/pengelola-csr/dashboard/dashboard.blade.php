@@ -129,9 +129,11 @@
                     </div>
                 </div>
                 <hr class="dark horizontal my-0">
-                <div class="card-footer p-3">
-                    <p class="mb-0"><span class="text-danger text-sm font-weight-bolder">-2%</span> than yesterday</p>
-                </div>
+                <a href="{{ route('kontainer') }}">
+                    <div class="card-footer p-3">
+                        <p class="mb-0">Kelola Kontainer <i class="material-icons text-sm">open_in_new</i></p>
+                    </div>
+                </a>
             </div>
         </div>
     </div>
@@ -157,7 +159,7 @@
                     <hr class="dark horizontal">
                     <div class="d-flex ">
                         <i class="material-icons text-sm my-auto me-1">schedule</i>
-                        <p class="mb-0 text-sm"> campaign sent 2 days ago </p>
+                        <p class="mb-0 text-sm"> data per tanggal {{ $tanggal }} </p>
                     </div>
                 </div>
             </div>

@@ -19,7 +19,7 @@ use App\Http\Controllers\API\LokasiController;
 |
 */
 
-Route::post('login', [DonaturController::class, 'login'])->name('login');
+Route::post('login', [DonaturController::class, 'login2'])->name('login');
 Route::middleware('auth:sanctum')->group(function(){
     Route::prefix('donaturs')->group(function () {
         Route::get('/', [DonaturController::class, 'index']);
@@ -33,6 +33,7 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::get('/', [SumbanganController::class, 'index']);
         Route::post('/', [SumbanganController::class, 'store']);
         Route::get('/{id}', [SumbanganController::class, 'show']);
+		Route::get('new/{id}', [SumbanganController::class, 'showLatest']);
         Route::put('/{id}', [SumbanganController::class, 'update']);
         Route::delete('/{id}', [SumbanganController::class, 'destroy']);
     });

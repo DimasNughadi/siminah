@@ -91,7 +91,9 @@
                 <hr class="dark horizontal my-0">
                 <div class="card-footer p-3">
                     <p class="mb-0"><span
-                            class="{{ $perbandinganSumbangan < 0 ? 'text-danger' : 'text-success' }} text-sm font-weight-bolder">{{ $perbandinganSumbangan }}%
+                            class="{{ $perbandinganSumbangan < 0 ? 'text-danger' : 'text-success' }} text-sm font-weight-bolder">
+                            {{ $perbandinganSumbangan < 0 ? '-'.$perbandinganSumbangan : '+'.$perbandinganSumbangan }}
+                            Kg
                         </span> dari bulan lalu</p>
                 </div>
             </div>
@@ -100,7 +102,7 @@
             <div class="card">
                 <div class="card-header p-3 pt-2">
                     <div
-                        class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
+                        class="icon icon-lg icon-shape bg-gradient-success shadow-success text-center border-radius-xl mt-n4 position-absolute">
                         <i class="material-icons opacity-10">people</i>
                     </div>
                     <div class="text-end pt-1">
@@ -111,8 +113,9 @@
                 <hr class="dark horizontal my-0">
                 <div class="card-footer p-3">
                     <p class="mb-0"><span
-                            class="{{ $perbandinganDonatur < 0 ? 'text-danger' : 'text-success' }} text-sm font-weight-bolder">{{ $perbandinganDonatur }}
-                        </span> orang dari bulan lalu</p>
+                            class="{{ $donaturAktifBulanIni < 0 ? 'text-danger' : 'text-success' }} text-sm font-weight-bolder">
+                            {{ $donaturAktifBulanIni }}
+                        </span> donatur aktif bulan ini</p>
                 </div>
             </div>
         </div>
@@ -120,18 +123,20 @@
             <div class="card">
                 <div class="card-header p-3 pt-2">
                     <div
-                        class="icon icon-lg icon-shape bg-gradient-warning shadow-warning text-center border-radius-xl mt-n4 position-absolute">
+                        class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
                         <i class="material-icons opacity-10">warning</i>
                     </div>
                     <div class="text-end pt-1">
-                        <p class="text-sm mb-0 text-capitalize">Pengajuan belum terverifikasi</p>
+                        <p class="text-sm mb-0 text-capitalize">Sumbangan belum terverifikasi</p>
                         <h4 class="mb-0"><span id="state3" countTo="{{$pengajuanBelumVerif}}"></span> Pengajuan</h4>
                     </div>
                 </div>
                 <hr class="dark horizontal my-0">
-                <div class="card-footer p-3">
-                    <p class="mb-0"><span class="text-danger text-sm font-weight-bolder">-2%</span> than yesterday</p>
-                </div>
+                <a href="{{ route('sumbangan') }}">
+                    <div class="card-footer p-3">
+                        <p class="mb-0">Kelola Sumbangan <i class="material-icons text-sm">open_in_new</i></p>
+                    </div>
+                </a>
             </div>
         </div>
     </div>
@@ -157,7 +162,7 @@
                     <hr class="dark horizontal">
                     <div class="d-flex ">
                         <i class="material-icons text-sm my-auto me-1">schedule</i>
-                        <p class="mb-0 text-sm"> campaign sent 2 days ago </p>
+                        <p class="mb-0 text-sm"> data per tanggal {{ $tanggal }}</p>
                     </div>
                 </div>
             </div>
@@ -207,9 +212,9 @@
                                             <td>
                                                 <h6 class="mb-0 text-sm">
                                                     @if(isset($chartData['values'][$index]))
-                                                        {{ $chartData['values'][$index] }} Kg
+                                                    {{ $chartData['values'][$index] }} Kg
                                                     @else
-                                                        N/A
+                                                    N/A
                                                     @endif
                                                 </h6>
                                             </td>
@@ -231,7 +236,7 @@
             </div>
         </div>
     </div>
-    <div class="row mb-4 animate__animated animate__fadeInUp">
+    <!-- <div class="row mb-4 animate__animated animate__fadeInUp">
         <div class="col-lg-8 col-md-6 mb-md-0 mb-4">
             <div class="card">
                 <div class="card-header pb-0">
@@ -294,7 +299,7 @@
                         @endif
                     </div>
                 </div>
-                <!-- <div class="card-body p-3">
+                <div class="card-body p-3">
                     <div class="timeline timeline-one-side">
                         <div class="timeline-block mb-3">
                             <span class="timeline-step">
@@ -354,10 +359,10 @@
                             </div>
                         </div>
                     </div>
-                </div> -->
+                </div>
             </div>
         </div>
-    </div>
+    </div> -->
 </div>
 
 <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
@@ -366,8 +371,6 @@
 <script src="{{ asset('assets/js/plugins/smooth-scrollbar.min.js') }}"></script>
 <script src="{{ asset('assets/js/plugins/chartjs.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js"></script>
-<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"
     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <script src="{{ asset('assets/js/core/bootstrap.min.js') }}"></script>
@@ -455,60 +458,6 @@ new Chart(ctx, {
         },
     },
 });
-</script>
-
-<script>
-function updateChart(selectedLokasiId) {
-    $.ajax({
-        url: '/dashboard/fetchChartData/' + selectedLokasiId,
-        method: 'GET',
-        dataType: 'json',
-        success: function(data) {
-            updateMyChart1(data);
-        },
-        error: function(xhr, textStatus, errorThrown) {
-            console.error('Error fetching data: ' + errorThrown);
-        }
-    });
-}
-
-function updateMyChart1(newData) {
-    myChart1.data.datasets[0].data = newData;
-    var totalSumbangan1 = newData[0];
-    var totalKapasitasKontainer = newData[0] + newData[1];
-    var percentageProgress = Math.abs(((totalSumbangan1 / totalKapasitasKontainer) * 100).toFixed(2));
-    document.getElementById('percentageProgress').textContent = percentageProgress + '%';
-    document.getElementById('progressText').textContent = totalSumbangan1.toFixed(2) + '/' + totalKapasitasKontainer;
-
-    var indicatorIcon = document.getElementById('indicator');
-    var indicatorText = document.getElementById('indicatorText');
-    var chartCanvas = document.getElementById('myChart1');
-
-    indicatorIcon.classList.remove('custom-icon', 'custom-icon2', 'custom-icon3');
-    chartCanvas.classList.remove('chart-background-green', 'chart-background-yellow', 'chart-background-red');
-
-    if (percentageProgress <= 50.0) {
-        indicatorIcon.classList.add('custom-icon');
-        indicatorIcon.textContent = 'brightness_1';
-        indicatorText.textContent = 'Aman';
-        myChart1.data.datasets[0].backgroundColor = ['rgba(101, 174, 56, 1)', 'rgba(0, 0, 0, 0)'];
-        chartCanvas.classList.add('chart-background-green');
-    } else if (percentageProgress > 50.0 && percentageProgress <= 80.0) {
-        indicatorIcon.classList.add('custom-icon2');
-        indicatorIcon.textContent = 'brightness_1';
-        indicatorText.textContent = 'Mulai Penuh';
-        myChart1.data.datasets[0].backgroundColor = ['rgba(255, 167, 38, 1)', 'rgba(0, 0, 0, 0)'];
-        chartCanvas.classList.add('chart-background-yellow');
-    } else {
-        indicatorIcon.classList.add('custom-icon3');
-        indicatorIcon.textContent = 'brightness_1';
-        indicatorText.textContent = 'Perlu penjemputan';
-        myChart1.data.datasets[0].backgroundColor = ['rgba(209, 32, 49, 1)', 'rgba(0, 0, 0, 0)'];
-        chartCanvas.classList.add('chart-background-red');
-    }
-
-    myChart1.update();
-}
 
 var ctx1 = document.getElementById('myChart1').getContext('2d');
 var colors1 = ['rgba(101, 174, 56, 1)', 'rgba(0, 0, 0, 0)'];
@@ -543,38 +492,7 @@ var myChart1 = new Chart(ctx1, {
         }
     }
 });
-</script>
 
-<script>
-var map = L.map('map').setView([1.6692, 101.4478], 11);
-
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
-    maxZoom: 16,
-}).addTo(map);
-
-map.addControl(new L.Control.Fullscreen());
-
-var mapData = {!!$mapData!!};
-
-for (var i = 0; i < mapData.length; i++) {
-    var marker = mapData[i];
-
-    var popupContent = '<div class="custom-popup">' +
-        '<h3 class="custom-popup-title">' + marker.nama + '</h3>' + '<hr class="dark horizontal">' +
-        '<p class="custom-popup-lat">Total Donatur: ' + marker.total_donatur + ' Orang</p>' +
-        '<p class="custom-popup-lng">Total Berat: ' + marker.total_berat + ' L</p>' +
-        '</div>';
-
-    L.marker([marker.lat, marker.lng])
-        .addTo(map)
-        .bindPopup(popupContent, {
-            className: 'custom-popup'
-        });
-}
-</script>
-
-<script>
 if (document.getElementById('state1')) {
     var initialValue = parseFloat(document.getElementById("state1").getAttribute("countTo")).toFixed(2);
 

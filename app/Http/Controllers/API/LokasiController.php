@@ -12,11 +12,30 @@ class LokasiController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        $lokasis = Lokasi::all();
-        return response()->json($lokasis);
-    }
+	public function index()
+	{
+		try {
+			$lokasi = Lokasi::with(['kecamatan:id_kecamatan,nama_kecamatan'])
+				->withCount([
+					'kontainer' => function ($query) {
+						$query->where('keterangan', '!=', 'deleted');
+					}
+				])
+				->where('status', '!=', 'deleted')
+				->get();
+
+			// Modify the data directly
+			$lokasi->transform(function ($item) {
+				$item->nama_kecamatan = $item->kecamatan->nama_kecamatan;
+				unset($item->kecamatan);
+				return $item;
+			});
+
+			return response()->json(['lokasi' => $lokasi]);
+		} catch (Exception $exception) {
+			return response()->json(['message' => 'Tidak ada data'], 404);
+		}
+	}
 
     /**
      * Store a newly created resource in storage.
