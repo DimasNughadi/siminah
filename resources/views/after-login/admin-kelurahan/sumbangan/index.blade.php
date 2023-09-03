@@ -328,7 +328,7 @@
                 left: 0;
                 width: 100%;
                 height: 100%;
-                background-color: rgba(255, 58, 41, .25);
+                background-color: rgba(20, 94, 168, 0.10);
                 border-radius: 50%;
                 z-index: 1;
                 pointer-events: none;
@@ -353,7 +353,7 @@
                 width: 86px;
                 height: 86px;
                 border-radius: 50%;
-                background-color: #FF3A29;
+                background-color: #145EA8;
                 z-index: 4;
             }
 
@@ -385,7 +385,7 @@
         <script>
             var ctx1 = document.getElementById('myChart2').getContext('2d');
             var data1 = [{!! json_encode(number_format($persentase, 1)) !!}, {!! json_encode(100 - number_format($persentase, 1)) !!}];;
-            var colors1 = ['rgba(255, 58, 41, 1)', 'rgba(0, 0, 0, 0)'];
+            var colors1 = ['#145EA8', 'rgba(20, 94, 168, 0.10)'];
             var cutout1 = '85%';
             var myChart1 = new Chart(ctx1, {
                 type: 'doughnut',
@@ -479,7 +479,6 @@
 
     @stop
 
-    @extends('components._partials.scripts')
     @section('script')
         <script>
             function TolakSumbangan(action) {

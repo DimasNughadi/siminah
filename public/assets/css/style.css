@@ -10,7 +10,7 @@
     --red-value-color: #ff4c51;
     --red-bg-color: rgba(255, 76, 81, 0.2);
     --text-poppins: "Poppins", sans-serif;
-    --input-placeholder: #808080;
+    --grey: #808080;
     --danger: #d12031;
     --hover-danger: #d12032c2;
     --success: #65ae38;
@@ -26,6 +26,8 @@
     --transparent-warning: rgba(255, 168, 0, 0.2);
     --transparent-success: rgba(52, 181, 58, 0.2);
     --text-dm-sans: "DM Sans", sans-serif;
+    --primary-color: #145ea8;
+    --transparent-primary-color: rgba(20, 94, 168, 0.1);
 }
 
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap");
@@ -111,24 +113,26 @@ h4.login-header-color {
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
         border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
-/* .btn-primary {
+.btn-primary {
     color: #fff;
-    background-color: #007bff;
-    border-color: #007bff;
-  }
-  .btn-primary:hover {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+.btn-primary:hover {
     color: #fff;
     background-color: #0069d9;
     border-color: #0062cc;
-  }
-  .btn-primary:focus, .btn-primary.focus {
+}
+.btn-primary:focus,
+.btn-primary.focus {
     box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
-  }
-  .btn-primary.disabled, .btn-primary:disabled {
+}
+.btn-primary.disabled,
+.btn-primary:disabled {
     color: #fff;
-    background-color: #007bff;
-    border-color: #007bff;
-  } */
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
 
 .btn-login {
     width: 418px;
@@ -575,7 +579,7 @@ span.add-reward:hover {
 }
 
 .modal-input::placeholder {
-    color: var(--input-placeholder);
+    color: var(--grey);
 }
 
 .btn-danger {
@@ -607,12 +611,12 @@ input[type="file"] {
 #myFileNameContainer {
     position: relative;
     top: 8px;
-    color: var(--input-placeholder);
+    color: var(--grey);
 }
 #myFileInputNameContainer {
     position: relative;
     top: 8px;
-    color: var(--input-placeholder);
+    color: var(--grey);
 }
 
 #btnFile {
@@ -1250,7 +1254,7 @@ tr.reward-tr .ps-4 .d-flex {
     margin-right: 20px;
     height: 27px;
     color: white;
-    background-color: var(--danger);
+    background-color: var(--primary-color);
 }
 
 .table-kontainer-kelurahan .main-table {
@@ -1367,11 +1371,11 @@ tr.reward-tr .ps-4 .d-flex {
 }
 
 .sumbangan-kelurahan .footer .fill {
-    background-color: #ff3a29;
+    background-color: var(--primary-color) !important;
 }
 
 .sumbangan-kelurahan .footer .transparent {
-    background-color: #ffe5d3;
+    background-color: var(--transparent-primary-color) !important;
 }
 
 .sumbangan-kelurahan .footer span {
@@ -1833,7 +1837,8 @@ tr.reward-tr .ps-4 .d-flex {
     padding: 13px 44px 13px 44px;
     border-radius: 20px;
     border: 1px solid #808080;
-    background: #d12031;
+    color: white;
+    background: var(--primary-color);
 }
 
 /* manajemen admin */
@@ -1912,11 +1917,11 @@ tr.reward-tr .ps-4 .d-flex {
     width: 180px;
     height: 50px;
     flex-shrink: 0;
-    border: 1px solid var(--danger);
+    border: 1px solid var(--primary-color);
     display: flex;
     justify-content: center;
     align-items: center;
-    color: var(--danger);
+    color: var(--primary-color);
 }
 
 .edit-profil .header .simpan-buttom {
@@ -1925,7 +1930,7 @@ tr.reward-tr .ps-4 .d-flex {
     flex-shrink: 0;
     border-radius: 20px;
     border: 1px solid #808080;
-    background: var(--danger);
+    background: var(--primary-color);
     color: white;
 }
 
@@ -1982,11 +1987,15 @@ tr.reward-tr .ps-4 .d-flex {
     flex-shrink: 0;
     border-radius: 20px;
     border: 1px solid #808080;
-    background: var(--danger);
+    background: var(--primary-color);
     color: white;
     font-family: var(--text-poppins);
     font-size: 16px;
     font-weight: bold;
+}
+
+.forms-sumbit:hover {
+    background-color: var(--primary-color);
 }
 
 .lokasi-tr td:not(.soft) {
@@ -2035,23 +2044,66 @@ tr.reward-tr .ps-4 .d-flex {
     border-radius: 20px !important;
 }
 
+/* Insert gambar lokasi */
+.insert-gambar-lokasi {
+    width: 100%;
+    height: 183px;
+    border-radius: 20px;
+    border: 1px solid var(--grey);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.insert-gambar-lokasi .detail-text {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.insert-gambar-lokasi .detail-text img.icon {
+    width: 50px;
+    height: 48px;
+    flex-shrink: 0;
+}
+
+.insert-gambar-lokasi .detail-text span {
+    color: black;
+    text-align: center;
+    font-family: var(--text-poppins);
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.insert-gambar-lokasi .detail-text p {
+    color: var(--grey);
+    text-align: center;
+    font-family: Poppins;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
 /* isKecamatan */
 .radio-wrapper {
-    max-height: 63px !important;
-    max-width: 577px !important;
-    max-width: 569px;
-    margin: 0;
-    padding: 0;
+    width: 452px;
 }
 
 .radio-wrapper .left-side {
-    max-width: 287px;
+    width: 50%;
 }
 
 .radio-wrapper .right-side {
-    max-width: 287px;
+    width: 50%;
     position: relative;
-    left: -5px;
+    left: -15px;
 }
 
 .radio-wrapper .left-side input {
@@ -2065,11 +2117,11 @@ tr.reward-tr .ps-4 .d-flex {
 }
 
 .radio-wrapper .left-side label {
-    border: 1.5px solid var(--danger);
+    border: 1.5px solid var(--primary-color);
     border-radius: 20px 0 0 20px;
-    padding: 19px 86px 19px 86px;
+    padding: 19px 59px 19px 59px;
     background-color: white;
-    color: var(--danger);
+    color: var(--primary-color);
     text-align: center;
     font-feature-settings: "clig" off, "liga" off;
     font-family: var(--text-poppins);
@@ -2082,11 +2134,11 @@ tr.reward-tr .ps-4 .d-flex {
 }
 
 .radio-wrapper .right-side label {
-    border: 1.5px solid var(--danger);
+    border: 1.5px solid var(--primary-color);
     border-radius: 0 20px 20px 0;
-    padding: 19px 86px 19px 86px;
+    padding: 19px 59px 19px 59px;
     background-color: white;
-    color: var(--danger);
+    color: var(--primary-color);
     text-align: center;
     font-feature-settings: "clig" off, "liga" off;
     font-family: var(--text-poppins);
@@ -2100,7 +2152,7 @@ tr.reward-tr .ps-4 .d-flex {
 
 input[type="radio"]:checked + label {
     color: white;
-    background-color: var(--danger);
+    background-color: var(--primary-color);
 }
 
 .custom-label {
@@ -2117,9 +2169,9 @@ input[type="radio"]:checked + label {
     top: -100px;
 }
 
-#isKelurahanKontainer {
+/* #isKelurahanKontainer {
     display: none;
-}
+} */
 
 /* logo PCR*/
 .logo-pcr-mobile {
@@ -2130,10 +2182,22 @@ input[type="radio"]:checked + label {
     width: 150px;
 }
 
-
 .logo-pcr img {
     display: block;
     width: 150px;
+}
+
+/* gambar lokasi */
+.gambar-lokasi {
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+}
+
+.gambar-lokasi img {
+    width: 112px;
+    height: 116px;
+    border-radius: 15px;
 }
 
 @media (min-width: 320px) {

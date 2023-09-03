@@ -75,7 +75,7 @@
   --dark: #131B23;
   --semi-dark: #464646;
   --light-dark: #878787;
-  --primary: #145EAB;
+  --primary: #145EA8;
 }
 
 *,
@@ -22727,7 +22727,7 @@ label,
 }
 
 .bg-gradient-primary {
-  background-image: linear-gradient(195deg, #D12031 0%, #D12031 100%);
+  background-image: linear-gradient(195deg, var(--primary) 0%, var(--primary) 100%);
 }
 
 .bg-gradient-secondary {

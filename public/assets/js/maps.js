@@ -94,8 +94,8 @@ function getAddressFromLatLng(latitude, longitude) {
                             $("#isKecamatanFalse").prop("checked", true);
                             $("#isKecamatanTrue").prop("disabled", true);
                             $("#isKelurahanKontainer").css(
-                                "visibility",
-                                "hidden"
+                                "display",
+                                "none"
                             );
                         } else if (
                             response.submit &&
@@ -107,19 +107,25 @@ function getAddressFromLatLng(latitude, longitude) {
                             );
                             $("#isKecamatanFalse").prop("disabled", true);
                             $("#isKecamatanTrue").prop("checked", true);
+                            $("#isKelurahanKontainer").css(
+                                "display",
+                                "none"
+                            );
                         } else if (response.submit && response.is_kecamatan) {
                             $("#sumbit-tambah-lokasi").prop("disabled", false);
                             $("#kelurahan-exist").html("");
                             $("#isKelurahanKontainer").css(
-                                "visibility",
-                                "visible"
+                                "display",
+                                "block"
                             );
                         } else {
                             $("#sumbit-tambah-lokasi").prop("disabled", false);
-                            $("#kelurahan-exist").html("Kontainer di kelurahan dan kecamatan sudah ada");
+                            $("#kelurahan-exist").html(
+                                "Kontainer di kelurahan dan kecamatan sudah ada"
+                            );
                             $("#isKelurahanKontainer").css(
-                                "visibility",
-                                "hidden"
+                                "display",
+                                "block"
                             );
                         }
                     } else {
@@ -143,23 +149,27 @@ function getAddressFromLatLng(latitude, longitude) {
 }
 
 function GetMap() {
-    map = new Microsoft.Maps.Map("#maps", {
-        credentials:
-            "AlUje-BfB7q-XcFYespJdjtmZY9wrhc1ismON5fsYXgvCUfb2hzSfiEN8UwdqqJ9",
-    });
+    try {
+        var map = new Microsoft.Maps.Map("#maps", {
+            credentials:
+                "AlUje-BfB7q-XcFYespJdjtmZY9wrhc1ismON5fsYXgvCUfb2hzSfiEN8UwdqqJ9",
+        });
 
-    map.setView({
-        mapTypeId: Microsoft.Maps.MapTypeId.aerial,
-    });
+        map.setView({
+            mapTypeId: Microsoft.Maps.MapTypeId.aerial,
+        });
 
-    Microsoft.Maps.Events.addHandler(map, "click", function (e) {
-        var location = e.location;
-        var latitude = location.latitude;
-        var longitude = location.longitude;
-        document.getElementById("latitude").value = latitude;
-        document.getElementById("longitude").value = longitude;
-        const koordinat = latitude + ", " + longitude;
-        document.querySelector("#koordinat").value = koordinat;
-        getAddressFromLatLng(latitude, longitude);
-    });
+        Microsoft.Maps.Events.addHandler(map, "click", function (e) {
+            var location = e.location;
+            var latitude = location.latitude;
+            var longitude = location.longitude;
+            document.getElementById("latitude").value = latitude;
+            document.getElementById("longitude").value = longitude;
+            const koordinat = latitude + ", " + longitude;
+            document.querySelector("#koordinat").value = koordinat;
+            getAddressFromLatLng(latitude, longitude);
+        });
+    } catch (error) {
+        
+    }
 }

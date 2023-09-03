@@ -16,6 +16,7 @@ return new class extends Migration
             $table->uuid('id_donatur');
             $table->uuid('id_reward');
             $table->date('tanggal_redeem');
+            $table->string('status',50);
             $table->timestamps();
         });
     }

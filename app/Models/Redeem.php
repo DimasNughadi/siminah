@@ -13,6 +13,8 @@ class Redeem extends Model
         'id_redeem',
         'id_donatur',
         'id_reward',
+        'tanggal_redeem',
+        'status',
         // Add other fillable properties here
     ];
 

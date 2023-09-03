@@ -99,12 +99,14 @@
 
                                                             @if (!empty($notifikasi))
                                                                 @if ($notifikasi[0]->status === 'HAMPIR PENUH')
-                                                                    <div class="col-md-4 header-button">
-                                                                        <div class="btn-reward btn-kontainer-kelurahan btn-danger
+                                                                    <div class="col-md-4 header-button"
+                                                                        id="btnAjukanPergantian">
+                                                                        <div class="btn-reward btn-kontainer-kelurahan 
+                                                                        btn-info
                                                                         position-relative cursor-pointer"
                                                                             onclick="AjukanPergantianKontainer('{{ route('kontainer.storePermintaan', ['id_kontainer' => $kontainer[0]->id_kontainer]) }}')">
                                                                             <span class="position-relative add-reward">
-                                                                                Ajukan
+                                                                                Ajukan pergantian
                                                                             </span>
                                                                         </div>
                                                                     </div>
@@ -134,7 +136,7 @@
                                                                                     @if (strtolower($item->status_permintaan) === 'diterima')
                                                                                         <div
                                                                                             class="btn-reward btn-table-custom bg-success
-                                                                          position-relative">
+                                                                        position-relative">
                                                                                         @elseif(strtolower($item->status_permintaan) === 'ditolak')
                                                                                             <div
                                                                                                 class="btn-reward btn-table-custom bg-danger
@@ -275,3 +277,27 @@
     });
 </script>
 @stop
+@section('script')
+<script>
+    var id_kontainer = {!! json_encode($kontainer[0]->id_kontainer) !!}
+    $.ajax({
+        url: `/kontainer/isPermintaanDiajukan/${id_kontainer}`,
+        type: 'GET',
+        headers: {
+            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                "content"
+            ),
+        },
+        success: function(response) {
+            if (response) {
+              $('#btnAjukanPergantian').prop('disabled', true);
+            }else{
+              $('#btnAjukanPergantian').prop('disabled', false);
+            }
+        },
+        error: function(xhr, status, error) {
+            console.log('s');
+        }
+    });
+</script>
+@endsection

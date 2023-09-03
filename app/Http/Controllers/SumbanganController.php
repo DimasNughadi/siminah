@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Notifikasi;
 use Exception;
 use Carbon\Carbon;
 use App\Models\Lokasi;
@@ -32,8 +33,6 @@ class SumbanganController extends Controller
                 $now = Carbon::now();
                 $lastWeekStart = $now->subDays(6 + $now->dayOfWeek)->startOfDay()->format('Y-m-d');
                 $lastWeekEnd = $now->copy()->addDays(7)->endOfDay()->format('Y-m-d');
-                $lastWeekStart = '2023-07-03'; //untuk tes
-                $lastWeekEnd = '2023-07-10'; //untuk tes
 
                 $SumbanganHarian = Sumbangan::where('status', 'terverifikasi')
                     ->whereHas('kontainer.lokasi', function ($query) use ($id_lokasi) {
@@ -109,9 +108,9 @@ class SumbanganController extends Controller
                     ->join('kecamatan', 'lokasi.id_kecamatan', '=', 'kecamatan.id_kecamatan') // Join with kecamatan
                     ->select('kontainer.id_kontainer', 'lokasi.nama_kelurahan', 'lokasi.is_kecamatan', 'kecamatan.nama_kecamatan') // Select the kecamatan's name
                     ->selectRaw('SUM(COALESCE(sumbangan.berat, 0)) as total_berat')
-                    ->selectRaw('COUNT(DISTINCT COALESCE(sumbangan.id_donatur, 0)) as total_donatur')
+                    ->selectRaw('COALESCE(COUNT(DISTINCT sumbangan.id_donatur), 0) as total_donatur')
                     ->selectRaw('MAX(COALESCE(sumbangan.updated_at, "-")) as tanggal_laporan')
-                    ->selectRaw('YEAR(COALESCE(sumbangan.updated_at, NOW())) as tahun, MONTH(COALESCE(sumbangan.updated_at, NOW())) as bulan')
+                    ->selectRaw('YEAR(COALESCE(sumbangan.created_at, NOW())) as tahun, MONTH(COALESCE(sumbangan.created_at, NOW())) as bulan')
                     ->groupBy('kontainer.id_kontainer', 'lokasi.nama_kelurahan', 'lokasi.is_kecamatan', 'kecamatan.nama_kecamatan', 'tahun', 'bulan')
                     ->orderByDesc('total_berat')
                     ->orderBy('tahun')
@@ -125,6 +124,40 @@ class SumbanganController extends Controller
             } else {
                 return view('after-login.pengelola-csr.sumbangan.index')->with('message', 'Tidak ada data');
             }
+        }
+    }
+    public function filterData(Request $request)
+    {
+        try {
+            // $monthA = '07';
+            // $monthB = '09';
+            // $yearA = '2023';
+            // $yearB = '2023';
+            $monthA = $request->input('month_a'); //dari bulan A
+            $monthB = $request->input('month_b'); // dari tahun A
+            $yearA = $request->input('year_a'); //sampai bulan B
+            $yearB = $request->input('year_b'); //sampai tahun B
+
+            $filteredLaporan = Kontainer::join('lokasi', 'kontainer.id_lokasi', '=', 'lokasi.id_lokasi')
+                ->leftJoin('sumbangan', function ($join) {
+                    $join->on('kontainer.id_kontainer', '=', 'sumbangan.id_kontainer')
+                        ->where('sumbangan.status', '=', 'terverifikasi');
+                })
+                ->join('kecamatan', 'lokasi.id_kecamatan', '=', 'kecamatan.id_kecamatan')
+                ->select('kontainer.id_kontainer', 'lokasi.nama_kelurahan', 'lokasi.is_kecamatan', 'kecamatan.nama_kecamatan')
+                ->selectRaw('SUM(COALESCE(sumbangan.berat, 0)) as total_berat')
+                ->selectRaw('COALESCE(COUNT(DISTINCT sumbangan.id_donatur), 0) as total_donatur')
+                ->selectRaw('MAX(COALESCE(sumbangan.updated_at, "-")) as tanggal_laporan')
+                ->selectRaw('YEAR(COALESCE(sumbangan.created_at, NOW())) as tahun, MONTH(COALESCE(sumbangan.created_at, NOW())) as bulan')
+                ->whereBetween('sumbangan.created_at', ["$yearA-$monthA-01", "$yearB-$monthB-31"])
+                ->groupBy('kontainer.id_kontainer', 'lokasi.nama_kelurahan', 'lokasi.is_kecamatan', 'kecamatan.nama_kecamatan', 'tahun', 'bulan')
+                ->orderByDesc('total_berat')
+                ->orderBy('tahun')
+                ->orderBy('bulan')
+                ->get();
+            return response()->json(['filteredData' => $filteredLaporan]);
+        } catch (Exception $exception) {
+            return response()->json(['error' => 'An error occurred'], 500);
         }
     }
     public function edit($id, $created_at)
@@ -143,7 +176,7 @@ class SumbanganController extends Controller
         $this->validate($request, [
             'status' => 'required',
         ]);
-        try {
+        // try {
             if ($request->status === 'ditolak') {
                 $this->validate($request, [
                     'keterangan' => 'required|string',
@@ -164,11 +197,22 @@ class SumbanganController extends Controller
                     Donatur::where('id_donatur', $id)
                         ->increment('poin', $sumPoin);
                 }
-
+                Notifikasi::create([
+                    'id_donatur' => $id,
+                    'jenis' => 'sumbangan_verifikasi',
+                    'keterangan' => 'sumbangan berhasil diverifikasi',
+                    'is_read' => 0,
+                ]);
+                Notifikasi::create([
+                    'id_donatur' => $id,
+                    'jenis' => 'reward_poin',
+                    'keterangan' => 'Anda berhasil mendapat '. $sumPoin . ' poin',
+                    'is_read' => 0,
+                ]);
                 return redirect()->route('sumbangan')->with('verifikasi_alert', 'success');
             }
-        } catch (Exception $exception) {
-            return redirect()->back()->with('verifikasi_alert', 'error');
-        }
+        // } catch (Exception $exception) {
+        //     return redirect()->back()->with('verifikasi_alert', 'error');
+        // }
     }
 }

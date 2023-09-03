@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reward', function (Blueprint $table) {
-            $table->uuid('id_reward')->primary()->default(DB::raw('UUID()'));
-            $table->string('nama_reward', 50);
-            $table->integer('stok');
-            $table->string('jumlah_poin', 50);
-            $table->date('masa_berlaku');
-            $table->string('gambar');
+        Schema::create('notifikasi', function (Blueprint $table) {
+            $table->bigIncrements('id_notifikasi');
+            $table->unsignedBigInteger('id_donatur');
+            $table->string('jenis', 50);
+            $table->string('keterangan', 50);
+            $table->boolean('is_read')->default(0);
             $table->timestamps();
         });
     }
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('reward');
+        Schema::dropIfExists('notifikasi');
     }
 };

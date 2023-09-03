@@ -23,7 +23,7 @@
                             </div>
                             <div class="col-md-3 col-sm-3 col-5 button d-flex align-items-center justify-content-end">
                                 {{-- <button type="submit">ss</button> --}}
-                                <x-forms.btn.button type="submit" color="danger" title="Simpan"
+                                <x-forms.btn.button type="submit" color="primary" title="Simpan"
                                     id="sumbit-tambah-lokasi" />
                             </div>
                         </div>
@@ -60,6 +60,14 @@
                                                 placeholder="Koordinat (Longitude, Latitude)" />
                                         </div>
                                     </div>
+                                    <div class="row mt-3">
+                                        <div class="col-md-12">
+                                            <div id="isKelurahanKontainer">
+                                                <x-forms.label title="Tingkat Wilayah" />
+                                                <x-forms.radioButton />
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="row d-none">
                                         <div class="col-md-12">
                                             <x-forms.formControlAdmin label="Latitude" name="latitude"
@@ -72,6 +80,7 @@
                                                 placeholder="Pilih longitude" />
                                         </div>
                                     </div>
+
                                 </div>
                                 <div class="col-md-6">
                                     <div class="row">
@@ -88,33 +97,31 @@
                                                 <div class="maps" id="maps">
                                                 </div>
                                             </div>
-                                            <div id="isKelurahanKontainer">
-                                                <div class="col-md-12 mt-4 mt-xxl-3 mt-xl-3 mt-lg-3 mt-md-3">
-                                                    <x-forms.label title="Tingkat Wilayah" />
-                                                    <x-forms.radioButton />
-                                                </div>
+                                            <div class="col-xxl-12">
+                                                <x-gambar.uploadLokasi />
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>  
                 </form>
             </div>
         </div>
     </div>
 @stop
 
-@extends('components._partials.scripts')
 @section('script')
+    <script type='text/javascript'
+        src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key={{ env('BING_API_KEY') }}' async defer></script>
     <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
         crossorigin="anonymous"></script>
     <script src="{{ asset('assets/js/maps.js') }}"></script>
     <script>
         $(document).ready(function() {
             // Hide the element with ID "myElement"
-            $('#isKelurahanKontainer').css("visibility", "hidden")
+            $('#isKelurahanKontainer').css("display", "none")
         });
     </script>
 @endsection

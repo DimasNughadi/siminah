@@ -56,15 +56,13 @@ Route::middleware(['checksession','role:admin_csr,admin_kelurahan'])->group(func
     Route::delete('/kontainer/delete/{id}',[KontainerController::class,'destroy'])->name('kontainer.destroy');
     Route::put('/kontainer/update-permintaan/{id}',[KontainerController::class,'updatePermintaan'])->name('kontainer.updatePermintaan');
     Route::post('/kontainer/storePermintaan/{id_kontainer}',[KontainerController::class,'storePermintaan'])->name('kontainer.storePermintaan');
-    Route::post('/kontainer/isPermintaanDiajukan/{id_kontainer}',[KontainerController::class,'isPermintaanDiajukan'])->name('kontainer.isPermintaanDiajukan');
+    Route::get('/kontainer/isPermintaanDiajukan/{id_kontainer}',[KontainerController::class,'isPermintaanDiajukan'])->name('kontainer.isPermintaanDiajukan');
             
-    //manajemen reward (adm-kelurahan)
+    //manajemen redeem (adm-kelurahan)
     Route::get('/reward',[RedeemController::class,'index'])->name('reward');
+    Route::get('/redeem/{id}',[RedeemController::class,'update'])->name('redeem.update');
     Route::get('/reward/reward-list',[RewardController::class,'index'])->name('reward/reward-list');
-    Route::post('/reward',[RewardController::class,'store'])->name('reward.store');
-    Route::put('/reward/{id}',[RewardController::class,'update'])->name('reward.update');
-    Route::delete('/reward/{id}',[RewardController::class,'destroy'])->name('reward.delete');
-
+    
     //profil admin
     Route::get('/profil',[ProfilController::class,'index'])->name('profil');
     Route::get('/profil/edit',[ProfilController::class,'edit'])->name('profil.edit');
@@ -81,4 +79,13 @@ Route::middleware(['checksession','role:admin_csr'])->group(function() {
     Route::put('/admin-kelurahan/reset/{id}',[AdminController::class,'resetPassword'])->name('admin.reset');
     Route::delete('/admin-kelurahan/delete/{id}',[AdminController::class,'destroy'])->name('admin.destroy');
     Route::get('/admin-kelurahan/lokasi/{id}', [AdminController::class, 'cek_kelurahan'])->name('admin.ceklokasi');
+    
+    //manajemen reward
+    Route::post('/reward',[RewardController::class,'store'])->name('reward.store');
+    Route::put('/reward/{id}',[RewardController::class,'update'])->name('reward.update');
+    Route::delete('/reward/{id}',[RewardController::class,'destroy'])->name('reward.delete');
+    
+    //ajax sumbangan
+    Route::get('/sumbangan/{id}',[SumbanganController::class,'filterData'])->name('sumbangans');
+    
 });

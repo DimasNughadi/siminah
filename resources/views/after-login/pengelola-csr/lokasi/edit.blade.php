@@ -117,11 +117,12 @@
         </div>
     </div>
 
-    <x-sweetalert />
 @stop
 
-@extends('components._partials.scripts')
 @section('script')
+<script type='text/javascript'
+        src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=AlUje-BfB7q-XcFYespJdjtmZY9wrhc1ismON5fsYXgvCUfb2hzSfiEN8UwdqqJ'
+        async defer></script>
     <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
         crossorigin="anonymous"></script>
     <script src="{{ asset('assets/js/maps.js') }}"></script>

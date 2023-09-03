@@ -61,3 +61,17 @@ function limitAlamatLength($data)
         return implode(" ", array_slice($words, 0, 2));
     }
 }
+
+function limitNamaLokasi($data) {
+    $rs = mb_substr($data, 0, 15);
+    return $rs;
+}
+
+function isKecamatan($isKecamatan, $kecamatan, $kelurahan) 
+{
+    if($isKecamatan === 1) {
+        return "Kecamatan " . $kecamatan;
+    }else{
+        return "Kelurahan " . $kelurahan;
+    }
+}

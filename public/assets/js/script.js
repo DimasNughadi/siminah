@@ -3,20 +3,20 @@ function triggerFileInput() {
     document.getElementById("fileInput").click();
 }
 
-document.getElementById("fileInput").addEventListener("change", function () {
-    const fileName = this.value.split("\\").pop();
-    document.getElementById("myFileNameContainer").innerHTML = fileName;
-});
+// document.getElementById("fileInput").addEventListener("change", function () {
+//     const fileName = this.value.split("\\").pop();
+//     document.getElementById("myFileNameContainer").innerHTML = fileName;
+// });
 
 // File edit
-function triggerFileEdit() {
-    document.getElementById("fileEdit").click();
-}
+// function triggerFileEdit() {
+//     document.getElementById("fileEdit").click();
+// }
 
-document.getElementById("fileEdit").addEventListener("change", function () {
-    const fileName = this.value.split("\\").pop();
-    document.getElementById("myFileInputNameContainer").innerHTML = fileName;
-});
+// document.getElementById("fileEdit").addEventListener("change", function () {
+//     const fileName = this.value.split("\\").pop();
+//     document.getElementById("myFileInputNameContainer").innerHTML = fileName;
+// });
 
 // edit reward
 function editDataReward(nama, stok, poin, route) {
@@ -108,22 +108,23 @@ function buttonUbahGambarAdmin() {
 
 function verifikasiSumbangan(route) {
     Swal.fire({
-        title: 'Lanjutkan verifikasi?',
+        title: "Lanjutkan verifikasi?",
         text: "Anda tidak dapat membatalkan status kembali",
-        icon: 'warning',
+        icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Lanjutkan verifikasi'
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Lanjutkan verifikasi",
     }).then((result) => {
         if (result.isConfirmed) {
-            const verifikasiStatusForm = document.querySelector('#verifikasiStatusForm')
-            verifikasiStatusForm.action = route
-            verifikasiStatusForm.submit()
+            const verifikasiStatusForm = document.querySelector(
+                "#verifikasiStatusForm"
+            );
+            verifikasiStatusForm.action = route;
+            verifikasiStatusForm.submit();
         }
-    })
+    });
 }
-
 
 function AjukanPergantianKontainer(action) {
     Swal.fire({
@@ -136,34 +137,33 @@ function AjukanPergantianKontainer(action) {
         reverseButtons: true,
     }).then((result) => {
         if (result.isConfirmed) {
-            let updatePengajuanGantiKontainer = document.querySelector('#updatePengajuanGantiKontainer');
+            let updatePengajuanGantiKontainer = document.querySelector(
+                "#updatePengajuanGantiKontainer"
+            );
             updatePengajuanGantiKontainer.action = action;
             console.log(updatePengajuanGantiKontainer);
-            updatePengajuanGantiKontainer.submit()
+            updatePengajuanGantiKontainer.submit();
         } else if (result.dismiss === Swal.DismissReason.cancel) {
             Swal.fire("Dibatalkan", "Pengajuan dibatalkan", "info");
             // Perform any additional actions if deletion is cancelled
         }
     });
-
-    
 }
-
 
 function Logout() {
     Swal.fire({
-        title: 'Apakah ingin keluar?',
+        title: "Apakah ingin keluar?",
         text: "Anda akan dimintai login kembali",
-        icon: 'warning',
+        icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Logout'
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Logout",
     }).then((result) => {
         if (result.isConfirmed) {
-            document.getElementById('logout-form').submit();
+            document.getElementById("logout-form").submit();
         }
-    })
+    });
 }
 
 function hapusLokasi(url) {
@@ -177,11 +177,11 @@ function hapusLokasi(url) {
         reverseButtons: true,
     }).then((result) => {
         if (result.isConfirmed) {
-            let formsDeleteLokasi = document.querySelector('#formsDeleteLokasi')
-            formsDeleteLokasi.action = url
+            let formsDeleteLokasi =
+                document.querySelector("#formsDeleteLokasi");
+            formsDeleteLokasi.action = url;
             // console.log(formsDeleteLokasi);
             formsDeleteLokasi.submit();
-            
         } else if (result.dismiss === Swal.DismissReason.cancel) {
             Swal.fire("Dibatalkan", "Data tidak jadi dihapus", "info");
             // Perform any additional actions   if deletion is cancelled
@@ -200,10 +200,10 @@ function deleteRecord(url) {
         reverseButtons: true,
     }).then((result) => {
         if (result.isConfirmed) {
-            let formDeleteAdmin = document.querySelector('#formDeleteAdmin')
-            formDeleteAdmin.action = url
+            let formDeleteAdmin = document.querySelector("#formDeleteAdmin");
+            formDeleteAdmin.action = url;
             console.log(formDeleteAdmin);
-            formDeleteAdmin.submit()
+            formDeleteAdmin.submit();
             console.log(formDeleteAdmin);
         } else if (result.dismiss === Swal.DismissReason.cancel) {
             Swal.fire("Dibatalkan", "Data tidak jadi dihapus", "info");
@@ -211,3 +211,92 @@ function deleteRecord(url) {
         }
     });
 }
+
+function showDetailGambarLokasi(source) {
+    const DetailGambarLokasi = document.querySelector("#DetailGambarLokasi");
+    DetailGambarLokasi.src = source;
+}
+
+// Drag n Drop Image
+let dropArea = document.querySelector("#dropAndDropArea");
+const insertGambarLokasi = document.querySelector("#insertGambarLokasi");
+
+// Prevent the default behavior of file dragging over the drop area
+dropArea.addEventListener("dragover", (event) => {
+    event.preventDefault();
+    dropArea.classList.add("drag-over");
+});
+
+dropArea.addEventListener("dragleave", () => {
+    dropArea.classList.remove("drag-over");
+});
+
+// Handle the file drop event
+dropArea.addEventListener("drop", (event) => {
+    event.preventDefault();
+    dropArea.classList.remove("drag-over");
+
+    const file = event.dataTransfer.files[0];
+    handleImage(file);
+});
+
+// Handle file input change (when a file is selected through the file input)
+insertGambarLokasi.addEventListener("change", () => {
+    const file = insertGambarLokasi.files[0];
+    handleImage(file);
+});
+
+// Function to handle the uploaded image
+function handleImage(file) {
+    const element = document.getElementById("insertGambarContainer");
+    // Get the computed style for the element
+    const computedStyle = window.getComputedStyle(element);
+    const widthString = computedStyle.getPropertyValue("width");
+    const heightString = computedStyle.getPropertyValue("height");
+    const containerWidth = parseFloat(widthString);
+    const containerHeight = parseFloat(heightString);
+
+    if (file && file.type.startsWith("image/")) {
+        const reader = new FileReader();
+
+        reader.onload = (event) => {
+            const image = new Image();
+            image.src = event.target.result;
+
+            
+            image.onload = () => {
+                const imageWidth = image.width;
+                const imageHeight = image.height;
+
+
+                // Calculate the scaling factors
+                const widthScale = containerWidth / imageWidth;
+                const heightScale = (containerHeight - (containerHeight * 10 / 100)) / imageHeight;
+
+                // Use the smaller scaling factor to maintain aspect ratio
+                const scale = Math.min(widthScale, heightScale);
+
+                // Calculate the scaled dimensions
+                const scaledWidth = Math.round(imageWidth * scale);
+                const scaledHeight = Math.round(imageHeight * scale);
+
+                // Apply the scaled dimensions to the image
+                image.width = scaledWidth;
+                image.height = scaledHeight;
+                dropArea.innerHTML = "";
+                dropArea.appendChild(image);
+            };
+            
+        };
+
+        reader.readAsDataURL(file);
+    } else {
+        alert("Please select a valid image file.");
+    }
+}
+
+// get action for image
+const insertGambarContainer = document.querySelector('#insertGambarContainer');
+insertGambarContainer.addEventListener('click', () => {
+    insertGambarLokasi.click();
+})

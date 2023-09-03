@@ -32,60 +32,89 @@ class DonaturController extends Controller
                         $query->where('status', 'terverifikasi');
                     }
                 ])
-                    ->select('donatur.id_donatur', 'nama_donatur', 'donatur.poin','kelurahan', 'donatur.photo', 'id_lokasi')
+                    ->select('donatur.id_donatur', 'nama_donatur', 'donatur.poin', 'kelurahan', 'donatur.photo', 'id_lokasi')
                     ->withSum([
                         'sumbangan' => function ($query) {
                             $query->where('status', 'terverifikasi');
                         }
                     ], 'berat')
+                    ->withSum([
+                        'sumbangan' => function ($query) {
+                            $query->where('status', 'terverifikasi');
+                        }
+                    ], 'poin_reward')
                     ->withCount([
                         'sumbangan as total_donasi' => function ($query) {
                             $query->where('status', 'terverifikasi');
                         }
                     ], 'id_donatur')
-                    ->withMax('sumbangan as newest_tanggal', 'created_at')
+                    ->withMax([
+                        'sumbangan as newest_tanggal' => function ($query) {
+                            $query->where('status', 'terverifikasi');
+                        }
+                    ], 'created_at')
                     ->join('sumbangan', 'donatur.id_donatur', '=', 'sumbangan.id_donatur')
                     ->join('kontainer', 'sumbangan.id_kontainer', '=', 'kontainer.id_kontainer')
                     ->where('id_lokasi', $id_lokasi)
                     ->where('status', 'terverifikasi')
-                    ->groupBy('donatur.photo', 'donatur.id_donatur','donatur.poin', 'nama_donatur', 'kelurahan', 'id_lokasi')
+                    ->groupBy('donatur.photo', 'donatur.id_donatur', 'donatur.poin', 'nama_donatur', 'kelurahan', 'id_lokasi')
                     ->orderByDesc('sumbangan_sum_berat')
                     ->get();
                 $donatur->each(function ($item) {
                     if ($item->sumbangan_sum_berat == null) {
                         $item->sumbangan_sum_berat = 0;
                     }
+
+                    if ($item->sumbangan_sum_poin_reward == null) {
+                        $item->sumbangan_sum_poin_reward = 0;
+                    }
+                    if ($item->newest_tanggal === null) {
+                        $item->newest_tanggal = '-';
+                    }
                 });
                 return view('after-login.admin-kelurahan.donatur.index', ['donatur' => $donatur]);
             } else {
-                $donatur = Donatur::with([
-                    'sumbangan'
-                    => function ($query) {
-                        $query->where('status', 'terverifikasi');
-                    }
-                ])
-                    ->select('donatur.id_donatur', 'nama_donatur', 'kelurahan', 'donatur.photo', 'id_lokasi')
+                $donatur = Donatur::select('donatur.id_donatur', 'nama_donatur', 'kelurahan', 'donatur.photo')
+                    ->leftJoin('sumbangan', function ($join) {
+                        $join->on('donatur.id_donatur', '=', 'sumbangan.id_donatur')
+                            ->where('sumbangan.status', '=', 'terverifikasi');
+                    })
                     ->withSum([
                         'sumbangan' => function ($query) {
                             $query->where('status', 'terverifikasi');
                         }
                     ], 'berat')
+                    ->withSum([
+                        'sumbangan' => function ($query) {
+                            $query->where('status', 'terverifikasi');
+                        }
+                    ], 'poin_reward')
                     ->withCount([
                         'sumbangan as total_donasi' => function ($query) {
                             $query->where('status', 'terverifikasi');
                         }
                     ], 'id_donatur')
-                    ->withMax('sumbangan as newest_tanggal', 'created_at')
-                    ->join('sumbangan', 'donatur.id_donatur', '=', 'sumbangan.id_donatur')
-                    ->join('kontainer', 'sumbangan.id_kontainer', '=', 'kontainer.id_kontainer')
-                    ->groupBy('donatur.photo', 'donatur.id_donatur', 'nama_donatur', 'kelurahan', 'id_lokasi')
+                    ->withMax([
+                        'sumbangan as newest_tanggal' => function ($query) {
+                            $query->where('status', 'terverifikasi');
+                        }
+                    ], 'created_at')
+                    ->groupBy('donatur.photo', 'donatur.id_donatur', 'nama_donatur', 'kelurahan')
                     ->orderByDesc('sumbangan_sum_berat')
                     ->get();
                 $donatur->each(function ($item) {
-                    if ($item->sumbangan_sum_berat == null) {
+                    if ($item->sumbangan_sum_berat === null) {
                         $item->sumbangan_sum_berat = 0;
                     }
+                    if ($item->sumbangan_sum_poin_reward === null) {
+                        $item->sumbangan_sum_poin_reward = 0;
+                    }
+                    if ($item->newest_tanggal === null) {
+                        $item->newest_tanggal = '-';
+                    }
+                    $item->delete = $item->total_donasi === 0 ? true : false;
                 });
+
                 return view('after-login.pengelola-csr.donatur.index', ['donatur' => $donatur]);
             }
         } catch (Exception $exception) {
@@ -181,6 +210,7 @@ class DonaturController extends Controller
     {
         try {
             $donatur = Donatur::find($id);
+            $donatur->sumbangan()->delete();
             $donatur->delete();
             return redirect()->route('donatur')->with('message', 'Donatur berhasil dihapus');
         } catch (Exception $exception) {

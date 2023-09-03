@@ -21,7 +21,7 @@ class Donatur extends Authenticatable
         'kelurahan',
         'photo',
         'password',
-        'poin'
+        'poin',
         // Add other fillable properties here
     ];
 
@@ -33,5 +33,9 @@ class Donatur extends Authenticatable
     public function sumbangan()
     {
         return $this->hasMany(Sumbangan::class, 'id_donatur', 'id_donatur');
+    }
+    public function notifikasi()
+    {
+        return $this->hasMany(Notifikasi::class, 'id_donatur', 'id_donatur');
     }
 }

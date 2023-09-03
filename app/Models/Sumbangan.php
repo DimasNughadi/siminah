@@ -16,6 +16,8 @@ class Sumbangan extends Model
         'tanggal',
         'berat',
         'photo',
+        'status',
+        'keterangan',
         'poin_reward',
         // Add other fillable properties here
     ];

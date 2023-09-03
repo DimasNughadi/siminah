@@ -120,8 +120,3 @@
 
     </section>
 @stop
-
-@extends('components._partials.scripts')
-@section('script')
-    <x-sweetalert />
-@endsection
