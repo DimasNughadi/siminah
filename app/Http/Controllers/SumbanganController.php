@@ -177,42 +177,62 @@ class SumbanganController extends Controller
             'status' => 'required',
         ]);
         // try {
-            if ($request->status === 'ditolak') {
-                $this->validate($request, [
-                    'keterangan' => 'required|string',
-                ]);
-                Sumbangan::where('created_at', $created_at)
-                    ->where('id_donatur', $id)
-                    ->update(['status' => $request->status, 'keterangan' => $request->keterangan]);
-                return redirect()->route('sumbangan')->with('verifikasi_alert', 'tolak');
-            } else {
-                Sumbangan::where('created_at', $created_at)
-                    ->where('id_donatur', $id)
-                    ->update(['status' => $request->status]);
-                $sumPoin = Sumbangan::where('created_at', $created_at)
-                    ->where('id_donatur', $id)
-                    ->value('poin_reward');
-                if ($sumPoin !== null) {
-                    // Update the poin attribute of the Donatur
-                    Donatur::where('id_donatur', $id)
-                        ->increment('poin', $sumPoin);
-                }
-                Notifikasi::create([
-                    'id_donatur' => $id,
-                    'jenis' => 'sumbangan_verifikasi',
-                    'keterangan' => 'sumbangan berhasil diverifikasi',
-                    'is_read' => 0,
-                ]);
-                Notifikasi::create([
-                    'id_donatur' => $id,
-                    'jenis' => 'reward_poin',
-                    'keterangan' => 'Anda berhasil mendapat '. $sumPoin . ' poin',
-                    'is_read' => 0,
-                ]);
-                return redirect()->route('sumbangan')->with('verifikasi_alert', 'success');
+        if ($request->status === 'ditolak') {
+            $this->validate($request, [
+                'keterangan' => 'required|string',
+            ]);
+            Sumbangan::where('created_at', $created_at)
+                ->where('id_donatur', $id)
+                ->update(['status' => $request->status, 'keterangan' => $request->keterangan]);
+            return redirect()->route('sumbangan')->with('verifikasi_alert', 'tolak');
+        } else {
+            Sumbangan::where('created_at', $created_at)
+                ->where('id_donatur', $id)
+                ->update(['status' => $request->status]);
+            $sumPoin = Sumbangan::where('created_at', $created_at)
+                ->where('id_donatur', $id)
+                ->value('poin_reward');
+            if ($sumPoin !== null) {
+                // Update the poin attribute of the Donatur
+                Donatur::where('id_donatur', $id)
+                    ->increment('poin', $sumPoin);
             }
+            Notifikasi::create([
+                'id_donatur' => $id,
+                'jenis' => 'sumbangan_verifikasi',
+                'keterangan' => 'sumbangan berhasil diverifikasi',
+                'is_read' => 0,
+            ]);
+            Notifikasi::create([
+                'id_donatur' => $id,
+                'jenis' => 'reward_poin',
+                'keterangan' => 'Anda berhasil mendapat ' . $sumPoin . ' poin',
+                'is_read' => 0,
+            ]);
+            return redirect()->route('sumbangan')->with('verifikasi_alert', 'success');
+        }
         // } catch (Exception $exception) {
         //     return redirect()->back()->with('verifikasi_alert', 'error');
         // }
+    }
+
+    public function detail()
+    {
+        try {
+            $id_lokasi = DB::table('adminkelurahan')
+                ->where('id_user', Auth::id())
+                ->value('id_lokasi');
+            $riwayat = Sumbangan::with('donatur', 'kontainer')
+                ->whereHas('kontainer.lokasi', function ($query) use ($id_lokasi) {
+                    $query->where('id_lokasi', $id_lokasi);
+                })
+                ->whereIn('status', ['terverifikasi', 'Terverifikasi', 'Ditolak', 'ditolak'])
+                ->orderByDesc('created_at')
+                ->get();
+            return view('after-login.admin-kelurahan.sumbangan.detail', ['riwayat' => $riwayat]);
+        } catch (Exception $exception) {
+            return view('after-login.admin-kelurahan.sumbangan.index')->with('message', 'Tidak ada data');
+
+        }
     }
 }

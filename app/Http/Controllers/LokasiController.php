@@ -8,6 +8,7 @@ use App\Models\Lokasi;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class LokasiController extends Controller
 {
@@ -73,47 +74,51 @@ class LokasiController extends Controller
     }
     public function store(Request $request)
     {
-        // try {
-        $this->validate($request, [
-            'nama_kelurahan' => 'required',
-            'nama_kecamatan' => 'required',
-            'is_kecamatan' => 'required',
-            'latitude' => 'required',
-            'longitude' => 'required',
-            'deskripsi' => 'required',
-        ]);
-
-        $nama_kecamatan = strtolower(str_replace(' ', '', $request->nama_kecamatan));
-        $kecamatan = Kecamatan::whereRaw('LOWER(REPLACE(nama_kecamatan, " ", "")) = ?', [$nama_kecamatan])
-            ->first();
-        if (!$kecamatan) {
-            $create_kecamatan = Kecamatan::create([
-                'nama_kecamatan' => $request->nama_kecamatan,
+        try {
+            $this->validate($request, [
+                'nama_kelurahan' => 'required',
+                'nama_kecamatan' => 'required',
+                'is_kecamatan' => 'required',
+                'latitude' => 'required',
+                'longitude' => 'required',
+                'gambar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'deskripsi' => 'required',
             ]);
-            $id_kecamatan = $create_kecamatan->id_kecamatan;
-        } else {
-            $id_kecamatan = $kecamatan->id_kecamatan;
+
+            $nama_kecamatan = strtolower(str_replace(' ', '', $request->nama_kecamatan));
+            $kecamatan = Kecamatan::whereRaw('LOWER(REPLACE(nama_kecamatan, " ", "")) = ?', [$nama_kecamatan])
+                ->first();
+            if (!$kecamatan) {
+                $create_kecamatan = Kecamatan::create([
+                    'nama_kecamatan' => $request->nama_kecamatan,
+                ]);
+                $id_kecamatan = $create_kecamatan->id_kecamatan;
+            } else {
+                $id_kecamatan = $kecamatan->id_kecamatan;
+            }
+            $gambar = $request->file('gambar');
+            $gambar->storeAs('public/lokasi', $gambar->hashName());
+            $lokasi = Lokasi::create([
+                'nama_kelurahan' => $request->nama_kelurahan,
+                'id_kecamatan' => $id_kecamatan,
+                'is_kecamatan' => $request->is_kecamatan,
+                'latitude' => $request->latitude,
+                'longitude' => $request->longitude,
+                'gambar' => $request->gambar->hashName(),
+                'deskripsi' => $request->deskripsi,
+                'status' => '-',
+            ]);
+
+            Kontainer::create([
+                'id_lokasi' => $lokasi->id_lokasi,
+                'kapasitas' => '30',
+                'keterangan' => '-',
+            ]);
+            return redirect()->route('lokasi')->with('lokasi_alert', 'success');
+
+        } catch (Exception $exception) {
+            return redirect()->back()->with('lokasi_alert', 'error');
         }
-        $lokasi = Lokasi::create([
-            'nama_kelurahan' => $request->nama_kelurahan,
-            'id_kecamatan' => $id_kecamatan,
-            'is_kecamatan' => $request->is_kecamatan,
-            'latitude' => $request->latitude,
-            'longitude' => $request->longitude,
-            'deskripsi' => $request->deskripsi,
-            'status' => '-',
-        ]);
-
-        Kontainer::create([
-            'id_lokasi' => $lokasi->id_lokasi,
-            'kapasitas' => '30',
-            'keterangan' => '-',
-        ]);
-        return redirect()->route('lokasi')->with('lokasi_alert', 'success');
-
-        // } catch (Exception $exception) {
-        //     return redirect()->back()->with('lokasi_alert', 'error');
-        // }
     }
     public function edit($id)
     {
@@ -135,10 +140,17 @@ class LokasiController extends Controller
             'longitude' => 'required',
             'deskripsi' => 'required',
         ]);
-
-
         try {
             $lokasi = Lokasi::findOrFail($id);
+            if ($request->hasFile('gambar')) {
+                $image_path = public_path('storage/public/lokasi' . $lokasi->gambar);
+                if (file_exists($image_path)) {
+                    Storage::delete('public/lokasi/' . $lokasi->gambar);
+                }
+                $gambar = $request->file('gambar');
+                $gambar->storeAs('public/lokasi', $gambar->hashName());
+                $lokasi->gambar = $request->gambar->hashName();
+            }
             $lokasi->nama_kelurahan = $request->nama_kelurahan;
             $lokasi->latitude = $request->latitude;
             $lokasi->longitude = $request->longitude;

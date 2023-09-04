@@ -15,16 +15,25 @@ class RewardController extends Controller
     public function index()
     {
         try {
-            $reward = Reward::where('status', '!=', 'deleted')->get();
+            $rewards = Reward::where('status', '!=', 'deleted')->orderBy('masa_berlaku')->get();
+
+            $rewards = $rewards->map(function ($reward) {
+                if (now() < $reward->masa_berlaku) {
+                    $reward->status_aktif = 'aktif';
+                } else {
+                    $reward->status_aktif = 'tidak aktif';
+                }
+                return $reward;
+            });
             if (auth()->user()->role == 'admin_kelurahan') {
                 return view(
                     'after-login.admin-kelurahan.reward.detail',
-                    ['reward' => RewardResource::collection($reward)]
+                    ['reward' => RewardResource::collection($rewards)]
                 );
             } else {
                 return view(
                     'after-login.pengelola-csr.reward.detail',
-                    ['reward' => RewardResource::collection($reward)]
+                    ['reward' => RewardResource::collection($rewards)]
                 );
             }
         } catch (QueryException | ModelNotFoundException $exception) {
@@ -53,7 +62,6 @@ class RewardController extends Controller
     {
         // dd($request);
         $validator = Validator::make($request->all(), [
-            //'id_reward' => 'required',
             'nama_reward' => 'required',
             'stok' => 'required',
             'jumlah_poin' => 'required',
@@ -74,7 +82,7 @@ class RewardController extends Controller
                 'nama_reward' => $request->nama_reward,
                 'stok' => $request->stok,
                 'jumlah_poin' => $request->jumlah_poin,
-                'masa_berlaku' => $request->masa_berlaku,
+                'masa_berlaku' => $request->masa_berlaku . ' 23:59:59',
                 'gambar' => $request->gambar->hashName(),
                 'status' => '-',
             ]);

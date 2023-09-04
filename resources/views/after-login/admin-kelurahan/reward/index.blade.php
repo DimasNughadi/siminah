@@ -17,7 +17,7 @@
                     <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-4 col-sm-5 col-5">
                         <div class="text-poppins text-14 btn-reward-position d-flex justify-content-end align-items-end">
                             <div class="btn-reward btn-custom-success position-relative">
-                                <a href="{{ route('reward/reward-list') }}" class="position-relative add-reward">Lihat
+                                <a href="{{ route('reward.list-hadiah') }}" class="position-relative add-reward">Lihat
                                     Daftar
                                     hadiah</a>
                             </div>
@@ -57,7 +57,7 @@
                                                 </div>
                                             </td>
                                             <td class="ps-4">
-                                                {{ datetimeFormat($item->tanggal_redeem) }}
+                                                {{ datetimeFormat($item->created_at) }}
                                             </td>
                                             <td class="ps-4">
                                                 {{ $item->redeem_count }} Kali

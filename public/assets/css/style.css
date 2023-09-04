@@ -1285,10 +1285,10 @@ tr.reward-tr .ps-4 .d-flex {
     letter-spacing: 0.15px;
 }
 
-.olah-donatur .header-button {
-    position: absolute;
-    top: 3%;
-    right: -7px;
+.right-header {
+    display: flex;
+    align-items: center;
+    justify-content: start;
 }
 
 /* olah-donatur */
@@ -1560,6 +1560,20 @@ tr.reward-tr .ps-4 .d-flex {
     display: flex;
     align-items: end;
     justify-content: end;
+}
+
+.table-sumbangan-kelurahan .header-button a {
+    color: #fff;
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: var(--text-poppins);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 32px; /* 228.571% */
+    letter-spacing: 0.15px;
+    background: var(--primary-color);
+    padding: 0 16px 0 16px;
+    border-radius: 12px;
 }
 
 .table-sumbangan-kelurahan .btn-kontainer-kelurahan {
@@ -2164,11 +2178,6 @@ input[type="radio"]:checked + label {
     line-height: normal;
 }
 
-.laporan-button {
-    position: relative;
-    top: -100px;
-}
-
 /* #isKelurahanKontainer {
     display: none;
 } */
@@ -2185,6 +2194,9 @@ input[type="radio"]:checked + label {
 .logo-pcr img {
     display: block;
     width: 150px;
+    position: relative;
+    top: -4px;
+    cursor: text;
 }
 
 /* gambar lokasi */
@@ -2198,6 +2210,77 @@ input[type="radio"]:checked + label {
     width: 112px;
     height: 116px;
     border-radius: 15px;
+}
+
+/* Error page */
+.error-404 {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.error-404 .contain img {
+    height: 178px;
+    flex-shrink: 0;
+}
+
+.error-404 .contain h1 {
+    color: #000;
+    text-align: center;
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: var(--text-poppins);
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px; /* 50% */
+    margin-top: 57px;
+}
+
+.error-404 .contain h5 {
+    color: #000;
+    text-align: center;
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: var(--text-poppins);
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; /* 62.5% */
+    margin-top: 20px;
+}
+
+.error-404 .contain a {
+    color: var(--primary-color);
+    text-align: center;
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: var(--text-poppins);
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px; /* 83.333% */
+    margin-top: 50px;
+}
+
+/* detail lokasi */
+
+.detail-riwayat-sumbangan {
+    border-radius: 15px;
+    background-color: white;
+}
+
+.detail-riwayat-sumbangan .container-fluid {
+    height: 72px;
+    padding: 20px;
+}
+
+.detail-riwayat-sumbangan .container-fluid h1 {
+    font-size: 20px;
+    font-family: var(--text-poppins);
+    color: var(--semi-dark);
+    font-style: normal;
+    font-weight: 700;
+    line-height: 32px;
+    letter-spacing: 0.15px;
 }
 
 @media (min-width: 320px) {
@@ -2246,12 +2329,6 @@ input[type="radio"]:checked + label {
         margin-top: 0;
     }
 
-    .olah-donatur .header-button {
-        position: relative;
-        top: 0;
-        right: 0;
-    }
-
     .riwayat-donatur-wrapper {
         margin-left: -10px;
     }
@@ -2261,11 +2338,6 @@ input[type="radio"]:checked + label {
         top: 50%;
         left: 70%;
         transform: translate(-50%, -50%);
-    }
-
-    .laporan-button {
-        position: relative;
-        top: 0;
     }
 
     .lokasi .header {
@@ -2309,12 +2381,6 @@ input[type="radio"]:checked + label {
         margin-top: 65px;
     }
 
-    .olah-donatur .header-button {
-        position: relative;
-        top: 0;
-        right: 0;
-    }
-
     .container-maps {
         margin-left: 70px;
     }
@@ -2328,11 +2394,6 @@ input[type="radio"]:checked + label {
         top: 50%;
         left: 55%;
         transform: translate(-50%, -50%);
-    }
-
-    .laporan-button {
-        position: relative;
-        top: 0;
     }
 
     .lokasi .header {
@@ -2355,6 +2416,10 @@ input[type="radio"]:checked + label {
     .logo-pcr img {
         display: block;
     }
+
+    .right-header {
+        justify-content: end;
+    }
 }
 
 @media (min-width: 992px) {
@@ -2372,12 +2437,6 @@ input[type="radio"]:checked + label {
         margin-left: 4.8125rem;
     }
 
-    .olah-donatur .header-button {
-        position: relative;
-        top: 0;
-        right: 0;
-    }
-
     /* .total-sumbangan {
         width: 326px;
     } */
@@ -2391,11 +2450,6 @@ input[type="radio"]:checked + label {
 
     .riwayat-donatur-wrapper {
         margin-left: 24px;
-    }
-
-    .laporan-button {
-        position: relative;
-        top: 0;
     }
 
     .lokasi .header {
@@ -2414,6 +2468,10 @@ input[type="radio"]:checked + label {
     .logo-pcr img {
         display: block;
     }
+
+    .right-header {
+        justify-content: end;
+    }
 }
 
 @media (min-width: 1200px) {
@@ -2430,17 +2488,6 @@ input[type="radio"]:checked + label {
         top: 50%;
         left: 35%;
         transform: translate(-50%, -50%);
-    }
-
-    .olah-donatur .header-button {
-        position: relative;
-        top: 0;
-        right: 0;
-    }
-
-    .laporan-button {
-        position: relative;
-        top: 0;
     }
 
     .lokasi .header {
@@ -2462,6 +2509,10 @@ input[type="radio"]:checked + label {
 
     .logo-pcr img {
         display: block;
+    }
+
+    .right-header {
+        justify-content: end;
     }
 }
 
@@ -2486,17 +2537,6 @@ input[type="radio"]:checked + label {
         transform: translate(-50%, -50%);
     }
 
-    .olah-donatur .header-button {
-        position: relative;
-        top: 0;
-        right: 0;
-    }
-
-    .laporan-button {
-        position: relative;
-        top: 0;
-    }
-
     .lokasi .header {
         height: 4.5rem !important;
         padding: 1.1875rem 0px 1.1875rem 2.0625rem;
@@ -2516,6 +2556,10 @@ input[type="radio"]:checked + label {
 
     .logo-pcr img {
         display: block;
+    }
+
+    .right-header {
+        justify-content: end;
     }
 }
 
@@ -2557,5 +2601,9 @@ input[type="radio"]:checked + label {
 
     .logo-pcr img {
         display: block;
+    }
+
+    .right-header {
+        justify-content: end;
     }
 }

@@ -143,7 +143,7 @@
                                                 {{ $item->berat }} kg
                                             </td>
                                             <td class="ps-4 text-semi-dark text-inter-regular text-14">
-                                                {{ date('d F y', strtotime($item->tanggal)) }}
+                                                {{ date('d F y', strtotime($item->created_at)) }}
                                             </td>
                                             <td class="ps-4 text-semi-dark-68 text-inter-regular text-14">
                                                 {{ date('h:i', strtotime($item->created_at)) }}

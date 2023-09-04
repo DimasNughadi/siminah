@@ -19,9 +19,10 @@ function isAdminCsr()
 
 function datetimeFormat($timestamp)
 {
-    if ($timestamp !== 'belum pernah diisi') {
+    if ($timestamp !== '-' && $timestamp !== "belum pernah diisi") {
         $data = date('h:i', strtotime($timestamp)) . ', ' . date('d M Y', strtotime($timestamp));
-    } else {
+    }
+    else {
         $data = '-';
     }
     return $data;

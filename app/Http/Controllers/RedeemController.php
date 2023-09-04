@@ -16,37 +16,58 @@ class RedeemController extends Controller
     public function index()
     {
         try {
-            $id_lokasi = DB::table('adminkelurahan')
-                ->where('id_user', Auth::id())
-                ->value('id_lokasi');
-            $redeem = Redeem::with('reward', 'donatur')->whereHas('donatur.sumbangan.kontainer', function ($query) use ($id_lokasi) {
-                $query->where('id_lokasi', $id_lokasi);
-            })
-                ->joinSub(
-                    Redeem::whereHas('donatur.sumbangan.kontainer', function ($query) use ($id_lokasi) {
-                        $query->where('id_lokasi', $id_lokasi);
-                    })
-                        ->groupBy('id_donatur')->select('id_donatur', DB::raw('count(*) as redeem_count'))
-                    ,
-                    'redeem_count',
-                    function ($join) {
-                        $join->on('redeem.id_donatur', '=', 'redeem_count.id_donatur');
-                    }
-                )
-                ->orderBy('status', 'asc')
-                ->orderBy('created_at','desc')
-                ->get();
-            return view(
-                'after-login.admin-kelurahan.reward.index',
-                ['redeem' => $redeem]
-            );
+            if (auth()->user()->role == 'admin_kelurahan') {
+                $id_lokasi = DB::table('adminkelurahan')
+                    ->where('id_user', Auth::id())
+                    ->value('id_lokasi');
+                $redeem = Redeem::with('reward', 'donatur')->whereHas('donatur.sumbangan.kontainer', function ($query) use ($id_lokasi) {
+                    $query->where('id_lokasi', $id_lokasi);
+                })
+                    ->joinSub(
+                        Redeem::whereHas('donatur.sumbangan.kontainer', function ($query) use ($id_lokasi) {
+                            $query->where('id_lokasi', $id_lokasi);
+                        })
+                            ->groupBy('id_donatur')->select('id_donatur', DB::raw('count(*) as redeem_count'))
+                        ,
+                        'redeem_count',
+                        function ($join) {
+                            $join->on('redeem.id_donatur', '=', 'redeem_count.id_donatur');
+                        }
+                    )
+                    ->orderBy('status', 'asc')
+                    ->orderBy('created_at', 'desc')
+                    ->get();
+
+                return view(
+                    'after-login.admin-kelurahan.reward.index',
+                    ['redeem' => $redeem]
+                );
+            } else {
+                $redeem = Redeem::with('reward', 'donatur')
+                    ->joinSub(
+                        Redeem::groupBy('id_donatur')
+                            ->select('id_donatur', DB::raw('count(*) as redeem_count')),
+                        'redeem_count',
+                        function ($join) {
+                            $join->on('redeem.id_donatur', '=', 'redeem_count.id_donatur');
+                        }
+                    )
+                    ->orderBy('status', 'asc')
+                    ->orderBy('created_at', 'desc')
+                    ->get();
+                    
+                return view(
+                    'after-login.pengelola-csr.reward.index',
+                    ['redeem' => $redeem]
+                );
+
+            }
         } catch (ModelNotFoundException | QueryException $exception) {
             return view(
                 'after-login.admin-kelurahan.reward.index',
                 ['message' => 'Tidak ada data']
             );
         }
-
     }
     public function update($id, Request $request)
     {

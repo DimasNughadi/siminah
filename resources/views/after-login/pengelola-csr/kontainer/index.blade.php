@@ -1,7 +1,7 @@
 @extends('components._partials.default')
 
 @section('content')
-    {{-- {{ dd($notifikasi) }} --}}
+    {{-- {{ dd($permintaan) }} --}}
     <div class="container-fluid py-2 ps-2 ps-xxl-3 ps-xl-3 ps-lg-3 ps-md-3 ps-sm-3">
         <div class="row">
             <div class="col-md-12">
@@ -64,22 +64,7 @@
                                                                     </div>
                                                                 @endif
                                                             </td>
-                                                            {{-- <td class="ps-4">
-                                                            @if (strtolower($item->status_permintaan) === 'menunggu konfirmasi')
-                                                            <div class="btn-reward btn-table-custom bg-light-success position-relative">
-                                                                <span class="position-relative add-reward">
-                                                                    GANTI
-                                                                </span>
-                                                            </div>
-                                                            @else
-                                                            <div class="btn-reward btn-table-custom bg-light-success position-relative">
-                                                                <span class="position-relative add-reward">
-                                                                    GANTI
-                                                                </span>
-                                                            </div>
-
-                                                            @endif
-                                                        </td> --}}
+                                                            
                                                         </tr>
                                                     @endforeach
                                                 @else
@@ -126,8 +111,6 @@
 
                     <div
                         class="col-xxl-5 col-xl-5 col-lg-6 col-md-12 col-sm-12 col-12 mt-xxl-0 mt-xl-0 mt-lg-0 mt-md-4 mt-sm-4">
-                        {{-- {{ dd($notifikasi) }} --}}
-
                         <div class="notifikasi-kontainer animate__animated animate__fadeInUp mt-xxl-0 mt-xl-0 mt-lg-0 mt-md-4 mt-sm-4 mt-4">
                             <div class="row">
                                 <div class="col-md-12">
@@ -176,6 +159,7 @@
                                             @endslot
 
                                             @slot('bodySlot')
+                                            {{-- @dd() --}}
                                                 @if (!empty($kontainer))
                                                     @foreach ($kontainer as $item)
                                                         <tr class="reward-tr permintaan-tr">

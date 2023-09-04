@@ -3,7 +3,7 @@
 @section('content')
     <div class="container-fluid py-2 ps-4">
         <div class="row">
-            <div class="col-xxl-10 col-xl-11 col-lg-11 col-md-12 col-sm-12 col-12">
+            <div class="col-xxl-12 col-xl-11 col-lg-11 col-md-12 col-sm-12 col-12">
                 <div class="row">
                     <div class="col-lg-12 reward text-poppins">Donatur</div>
                 </div>
@@ -21,7 +21,8 @@
                                 <th>JUMLAH DONASI</th>
                                 <th>JUMLAH POIN</th>
                                 <th>KELURAHAN</th>
-                                <th>WAKTU DONASI</th>
+                                <th>WAKTU DONASI TERBARU</th>
+                                <th>TERAKHIR DONASI (Hari)</th>
                                 <th>TOTAL DONASI</th>
                                 <th>AKSI</th>
                             @endslot
@@ -48,10 +49,13 @@
                                                 @endif
                                             </td>
                                             <td class="ps-4 data-14">
-                                                {{ $item->poin }}
+                                                {{ $item->sumbangan_sum_poin_reward }}
                                             </td>
                                             <td class="ps-4 data-14">
                                                 {{ $item->kelurahan }}
+                                            </td>
+                                            <td class="ps-4 data-14">
+                                                35 Hari
                                             </td>
                                             <td class="ps-4 data-14">
                                                 {{ datetimeFormat($item->newest_tanggal) }}

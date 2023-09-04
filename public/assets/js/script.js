@@ -1,23 +1,3 @@
-// File input
-function triggerFileInput() {
-    document.getElementById("fileInput").click();
-}
-
-// document.getElementById("fileInput").addEventListener("change", function () {
-//     const fileName = this.value.split("\\").pop();
-//     document.getElementById("myFileNameContainer").innerHTML = fileName;
-// });
-
-// File edit
-// function triggerFileEdit() {
-//     document.getElementById("fileEdit").click();
-// }
-
-// document.getElementById("fileEdit").addEventListener("change", function () {
-//     const fileName = this.value.split("\\").pop();
-//     document.getElementById("myFileInputNameContainer").innerHTML = fileName;
-// });
-
 // edit reward
 function editDataReward(nama, stok, poin, route) {
     // console.log(id);
@@ -219,7 +199,7 @@ function showDetailGambarLokasi(source) {
 
 // Drag n Drop Image
 let dropArea = document.querySelector("#dropAndDropArea");
-const insertGambarLokasi = document.querySelector("#insertGambarLokasi");
+let insertGambarLokasi = document.querySelector("#insertGambarLokasi");
 
 // Prevent the default behavior of file dragging over the drop area
 dropArea.addEventListener("dragover", (event) => {
@@ -235,8 +215,9 @@ dropArea.addEventListener("dragleave", () => {
 dropArea.addEventListener("drop", (event) => {
     event.preventDefault();
     dropArea.classList.remove("drag-over");
-
     const file = event.dataTransfer.files[0];
+    insertGambarLokasi.files = event.dataTransfer.files
+    // console.log(insertGambarLokasi.files[0]);
     handleImage(file);
 });
 
@@ -262,16 +243,15 @@ function handleImage(file) {
         reader.onload = (event) => {
             const image = new Image();
             image.src = event.target.result;
-
-            
             image.onload = () => {
                 const imageWidth = image.width;
                 const imageHeight = image.height;
 
-
                 // Calculate the scaling factors
                 const widthScale = containerWidth / imageWidth;
-                const heightScale = (containerHeight - (containerHeight * 10 / 100)) / imageHeight;
+                const heightScale =
+                    (containerHeight - (containerHeight * 10) / 100) /
+                    imageHeight;
 
                 // Use the smaller scaling factor to maintain aspect ratio
                 const scale = Math.min(widthScale, heightScale);
@@ -286,7 +266,6 @@ function handleImage(file) {
                 dropArea.innerHTML = "";
                 dropArea.appendChild(image);
             };
-            
         };
 
         reader.readAsDataURL(file);
@@ -296,7 +275,8 @@ function handleImage(file) {
 }
 
 // get action for image
-const insertGambarContainer = document.querySelector('#insertGambarContainer');
-insertGambarContainer.addEventListener('click', () => {
+const insertGambarContainer = document.querySelector("#insertGambarContainer");
+insertGambarContainer.addEventListener("click", () => {
     insertGambarLokasi.click();
-})
+});
+

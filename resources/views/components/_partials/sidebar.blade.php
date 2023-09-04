@@ -62,28 +62,16 @@
                         <span class="nav-link-text ms-1">Admin</span>
                     </a>
                 </li>
-            @endif
-            <li class="nav-item">
-                <a class="{{ isRouteActive('kontainer') ? 'active bg-gradient-primary text-white' : ' text-dark' }} nav-link"
-                    href="{{ route('kontainer') }}">
-                    <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">local_drink</i>
-                    </div>
-                    <span class="nav-link-text ms-1">Kontainer</span>
-                </a>
-            </li>
+                <li class="nav-item">
+                    <a class="{{ isRouteActive('kontainer') ? 'active bg-gradient-primary text-white' : ' text-dark' }} nav-link"
+                        href="{{ route('kontainer') }}">
+                        <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">local_drink</i>
+                        </div>
+                        <span class="nav-link-text ms-1">Kontainer</span>
+                    </a>
+                </li>
 
-            <li class="nav-item">
-                <a class="{{ isRouteActive('sumbangan') ? 'active bg-gradient-primary text-white' : ' text-dark' }} nav-link"
-                    href="{{ route('sumbangan') }}">
-                    <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">vertical_align_bottom</i>
-                    </div>
-                    <span class="nav-link-text ms-1">Sumbangan</span>
-                </a>
-            </li>
-
-            @if (isAdminCsr())
                 <li class="nav-item">
                     <a class="{{ isRouteActive('lokasi') ? 'active bg-gradient-primary text-white' : (isRouteActive('lokasi.create') ? 'active bg-gradient-primary text-white' : (isRouteActive('lokasi.edit') ? 'active bg-gradient-primary text-white' : 'text-dark')) }} nav-link"
                         href="{{ route('lokasi') }}">
@@ -93,20 +81,68 @@
                         <span class="nav-link-text ms-1">Lokasi</span>
                     </a>
                 </li>
+
+                <li class="nav-item">
+                    <a class="{{ isRouteActive('sumbangan') ? 'active bg-gradient-primary text-white' : ' text-dark' }} nav-link"
+                        href="{{ route('sumbangan') }}">
+                        <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">vertical_align_bottom</i>
+                        </div>
+                        <span class="nav-link-text ms-1">Sumbangan</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="{{ isRouteActive('donatur') ? 'active bg-gradient-primary text-white' : (isRouteActive('donatur.getById') ? 'active bg-gradient-primary text-white' : 'text-dark') }} nav-link"
+                        href="{{ route('donatur') }}">
+                        <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">people</i>
+                        </div>
+                        <span class="nav-link-text ms-1">Donatur</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="{{ isRouteActive('reward') ? 'active bg-gradient-primary text-white' : (isRouteActive('reward.list-hadiah') ? 'active bg-gradient-primary text-white' : 'text-dark') }} nav-link"
+                        href="{{ route('reward') }}">
+                        <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">redeem</i>
+                        </div>
+                        <span class="nav-link-text ms-1">Reward</span>
+                    </a>
+                </li>
             @endif
-            <li class="nav-item">
-                <a class="{{ isRouteActive('donatur') ? 'active bg-gradient-primary text-white' : (isRouteActive('donatur.getById') ? 'active bg-gradient-primary text-white' : 'text-dark') }} nav-link"
-                    href="{{ route('donatur') }}">
-                    <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">people</i>
-                    </div>
-                    <span class="nav-link-text ms-1">Donatur</span>
-                </a>
-            </li>
 
             @if (isAdminKelurahan())
                 <li class="nav-item">
-                    <a class="{{ isRouteActive('reward') ? 'active bg-gradient-primary text-white' : (isRouteActive('reward/reward-list') ? 'active bg-gradient-primary text-white' : 'text-dark') }} nav-link"
+                    <a class="{{ isRouteActive('sumbangan') ? 'active bg-gradient-primary text-white' : ' text-dark' }} nav-link"
+                        href="{{ route('sumbangan') }}">
+                        <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">vertical_align_bottom</i>
+                        </div>
+                        <span class="nav-link-text ms-1">Sumbangan</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="{{ isRouteActive('kontainer') ? 'active bg-gradient-primary text-white' : ' text-dark' }} nav-link"
+                        href="{{ route('kontainer') }}">
+                        <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">local_drink</i>
+                        </div>
+                        <span class="nav-link-text ms-1">Kontainer</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="{{ isRouteActive('donatur') ? 'active bg-gradient-primary text-white' : (isRouteActive('donatur.getById') ? 'active bg-gradient-primary text-white' : 'text-dark') }} nav-link"
+                        href="{{ route('donatur') }}">
+                        <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">people</i>
+                        </div>
+                        <span class="nav-link-text ms-1">Donatur</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="{{ isRouteActive('reward') ? 'active bg-gradient-primary text-white' : (isRouteActive('reward.list-hadiah') ? 'active bg-gradient-primary text-white' : 'text-dark') }} nav-link"
                         href="{{ route('reward') }}">
                         <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">redeem</i>
@@ -129,6 +165,9 @@
                     </a>
                 </li>
             @endif
+
+
+
 
             {{-- <li class="nav-item">
                 <a class="nav-link text-dark" href="##"
