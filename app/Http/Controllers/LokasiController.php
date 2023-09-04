@@ -74,7 +74,7 @@ class LokasiController extends Controller
     }
     public function store(Request $request)
     {
-        try {
+        // try {
             $this->validate($request, [
                 'nama_kelurahan' => 'required',
                 'nama_kecamatan' => 'required',
@@ -116,9 +116,9 @@ class LokasiController extends Controller
             ]);
             return redirect()->route('lokasi')->with('lokasi_alert', 'success');
 
-        } catch (Exception $exception) {
-            return redirect()->back()->with('lokasi_alert', 'error');
-        }
+        // } catch (Exception $exception) {
+        //     return redirect()->back()->with('lokasi_alert', 'error');
+        // }
     }
     public function edit($id)
     {

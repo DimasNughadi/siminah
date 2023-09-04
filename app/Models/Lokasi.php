@@ -16,6 +16,7 @@ class Lokasi extends Model
         'nama_kelurahan',
         'latitude',
         'longitude',
+        'gambar',
         'deskripsi',
         // Add other fillable properties here
     ];
