@@ -1,6 +1,7 @@
 @extends('components._partials.default')
 
 @section('content')
+{{-- {{ dd($donatur[0]) }} --}}
     <div class="container-fluid py-2 ps-4">
         <div class="row">
             <div class="col-xxl-12 col-xl-11 col-lg-11 col-md-12 col-sm-12 col-12">
@@ -13,7 +14,6 @@
                             Data donatur
                         </div>
                     </div>
-                    {{-- @dd($donatur) --}}
                     <div class="col-lg-12">
                         <x-forms.table>
                             @slot('headSlot')
@@ -21,9 +21,10 @@
                                 <th>JUMLAH DONASI</th>
                                 <th>JUMLAH POIN</th>
                                 <th>KELURAHAN</th>
-                                <th>WAKTU DONASI TERBARU</th>
-                                <th>TERAKHIR DONASI (Hari)</th>
+                                <th>WAKTU DONASI <br> TERBARU</th>
+                                <th>TERAKHIR DONASI <br> (Hari)</th>
                                 <th>TOTAL DONASI</th>
+                                <th>STATUS</th>
                                 <th>AKSI</th>
                             @endslot
                             
@@ -55,10 +56,10 @@
                                                 {{ $item->kelurahan }}
                                             </td>
                                             <td class="ps-4 data-14">
-                                                35 Hari
+                                                {{ datetimeFormat($item->newest_tanggal) }}
                                             </td>
                                             <td class="ps-4 data-14">
-                                                {{ datetimeFormat($item->newest_tanggal) }}
+                                                35 Hari
                                             </td>
                                             <td class="ps-4 data-14">
                                                 @if ($item->total_donasi === 0)
@@ -67,6 +68,10 @@
                                                     {{ $item->total_donasi }} Kali
                                                 @endif
                                             </td>
+                                            <td class="ps-4 data-14">
+                                                <span class="btn-status {{ ($item->delete) ? 'bg-light-dark' : 'bg-success' }}">
+                                                    {{ (($item->delete) ? 'Pasif': 'Aktif') }}
+                                                </span>
                                             <td>
                                                 <div class="btn-reward btn-list position-relative">
                                                     <a href="{{ route('donatur.getById', ['id' => $item->id_donatur]) }}"

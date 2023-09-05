@@ -212,9 +212,9 @@ class DonaturController extends Controller
             $donatur = Donatur::find($id);
             $donatur->sumbangan()->delete();
             $donatur->delete();
-            return redirect()->route('donatur')->with('message', 'Donatur berhasil dihapus');
+            return redirect()->route('donatur')->with('delete_alert', 'success');
         } catch (Exception $exception) {
-            return redirect()->back()->with('message', 'Donatur tidak berhasil dihapus');
+            return redirect()->back()->with('delete_alert', 'error');
         }
     }
 

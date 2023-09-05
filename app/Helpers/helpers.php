@@ -46,7 +46,7 @@ function getFirstName($name)
 
 function checkFileIsExist($path)
 {
-    if (file_exists(public_path('storage/' . $path))) {
+    if (file_exists(public_path('storage/lokasi/' . $path))) {
         return true;
     } else {
         return false;

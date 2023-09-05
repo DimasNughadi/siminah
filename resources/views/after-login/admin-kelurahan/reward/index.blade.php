@@ -1,7 +1,7 @@
 @extends('components._partials.default')
 
 @section('content')
-    {{-- {{ dd($reward[0]->nama_reward) }} --}}
+    {{-- {{ dd($redeem) }} --}}
     <div class="container-fluid py-2 ps-4">
         <div class="row">
             <div class="col-md-10">
@@ -17,7 +17,7 @@
                     <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-4 col-sm-5 col-5">
                         <div class="text-poppins text-14 btn-reward-position d-flex justify-content-end align-items-end">
                             <div class="btn-reward btn-custom-success position-relative">
-                                <a href="{{ route('reward.list-hadiah') }}" class="position-relative add-reward">Lihat
+                                <a href="{{ route('reward') }}" class="position-relative add-reward">Lihat
                                     Daftar
                                     hadiah</a>
                             </div>
@@ -31,15 +31,16 @@
                                 <th>NAMA HADIAH</th>
                                 <th>WAKTU PENUKARAN</th>
                                 <th>TOTAL PENUKARAN</th>
+                                <th>STATUS PENUKARAN</th>
                             @endslot
                             @slot('bodySlot')
                                 @if (!empty($redeem))
-                                {{-- {{ dd($redeem[0]) }} --}}
+                                    {{-- {{ dd($redeem[0]) }} --}}
                                     @foreach ($redeem as $item)
                                         <tr class="reward-tr table-row-image">
                                             <td class="ps-4">
                                                 <div class="d-flex align-items-center">
-                                                    <x-user.userImage src="{{ 'donatur/' . $item->donatur->photo }}"/>
+                                                    <x-user.userImage src="{{ 'donatur/' . $item->donatur->photo }}" />
                                                     {{-- <x-user.userImage src="{{ $item->donatur->photo }}"/> --}}
                                                     <div class="ms-2 poppins">
                                                         {{ Str::substr($item->donatur->nama_donatur, 0, 5) }}
@@ -61,6 +62,11 @@
                                             </td>
                                             <td class="ps-4">
                                                 {{ $item->redeem_count }} Kali
+                                            </td>
+                                            <td class="ps-4">
+                                                <span class="btn-status {{ ($item->status === 'selesai') ? 'bg-success' : (($item->status === 'ditolak') ? 'bg-danger' : 'bg-danger') }}">
+                                                    {{ $item->status }}
+                                                </span>
                                             </td>
                                         </tr>
                                     @endforeach

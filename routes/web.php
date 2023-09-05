@@ -59,9 +59,9 @@ Route::middleware(['checksession','role:admin_csr,admin_kelurahan'])->group(func
     Route::get('/kontainer/isPermintaanDiajukan/{id_kontainer}',[KontainerController::class,'isPermintaanDiajukan'])->name('kontainer.isPermintaanDiajukan');
             
     //manajemen redeem (adm-kelurahan)
-    Route::get('/reward',[RedeemController::class,'index'])->name('reward');
+    Route::get('/reward',[RewardController::class,'index'])->name('reward');
+    Route::get('/redeem',[RedeemController::class,'index'])->name('redeem');
     Route::get('/redeem/{id}',[RedeemController::class,'update'])->name('redeem.update');
-    Route::get('/reward/reward-list',[RewardController::class,'index'])->name('reward.list-hadiah');
     
     //profil admin
     Route::get('/profil',[ProfilController::class,'index'])->name('profil');
@@ -94,6 +94,6 @@ Route::middleware(['checksession','role:admin_csr'])->group(function() {
     Route::get('/sumbangan/{id}',[SumbanganController::class,'filterData'])->name('sumbangans');
 
     
-    Route::delete('/donatur/delete/{id}',[donaturController::class,'destroy'])->name('donatur.destroy');
+    Route::delete('/donatur/delete/{id}',[DonaturController::class,'destroy'])->name('donatur.destroy');
     
 });

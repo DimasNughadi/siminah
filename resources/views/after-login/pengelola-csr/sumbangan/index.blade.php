@@ -102,13 +102,13 @@
         const tableRows = table.getElementsByTagName('tr');
 
         // get current Time
-        var tanggalHariIni = new Date();
-        var options = {
-            day: 'numeric',
-            month: 'long',
-            year: 'numeric'
-        };
-        var tanggalHariIni = tanggalHariIni.toLocaleDateString('id-ID', options);
+            var tanggalHariIni = new Date();
+            var options = {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            };
+            var tanggalHariIni = tanggalHariIni.toLocaleDateString('id-ID', options);
         // console.log(formattedDate);
 
         var tableData = [];

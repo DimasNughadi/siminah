@@ -1,7 +1,6 @@
 @extends('components._partials.default')
 
 @section('content')
-    {{-- {{ dd($notifikasi) }} --}}
     <div class="container-fluid py-2 ps-4">
         <div class="row">
             <div class="col-md-12">
@@ -9,7 +8,7 @@
                     <div class="col-md-12 reward text-poppins">Kontainer</div>
                 </div>
                 <div class="row mt-3">
-                    <div class="col-xl-4 col-lg-4 col-md-5 col-sm-12 col-12">
+                    <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-12">
                         <div class="container-fluid kontainer-kelurahan">
                             <div class="row">
                                 <div class="col-md-12">
@@ -40,7 +39,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-8 col-lg-8 col-md-7 col-sm-12 col-12">
+                    <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-12">
                         <div class="left-side-kontainer-kelurahan">
                             <div class="row">
                                 <div class="col-12 mt-md-4 mt-4 mt-xxl-0 mt-xl-0 mt-lg-0">
@@ -98,7 +97,7 @@
                                                             </div>
 
                                                             @if (!empty($notifikasi))
-                                                                @if ($notifikasi[0]->status === 'HAMPIR PENUH')
+                                                                @if ($cekKontainer === false)
                                                                     <div class="col-md-4 header-button"
                                                                         id="btnAjukanPergantian">
                                                                         <div class="btn-reward btn-kontainer-kelurahan 
@@ -277,27 +276,3 @@
     });
 </script>
 @stop
-@section('script')
-<script>
-    var id_kontainer = {!! json_encode($kontainer[0]->id_kontainer) !!}
-    $.ajax({
-        url: `/kontainer/isPermintaanDiajukan/${id_kontainer}`,
-        type: 'GET',
-        headers: {
-            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
-                "content"
-            ),
-        },
-        success: function(response) {
-            if (response) {
-              $('#btnAjukanPergantian').prop('disabled', true);
-            }else{
-              $('#btnAjukanPergantian').prop('disabled', false);
-            }
-        },
-        error: function(xhr, status, error) {
-            console.log('s');
-        }
-    });
-</script>
-@endsection

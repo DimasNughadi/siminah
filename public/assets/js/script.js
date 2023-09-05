@@ -1,13 +1,12 @@
 // edit reward
-function editDataReward(nama, stok, poin, route) {
+function editDataReward(nama, stok, poin, masa_berlaku, route) {
     // console.log(id);
     var editNama = (document.getElementById("editNama").value = nama);
     var editStok = (document.getElementById("editStok").value = stok);
     var editPoin = (document.getElementById("editPoin").value = poin);
-
-    var actionForms = document.querySelector("#modal-forms-edit");
+    var masa_berlaku = document.querySelector('#editMasaBerlaku').value = masa_berlaku.split(' ')[0];
+    var actionForms = document.querySelector("#modal-forms-edit")
     actionForms.action = route;
-    console.log(actionForms);
 }
 
 // Swal.fire({
@@ -182,9 +181,30 @@ function deleteRecord(url) {
         if (result.isConfirmed) {
             let formDeleteAdmin = document.querySelector("#formDeleteAdmin");
             formDeleteAdmin.action = url;
-            console.log(formDeleteAdmin);
+            // console.log(formDeleteAdmin);
             formDeleteAdmin.submit();
-            console.log(formDeleteAdmin);
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+            Swal.fire("Dibatalkan", "Data tidak jadi dihapus", "info");
+            // Perform any additional actions   if deletion is cancelled
+        }
+    });
+}
+
+function deleteDonaturPasif(url) {
+    Swal.fire({
+        title: "Apakah ingin melanjutkan?",
+        text: "Donatur akan dihapus permanent",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Ya, hapus",
+        cancelButtonText: "Tidak",
+        reverseButtons: true,
+    }).then((result) => {
+        if (result.isConfirmed) {
+            let formDeleteDonaturPasif = document.querySelector("#formDeleteDonaturPasif");
+            formDeleteDonaturPasif.action = url;
+            console.log(formDeleteDonaturPasif);
+            formDeleteDonaturPasif.submit();
         } else if (result.dismiss === Swal.DismissReason.cancel) {
             Swal.fire("Dibatalkan", "Data tidak jadi dihapus", "info");
             // Perform any additional actions   if deletion is cancelled
@@ -209,7 +229,7 @@ dropArea.addEventListener("dragover", (event) => {
 
 dropArea.addEventListener("dragleave", () => {
     dropArea.classList.remove("drag-over");
-});
+}); 
 
 // Handle the file drop event
 dropArea.addEventListener("drop", (event) => {

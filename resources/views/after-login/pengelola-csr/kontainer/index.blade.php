@@ -24,7 +24,6 @@
                                                 <th>KELURAHAN</th>
                                                 <th>TANGGAL PERMINTAAN</th>
                                                 <th>STATUS</th>
-                                                {{-- <th>AKSI</th> --}}
                                             @endslot
 
                                             @slot('bodySlot')
@@ -64,43 +63,10 @@
                                                                     </div>
                                                                 @endif
                                                             </td>
-                                                            
+
                                                         </tr>
                                                     @endforeach
-                                                @else
                                                 @endif
-                                                {{-- <tr class="reward-tr permintaan-tr">
-                                                    <td class="ps-4 detail-kelurahan">
-                                                        <div class="d-flex align-items-center">
-                                                            <x-user.userImage width="34" height="34"/>
-                                                            <div class="ms-2  d-grid">
-                                                                <span class="top">
-                                                                    Abdi
-                                                                </span>
-                                                                <span class="bottom">
-                                                                    Dumai Kota
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="ps-4 tanggal">
-                                                        18:42, 1 Agustus 2023
-                                                    </td>
-                                                    <td class="ps-4">
-                                                        <div class="btn-reward btn-table-custom bg-success position-relative">
-                                                            <span class="position-relative add-reward">
-                                                                Berhasil diganti
-                                                            </span>
-                                                        </div>
-                                                    </td>
-                                                    <td class="ps-4">
-                                                        <div class="btn-reward btn-table-custom bg-light-success position-relative">
-                                                            <span class="position-relative add-reward">
-                                                                GANTI
-                                                            </span>
-                                                        </div>
-                                                    </td>
-                                                </tr> --}}
                                             @endslot
                                         </x-forms.table>
                                     </div>
@@ -111,7 +77,8 @@
 
                     <div
                         class="col-xxl-5 col-xl-5 col-lg-6 col-md-12 col-sm-12 col-12 mt-xxl-0 mt-xl-0 mt-lg-0 mt-md-4 mt-sm-4">
-                        <div class="notifikasi-kontainer animate__animated animate__fadeInUp mt-xxl-0 mt-xl-0 mt-lg-0 mt-md-4 mt-sm-4 mt-4">
+                        <div
+                            class="notifikasi-kontainer animate__animated animate__fadeInUp mt-xxl-0 mt-xl-0 mt-lg-0 mt-md-4 mt-sm-4 mt-4">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="header">
@@ -125,7 +92,7 @@
                                         @foreach ($notifikasi as $item)
                                             <div class="col-md-12">
                                                 <x-notifikasi.kontainer action="enable" type="danger"
-                                                    notifikasi="Kelurahan {{ $item['nama_kelurahan'] }}"
+                                                    notifikasi="{{ $item['nama_kelurahan'] }}"
                                                     type_detail="Meminta pengajuan pergantian kontainer"
                                                     id="{{ $item['id_permintaan'] }}" />
                                             </div>
@@ -159,7 +126,7 @@
                                             @endslot
 
                                             @slot('bodySlot')
-                                            {{-- @dd() --}}
+                                                {{-- @dd() --}}
                                                 @if (!empty($kontainer))
                                                     @foreach ($kontainer as $item)
                                                         <tr class="reward-tr permintaan-tr">
@@ -190,7 +157,6 @@
                                                             </td>
                                                         </tr>
                                                     @endforeach
-                                                @else
                                                 @endif
                                             @endslot
                                         </x-forms.table>

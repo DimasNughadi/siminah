@@ -51,7 +51,8 @@
                                                             <td class="ps-4">
                                                                 <abbr
                                                                     title="Lihat gambar lokasi {{ isKecamatan($item->is_kecamatan, $item->kecamatan->nama_kecamatan, $item->nama_kelurahan) }}">
-                                                                    <x-gambar.lokasi source="sd" />
+                                                                    <x-gambar.lokasi source="{{ 
+                                                                    $item->gambar }}" />
                                                                 </abbr>
                                                             </td>
                                                             <td class="ps-4">

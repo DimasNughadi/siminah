@@ -6,7 +6,7 @@
             <div class="col-xxl-10 col-xl-10 col-lg-10 col-md-11 col-sm-12 col-12">
                 <div class="row animate__animated animate__fadeInLeft">
                     <div class="col-md-12 page-header">
-                        <a href="{{ route('reward') }}" class="link-dark">
+                        <a href="{{ route('redeem') }}" class="link-dark">
                             <span>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25"
                                     fill="none">
@@ -26,16 +26,16 @@
                         </div>
                     </div>
                     <div class="col-md-12">
-                        <x-forms.table>
+                        <x-forms.table id="table-detail-donatur">
                             @slot('headSlot')
                                 <th>NAMA HADIAH</th>
                                 <th>STOK HADIAH</th>
                                 <th>POIN</th>
+                                <th>MASA BERLAKU</th>
                                 <th>GAMBAR</th>
                             @endslot
 
                             @slot('bodySlot')
-                                {{-- {{ dd($reward) }} --}}
                                 @if (!empty($reward))
                                     @foreach ($reward as $item)
                                         <tr class="reward-row table-row-image">
@@ -50,13 +50,15 @@
                                             <td class="ps-4 text-inter-regular text-14">
                                                 <span>{{ $item->jumlah_poin }}</span>
                                             </td>
+                                            <td class="ps-4 text-inter-regular text-14">
+                                                <span>{{ $item->masa_berlaku }}</span>
+                                            </td>
 
                                             <td class="ps-4 text-inter-regular text-14">
                                                 <div class="cursor-pointer">
-                                                    <img src="{{ asset('storage/reward/' . $item->gambar) }}"
-                                                        alt="Gambar {{ $item->nama_reward }}" width="34"
-                                                        alt="gambar {{ $item->nama_reward }}" data-bs-toggle="modal"
-                                                        data-bs-target="#detail-image"
+                                                    <img src="{{ asset('storage/reward/' . $item->gambar) }}" alt=""
+                                                        width="34" alt="gambar {{ $item->nama_reward }}"
+                                                        data-bs-toggle="modal" data-bs-target="#detail-image"
                                                         onclick="detailGambarReward('{{ asset('storage/reward/' . $item->gambar) }}')">
                                                 </div>
                                             </td>

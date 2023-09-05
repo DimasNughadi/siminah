@@ -1,12 +1,11 @@
-@props([
-        'source',
-        'alt'
-    ])
+@props(['source', 'alt'])
 
 <div class="gambar-lokasi" data-bs-toggle="modal" data-bs-target="#ModalDetailGambarLokasi">
     @if (checkFileIsExist($source))
-        <img src="{{ $source }}" alt="" onclick="showDetailGambarLokasi('{{ $src }}')">
+        <img src="{{ asset('storage/lokasi/' . $source) }}" alt=""
+            onclick="showDetailGambarLokasi('{{ asset('storage/lokasi/' . $source) }}')">
     @else
-        <img src="https://udluthfi.co.id/wp-content/uploads/2022/03/Toren-pLUMBING-01.jpg" alt="Gambar" onclick="showDetailGambarLokasi('https://udluthfi.co.id/wp-content/uploads/2022/03/Toren-pLUMBING-01.jpg')">
+        <img src="{{ asset('assets/img/default/kontainer.jpg') }}" alt=""
+            onclick="showDetailGambarLokasi('{{ asset('assets/img/default/kontainer.jpg') }}')">
     @endif
 </div>

@@ -16,6 +16,7 @@ class Reward extends Model
         'jumlah_poin',
         'masa_berlaku',
         'gambar',
+        'status'
         // Add other fillable properties here
     ];
 

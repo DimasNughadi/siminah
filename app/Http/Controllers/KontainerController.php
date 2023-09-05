@@ -50,6 +50,16 @@ class KontainerController extends Controller
                         }
                     ], 'berat')
                     ->get();
+
+                $existingRequest = Permintaan::where('id_kontainer', $id_kontainer)
+                    ->where('status_permintaan', 'diajukan')
+                    ->first();
+
+                    if ($existingRequest) {
+                        $existingRequest = true;
+                    } else {
+                        $existingRequest = false;
+                    }
                 //UNTUK HITUNG PERSENTASE dan BUAT NOTIFIKASI
                 $notifikasi = [];
                 $kontainer->each(function ($item) use (&$notifikasi) {
@@ -85,6 +95,7 @@ class KontainerController extends Controller
                     'kontainer' => $kontainer,
                     'notifikasi' => $notifikasi,
                     'permintaan' => $permintaan,
+                    'cekKontainer' => $existingRequest,
                     'cekPermintaan' => $cekPermintaan,
                     'id_kontainer' => $id_kontainer
                 ]);
@@ -140,7 +151,7 @@ class KontainerController extends Controller
                         ];
                     }
                 });
-                
+
                 return view('after-login.pengelola-csr.kontainer.index', ['kontainer' => $kontainer, 'permintaan' => $permintaan, 'notifikasi' => $notifikasi]);
             }
         } catch (Exception $exception) {

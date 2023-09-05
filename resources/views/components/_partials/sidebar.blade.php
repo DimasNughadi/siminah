@@ -102,7 +102,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="{{ isRouteActive('reward') ? 'active bg-gradient-primary text-white' : (isRouteActive('reward.list-hadiah') ? 'active bg-gradient-primary text-white' : 'text-dark') }} nav-link"
+                    <a class="{{ isRouteActive('reward') ? 'active bg-gradient-primary text-white' : (isRouteActive('reward') ? 'active bg-gradient-primary text-white' : 'text-dark') }} nav-link"
                         href="{{ route('reward') }}">
                         <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">redeem</i>
@@ -114,7 +114,7 @@
 
             @if (isAdminKelurahan())
                 <li class="nav-item">
-                    <a class="{{ isRouteActive('sumbangan') ? 'active bg-gradient-primary text-white' : ' text-dark' }} nav-link"
+                    <a class="{{ isRouteActive('sumbangan') ? 'active bg-gradient-primary text-white' : (isRouteActive('sumbangan.detail') ? 'active bg-gradient-primary text-white' : 'text-dark') }} nav-link"
                         href="{{ route('sumbangan') }}">
                         <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">vertical_align_bottom</i>
@@ -142,8 +142,8 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="{{ isRouteActive('reward') ? 'active bg-gradient-primary text-white' : (isRouteActive('reward.list-hadiah') ? 'active bg-gradient-primary text-white' : 'text-dark') }} nav-link"
-                        href="{{ route('reward') }}">
+                    <a class="{{ isRouteActive('redeem') ? 'active bg-gradient-primary text-white' : (isRouteActive('reward') ? 'active bg-gradient-primary text-white' : 'text-dark') }} nav-link"
+                        href="{{ route('redeem') }}">
                         <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">redeem</i>
                         </div>
