@@ -6,7 +6,7 @@
             <div class="col-xxl-10 col-xl-10 col-lg-10 col-md-11 col-sm-12 col-12">
                 <div class="row animate__animated animate__fadeInLeft">
                     <div class="col-md-12 page-header">
-                        <a href="{{ route('reward') }}" class="link-dark">
+                        <a href="{{ route('redeem') }}" class="link-dark">
                             <span>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25"
                                     fill="none">
@@ -25,26 +25,17 @@
                             Daftar hadiah
                         </div>
                     </div>
-                    <div
-                        class="col-md-2 col-sm-2 col-2 text-poppins text-14 btn-reward-position d-flex justify-content-end align-items-end">
-                        <div class="btn-reward bg-success btn-success position-relative">
-                            <a href="{{ route('reward/reward-list') }}" class="position-relative add-reward"
-                                data-bs-toggle="modal" data-bs-target="#add-reward">Tambah
-                            </a>
-                        </div>
-                    </div>
                     <div class="col-md-12">
-                        <x-forms.table>
+                        <x-forms.table id="table-detail-donatur">
                             @slot('headSlot')
                                 <th>NAMA HADIAH</th>
                                 <th>STOK HADIAH</th>
                                 <th>POIN</th>
+                                <th>MASA BERLAKU</th>
                                 <th>GAMBAR</th>
-                                <th>AKSI</th>
                             @endslot
 
                             @slot('bodySlot')
-                                {{-- {{ dd($reward) }} --}}
                                 @if (!empty($reward))
                                     @foreach ($reward as $item)
                                         <tr class="reward-row table-row-image">
@@ -59,6 +50,9 @@
                                             <td class="ps-4 text-inter-regular text-14">
                                                 <span>{{ $item->jumlah_poin }}</span>
                                             </td>
+                                            <td class="ps-4 text-inter-regular text-14">
+                                                <span>{{ $item->masa_berlaku }}</span>
+                                            </td>
 
                                             <td class="ps-4 text-inter-regular text-14">
                                                 <div class="cursor-pointer">
@@ -66,25 +60,6 @@
                                                         width="34" alt="gambar {{ $item->nama_reward }}"
                                                         data-bs-toggle="modal" data-bs-target="#detail-image"
                                                         onclick="detailGambarReward('{{ asset('storage/reward/' . $item->gambar) }}')">
-                                                </div>
-                                            </td>
-                                            <td class="ps-4 text-inter-regular text-14">
-                                                <div class="btn-reward btn-list position-relative">
-                                                    <a href="#" class="position-relative add-reward" id="edit-reward-id"
-                                                        data-bs-toggle="modal" data-bs-target="#edit-reward"
-                                                        onclick="
-                                                        editDataReward(
-                                                            '{{ $item->nama_reward }}', 
-                                                            '{{ $item->stok }}', 
-                                                            '{{ $item->jumlah_poin }}',
-                                                            '{{ route('reward.update', ['id' => $item->id_reward]) }}')
-                                                    ">EDIT
-                                                    </a>
-                                                </div>
-                                                &nbsp;&nbsp;&nbsp;
-                                                <div class="btn-reward btn-list btn-custom-danger position-relative">
-                                                    <a href="#" class="position-relative add-reward"
-                                                        onclick="deleteReward('{{ route('reward.delete', ['id' => $item->id_reward]) }}')">DELETE</a>
                                                 </div>
                                             </td>
                                         </tr>
@@ -107,53 +82,12 @@
             </div>
         </div>
     </div>
-    <x-forms.deleted />
 
-    {{-- Detail gambar --}}
     <x-modals.detailGambarModal modalName="detail-image" title="Detail gambar reward">
         @slot('slotBody')
             <div class="modal-detail-gambar">
                 <img src="#" alt="gambar" id="modal-image-sumbangan">
             </div>
         @endslot
-        </x-modals.Modal>
-
-        {{-- Insert modal --}}
-        <x-modals.Modal modalName="add-reward" title="Tambah reward">
-                @slot('slotMethod')
-                    <form enctype="multipart/form-data" method="POST" action="{{ route('reward.store') }}">
-                    @csrf
-                @endslot
-
-                @slot('slotBody')
-                    <x-forms.input placeholder="Nama hadiah" name="nama_reward" />
-                    <x-forms.input placeholder="Stok hadiah" name="stok" />
-                    <x-forms.input placeholder="Poin yang dibutuhkan" name="jumlah_poin" />
-                    <x-forms.fileInputModal name="gambar" />
-                @endslot
-
-                @slot('slotFooter')
-                    <x-forms.btn.button color="danger" type="submit" title="Simpan" />
-                @endslot
-        </x-modals.Modal>
-
-        {{-- Edit modal --}}
-        <x-modals.Modal modalName="edit-reward" title="Ubah reward">
-            @slot('slotMethod')
-                <form enctype="multipart/form-data" method="POST" action="" id="modal-forms-edit">
-                    @csrf   
-                    @method('PUT')
-                @endslot
-
-                @slot('slotBody')
-                    <x-forms.input placeholder="Nama hadiah" name="nama_reward" id="editNama" />
-                    <x-forms.input placeholder="Stok hadiah" name="stok" id="editStok" />
-                    <x-forms.input placeholder="Poin yang dibutuhkan" name="jumlah_poin" id="editPoin" />
-                    <x-forms.fileEditModal name="gambar" />
-                @endslot
-
-                @slot('slotFooter')
-                    <x-forms.btn.button type="submit" color="danger" title="Ubah" />
-                @endslot
         </x-modals.Modal>
     @stop

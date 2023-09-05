@@ -12,14 +12,17 @@
                 </span>
             </div>
         </div>
+        {{-- {{ dd($donatur) }} --}}
         <div class="row pt-3">
-            <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-5 col-sm-12 col-12 detail-donatur-wrapper margin-left-24 animate__animated animate__fadeInLeft">
+            <div
+                class="col-xxl-4 col-xl-5 col-lg-5 col-md-5 col-sm-12 col-12 detail-donatur-wrapper margin-left-24 animate__animated animate__fadeInLeft">
                 <div class="detail-donatur-card">
                     <div class="row header">
                         <div class="col-md-12">
                             <div class="row">
                                 <div class="col-md-12 d-flex justify-content-center align-items-center">
-                                    <x-user.userImage src="{{ 'donatur/' . $donatur->photo }}" width="119" height="119" alt="Gambar {{ $donatur->nama_donatur }}"/>
+                                    <x-user.userImage src="{{ 'donatur/' . $donatur->photo }}" width="119" height="119"
+                                        alt="Gambar {{ $donatur->nama_donatur }}" />
                                 </div>
                                 <div class="col-md-12 d-flex justify-content-center align-items-center">
                                     <span>
@@ -94,20 +97,19 @@
                                 </div>
                                 <div class="col-md-12">
                                     <span class="head">Jalan: </span>
-                                    <span class="body">{{ $donatur->alamat_donatur  }}</span>
+                                    <span class="body">{{ $donatur->alamat_donatur }}</span>
                                 </div>
                                 <div class="col-md-12">
                                     <span class="head">Kelurahan: </span>
                                     <span class="body">{{ $donatur->kelurahan }}</span>
                                 </div>
-                                {{-- <div class="col-md-12">
-                                    <span class="head">Kecamatan: </span>
-                                    <span class="body">Dumai Timur</span>
-                                </div>
-                                <div class="col-md-12">
-                                    <span class="head">Kota: </span>
-                                    <span class="body">Dumai</span>
-                                </div> --}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="btn-hapus-donatur">
+                                <button class="btn btn-danger text-white" onclick="deleteDonaturPasif('{{ route('donatur.destroy', ['id' => $donatur->id_donatur]) }}')">Hapus Donatur</button>
                             </div>
                         </div>
                     </div>
@@ -123,7 +125,7 @@
                     {{-- {{ dd($riwayat) }} --}}
 
                     <div class="col-md-12 col-sm-12 col-12">
-                        <x-forms.table>
+                        <x-forms.table id="table-detail-donatur">
                             @slot('headSlot')
                                 <th class="text-semi-dark">LOKASI KONTAINER</th>
                                 <th class="text-semi-dark">JUMLAH KONTAINER</th>
@@ -143,7 +145,7 @@
                                                 {{ $item->berat }} kg
                                             </td>
                                             <td class="ps-4 text-semi-dark text-inter-regular text-14">
-                                                {{ date('d F y', strtotime($item->tanggal)) }}
+                                                {{ date('d F y', strtotime($item->created_at)) }}
                                             </td>
                                             <td class="ps-4 text-semi-dark-68 text-inter-regular text-14">
                                                 {{ date('h:i', strtotime($item->created_at)) }}
@@ -186,4 +188,8 @@
         </div>
     </div>
 
+    <form action="" method="POST" id="formDeleteDonaturPasif">
+        @csrf
+        @method('DELETE')
+    </form>
 @stop

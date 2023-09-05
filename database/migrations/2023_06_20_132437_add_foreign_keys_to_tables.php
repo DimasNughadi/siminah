@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -16,6 +15,12 @@ return new class extends Migration
         });
         Schema::table('adminkelurahan', function (Blueprint $table) {
             $table->foreign('id_lokasi')->references('id_lokasi')->on('lokasi')->onDelete('cascade');
+        });
+        Schema::table('notifikasi', function (Blueprint $table) {
+            $table->foreign('id_donatur')->references('id_donatur')->on('donatur')->onDelete('cascade');
+        });
+        Schema::table('log', function (Blueprint $table) {
+            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
         });
 
         Schema::table('kontainer', function (Blueprint $table) {
@@ -49,6 +54,12 @@ return new class extends Migration
         });
         Schema::table('adminkelurahan', function (Blueprint $table) {
             $table->foreign('id_lokasi')->references('id_lokasi')->on('lokasi')->onDelete('cascade');
+        });
+        Schema::table('notifikasi', function (Blueprint $table) {
+            $table->foreign('id_donatur')->references('id_donatur')->on('donatur')->onDelete('cascade');
+        });
+        Schema::table('log', function (Blueprint $table) {
+            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
         });
 
         Schema::table('kontainer', function (Blueprint $table) {

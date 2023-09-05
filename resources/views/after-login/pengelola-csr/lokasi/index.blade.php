@@ -34,6 +34,7 @@
                                     <div class="body">
                                         <x-forms.table id="sumbangan-table">
                                             @slot('headSlot')
+                                                <th>FOTO LOKASI</th>
                                                 <th>ALAMAT</th>
                                                 <th>KECAMATAN</th>
                                                 <th>KELURAHAN</th>
@@ -43,45 +44,56 @@
                                             @endslot
 
                                             @slot('bodySlot')
-                                            @if (!empty($lokasi))
-                                                @foreach ($lokasi as $item)
-                                                <tr class="reward-tr lokasi-tr">
-                                                    <td class="ps-4">
-                                                        {{ limitAlamatLength($item->deskripsi) }}
-                                                    </td>
-                                                    <td class="ps-4">
-                                                        {{ $item->kecamatan->nama_kecamatan }}
-                                                    </td>
-                                                    <td class="ps-4">
-                                                        {{ $item->nama_kelurahan }}
-                                                    </td>
-                                                    <td class="ps-4">
-                                                        {{ $item->kontainer_count }}
-                                                    </td>
-                                                    <td class="ps-4 soft">
-                                                        <div class="koordinat">
-                                                            <div class="top">
-                                                                {{ $item->latitude }}
-                                                            </div>
-                                                            <div class="bottom">
-                                                                {{ $item->longitude }}
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="ps-3">
-                                                        <div class="btn-reward btn-list position-relative">
-                                                            <a href="{{ route('lokasi.edit', ['id' => $item->id_lokasi]) }}" class="position-relative add-reward">EDIT
-                                                            </a>
-                                                        </div>
-                                                        <div class="btn-reward btn-list
-                                                        bg-danger position-relative" onclick="hapusLokasi('{{ route('lokasi.destroy', ['id' => $item->id_lokasi]) }}')">
-                                                            <a href="#" class="position-relative add-reward">DELETE
-                                                            </a>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                @endforeach
-                                            @endif
+                                                {{-- @dd($lokasi) --}}
+                                                @if (!empty($lokasi))
+                                                    @foreach ($lokasi as $item)
+                                                        <tr class="reward-tr lokasi-tr">
+                                                            <td class="ps-4">
+                                                                <abbr
+                                                                    title="Lihat gambar lokasi {{ isKecamatan($item->is_kecamatan, $item->kecamatan->nama_kecamatan, $item->nama_kelurahan) }}">
+                                                                    <x-gambar.lokasi source="{{ 
+                                                                    $item->gambar }}" />
+                                                                </abbr>
+                                                            </td>
+                                                            <td class="ps-4">
+                                                                {{ limitAlamatLength($item->deskripsi) }}
+                                                            </td>
+                                                            <td class="ps-4">
+                                                                {{ limitNamaLokasi($item->kecamatan->nama_kecamatan) }}
+                                                            </td>
+                                                            <td class="ps-4">
+                                                                {{ limitNamaLokasi($item->nama_kelurahan) }}
+                                                            </td>
+                                                            <td class="text-center">
+                                                                {{ $item->kontainer_count }}
+                                                            </td>
+                                                            <td class="ps-4 soft">
+                                                                <div class="koordinat">
+                                                                    <div class="top">
+                                                                        {{ $item->latitude }}
+                                                                    </div>
+                                                                    <div class="bottom">
+                                                                        {{ $item->longitude }}
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td class="ps-3">
+                                                                <div class="btn-reward btn-list position-relative">
+                                                                    <a href="{{ route('lokasi.edit', ['id' => $item->id_lokasi]) }}"
+                                                                        class="position-relative add-reward">EDIT
+                                                                    </a>
+                                                                </div>
+                                                                <div class="btn-reward btn-list
+                                                        bg-danger position-relative"
+                                                                    onclick="hapusLokasi('{{ route('lokasi.destroy', ['id' => $item->id_lokasi]) }}')">
+                                                                    <a href="#"
+                                                                        class="position-relative add-reward">DELETE
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                @endif
                                             @endslot
                                         </x-forms.table>
                                     </div>
@@ -99,4 +111,13 @@
         @csrf
         @method('DELETE')
     </form>
-@stop
+
+    {{-- Modal detail gambar lokasi --}}
+    <x-modals.detailGambarModal modalName="ModalDetailGambarLokasi" title="Detail gambar Lokasi">
+        @slot('slotBody')
+            <div class="modal-detail-gambar">
+                <img src="" alt="gambar" id="DetailGambarLokasi">
+            </div>
+        @endslot
+        </x-modals.Modal>
+    @stop

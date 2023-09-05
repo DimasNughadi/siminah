@@ -40,10 +40,10 @@ Route::middleware(['checksession','role:admin_csr,admin_kelurahan'])->group(func
     Route::get('/donatur/{id}',[donaturController::class,'detail'])->name('donatur.getById');
     Route::get('/donatur/edit/{id}',[donaturController::class,'edit'])->name('donatur.edit');
     Route::put('/donatur/update/{id}',[donaturController::class,'update'])->name('donatur.update');
-    Route::delete('/donatur/delete/{id}',[donaturController::class,'destroy'])->name('donatur.destroy');
     
     //verifikasi sumbangan
-    Route::get('/sumbangan',[SumbanganController::class,'index'])->name('sumbangan');
+    Route::get('/sumbangan', [SumbanganController::class,'index'])->name('sumbangan');
+    Route::get('/sumbangan/detail', [SumbanganController::class,'detail'])->name('sumbangan.detail');
     Route::post('/sumbangan/edit/{id}/{created_at}', [SumbanganController::class, 'edit'])->name('sumbangan.edit');
     Route::put('/sumbangan/update/{id}/{created_at}',[SumbanganController::class,'update'])->name('sumbangan.update');
     
@@ -56,19 +56,22 @@ Route::middleware(['checksession','role:admin_csr,admin_kelurahan'])->group(func
     Route::delete('/kontainer/delete/{id}',[KontainerController::class,'destroy'])->name('kontainer.destroy');
     Route::put('/kontainer/update-permintaan/{id}',[KontainerController::class,'updatePermintaan'])->name('kontainer.updatePermintaan');
     Route::post('/kontainer/storePermintaan/{id_kontainer}',[KontainerController::class,'storePermintaan'])->name('kontainer.storePermintaan');
-    Route::post('/kontainer/isPermintaanDiajukan/{id_kontainer}',[KontainerController::class,'isPermintaanDiajukan'])->name('kontainer.isPermintaanDiajukan');
+    Route::get('/kontainer/isPermintaanDiajukan/{id_kontainer}',[KontainerController::class,'isPermintaanDiajukan'])->name('kontainer.isPermintaanDiajukan');
             
-    //manajemen reward (adm-kelurahan)
-    Route::get('/reward',[RedeemController::class,'index'])->name('reward');
-    Route::get('/reward/reward-list',[RewardController::class,'index'])->name('reward/reward-list');
-    Route::post('/reward',[RewardController::class,'store'])->name('reward.store');
-    Route::put('/reward/{id}',[RewardController::class,'update'])->name('reward.update');
-    Route::delete('/reward/{id}',[RewardController::class,'destroy'])->name('reward.delete');
-
+    //manajemen redeem (adm-kelurahan)
+    Route::get('/reward',[RewardController::class,'index'])->name('reward');
+    Route::get('/redeem',[RedeemController::class,'index'])->name('redeem');
+    Route::get('/redeem/{id}',[RedeemController::class,'update'])->name('redeem.update');
+    
     //profil admin
     Route::get('/profil',[ProfilController::class,'index'])->name('profil');
     Route::get('/profil/edit',[ProfilController::class,'edit'])->name('profil.edit');
     Route::post('/profil/{id}',[ProfilController::class,'update'])->name('profil.update');
+
+    Route::get('/404', function () {
+        return view('errors.404');
+    });
+    
 });
 
 Route::middleware(['checksession','role:admin_csr'])->group(function() {
@@ -81,4 +84,16 @@ Route::middleware(['checksession','role:admin_csr'])->group(function() {
     Route::put('/admin-kelurahan/reset/{id}',[AdminController::class,'resetPassword'])->name('admin.reset');
     Route::delete('/admin-kelurahan/delete/{id}',[AdminController::class,'destroy'])->name('admin.destroy');
     Route::get('/admin-kelurahan/lokasi/{id}', [AdminController::class, 'cek_kelurahan'])->name('admin.ceklokasi');
+    
+    //manajemen reward
+    Route::post('/reward',[RewardController::class,'store'])->name('reward.store');
+    Route::put('/reward/{id}',[RewardController::class,'update'])->name('reward.update');
+    Route::delete('/reward/{id}',[RewardController::class,'destroy'])->name('reward.delete');
+    
+    //ajax sumbangan
+    Route::get('/sumbangan/{id}',[SumbanganController::class,'filterData'])->name('sumbangans');
+
+    
+    Route::delete('/donatur/delete/{id}',[DonaturController::class,'destroy'])->name('donatur.destroy');
+    
 });

@@ -48,4 +48,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(AdminKelurahan::class);
     }
+
+    public function log()
+    {
+        return $this->hasMany(Log::class, 'id_user', 'id');
+    }
 }
