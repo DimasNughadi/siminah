@@ -102,7 +102,7 @@ class DashboardController extends Controller
         $percentageProgress = number_format(($totalSumbangan1 / $totalKapasitasKontainer) * 100, 2);
 
         $lokasi = Lokasi::get();
-        $yourThresholdValue = 25;
+        $yourThresholdValue = 22.5;
         $hampirPenuh = Kontainer::with('lokasi')
             ->leftJoin('sumbangan', function ($join) use ($currentMonth) {
                 $join->on('kontainer.id_kontainer', '=', 'sumbangan.id_kontainer')
