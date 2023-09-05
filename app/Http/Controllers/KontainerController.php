@@ -58,7 +58,7 @@ class KontainerController extends Controller
                         $item->sumbangan_persentase = 0;
                     } else {
                         $item->sumbangan_persentase = $item->sumbangan_sum_berat / $item->kapasitas * 100;
-                        if ($item->sumbangan_sum_berat >= $item->kapasitas * 3 / 4) {
+                        if ($item->sumbangan_sum_berat >= $item->kapasitas * 2 / 4) {
                             $object = new stdClass();
                             $object->id_kontainer = $item->id_kontainer;
                             $object->id_lokasi = $item->id_lokasi;

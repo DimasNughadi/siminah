@@ -76,7 +76,7 @@
 
 <div class="container-fluid py-4">
     <div class="row animate__animated animate__fadeInUp">
-        <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
             <div class="card">
                 <div class="card-header p-3 pt-2">
                     <div
@@ -84,43 +84,65 @@
                         <i class="material-icons opacity-10">local_drink</i>
                     </div>
                     <div class="text-end pt-1">
-                        <p class="text-sm mb-0 text-capitalize">Total donasi bulan {{$bulanTahun}}</p>
+                        <p class="text-sm mb-0 text-capitalize">Donasi bulan {{$bulanTahun}}</p>
                         <h4 class="mb-0"><span id="state1" countTo="{{ $totalSumbangan }}"></span> Kg</h4>
                     </div>
                 </div>
                 <hr class="dark horizontal my-0">
                 <div class="card-footer p-3">
                     <p class="mb-0"><span
-                            class="{{ $perbandinganSumbangan < 0 ? 'text-danger' : 'text-success' }} text-sm font-weight-bolder">{{ $perbandinganSumbangan }}%
+                            class="{{ $perbandinganSumbangan < 0 ? 'text-danger' : 'text-success' }} text-sm font-weight-bolder">
+                            {{ $perbandinganSumbangan < 0 ? '-'.$perbandinganSumbangan : '+'.$perbandinganSumbangan }}
+                            Kg
                         </span> dari bulan lalu</p>
                 </div>
             </div>
         </div>
-        <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
             <div class="card">
                 <div class="card-header p-3 pt-2">
                     <div
-                        class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
+                        class="icon icon-lg icon-shape bg-gradient-success shadow-success text-center border-radius-xl mt-n4 position-absolute">
                         <i class="material-icons opacity-10">people</i>
                     </div>
                     <div class="text-end pt-1">
-                        <p class="text-sm mb-0 text-capitalize">Total Donatur</p>
+                        <p class="text-sm mb-0 text-capitalize">Donatur bulan {{$bulanTahun}}</p>
                         <h4 class="mb-0"><span id="state2" countTo="{{ $totalDonatur }}"></span> Orang</h4>
                     </div>
                 </div>
                 <hr class="dark horizontal my-0">
                 <div class="card-footer p-3">
                     <p class="mb-0"><span
-                            class="{{ $perbandinganDonatur < 0 ? 'text-danger' : 'text-success' }} text-sm font-weight-bolder">{{ $perbandinganDonatur }}
-                        </span> penambahan dari bulan lalu</p>
+                            class="{{ $perbandinganDonatur < 0 ? 'text-danger' : 'text-success' }} text-sm font-weight-bolder">{{ $donaturAktifBulanIni }}
+                        </span> donatur aktif bulan ini</p>
                 </div>
             </div>
         </div>
-        <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
             <div class="card">
                 <div class="card-header p-3 pt-2">
                     <div
                         class="icon icon-lg icon-shape bg-gradient-warning shadow-warning text-center border-radius-xl mt-n4 position-absolute">
+                        <i class="material-icons opacity-10">redeem</i>
+                    </div>
+                    <div class="text-end pt-1">
+                        <p class="text-sm mb-0 text-capitalize">Reward hampir habis</p>
+                        <h4 class="mb-0"><span id="state4" countTo="{{$reward}}"></span> Reward</h4>
+                    </div>
+                </div>
+                <hr class="dark horizontal my-0">
+                <a href="{{ route('reward') }}">
+                    <div class="card-footer p-3">
+                        <p class="mb-0">Kelola Reward <i class="material-icons text-sm">open_in_new</i></p>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+            <div class="card">
+                <div class="card-header p-3 pt-2">
+                    <div
+                        class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
                         <i class="material-icons opacity-10">warning</i>
                     </div>
                     <div class="text-end pt-1">
@@ -137,7 +159,7 @@
             </div>
         </div>
     </div>
-    <div class="row mt-4 animate__animated animate__fadeInUp">
+    <div class="row mt-2 animate__animated animate__fadeInUp">
         <div class="col-lg-6 col-md-6 mt-4 mb-4">
             <div class="card z-index-2">
                 <div class="card-header p-3 pt-2">
@@ -169,20 +191,21 @@
                 <div class="card-header p-3 pt-2">
                     <div
                         class="icon icon-lg icon-shape bg-gradient-success shadow-success text-center border-radius-xl mt-n4 me-3 float-start">
-                        <i class="material-icons opacity-10">data_usage</i>
+                        <i class="material-icons opacity-10">splitscreen</i>
                     </div>
                     <div class="d-block d-md-flex">
                         <div class="me-auto">
                             <h6 class="mb-0">Progress Kontainer</h6>
-                            <p class="mb-0 text-sm">Progress Kontainer</p>
+                            <p class="mb-0 text-sm">5 Kontainer Hampir penuh</p>
                         </div>
-                        <div class="col-6 text-end">
+                        <!-- <div class="col-6 text-end">
                             <div class="dropdown">
                                 <button class="btn btn-sm bg-gradient-success dropdown-toggle" type="button"
                                     id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                                     Pilih Kelurahan
                                 </button>
-                                <ul class="dropdown-menu choices overflow-auto blockui" aria-labelledby="dropdownMenuButton" style="max-height: 200px; overflow-y: auto;">
+                                <ul class="dropdown-menu choices overflow-auto blockui"
+                                    aria-labelledby="dropdownMenuButton" style="max-height: 200px; overflow-y: auto;">
                                     <li>
                                         <div class="input-group input-group-outline choices">
                                             <label class="form-label">Cari kelurahan</label>
@@ -190,18 +213,35 @@
                                         </div>
                                     </li>
                                     @foreach($lokasi as $l)
-                                    <li><a id="namaKel" class="dropdown-item" onclick="updateChart('{{$l['id_lokasi']}}');">{{$l['nama_kelurahan']}}</a></li>
+                                    <li><a id="namaKel" class="dropdown-item"
+                                            onclick="updateChart('{{$l['id_lokasi']}}');">{{$l['nama_kelurahan']}}</a>
+                                    </li>
                                     @endforeach
                                 </ul>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <div class="card-body p-3 pt-0">
-                    <div class="row mt-0 mb-0">
-                        <div class="col-md-7 text-center">
+                    <div class="chart">
+                        <canvas id="myChart1" class="chart-canvas" height="230"></canvas>
+                    </div>
+                    <hr class="dark horizontal">
+                    <div class="d-flex ">
+                        <i class="material-icons text-sm my-auto me-1">schedule</i>
+                        <p class="mb-0 text-sm"> data per tanggal {{ $tanggal }} </p>
+                    </div>
+                </div>
+                <!-- <div class="card-body p-3 pt-0">
+                    <div class="card-body p-3 pt-0">
+                    <div class="chart">
+                        <canvas id="myChart1" class="chart-canvas" height="230"></canvas>
+                    </div> -->
+                    <!-- <div class="row mt-0 mb-0">
+                        <div class="col-md-12 text-center">
                             <div class="chart">
                                 <canvas id="myChart1" class="chart-content mx-auto chart-canvas chart-background-green"></canvas>
+                                <canvas id="myChart1" class="chart-canvas" height="230"></canvas>
                             </div>
                             <h4 class="font-weight-bold mt-n8">
                                 <span id="percentageProgress"><span id="state4" countTo="{{$percentageProgress}}"></span>%</span>
@@ -227,15 +267,15 @@
                                 </table>
                             </div>
                         </div>
-                    </div>
-                    <hr class="dark horizontal mt-7">
+                    </div> -->
+                    <!-- <hr class="dark horizontal">
                     <div class="d-flex">
-                            <i id="indicator" class="material-icons text-sm my-auto me-1 custom-icon">brightness_1</i>
-                            <p id="indicatorText" class="mb-0 text-sm">Aman</p>
+                        <i id="indicator" class="material-icons text-sm my-auto me-1 custom-icon">brightness_1</i>
+                        <p id="indicatorText" class="mb-0 text-sm">Aman</p>
                         <i id="lokasi" class="material-icons position-relative ms-auto text-lg me-1 my-auto">place</i>
                         <p id="lokasiText" class="text-sm my-auto"> Bukit Datuk</p>
-                    </div>
-                </div>
+                    </div> -->
+                <!-- </div> -->
             </div>
         </div>
     </div>
@@ -267,42 +307,42 @@
         <div class="col-lg-4 col-md-6">
             <div class="card h-100">
                 <div class="card-header pb-0">
-                    <h6>Notifikasi</h6>
+                    <h6>Riwayat Aktivitas</h6>
                     <p class="text-sm">
                         <i class="fa fa-bell text-info" aria-hidden="true"></i>
                         <span class="font-weight-bold">0</span> notifikasi bulan {{$bulanTahun}}
                     </p>
                 </div>
-                <div class="card-body p-3">
+                <!-- <div class="card-body p-3">
                     <div class="row">
                         @if (!empty($notifikasi))
-                            @foreach ($notifikasi as $key => $item)
-                                @if ($item->status === 'HAMPIR PENUH')
-                                    <div class="col-md-12">
-                                        <x-notifikasi.kontainer action="disable" type="warning"
-                                            notifikasi="Kontainer Utama hampir penuh"
-                                            type_detail="Ajukan kontainer yang baru supaya dapat terus menerima sumbangan" />
-                                    </div>
-                                @else
-                                    <div class="col-md-12">
-                                        <x-notifikasi.kontainer action="disable" type="success"
-                                            notifikasi="Kontainer Utama dapat diisi"
-                                            type_detail="Belum membutuhkan pergantian kontainer" />
-                                    </div>
-                                @endif
-                                @if ($key === 0)
-                                    @break
-                                @endif
-                            @endforeach
+                        @foreach ($notifikasi as $key => $item)
+                        @if ($item->status === 'HAMPIR PENUH')
+                        <div class="col-md-12">
+                            <x-notifikasi.kontainer action="disable" type="warning"
+                                notifikasi="Kontainer Utama hampir penuh"
+                                type_detail="Ajukan kontainer yang baru supaya dapat terus menerima sumbangan" />
+                        </div>
                         @else
-                            <div class="col-md-12">
-                                <x-notifikasi.kontainer action="disable" type="success"
-                                    kelurahan="Tidak ada permintaan" type_detail="Seluruh kontainer ready" />
-                            </div>
+                        <div class="col-md-12">
+                            <x-notifikasi.kontainer action="disable" type="success"
+                                notifikasi="Kontainer Utama dapat diisi"
+                                type_detail="Belum membutuhkan pergantian kontainer" />
+                        </div>
+                        @endif
+                        @if ($key === 0)
+                        @break
+                        @endif
+                        @endforeach
+                        @else
+                        <div class="col-md-12">
+                            <x-notifikasi.kontainer action="disable" type="success" kelurahan="Tidak ada permintaan"
+                                type_detail="Seluruh kontainer ready" />
+                        </div>
                         @endif
                     </div>
-                </div>
-                <!-- <div class="card-body p-3">
+                </div> -->
+                <div class="card-body p-3">
                     <div class="timeline timeline-one-side">
                         <div class="timeline-block mb-3">
                             <span class="timeline-step">
@@ -362,7 +402,7 @@
                             </div>
                         </div>
                     </div>
-                </div> -->
+                </div>
             </div>
         </div>
     </div>
@@ -376,179 +416,256 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js"></script>
 <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <script src="{{ asset('assets/js/core/bootstrap.min.js') }}"></script>
 <script src="{{ asset('assets/js/plugins/countup.min.js') }}"></script>
 
 <script>
+var ctx = document.getElementById("chart-bars1").getContext("2d");
 
-    var ctx = document.getElementById("chart-bars1").getContext("2d");
-
-    new Chart(ctx, {
-        type: "bar",
-        data: {
-            labels: @json($chartData['labels']),
-            datasets: [{
-                label: "Total Sumbangan",
-                tension: 1,
-                borderWidth: 0,
-                borderRadius: 5,
-                borderSkipped: false,
-                backgroundColor: "rgba(209, 32, 49, 1)",
-                data: @json($chartData['values']),
-                maxBarThickness: 12
-            }, ],
+new Chart(ctx, {
+    type: "bar",
+    data: {
+        labels: @json($chartData['labels']),
+        datasets: [{
+            label: "Total Sumbangan",
+            tension: 1,
+            borderWidth: 0,
+            borderRadius: 5,
+            borderSkipped: false,
+            backgroundColor: "#E31E18",
+            data: @json($chartData['values']),
+            maxBarThickness: 12
+        }, ],
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: false,
+            }
         },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: false,
+        interaction: {
+            intersect: false,
+            mode: 'index',
+        },
+        scales: {
+            y: {
+                grid: {
+                    drawBorder: false,
+                    display: true,
+                    drawOnChartArea: true,
+                    drawTicks: false,
+                    borderDash: [5, 5],
+                    color: '#c1c4ce5c'
+                },
+                ticks: {
+                    suggestedMin: 0,
+                    suggestedMax: 500,
+                    beginAtZero: true,
+                    padding: 10,
+                    color: "#9ca2b7",
+                    font: {
+                        size: 10,
+                        weight: 300,
+                        family: "Poppins",
+                        style: 'normal',
+                        lineHeight: 2
+                    },
+                },
+            },
+            x: {
+                grid: {
+                    drawBorder: false,
+                    display: true,
+                    drawOnChartArea: true,
+                    drawTicks: false,
+                    borderDash: [5, 5],
+                    color: '#c1c4ce5c'
+                },
+                ticks: {
+                    display: true,
+                    color: '#9ca2b7',
+                    padding: 10,
+                    font: {
+                        size: 12,
+                        weight: 300,
+                        family: "Poppins",
+                        style: 'normal',
+                        lineHeight: 2
+                    },
                 }
             },
-            interaction: {
-                intersect: false,
-                mode: 'index',
-            },
-            scales: {
-                y: {
-                    grid: {
-                        drawBorder: false,
-                        display: true,
-                        drawOnChartArea: true,
-                        drawTicks: false,
-                        borderDash: [5, 5],
-                        color: '#c1c4ce5c'
-                    },
-                    ticks: {
-                        suggestedMin: 0,
-                        suggestedMax: 500,
-                        beginAtZero: true,
-                        padding: 10,
-                        color: "#9ca2b7",
-                        font: {
-                            size: 10,
-                            weight: 300,
-                            family: "Poppins",
-                            style: 'normal',
-                            lineHeight: 2
-                        },
-                    },
-                },
-                x: {
-                    grid: {
-                        drawBorder: false,
-                        display: true,
-                        drawOnChartArea: true,
-                        drawTicks: false,
-                        borderDash: [5, 5],
-                        color: '#c1c4ce5c'
-                    },
-                    ticks: {
-                        display: true,
-                        color: '#9ca2b7',
-                        padding: 10,
-                        font: {
-                            size: 12,
-                            weight: 300,
-                            family: "Poppins",
-                            style: 'normal',
-                            lineHeight: 2
-                        },
-                    }
-                },
-            },
         },
-    });
+    },
+});
 </script>
 
 <script>
-    function updateChart(selectedLokasiId) {
-        $.ajax({
-            url: '/dashboard/fetchChartData/' + selectedLokasiId,
-            method: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                updateMyChart1(data);
-            },
-            error: function (xhr, textStatus, errorThrown) {
-                console.error('Error fetching data: ' + errorThrown);
-            }
-        });
-    }
-
-    function updateMyChart1(newData) {
-        myChart1.data.datasets[0].data = newData;
-        var totalSumbangan1 = newData[0];
-        var totalKapasitasKontainer = newData[0] + newData[1];
-        var percentageProgress = Math.abs(((totalSumbangan1 / totalKapasitasKontainer) * 100).toFixed(2));
-        document.getElementById('percentageProgress').textContent = percentageProgress + '%';
-        document.getElementById('progressText').textContent = totalSumbangan1.toFixed(2) + '/' + totalKapasitasKontainer;
-        
-        var indicatorIcon = document.getElementById('indicator');
-        var indicatorText = document.getElementById('indicatorText');
-        var chartCanvas = document.getElementById('myChart1');
-
-        indicatorIcon.classList.remove('custom-icon', 'custom-icon2', 'custom-icon3');
-        chartCanvas.classList.remove('chart-background-green', 'chart-background-yellow', 'chart-background-red');
-
-        if (percentageProgress <= 50.0) {
-            indicatorIcon.classList.add('custom-icon');
-            indicatorIcon.textContent = 'brightness_1';
-            indicatorText.textContent = 'Aman';
-            myChart1.data.datasets[0].backgroundColor = ['rgba(101, 174, 56, 1)', 'rgba(0, 0, 0, 0)'];
-            chartCanvas.classList.add('chart-background-green');
-        } else if (percentageProgress > 50.0 && percentageProgress <= 80.0) {
-            indicatorIcon.classList.add('custom-icon2');
-            indicatorIcon.textContent = 'brightness_1';
-            indicatorText.textContent = 'Mulai Penuh';
-            myChart1.data.datasets[0].backgroundColor = ['rgba(255, 167, 38, 1)', 'rgba(0, 0, 0, 0)'];
-            chartCanvas.classList.add('chart-background-yellow');
-        } else {
-            indicatorIcon.classList.add('custom-icon3');
-            indicatorIcon.textContent = 'brightness_1';
-            indicatorText.textContent = 'Perlu penjemputan';
-            myChart1.data.datasets[0].backgroundColor = ['rgba(209, 32, 49, 1)', 'rgba(0, 0, 0, 0)'];
-            chartCanvas.classList.add('chart-background-red');
-        }
-
-        myChart1.update();
-    }
-
-    var ctx1 = document.getElementById('myChart1').getContext('2d');
-    var colors1 = ['rgba(101, 174, 56, 1)', 'rgba(0, 0, 0, 0)'];
-    var cutout1 = '85%';
-
-    var myChart1 = new Chart(ctx1, {
-        type: 'doughnut',
-        data: {
-            labels: ['Terisi', 'kosong'],
-            datasets: [{
-                label: 'Total',
-                data: @json($progress),
-                backgroundColor: colors1,
-                cutout: cutout1,
-                borderRadius: 50,
-                borderWidth: 0,
-                hoverOffset: 0
-            }]
+function updateChart(selectedLokasiId) {
+    $.ajax({
+        url: '/dashboard/fetchChartData/' + selectedLokasiId,
+        method: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            updateMyChart1(data);
         },
-        options: {
-            maintainAspectRatio: false,
-            responsive: true,
-            layout: {
-                padding: 0
-            },
-            interaction: {
-                intersect: false,
-                mode: 'index',
-            },
-            plugins: {
-                legend: false
-            }
+        error: function(xhr, textStatus, errorThrown) {
+            console.error('Error fetching data: ' + errorThrown);
         }
     });
+}
+
+// function updateMyChart1(newData) {
+//     myChart1.data.datasets[0].data = newData;
+//     var totalSumbangan1 = newData[0];
+//     var totalKapasitasKontainer = newData[0] + newData[1];
+//     var percentageProgress = Math.abs(((totalSumbangan1 / totalKapasitasKontainer) * 100).toFixed(2));
+//     document.getElementById('percentageProgress').textContent = percentageProgress + '%';
+//     document.getElementById('progressText').textContent = totalSumbangan1.toFixed(2) + '/' + totalKapasitasKontainer;
+
+//     var indicatorIcon = document.getElementById('indicator');
+//     var indicatorText = document.getElementById('indicatorText');
+//     var chartCanvas = document.getElementById('myChart1');
+
+//     indicatorIcon.classList.remove('custom-icon', 'custom-icon2', 'custom-icon3');
+//     chartCanvas.classList.remove('chart-background-green', 'chart-background-yellow', 'chart-background-red');
+
+//     if (percentageProgress <= 50.0) {
+//         indicatorIcon.classList.add('custom-icon');
+//         indicatorIcon.textContent = 'brightness_1';
+//         indicatorText.textContent = 'Aman';
+//         myChart1.data.datasets[0].backgroundColor = ['rgba(101, 174, 56, 1)', 'rgba(0, 0, 0, 0)'];
+//         chartCanvas.classList.add('chart-background-green');
+//     } else if (percentageProgress > 50.0 && percentageProgress <= 80.0) {
+//         indicatorIcon.classList.add('custom-icon2');
+//         indicatorIcon.textContent = 'brightness_1';
+//         indicatorText.textContent = 'Mulai Penuh';
+//         myChart1.data.datasets[0].backgroundColor = ['rgba(255, 167, 38, 1)', 'rgba(0, 0, 0, 0)'];
+//         chartCanvas.classList.add('chart-background-yellow');
+//     } else {
+//         indicatorIcon.classList.add('custom-icon3');
+//         indicatorIcon.textContent = 'brightness_1';
+//         indicatorText.textContent = 'Perlu penjemputan';
+//         myChart1.data.datasets[0].backgroundColor = ['rgba(209, 32, 49, 1)', 'rgba(0, 0, 0, 0)'];
+//         chartCanvas.classList.add('chart-background-red');
+//     }
+
+//     myChart1.update();
+// }
+
+var ctx1 = document.getElementById('myChart1').getContext('2d');
+var colors1 = ['rgba(101, 174, 56, 1)', 'rgba(0, 0, 0, 0)'];
+var cutout1 = '85%';
+
+new Chart(ctx1, {
+    type: "bar",
+    data: {
+        labels: @json($chartData2['labels2']),
+        datasets: [
+            {
+            label: "Total Isi",
+            weight: 5,
+            borderWidth: 0,
+            borderRadius: 5,
+            data: @json($chartData2['values2']),
+            backgroundColor: @json($chartData2['colors']),
+            borderSkipped: false,
+            maxBarThickness: 12,
+            z: 2,
+        }],
+    },
+    options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: false,
+            }
+        },
+        scales: {
+            y: {
+                grid: {
+                    drawBorder: false,
+                    display: true,
+                    drawOnChartArea: true,
+                    drawTicks: false,
+                    borderDash: [5, 5],
+                    color: '#c1c4ce5c'
+                },
+                ticks: {
+                    beginAtZero: true,
+                    padding: 10,
+                    color: "#9ca2b7",
+                    font: {
+                        size: 12,
+                        weight: 300,
+                        family: "Poppins",
+                        style: 'normal',
+                        lineHeight: 2
+                    },
+                },
+            },
+            x: {
+                min:0,
+                max:30,
+                grid: {
+                    drawBorder: false,
+                    display: true,
+                    drawOnChartArea: true,
+                    drawTicks: false,
+                    borderDash: [5, 5],
+                    color: '#c1c4ce5c'
+                },
+                ticks: {
+                    display: true,
+                    color: '#9ca2b7',
+                    padding: 10,
+                    font: {
+                        size: 12,
+                        weight: 300,
+                        family: "Poppins",
+                        style: 'normal',
+                        lineHeight: 2
+                    },
+                }
+            },
+        },
+    },
+});
+
+// var myChart1 = new Chart(ctx1, {
+//     type: 'doughnut',
+//     data: {
+//         labels: ['Terisi', 'kosong'],
+//         datasets: [{
+//             label: 'Total',
+//             data: @json($progress),
+//             backgroundColor: colors1,
+//             cutout: cutout1,
+//             borderRadius: 50,
+//             borderWidth: 0,
+//             hoverOffset: 0
+//         }]
+//     },
+//     options: {
+//         maintainAspectRatio: false,
+//         responsive: true,
+//         layout: {
+//             padding: 0
+//         },
+//         interaction: {
+//             intersect: false,
+//             mode: 'index',
+//         },
+//         plugins: {
+//             legend: false
+//         }
+//     }
+// });
 </script>
 
 <script>
@@ -583,69 +700,69 @@ for (var i = 0; i < mapData.length; i++) {
 <x-sweetalert />
 
 <script>
-    if (document.getElementById('state1')) {
-        var initialValue = parseFloat(document.getElementById("state1").getAttribute("countTo")).toFixed(2);
+if (document.getElementById('state1')) {
+    var initialValue = parseFloat(document.getElementById("state1").getAttribute("countTo")).toFixed(2);
 
-        const countUp = new CountUp('state1', initialValue, {
-            useGrouping: false, 
-            separator: '',
-            decimalPlaces: 1,
-            duration: 1
-        });
+    const countUp = new CountUp('state1', initialValue, {
+        useGrouping: false,
+        separator: '',
+        decimalPlaces: 1,
+        duration: 1
+    });
 
-        if (!countUp.error) {
-            countUp.start();
-        } else {
-            console.error(countUp.error);
-        }
+    if (!countUp.error) {
+        countUp.start();
+    } else {
+        console.error(countUp.error);
     }
-    if (document.getElementById('state2')) {
-        var initialValue = parseFloat(document.getElementById("state2").getAttribute("countTo")).toFixed(2);
+}
+if (document.getElementById('state2')) {
+    var initialValue = parseFloat(document.getElementById("state2").getAttribute("countTo")).toFixed(2);
 
-        const countUp = new CountUp('state2', initialValue, {
-            useGrouping: false, 
-            separator: '',
-            duration: 1
-        });
+    const countUp = new CountUp('state2', initialValue, {
+        useGrouping: false,
+        separator: '',
+        duration: 1
+    });
 
-        if (!countUp.error) {
-            countUp.start();
-        } else {
-            console.error(countUp.error);
-        }
+    if (!countUp.error) {
+        countUp.start();
+    } else {
+        console.error(countUp.error);
     }
-    if (document.getElementById('state3')) {
-        var initialValue = parseFloat(document.getElementById("state3").getAttribute("countTo")).toFixed(2);
+}
+if (document.getElementById('state3')) {
+    var initialValue = parseFloat(document.getElementById("state3").getAttribute("countTo")).toFixed(2);
 
-        const countUp = new CountUp('state3', initialValue, {
-            useGrouping: false, 
-            separator: '',
-            decimalPlaces: 0,
-            duration: 1
-        });
+    const countUp = new CountUp('state3', initialValue, {
+        useGrouping: false,
+        separator: '',
+        decimalPlaces: 0,
+        duration: 1
+    });
 
-        if (!countUp.error) {
-            countUp.start();
-        } else {
-            console.error(countUp.error);
-        }
+    if (!countUp.error) {
+        countUp.start();
+    } else {
+        console.error(countUp.error);
     }
-    if (document.getElementById('state4')) {
-        var initialValue = parseFloat(document.getElementById("state4").getAttribute("countTo")).toFixed(2);
+}
+if (document.getElementById('state4')) {
+    var initialValue = parseFloat(document.getElementById("state4").getAttribute("countTo")).toFixed(2);
 
-        const countUp = new CountUp('state4', initialValue, {
-            useGrouping: false, 
-            separator: '',
-            decimalPlaces: 2,
-            duration: 1
-        });
+    const countUp = new CountUp('state4', initialValue, {
+        useGrouping: false,
+        separator: '',
+        decimalPlaces: 0,
+        duration: 1
+    });
 
-        if (!countUp.error) {
-            countUp.start();
-        } else {
-            console.error(countUp.error);
-        }
+    if (!countUp.error) {
+        countUp.start();
+    } else {
+        console.error(countUp.error);
     }
+}
 </script>
 
 @stop

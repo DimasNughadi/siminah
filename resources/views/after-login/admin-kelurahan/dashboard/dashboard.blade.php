@@ -127,8 +127,8 @@
                         <i class="material-icons opacity-10">warning</i>
                     </div>
                     <div class="text-end pt-1">
-                        <p class="text-sm mb-0 text-capitalize">Sumbangan belum terverifikasi</p>
-                        <h4 class="mb-0"><span id="state3" countTo="{{$pengajuanBelumVerif}}"></span> Pengajuan</h4>
+                        <p class="text-sm mb-0 text-capitalize">Donasi belum terverifikasi</p>
+                        <h4 class="mb-0"><span id="state3" countTo="{{$pengajuanBelumVerif}}"></span> Donasi</h4>
                     </div>
                 </div>
                 <hr class="dark horizontal my-0">

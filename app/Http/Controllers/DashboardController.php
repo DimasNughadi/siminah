@@ -9,6 +9,7 @@ use App\Models\Donatur;
 use App\Models\Kontainer;
 use App\Models\Sumbangan;
 use App\Models\Permintaan;
+use App\Models\Reward;
 use Illuminate\Http\Request;
 use App\Enums\KontainerStatus;
 use App\Models\Adminkelurahan;
@@ -145,16 +146,19 @@ class DashboardController extends Controller
                 ->sum('berat');
 
             $totalSumbanganBulanLalu = Sumbangan::whereBetween('updated_at', $previousMonth)
+                ->where('id_kontainer', $id_kontainer)
                 ->where('sumbangan.status', 'terverifikasi')
                 ->sum('berat');
 
             $percentageChangeSumbangan = $totalSumbangan - $totalSumbanganBulanLalu;
             
             $totalDonatur = Sumbangan::where('id_kontainer', $id_kontainer)
+                ->where('sumbangan.status', 'terverifikasi')
                 ->count();
 
             $donaturAktifBulanIni = Sumbangan::whereBetween('created_at', $currentMonth)
                 ->where('id_kontainer', $id_kontainer)
+                ->where('sumbangan.status', 'terverifikasi')
                 ->count();
 
             $pengajuanBelumVerif = Sumbangan::whereBetween('created_at', $currentMonth)
@@ -225,6 +229,32 @@ class DashboardController extends Controller
 
             $topLokasi = Lokasi::join('kontainer', 'lokasi.id_lokasi', '=', 'kontainer.id_lokasi')
                 ->join('sumbangan', 'kontainer.id_kontainer', '=', 'sumbangan.id_kontainer')
+                ->where(function ($query) use ($currentContainer) {
+                    $query->where('sumbangan.updated_at', '>=', $currentContainer)
+                        ->orWhere('sumbangan.updated_at', '=', 'kontainer.created_at');
+                })
+                ->where('sumbangan.status', 'terverifikasi')
+                ->groupBy('lokasi.nama_kelurahan')
+                ->select('lokasi.nama_kelurahan', Sumbangan::raw('COALESCE(SUM(sumbangan.berat), 0) AS total_berat'))
+                ->orderByDesc('total_berat')
+                ->limit(5)
+                ->get();
+
+            $totalSumbangan = Sumbangan::whereBetween('updated_at', $currentMonth)
+                ->where('sumbangan.status', 'terverifikasi')
+                ->sum('berat');
+
+            $totalSumbanganBulanLalu = Sumbangan::whereBetween('updated_at', $previousMonth)
+                ->where('sumbangan.status', 'terverifikasi')
+                ->sum('berat');
+
+            $percentageChangeSumbangan = $totalSumbangan - $totalSumbanganBulanLalu;
+
+            $labels = $topLokasi->pluck('nama_kelurahan');
+            $values = $topLokasi->pluck('total_berat');
+
+            $topKontainer = Lokasi::join('kontainer', 'lokasi.id_lokasi', '=', 'kontainer.id_lokasi')
+                ->join('sumbangan', 'kontainer.id_kontainer', '=', 'sumbangan.id_kontainer')
                 ->whereBetween('sumbangan.created_at', $currentMonth)
                 ->where('sumbangan.status', 'terverifikasi')
                 ->groupBy('lokasi.nama_kelurahan')
@@ -233,8 +263,28 @@ class DashboardController extends Controller
                 ->limit(5)
                 ->get();
 
-            $labels = $topLokasi->pluck('nama_kelurahan');
-            $values = $topLokasi->pluck('total_berat');
+            $labels2 = $topKontainer->pluck('nama_kelurahan');
+            $values2 = $topKontainer->pluck('total_berat');
+
+            $barColors = [];
+            foreach ($values2 as $item) {
+                if ($item > 15 && $item < 25) {
+                    $barColors[] = '#FFBD3D';
+                } elseif ($item >= 25) {
+                    $barColors[] = '#E31E18';
+                } else {
+                    $barColors[] = '#00C17C';
+                }
+            }
+
+            $totalDonatur = Sumbangan::where('sumbangan.status', 'terverifikasi')
+                ->count();
+
+            $donaturAktifBulanIni = Sumbangan::whereBetween('created_at', $currentMonth)
+                ->where('sumbangan.status', 'terverifikasi')
+                ->count();
+
+            $rewardHampirHabis = Reward::where('stok', '<=', 5)->count();
    
             $data = [
                 'mapData' => json_encode($mapData),
@@ -242,7 +292,13 @@ class DashboardController extends Controller
                     'labels' => $labels->toArray(),
                     'values' => $values->toArray()
                 ],
+                'chartData2' => [
+                    'labels2' => $labels2->toArray(),
+                    'values2' => $values2->toArray(),
+                    'colors' => $barColors
+                ],
                 'totalDonatur' => $totalDonatur,
+                'donaturAktifBulanIni' => $donaturAktifBulanIni,
                 'perbandinganDonatur' => $totalDonaturBulanini,
                 'totalSumbangan' => $totalSumbangan,
                 'perbandinganSumbangan' => $percentageChangeSumbangan,
@@ -253,7 +309,8 @@ class DashboardController extends Controller
                 'lokasi' => $lokasi,
                 'hampirPenuh' => $hampirPenuh,
                 'notifikasi' => $notifikasi,
-                'tanggal' => $tanggal
+                'tanggal' => $tanggal,
+                'reward' => $rewardHampirHabis
             ];
 
             return view('after-login.pengelola-csr.dashboard.dashboard', $data);

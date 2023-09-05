@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Donatur;
+use App\Models\Sumbangan;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
@@ -20,7 +21,7 @@ class DonaturController extends Controller
 
         if ($donatur && Hash::check($credentials['password'], $donatur->password)) {
             $token = $donatur->createToken('API Token');
-
+			
             $response = [
                 'access_token' => $token->plainTextToken,
                 'access_token_expires_in' => now()->addMinutes(config('sanctum.expiration'))->toDateTimeString(),
@@ -41,6 +42,7 @@ class DonaturController extends Controller
 
         if ($donatur && Hash::check($credentials['password'], $donatur->password)) {
             $accessToken = $donatur->createToken('API Token');
+			
 			$data = [
 				'donatur' => $donatur,
 				'access_token' => $accessToken
@@ -79,7 +81,11 @@ class DonaturController extends Controller
     public function show(string $id)
     {
         $donatur = Donatur::findOrFail($id);
-        return response()->json($donatur, Response::HTTP_OK);
+		$totalSumbangan = Sumbangan::where('id_donatur', $id)
+				->where('status', 'terverifikasi')
+				->sum('berat');
+		
+        return response()->json(['donatur' => $donatur, 'sumbangan' => $totalSumbangan], Response::HTTP_OK);
     }
 
     /**

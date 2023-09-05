@@ -31,7 +31,8 @@ Route::middleware('auth:sanctum')->group(function(){
 
     Route::prefix('sumbangans')->group(function () {
         Route::get('/', [SumbanganController::class, 'index']);
-        Route::post('/', [SumbanganController::class, 'store']);
+        // Route::post('/', [SumbanganController::class, 'store'])->name('sumbangans.store');
+        Route::post('/', [SumbanganController::class, 'store'])->name('sumbangans.store');
         Route::get('/{id}', [SumbanganController::class, 'show']);
 		Route::get('new/{id}', [SumbanganController::class, 'showLatest']);
         Route::put('/{id}', [SumbanganController::class, 'update']);
