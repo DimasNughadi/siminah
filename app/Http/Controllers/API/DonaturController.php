@@ -39,13 +39,17 @@ class DonaturController extends Controller
     {
         $credentials = $request->only('no_hp', 'password');
         $donatur = Donatur::where('no_hp', $credentials['no_hp'])->first();
+		$totalSumbangan = Sumbangan::where('id_donatur', $donatur->id_donatur)
+				->where('status', 'terverifikasi')
+				->sum('berat');
 
         if ($donatur && Hash::check($credentials['password'], $donatur->password)) {
-            $accessToken = $donatur->createToken('API Token');
+            $token = $donatur->createToken('authToken')->plainTextToken;
 			
 			$data = [
 				'donatur' => $donatur,
-				'access_token' => $accessToken
+				'token' => $token,
+				'sumbangan' => $totalSumbangan
 			];
             return response()->json($data, Response::HTTP_OK);
         } else {
@@ -71,8 +75,17 @@ class DonaturController extends Controller
         $data = $request->all();
         $data['password'] = Hash::make($request->input('password'));
         $donatur = Donatur::create($data);
-        $token = $donatur->createToken('authToken')->plainTextToken;
-        return response()->json(['donatur' => $donatur, 'token' => $token], Response::HTTP_CREATED);
+		$donatur1 = Donatur::where('no_hp', $donatur->no_hp)->first();
+		$sumbangan = 0;
+		$token = $donatur->createToken('authToken')->plainTextToken;
+		
+		$data = [
+				'donatur' => $donatur1,
+				'token' => $token,
+				'sumbangan' => $sumbangan
+			];
+		
+        return response()->json($data, Response::HTTP_CREATED);
     }
 
     /**
