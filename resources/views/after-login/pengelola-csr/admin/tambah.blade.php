@@ -24,7 +24,7 @@
                             </div>
                             <div class="col-md-3 col-sm-3 col-3 button d-flex justify-content-end">
                                 {{-- <button type="submit">ss</button> --}}
-                                <x-forms.btn.button type="submit" color="danger" title="Simpan" />
+                                <x-forms.btn.button type="submit" color="primary" title="Simpan" />
                             </div>
                         </div>
                     </div>
@@ -47,13 +47,6 @@
                                     <x-forms.formControlAdmin label="No Telepon" name="no_hp"
                                         placeholder="Nomor telepon" />
                                 </div>
-                                {{-- <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-5 ms-xxl-4 ms-xl-4">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <x-forms.formControlAdmin label="No Telepon" name="no_hp" placeholder="Nomor telepon"/>
-                                        </div>
-                                    </div>
-                                </div> --}}
                             </div>
                             <div class="row mt-4">
                                 <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-5 ms-xxl-1">

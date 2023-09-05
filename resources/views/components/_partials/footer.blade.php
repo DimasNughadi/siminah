@@ -7,7 +7,7 @@
                     document.write(new Date().getFullYear())
                 </script>,
                 made with <i class="fa fa-heart"></i> by
-                <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Politeknik Caltex Riau</a>
+                <a href="https://pcr.ac.id/" class="font-weight-bold" target="_blank">Politeknik Caltex Riau</a>
                 </div>
             </div>
             {{-- <div class="col-lg-6">

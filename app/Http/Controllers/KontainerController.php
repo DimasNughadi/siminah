@@ -50,6 +50,16 @@ class KontainerController extends Controller
                         }
                     ], 'berat')
                     ->get();
+
+                $existingRequest = Permintaan::where('id_kontainer', $id_kontainer)
+                    ->where('status_permintaan', 'diajukan')
+                    ->first();
+
+                    if ($existingRequest) {
+                        $existingRequest = true;
+                    } else {
+                        $existingRequest = false;
+                    }
                 //UNTUK HITUNG PERSENTASE dan BUAT NOTIFIKASI
                 $notifikasi = [];
                 $kontainer->each(function ($item) use (&$notifikasi) {
@@ -69,8 +79,26 @@ class KontainerController extends Controller
                     }
                 });
                 $permintaan = Permintaan::with('lokasi')->where('id_lokasi', $id_lokasi)->orderByDesc('created_at')->get();
+                $cekPermintaan = Permintaan::with('lokasi')
+                    ->where('id_lokasi', $id_lokasi)
+                    ->where('status_permintaan', 'diajukan')
+                    ->get();
 
-                return view('after-login.admin-kelurahan.kontainer.index', ['kontainer' => $kontainer, 'notifikasi' => $notifikasi, 'permintaan' => $permintaan, 'id_kontainer' => $id_kontainer]);
+                if ($cekPermintaan->isEmpty()) {
+                    $cekPermintaan = false;
+                    //return false, show button
+                } else {
+                    $cekPermintaan = true;
+                    //return true, permintaan sudah ada, jangan show button
+                }
+                return view('after-login.admin-kelurahan.kontainer.index', [
+                    'kontainer' => $kontainer,
+                    'notifikasi' => $notifikasi,
+                    'permintaan' => $permintaan,
+                    'cekKontainer' => $existingRequest,
+                    'cekPermintaan' => $cekPermintaan,
+                    'id_kontainer' => $id_kontainer
+                ]);
             } else {
                 $kontainer = Kontainer::with('lokasi', 'lokasi.kecamatan')
                     ->where('kontainer.keterangan', '<>', 'deleted')
@@ -78,14 +106,14 @@ class KontainerController extends Controller
                         'sumbangan' => function ($query) {
                             $query->leftJoin('permintaan', 'kontainer.id_kontainer', '=', 'permintaan.id_kontainer')
                                 ->where(function ($subquery) {
-                                    $subquery->where('status', 'terverifikasi')
-                                        ->where('sumbangan.updated_at', '>=', function ($subquery) {
-                                            $subquery->selectRaw('COALESCE(MAX(CASE WHEN status_permintaan = "berhasil" THEN permintaan.updated_at ELSE NULL END), MAX(kontainer.updated_at))')
-                                                ->from('kontainer')
-                                                ->leftJoin('permintaan', 'kontainer.id_kontainer', '=', 'permintaan.id_kontainer')
-                                                ->whereColumn('kontainer.id_kontainer', 'sumbangan.id_kontainer');
+                                            $subquery->where('status', 'terverifikasi')
+                                                ->where('sumbangan.updated_at', '>=', function ($subquery) {
+                                                                        $subquery->selectRaw('COALESCE(MAX(CASE WHEN status_permintaan = "berhasil" THEN permintaan.updated_at ELSE NULL END), MAX(kontainer.updated_at))')
+                                                                            ->from('kontainer')
+                                                                            ->leftJoin('permintaan', 'kontainer.id_kontainer', '=', 'permintaan.id_kontainer')
+                                                                            ->whereColumn('kontainer.id_kontainer', 'sumbangan.id_kontainer');
+                                                                    });
                                         });
-                                });
 
                         }
                     ], 'berat')
@@ -123,6 +151,7 @@ class KontainerController extends Controller
                         ];
                     }
                 });
+
                 return view('after-login.pengelola-csr.kontainer.index', ['kontainer' => $kontainer, 'permintaan' => $permintaan, 'notifikasi' => $notifikasi]);
             }
         } catch (Exception $exception) {

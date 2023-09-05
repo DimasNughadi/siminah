@@ -12,20 +12,20 @@
                     <div class="col-xxl-10 col-xl-10 col-lg-11 col-md-12 col-sm-12 col-12">
                         <div class="container-fluid olah-donatur animate__animated animate__fadeInUp">
                             <div class="row">
-                                <div class="col-md-8 col-sm-7 col-7">
+                                <div class="col-xxl-8 col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">
                                     <div class="header">
                                         Laporan Sumbangan Minyak Jelantah
                                     </div>
                                 </div>
-                                <div class="col-md-4 col-sm-5 col-5 mt-4 mt-xxl-0 mt-xl-0 mt-lg-0 mt-md-0 col-sm-0">
-                                    <div class="laporan-button d-flex align-items-center justify-content-end">
+                                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+                                    <div class="right-header ms-3 ms-xxl-0 ms-xl-0 ms-lg-0 ms-md-0">
                                         <x-forms.inputDate />
                                         <div class="header-button">
                                             <div
                                                 class="text-poppins text-14 btn-reward-position d-flex justify-content-end align-items-end">
                                                 <a href="#"
                                                     class="btn-reward 
-                                                btn-semi-success position-relative d-flex align-items-center export-btn"
+                                                btn-semi-success d-flex align-items-center export-btn"
                                                     onclick="generate()">
                                                     EXPORT
                                                     <span class="material-symbols-outlined">
@@ -102,13 +102,13 @@
         const tableRows = table.getElementsByTagName('tr');
 
         // get current Time
-        var tanggalHariIni = new Date();
-        var options = {
-            day: 'numeric',
-            month: 'long',
-            year: 'numeric'
-        };
-        var tanggalHariIni = tanggalHariIni.toLocaleDateString('id-ID', options);
+            var tanggalHariIni = new Date();
+            var options = {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            };
+            var tanggalHariIni = tanggalHariIni.toLocaleDateString('id-ID', options);
         // console.log(formattedDate);
 
         var tableData = [];
@@ -180,6 +180,22 @@
             });
         }
 
+        function setCurrentMonth() {
+            const currentDate = new Date();
+            const currentMonth = currentDate.getMonth() + 1;
+            const currentMonthString = currentMonth < 10 ? '0' + currentMonth : currentMonth;
+            const currentYear = currentDate.getFullYear();
+            const currentValue = `${currentYear}-${currentMonthString}`;
+            input.value = currentValue;
+            // length
+            isMonth(currentMonth)
+            // datetime
+            // const searchData = strToDate(currentValue)
+            // searchByMonthAndYear(searchData)
+        }
+
+        setCurrentMonth();
+
         input.addEventListener("input", function() {
             if (input.value === "") {
                 tableData = [];
@@ -213,22 +229,6 @@
             }
 
         });
-
-        function setCurrentMonth() {
-            const currentDate = new Date();
-            const currentMonth = currentDate.getMonth() + 1;
-            const currentMonthString = currentMonth < 10 ? '0' + currentMonth : currentMonth;
-            const currentYear = currentDate.getFullYear();
-            const currentValue = `${currentYear}-${currentMonthString}`;
-            input.value = currentValue;
-            // length
-            isMonth(currentMonth)
-            // datetime
-            // const searchData = strToDate(currentValue)
-            // searchByMonthAndYear(searchData)
-        }
-
-        setCurrentMonth();
 
 
         function adjustInputWidth() {
@@ -308,6 +308,16 @@
                 },
                 columnStyles: {
                     0: {
+                        valign: 'middle',
+                        halign: 'center',
+                        fontStyle: 'bold',
+                    },
+                    3: {
+                        valign: 'middle',
+                        halign: 'center',
+                        fontStyle: 'bold',
+                    },
+                    4: {
                         valign: 'middle',
                         halign: 'center',
                         fontStyle: 'bold',

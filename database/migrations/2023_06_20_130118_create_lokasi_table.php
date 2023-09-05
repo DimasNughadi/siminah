@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('nama_kelurahan', 50);
             $table->string('latitude', 50);
             $table->string('longitude', 50);
+            $table->string('gambar');
             $table->string('deskripsi', 50);
             $table->timestamps();
         });

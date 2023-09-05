@@ -57,7 +57,6 @@
                                 <div class="col-md-4 col-xxl-4 col-xl-5 col-lg-5 col-md-5 ms-xxl-4 ms-xl-4 mt-3 mt-xxl-0 mt-xl-0 mt-lg-0 mt-md-0">
                                     <x-forms.selectOption name="id_lokasi" label="Kelurahan">
                                         @slot('slotOptions')
-                                            {{-- {{ dd($lokasi) }} --}}
                                             @if (!empty($lokasi))
                                                 @foreach ($lokasi as $item)
                                                     <option 

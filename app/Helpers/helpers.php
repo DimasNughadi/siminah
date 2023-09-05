@@ -19,9 +19,10 @@ function isAdminCsr()
 
 function datetimeFormat($timestamp)
 {
-    if ($timestamp !== 'belum pernah diisi') {
+    if ($timestamp !== '-' && $timestamp !== "belum pernah diisi") {
         $data = date('h:i', strtotime($timestamp)) . ', ' . date('d M Y', strtotime($timestamp));
-    } else {
+    }
+    else {
         $data = '-';
     }
     return $data;
@@ -45,7 +46,7 @@ function getFirstName($name)
 
 function checkFileIsExist($path)
 {
-    if (file_exists(public_path('storage/' . $path))) {
+    if (file_exists(public_path('storage/lokasi/' . $path))) {
         return true;
     } else {
         return false;
@@ -59,5 +60,19 @@ function limitAlamatLength($data)
         return implode(" ", array_slice($words, 0, 30)) . "...";
     } else {
         return implode(" ", array_slice($words, 0, 2));
+    }
+}
+
+function limitNamaLokasi($data) {
+    $rs = mb_substr($data, 0, 15);
+    return $rs;
+}
+
+function isKecamatan($isKecamatan, $kecamatan, $kelurahan) 
+{
+    if($isKecamatan === 1) {
+        return "Kecamatan " . $kecamatan;
+    }else{
+        return "Kelurahan " . $kelurahan;
     }
 }
