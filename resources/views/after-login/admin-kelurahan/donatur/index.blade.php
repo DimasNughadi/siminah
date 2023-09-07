@@ -15,14 +15,14 @@
                     </div>
                     {{-- @dd($donatur) --}}
                     <div class="col-lg-12">
-                        <x-forms.table>
+                        <x-forms.table id="table-index-donatur">
                             @slot('headSlot')
                                 <th>NAMA DONATUR</th>
-                                <th>JUMLAH DONASI</th>
-                                <th>JUMLAH POIN</th>
+                                <th class="text-center">JUMLAH DONASI</th>
+                                <th class="text-center">JUMLAH POIN</th>
                                 <th>KELURAHAN</th>
                                 <th>WAKTU DONASI</th>
-                                <th>TOTAL DONASI</th>
+                                <th class="text-center ">TOTAL DONASI</th>
                                 <th>AKSI</th>
                             @endslot
                             
@@ -39,7 +39,7 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td class="ps-4 data-14">
+                                            <td class="text-center data-14">
 
                                                 @if ($item->sumbangan_sum_berat === 0 || $item->sumbangan_sum_berat === null)
                                                     -
@@ -47,7 +47,7 @@
                                                     {{ $item->sumbangan_sum_berat }} Kg
                                                 @endif
                                             </td>
-                                            <td class="ps-4 data-14">
+                                            <td class="text-center data-14">
                                                 {{ $item->poin }}
                                             </td>
                                             <td class="ps-4 data-14">
@@ -56,7 +56,7 @@
                                             <td class="ps-4 data-14">
                                                 {{ datetimeFormat($item->newest_tanggal) }}
                                             </td>
-                                            <td class="ps-4 data-14">
+                                            <td class="text-center data-14">
                                                 @if ($item->total_donasi === 0)
                                                     -
                                                 @else

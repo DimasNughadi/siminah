@@ -1,25 +1,23 @@
 @extends('components._partials.default')
 
 @section('content')
-    {{-- {{ dd($redeem) }} --}}
+    
     <div class="container-fluid py-2 ps-4">
         <div class="row">
-            <div class="col-md-10">
+            <div class="col-md-11">
                 <div class="row">
                     <div class="col-md-12 reward text-poppins">Reward</div>
                 </div>
                 <div class="row reedem-reward animate__animated animate__fadeInLeft">
                     <div class="col-xxl-9 col-xl-9 col-lg-8 col-md-8 col-sm-7 col-7">
                         <div class="table-header-redeem">
-                            Riwayat penukaran hadiah
+                            Verifikasi penukaran hadiah
                         </div>
                     </div>
                     <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-4 col-sm-5 col-5">
                         <div class="text-poppins text-14 btn-reward-position d-flex justify-content-end align-items-end">
                             <div class="btn-reward btn-custom-success position-relative">
-                                <a href="{{ route('reward') }}" class="position-relative add-reward">Lihat
-                                    Daftar
-                                    hadiah</a>
+                                <a href="{{ route('redeem.detail') }}" class="position-relative add-reward">Riwayat Penukaran</a>
                             </div>
                         </div>
                     </div>
@@ -27,11 +25,10 @@
                         <x-forms.table>
                             @slot('headSlot')
                                 <th>NAMA USER</th>
-                                <th>JUMLAH POIN</th>
+                                <th class="text-center ">JUMLAH POIN</th>
                                 <th>NAMA HADIAH</th>
                                 <th>WAKTU PENUKARAN</th>
-                                <th>TOTAL PENUKARAN</th>
-                                <th>STATUS PENUKARAN</th>
+                                <th>AKSI</th>
                             @endslot
                             @slot('bodySlot')
                                 @if (!empty($redeem))
@@ -47,7 +44,7 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td class="ps-4 poppins">
+                                            <td class="text-center poppins">
                                                 {{ $item->reward->jumlah_poin }}
                                             </td>
                                             <td class="ps-4">
@@ -60,13 +57,9 @@
                                             <td class="ps-4">
                                                 {{ datetimeFormat($item->created_at) }}
                                             </td>
-                                            <td class="ps-4">
-                                                {{ $item->redeem_count }} Kali
-                                            </td>
-                                            <td class="ps-4">
-                                                <span class="btn-status {{ ($item->status === 'selesai') ? 'bg-success' : (($item->status === 'ditolak') ? 'bg-danger' : 'bg-danger') }}">
-                                                    {{ $item->status }}
-                                                </span>
+                                            <td>
+                                                <span class="btn-status btn-light-success cursor-pointer"
+                                                    onclick="konfirmasiPenukaranHadiah('id')">KONFIRMASI</span>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -85,6 +78,77 @@
                 </div>
             </div>
         </div>
+        <div class="row mt-5">
+            <div class="col-md-11">
+                <div class="row reedem-reward animate__animated animate__fadeInLeft">
+                    <div class="col-xxl-10 col-xl-10 col-xl-10 col-md-10 col-sm-10 col-10">
+                        <div class="table-header-redeem">
+                            Daftar hadiah
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <x-forms.table id="table-detail-donatur">
+                            @slot('headSlot')
+                                <th>NAMA HADIAH</th>
+                                <th class="text-center ">STOK HADIAH</th>
+                                <th class="text-center">POIN</th>
+                                <th>MASA BERLAKU</th>
+                                <th>GAMBAR</th>
+                            @endslot
+
+                            @slot('bodySlot')
+                                @if (!empty($reward))
+                                    @foreach ($reward as $item)
+                                        <tr class="reward-row table-row-image">
+                                            <td class="ps-4 text-14">
+                                                <span class="text-poppins">
+                                                    {{ $item->nama_reward }}
+                                                </span>
+                                            </td>
+                                            <td class="text-center text-inter-regular text-14">
+                                                <span>{{ $item->stok }}</span>
+                                            </td>
+                                            <td class="text-center text-inter-regular text-14">
+                                                <span>{{ $item->jumlah_poin }}</span>
+                                            </td>
+                                            <td class="ps-4 text-inter-regular text-14">
+                                                <span>{{ $item->masa_berlaku }}</span>
+                                            </td>
+
+                                            <td class="ps-4 text-inter-regular text-14">
+                                                <div class="cursor-pointer">
+                                                    <img src="{{ asset('storage/reward/' . $item->gambar) }}" alt=""
+                                                        width="34" alt="gambar {{ $item->nama_reward }}"
+                                                        data-bs-toggle="modal" data-bs-target="#detail-image"
+                                                        onclick="detailGambarReward('{{ asset('storage/reward/' . $item->gambar) }}')">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @else
+                                    @if (!empty($message))
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td>{{ $message }}</td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    @endif
+                                @endif
+                            @endslot
+                        </x-forms.table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
+    <x-modals.detailGambarModal modalName="detail-image" title="Detail gambar reward">
+        @slot('slotBody')
+            <div class="modal-detail-gambar">
+                <img src="#" alt="gambar" id="modal-image-sumbangan">
+            </div>
+        @endslot
+        </x-modals.Modal>
 @stop

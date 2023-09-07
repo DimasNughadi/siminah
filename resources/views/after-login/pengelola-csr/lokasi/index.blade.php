@@ -32,7 +32,7 @@
                                 </div>
                                 <div class="col-md-12 col-sm-12 col-12">
                                     <div class="body">
-                                        <x-forms.table id="sumbangan-table">
+                                        <x-forms.table id="tabel-index-lokasi">
                                             @slot('headSlot')
                                                 <th>FOTO LOKASI</th>
                                                 <th>ALAMAT</th>

@@ -22,8 +22,11 @@
                                             <div class="chart-container">
                                                 <div class="chart-content">
                                                     <canvas id="myChart2"></canvas>
-                                                    <div class="chart-background"></div>
-                                                    <div class="chart-percentage">
+                                                    <div
+                                                        class="chart-background {{ $kontainer[0]->sumbangan_persentase < 75 ? 'bg-transparent-success' : 'bg-transparent-danger' }}">
+                                                    </div>
+                                                    <div
+                                                        class="chart-percentage {{ $kontainer[0]->sumbangan_persentase < 75 ? 'text-success' : 'text-danger' }}">
                                                         {{ number_format($kontainer[0]->sumbangan_persentase, 1) }}%</div>
                                                 </div>
                                             </div>
@@ -31,9 +34,11 @@
                                     </div>
                                 </div>
                                 <div class="col-md-12">
-                                    <div class="footer">
-                                        <canvas class="circle"></canvas>
-                                        <span>Kontainer terisi</span>
+                                    <div class="footer d-flex align-items-center">
+                                        <canvas
+                                            class="circle {{ $kontainer[0]->sumbangan_persentase < 75 ? 'bg-success' : 'bg-danger' }}"></canvas>
+                                        <span class="ms-2">Kontainer
+                                            {{ $kontainer[0]->sumbangan_persentase < 75 ? 'dapat diisi' : 'hampir penuh' }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -97,7 +102,7 @@
                                                             </div>
 
                                                             @if (!empty($notifikasi))
-                                                                @if ($cekKontainer === false)
+                                                                @if ($cekKontainer === true)
                                                                     <div class="col-md-4 header-button"
                                                                         id="btnAjukanPergantian">
                                                                         <div class="btn-reward btn-kontainer-kelurahan 
@@ -114,14 +119,15 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                {{-- {{ ($kontainer) }} --}}
+                                                {{-- {{ dd($permintaan) }} --}}
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="body overflowy-kontainer-kelurahan">
-                                                            <x-forms.table>
+                                                            <x-forms.table id="table-penggantian-kontainer">
                                                                 @slot('headSlot')
                                                                     <th>WAKTU PERMINTAAN PERGANTIAN</th>
                                                                     <th>STATUS</th>
+                                                                    <th>AKSI</th>
                                                                 @endslot
 
                                                                 @slot('bodySlot')
@@ -132,48 +138,27 @@
                                                                                     {{ datetimeFormat($item->created_at) }}
                                                                                 </td>
                                                                                 <td class="ps-4 ">
-                                                                                    @if (strtolower($item->status_permintaan) === 'diterima')
-                                                                                        <div
-                                                                                            class="btn-reward btn-table-custom bg-success
-                                                                        position-relative">
-                                                                                        @elseif(strtolower($item->status_permintaan) === 'ditolak')
-                                                                                            <div
-                                                                                                class="btn-reward btn-table-custom bg-danger
-                                                                                position-relative">
-                                                                                            @else
-                                                                                                <div
-                                                                                                    class="btn-reward btn-table-custom bg-success
-                                                                                position-relative">
-                                                                                    @endif
                                                                                     <span
-                                                                                        class="position-relative add-reward text-capitalize">
+                                                                                        class="btn-status {{ strtolower($item->status_permintaan) === 'diterima' ? 'bg-success' : (strtolower($item->status_permintaan) === 'ditolak' ? 'bg-danger' : 'bg-warning') }}">
                                                                                         {{ $item->status_permintaan }}
                                                                                     </span>
-                                                            </div>
-                                                            </td>
-                                                            </tr>
-                                                            @endforeach
-                                                        @else
-                                                            <tr class="reward-tr permintaan-tr">
-                                                                <td class="ps-4 tanggal">
-                                                                    18:42, 1 Agustus 2023
-                                                                </td>
-                                                                <td class="ps-4 ">
-                                                                    @if (strtolower($item->status_permintaan) === 'diterima')
-                                                                        <div
-                                                                            class="btn-reward btn-table-custom bg-success
-                                                                                position-relative">
-                                                                            <span class="position-relative add-reward">
-                                                                                Berhasil
-                                                                            </span>
-                                                                        </div>
-                                                                    @else
+                                                                                </td>
+                                                                                <td class="ps-4">
+                                                                                    <span
+                                                                                        class="{{ strtolower($item->status_permintaan) === 'diproses' ? 'btn-permintaan-proses' : (strtolower($item->status_permintaan) === 'ditolak' ? 'btn-permintaan-terima' : 'btn-permintaan-terima') }}">
+                                                                                        @if (strtolower($item->status_permintaan) === 'diterima')
+                Selesai
+            @else
+                                                                                            Kontainer diterima
+                                                                                        @endif
+                                                                                    </span>
+                                                                                </td>
+                                                                            </tr>
+                                                                        @endforeach
                                                                     @endif
-                                                                </td>
-                                                            </tr>
-                                                            @endif
-                                                        @endslot
-                                                        </x-forms.table>
+                                                                @endslot
+                                                            </x-forms.table>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -187,92 +172,91 @@
             </div>
         </div>
     </div>
-</div>
 
-{{-- forms update-permintaan --}}
-<form action="" id="updatePengajuanGantiKontainer" method="POST">
-    @csrf
-</form>
+    {{-- forms update-permintaan --}}
+    <form action="" id="updatePengajuanGantiKontainer" method="POST">
+        @csrf
+    </form>
 
-<style>
-    .chart-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .chart-content {
-        position: relative;
-        display: block;
-        width: 250px;
-        height: 250px;
-    }
-
-    .chart-content canvas {
-        display: block;
-        max-width: 100%;
-        max-height: 100%;
-        border-radius: 50%;
-        z-index: 2;
-    }
-
-    .chart-background {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(101, 174, 56, 0.25);
-        border-radius: 50%;
-        z-index: 1;
-        pointer-events: none;
-    }
-
-    .chart-percentage {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        font-size: 32px;
-        font-weight: bold;
-        color: #65AE38;
-    }
-</style>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"
-    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous" async></script>
-
-
-<script>
-    var ctx1 = document.getElementById('myChart2').getContext('2d');
-    var data1 = [{!! json_encode($kontainer[0]->sumbangan_persentase) !!}, {!! json_encode(100 - $kontainer[0]->sumbangan_persentase) !!}];
-    var colors1 = ['rgba(101, 174, 56, 1)', 'rgba(0, 0, 0, 0)'];
-    var cutout1 = '85%';
-    var myChart1 = new Chart(ctx1, {
-        type: 'doughnut',
-        data: {
-            labels: ['Terisi', 'kosong'],
-            datasets: [{
-                label: 'Total',
-                data: data1,
-                backgroundColor: colors1,
-                cutout: cutout1,
-                borderRadius: 50,
-                borderWidth: 0,
-                hoverOffset: 0
-            }]
-        },
-        options: {
-            maintainAspectRatio: false,
-            responsive: true,
-            layout: {
-                padding: 0
-            },
-            plugins: {
-                legend: false
-            }
+    <style>
+        .chart-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-    });
-</script>
+
+        .chart-content {
+            position: relative;
+            display: block;
+            width: 250px;
+            height: 250px;
+        }
+
+        .chart-content canvas {
+            display: block;
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 50%;
+            z-index: 2;
+        }
+
+        .chart-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* background-color: rgba(101, 174, 56, 0.25); */
+            border-radius: 50%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .chart-percentage {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 32px;
+            font-weight: bold;
+            /* color: #65AE38; */
+        }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous" async></script>
+
+
+    <script>
+        var ctx1 = document.getElementById('myChart2').getContext('2d');
+        var data1 = [{!! json_encode($kontainer[0]->sumbangan_persentase) !!}, {!! json_encode(100 - $kontainer[0]->sumbangan_persentase) !!}];
+        var colors1 = data1[0] <= 75 ? ['rgba(10, 164, 56, 1)', 'rgba(0, 0, 0, 0)'] : ['#d12031', 'rgba(0, 0, 0, 0)'];
+        var cutout1 = '85%';
+        var myChart1 = new Chart(ctx1, {
+            type: 'doughnut',
+            data: {
+                labels: ['Terisi', 'kosong'],
+                datasets: [{
+                    label: 'Total',
+                    data: data1,
+                    backgroundColor: colors1,
+                    cutout: cutout1,
+                    borderRadius: 50,
+                    borderWidth: 0,
+                    hoverOffset: 0
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                responsive: true,
+                layout: {
+                    padding: 0
+                },
+                plugins: {
+                    legend: false
+                }
+            }
+        });
+    </script>
 @stop

@@ -27,7 +27,7 @@ class RewardController extends Controller
             });
             if (auth()->user()->role == 'admin_kelurahan') {
                 return view(
-                    'after-login.admin-kelurahan.reward.detail',
+                    'after-login.admin-kelurahan.reward.index',
                     ['reward' => RewardResource::collection($rewards)]
                 );
             } else {
@@ -86,7 +86,7 @@ class RewardController extends Controller
                 'gambar' => $request->gambar->hashName(),
                 'status' => '-',
             ]);
-            return redirect()->route('reward.list-hadiah')->with('tambah_alert', 'success');
+            return redirect()->route('reward')->with('tambah_alert', 'success');
         } catch (QueryException | ModelNotFoundException $exception) {
             return view(
                 'after-login.pengelola-csr.reward.detail'
@@ -137,7 +137,7 @@ class RewardController extends Controller
             $reward->masa_berlaku = $request->masa_berlaku . ' 23:59:59';
             $reward->jumlah_poin = $request->jumlah_poin;
             $reward->save();
-            return redirect()->route('reward.list-hadiah')->with('edit_alert', 'success');
+            return redirect()->route('reward')->with('edit_alert', 'success');
         } catch (QueryException | ModelNotFoundException $exception) {
             return view(
                 'after-login.pengelola-csr.reward.detail'
@@ -150,7 +150,7 @@ class RewardController extends Controller
             $reward = Reward::find($id);
             $reward->status = 'deleted';
             $reward->save();
-            return redirect()->route('reward.list-hadiah')->with('delete_alert', 'success');
+            return redirect()->route('reward')->with('delete_alert', 'success');
         } catch (ModelNotFoundException | QueryException $exception) {
             return view(
                 'after-login.pengelola-csr.reward.detail',

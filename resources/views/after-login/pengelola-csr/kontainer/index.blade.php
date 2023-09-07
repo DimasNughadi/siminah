@@ -19,7 +19,7 @@
                                 </div>
                                 <div class="col-md-12 col-sm-12 col-12">
                                     <div class="body">
-                                        <x-forms.table>
+                                        <x-forms.table id="tabel-manajemen-permintaan">
                                             @slot('headSlot')
                                                 <th>KELURAHAN</th>
                                                 <th>TANGGAL PERMINTAAN</th>
@@ -88,6 +88,7 @@
                             </div>
                             <div class="body">
                                 <div class="row">
+                                    {{-- @dd($notifikasi) --}}
                                     @if (!empty($notifikasi))
                                         @foreach ($notifikasi as $item)
                                             <div class="col-md-12">
@@ -118,7 +119,7 @@
                             <div class="row">
                                 <div class="col-md-12 col-sm-12 col-12">
                                     <div class="body overflowy">
-                                        <x-forms.table>
+                                        <x-forms.table id="">
                                             @slot('headSlot')
                                                 <th>KELURAHAN</th>
                                                 <th>KAPASITAS</th>

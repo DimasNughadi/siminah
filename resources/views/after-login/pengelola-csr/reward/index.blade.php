@@ -19,11 +19,11 @@
                         </div>
                     </div>
                     <div class="col-md-12">
-                        <x-forms.table>
+                        <x-forms.table id="tabel-index-reward">
                             @slot('headSlot')
                                 <th>NAMA HADIAH</th>
-                                <th>STOK HADIAH</th>
-                                <th>POIN</th>
+                                <th class="text-center">STOK HADIAH</th>
+                                <th class="text-center">POIN</th>
                                 <th>MASA BERLAKU</th>
                                 <th>GAMBAR</th>
                                 <th>AKSI</th>
@@ -39,10 +39,10 @@
                                                     {{ $item->nama_reward }}
                                                 </span>
                                             </td>
-                                            <td class="ps-4 text-inter-regular text-14">
+                                            <td class="text-center text-inter-regular text-14">
                                                 <span>{{ $item->stok }}</span>
                                             </td>
-                                            <td class="ps-4 text-inter-regular text-14">
+                                            <td class="text-center text-inter-regular text-14">
                                                 <span>{{ $item->jumlah_poin }}</span>
                                             </td>
                                             <td class="ps-4 text-inter-regular text-14">
