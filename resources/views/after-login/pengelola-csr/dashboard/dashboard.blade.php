@@ -146,8 +146,8 @@
                         <i class="material-icons opacity-10">warning</i>
                     </div>
                     <div class="text-end pt-1">
-                        <p class="text-sm mb-0 text-capitalize">Kontainer Hampir Penuh</p>
-                        <h4 class="mb-0"><span id="state3" countTo="{{$hampirPenuh}}"></span> Kontainer</h4>
+                        <p class="text-sm mb-0 text-capitalize">request ganti kontainer</p>
+                        <h4 class="mb-0"><span id="state3" countTo="{{$hampirPenuh}}"></span> Permintaan</h4>
                     </div>
                 </div>
                 <hr class="dark horizontal my-0">
@@ -198,28 +198,6 @@
                             <h6 class="mb-0">Progress Kontainer</h6>
                             <p class="mb-0 text-sm">5 Kontainer Hampir penuh</p>
                         </div>
-                        <!-- <div class="col-6 text-end">
-                            <div class="dropdown">
-                                <button class="btn btn-sm bg-gradient-success dropdown-toggle" type="button"
-                                    id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Pilih Kelurahan
-                                </button>
-                                <ul class="dropdown-menu choices overflow-auto blockui"
-                                    aria-labelledby="dropdownMenuButton" style="max-height: 200px; overflow-y: auto;">
-                                    <li>
-                                        <div class="input-group input-group-outline choices">
-                                            <label class="form-label">Cari kelurahan</label>
-                                            <input type="text" class="form-control">
-                                        </div>
-                                    </li>
-                                    @foreach($lokasi as $l)
-                                    <li><a id="namaKel" class="dropdown-item"
-                                            onclick="updateChart('{{$l['id_lokasi']}}');">{{$l['nama_kelurahan']}}</a>
-                                    </li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        </div> -->
                     </div>
                 </div>
                 <div class="card-body p-3 pt-0">
@@ -232,50 +210,6 @@
                         <p class="mb-0 text-sm"> data per tanggal {{ $tanggal }} </p>
                     </div>
                 </div>
-                <!-- <div class="card-body p-3 pt-0">
-                    <div class="card-body p-3 pt-0">
-                    <div class="chart">
-                        <canvas id="myChart1" class="chart-canvas" height="230"></canvas>
-                    </div> -->
-                    <!-- <div class="row mt-0 mb-0">
-                        <div class="col-md-12 text-center">
-                            <div class="chart">
-                                <canvas id="myChart1" class="chart-content mx-auto chart-canvas chart-background-green"></canvas>
-                                <canvas id="myChart1" class="chart-canvas" height="230"></canvas>
-                            </div>
-                            <h4 class="font-weight-bold mt-n8">
-                                <span id="percentageProgress"><span id="state4" countTo="{{$percentageProgress}}"></span>%</span>
-                                <span id="progressText" class="d-block text-body text-sm">{{ $progress[0] }} /
-                                    {{$progress[0]+$progress[1]}}</span>
-                            </h4>
-                        </div>
-                        <div class="col-5">
-                            <div class="table-responsive">
-                                <table class="table align-items-center mb-0">
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex px-2 py-0">
-                                                    <span class="badge bg-gradient-primary me-3"> </span>
-                                                    <div class="d-flex flex-column justify-content-center">
-                                                        <h6 class="mb-0 text-sm">Living Room</h6>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div> -->
-                    <!-- <hr class="dark horizontal">
-                    <div class="d-flex">
-                        <i id="indicator" class="material-icons text-sm my-auto me-1 custom-icon">brightness_1</i>
-                        <p id="indicatorText" class="mb-0 text-sm">Aman</p>
-                        <i id="lokasi" class="material-icons position-relative ms-auto text-lg me-1 my-auto">place</i>
-                        <p id="lokasiText" class="text-sm my-auto"> Bukit Datuk</p>
-                    </div> -->
-                <!-- </div> -->
             </div>
         </div>
     </div>
@@ -313,35 +247,6 @@
                         <span class="font-weight-bold">0</span> notifikasi bulan {{$bulanTahun}}
                     </p>
                 </div>
-                <!-- <div class="card-body p-3">
-                    <div class="row">
-                        @if (!empty($notifikasi))
-                        @foreach ($notifikasi as $key => $item)
-                        @if ($item->status === 'HAMPIR PENUH')
-                        <div class="col-md-12">
-                            <x-notifikasi.kontainer action="disable" type="warning"
-                                notifikasi="Kontainer Utama hampir penuh"
-                                type_detail="Ajukan kontainer yang baru supaya dapat terus menerima sumbangan" />
-                        </div>
-                        @else
-                        <div class="col-md-12">
-                            <x-notifikasi.kontainer action="disable" type="success"
-                                notifikasi="Kontainer Utama dapat diisi"
-                                type_detail="Belum membutuhkan pergantian kontainer" />
-                        </div>
-                        @endif
-                        @if ($key === 0)
-                        @break
-                        @endif
-                        @endforeach
-                        @else
-                        <div class="col-md-12">
-                            <x-notifikasi.kontainer action="disable" type="success" kelurahan="Tidak ada permintaan"
-                                type_detail="Seluruh kontainer ready" />
-                        </div>
-                        @endif
-                    </div>
-                </div> -->
                 <div class="card-body p-3">
                     <div class="timeline timeline-one-side">
                         <div class="timeline-block mb-3">
@@ -518,44 +423,6 @@ function updateChart(selectedLokasiId) {
     });
 }
 
-// function updateMyChart1(newData) {
-//     myChart1.data.datasets[0].data = newData;
-//     var totalSumbangan1 = newData[0];
-//     var totalKapasitasKontainer = newData[0] + newData[1];
-//     var percentageProgress = Math.abs(((totalSumbangan1 / totalKapasitasKontainer) * 100).toFixed(2));
-//     document.getElementById('percentageProgress').textContent = percentageProgress + '%';
-//     document.getElementById('progressText').textContent = totalSumbangan1.toFixed(2) + '/' + totalKapasitasKontainer;
-
-//     var indicatorIcon = document.getElementById('indicator');
-//     var indicatorText = document.getElementById('indicatorText');
-//     var chartCanvas = document.getElementById('myChart1');
-
-//     indicatorIcon.classList.remove('custom-icon', 'custom-icon2', 'custom-icon3');
-//     chartCanvas.classList.remove('chart-background-green', 'chart-background-yellow', 'chart-background-red');
-
-//     if (percentageProgress <= 50.0) {
-//         indicatorIcon.classList.add('custom-icon');
-//         indicatorIcon.textContent = 'brightness_1';
-//         indicatorText.textContent = 'Aman';
-//         myChart1.data.datasets[0].backgroundColor = ['rgba(101, 174, 56, 1)', 'rgba(0, 0, 0, 0)'];
-//         chartCanvas.classList.add('chart-background-green');
-//     } else if (percentageProgress > 50.0 && percentageProgress <= 80.0) {
-//         indicatorIcon.classList.add('custom-icon2');
-//         indicatorIcon.textContent = 'brightness_1';
-//         indicatorText.textContent = 'Mulai Penuh';
-//         myChart1.data.datasets[0].backgroundColor = ['rgba(255, 167, 38, 1)', 'rgba(0, 0, 0, 0)'];
-//         chartCanvas.classList.add('chart-background-yellow');
-//     } else {
-//         indicatorIcon.classList.add('custom-icon3');
-//         indicatorIcon.textContent = 'brightness_1';
-//         indicatorText.textContent = 'Perlu penjemputan';
-//         myChart1.data.datasets[0].backgroundColor = ['rgba(209, 32, 49, 1)', 'rgba(0, 0, 0, 0)'];
-//         chartCanvas.classList.add('chart-background-red');
-//     }
-
-//     myChart1.update();
-// }
-
 var ctx1 = document.getElementById('myChart1').getContext('2d');
 var colors1 = ['rgba(101, 174, 56, 1)', 'rgba(0, 0, 0, 0)'];
 var cutout1 = '85%';
@@ -636,36 +503,6 @@ new Chart(ctx1, {
         },
     },
 });
-
-// var myChart1 = new Chart(ctx1, {
-//     type: 'doughnut',
-//     data: {
-//         labels: ['Terisi', 'kosong'],
-//         datasets: [{
-//             label: 'Total',
-//             data: @json($progress),
-//             backgroundColor: colors1,
-//             cutout: cutout1,
-//             borderRadius: 50,
-//             borderWidth: 0,
-//             hoverOffset: 0
-//         }]
-//     },
-//     options: {
-//         maintainAspectRatio: false,
-//         responsive: true,
-//         layout: {
-//             padding: 0
-//         },
-//         interaction: {
-//             intersect: false,
-//             mode: 'index',
-//         },
-//         plugins: {
-//             legend: false
-//         }
-//     }
-// });
 </script>
 
 <script>

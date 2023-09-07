@@ -87,21 +87,58 @@
                                         </tr>
                                     @endforeach
                                 @else
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td>{{ $message }}</td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
+                                {{ $item->sumbangan_sum_berat }} Kg
                                 @endif
+                            </td>
+                            <td class="ps-4 data-14">
+                                {{ $item->sumbangan_sum_poin_reward }}
+                            </td>
+                            <td class="ps-4 data-14">
+                                {{ $item->kelurahan }}
+                            </td>
+                            <td class="ps-4 data-14">
+                                {{ datetimeFormat($item->newest_tanggal) }}
+                            </td>
+                            <td class="ps-4 data-14">
+                                35 Hari
+                            </td>
+                            <td class="ps-4 data-14">
+                                @if ($item->total_donasi === 0)
+                                -
+                                @else
+                                {{ $item->total_donasi }} Kali
+                                @endif
+                            </td>
+                            <td class="ps-4 data-14">
+                                <span class="btn-status {{ ($item->delete) ? 'bg-light-dark' : 'bg-success' }}">
+                                    {{ (($item->delete) ? 'Pasif': 'Aktif') }}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="btn-reward btn-list position-relative">
+                                    <a href="{{ route('donatur.getById', ['id' => $item->id_donatur]) }}"
+                                        class="position-relative add-reward">DETAIL
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        @endforeach
+                        @else
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td>{{ $message }}</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        @endif
 
-                            @endslot
-                        </x-forms.table>
-                    </div>
+                        @endslot
+                    </x-forms.table>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 @stop
