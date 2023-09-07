@@ -36,12 +36,12 @@
             @endif
         </span>
     </div>
-    <div class="detail">
+    <div class="detail" title="{{ ($notifikasi === '') ? $kelurahan : $notifikasi }}">
         <div class="top">
             @if ($notifikasi === '')
                 {{ $kelurahan }}
             @else
-                {{ $notifikasi }}
+                {{ limitNameOfRegion($notifikasi) }}
             @endif
         </div>
         <div class="bottom">

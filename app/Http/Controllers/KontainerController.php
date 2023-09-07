@@ -32,21 +32,19 @@ class KontainerController extends Controller
                 $id_kontainer = DB::table('kontainer') // 1 to 1 id_lokasi
                     ->where('id_lokasi', $id_lokasi)
                     ->value('id_kontainer');
+                $currentContainer = Permintaan::where('id_kontainer', $id_kontainer)
+                    ->where('status_permintaan', 'berhasil')
+                    ->max('updated_at');
+                if ($currentContainer === null) {
+                    $currentContainer = Kontainer::where('id_kontainer', $id_kontainer)->max('updated_at');
+                }
                 $kontainer = Kontainer::with('lokasi')
                     ->where('kontainer.id_lokasi', $id_lokasi)
                     ->where('kontainer.keterangan', '<>', 'deleted')
                     ->withSum([
-                        'sumbangan' => function ($query) use ($id_lokasi) {
-                            $query->leftJoin('permintaan', 'kontainer.id_kontainer', '=', 'permintaan.id_kontainer')
-                                ->where(function ($subquery) {
-                                            $subquery->where('status', 'terverifikasi')
-                                                ->where('sumbangan.updated_at', '>=', function ($subquery) {
-                                                                        $subquery->selectRaw('COALESCE(MAX(CASE WHEN status_permintaan = "berhasil" THEN permintaan.updated_at ELSE NULL END), MAX(kontainer.updated_at))')
-                                                                            ->from('kontainer')
-                                                                            ->leftJoin('permintaan', 'kontainer.id_kontainer', '=', 'permintaan.id_kontainer')
-                                                                            ->whereColumn('kontainer.id_kontainer', 'sumbangan.id_kontainer');
-                                                                    });
-                                        });
+                        'sumbangan' => function ($query) use ($currentContainer) {
+                            $query->where('status', 'terverifikasi')
+                                ->where('updated_at', '>=', $currentContainer);
                         }
                     ], 'berat')
                     ->get();
@@ -55,11 +53,11 @@ class KontainerController extends Controller
                     ->where('status_permintaan', 'diajukan')
                     ->first();
 
-                    if ($existingRequest) {
-                        $existingRequest = true;
-                    } else {
-                        $existingRequest = false;
-                    }
+                if ($existingRequest) {
+                    $existingRequest = true;
+                } else {
+                    $existingRequest = false;
+                }
                 //UNTUK HITUNG PERSENTASE dan BUAT NOTIFIKASI
                 $notifikasi = [];
                 $kontainer->each(function ($item) use (&$notifikasi) {
@@ -104,17 +102,18 @@ class KontainerController extends Controller
                     ->where('kontainer.keterangan', '<>', 'deleted')
                     ->withSum([
                         'sumbangan' => function ($query) {
-                            $query->leftJoin('permintaan', 'kontainer.id_kontainer', '=', 'permintaan.id_kontainer')
-                                ->where(function ($subquery) {
-                                            $subquery->where('status', 'terverifikasi')
-                                                ->where('sumbangan.updated_at', '>=', function ($subquery) {
-                                                                        $subquery->selectRaw('COALESCE(MAX(CASE WHEN status_permintaan = "berhasil" THEN permintaan.updated_at ELSE NULL END), MAX(kontainer.updated_at))')
-                                                                            ->from('kontainer')
-                                                                            ->leftJoin('permintaan', 'kontainer.id_kontainer', '=', 'permintaan.id_kontainer')
-                                                                            ->whereColumn('kontainer.id_kontainer', 'sumbangan.id_kontainer');
-                                                                    });
+                            $query->where('status', 'terverifikasi')
+                                ->where('updated_at', '>=', function ($subquery) {
+                                            // Subquery to get the maximum updated_at value based on conditions
+                                            $subquery->select(DB::raw('CASE
+                                        WHEN MAX(updated_at) IS NOT NULL THEN MAX(updated_at)
+                                        ELSE kontainer.updated_at
+                                        END'
+                                            )
+                                            )
+                                                ->from('permintaan')
+                                                ->where('status_permintaan', 'berhasil');
                                         });
-
                         }
                     ], 'berat')
                     ->withMax([

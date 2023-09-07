@@ -24,7 +24,7 @@
                         </div>
                     </div>
                     <div class="col-md-12">
-                        <x-forms.table>
+                        <x-forms.table id="tabel-index-admin">
                             @slot('headSlot')
                                 <th class="text-semi-dark">NAMA ADMIN</th>
                                 <th class="text-semi-dark">EMAIL</th>

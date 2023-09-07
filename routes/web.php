@@ -61,6 +61,7 @@ Route::middleware(['checksession','role:admin_csr,admin_kelurahan'])->group(func
     //manajemen redeem (adm-kelurahan)
     Route::get('/reward',[RewardController::class,'index'])->name('reward');
     Route::get('/redeem',[RedeemController::class,'index'])->name('redeem');
+    Route::get('/redeem/detail',[RedeemController::class,'detail'])->name('redeem.detail');
     Route::get('/redeem/{id}',[RedeemController::class,'update'])->name('redeem.update');
     
     //profil admin
@@ -91,7 +92,7 @@ Route::middleware(['checksession','role:admin_csr'])->group(function() {
     Route::delete('/reward/{id}',[RewardController::class,'destroy'])->name('reward.delete');
     
     //ajax sumbangan
-    Route::get('/sumbangan/{id}',[SumbanganController::class,'filterData'])->name('sumbangans');
+    Route::get('/sumbangan/filter',[SumbanganController::class,'filterData'])->name('sumbangans');
 
     
     Route::delete('/donatur/delete/{id}',[DonaturController::class,'destroy'])->name('donatur.destroy');

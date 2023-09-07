@@ -12,14 +12,14 @@
                     <div class="col-xxl-10 col-xl-10 col-lg-11 col-md-12 col-sm-12 col-12">
                         <div class="container-fluid olah-donatur animate__animated animate__fadeInUp">
                             <div class="row">
-                                <div class="col-xxl-8 col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">
+                                <div class="col-xxl-7 col-xl-7 col-lg-7 col-md-8 col-sm-12 col-12">
                                     <div class="header">
                                         Laporan Sumbangan Minyak Jelantah
                                     </div>
                                 </div>
-                                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
-                                    <div class="right-header ms-3 ms-xxl-0 ms-xl-0 ms-lg-0 ms-md-0">
-                                        <x-forms.inputDate />
+                                <div class="col-xxl-5 col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12">
+                                    <div class="right-header ms-3 ms-xxl-0 ms-xl-0 ms-lg-0 ms-md-0 ms-sm-0">
+                                        <x-forms.inputDate id="date-range-picker" />
                                         <div class="header-button">
                                             <div
                                                 class="text-poppins text-14 btn-reward-position d-flex justify-content-end align-items-end">
@@ -38,52 +38,59 @@
                                 </div>
                                 <div class="col-md-12 col-sm-12 col-12">
                                     <div class="body">
-                                        <x-forms.table id="sumbangan-table">
-                                            @slot('headSlot')
-                                                <th>KECAMATAN</th>
-                                                <th>KELURAHAN</th>
-                                                <th>JUMLAH (KG)</th>
-                                                <th>JUMLAH DONATUR</th>
-                                                <th>TANGGAL PELAPORAN</th>
-                                            @endslot
-
-                                            @slot('bodySlot')
-                                                {{-- @dd($laporan) --}}
-                                                @if (!empty($laporan))
-                                                    @foreach ($laporan as $item)
-                                                        <tr class="reward-tr donatur-csr-tr">
-                                                            <td class="ps-3 detail-kelurahan">
-                                                                <div class="d-flex align-items-center">
-                                                                    <div class="ms-2  d-grid">
-                                                                        <span class="top">
-                                                                            {{ $item->nama_kecamatan }}
-                                                                        </span>
+                                        <div class="table-responsive">
+                                            <table id="table-sumbangan-csr"
+                                                class="table align-middle mb-0 reward-table ps-6">
+                                                <thead>
+                                                    <tr>
+                                                        <th>KECAMATAN</th>
+                                                        <th>KELURAHAN</th>
+                                                        <th class="text-center">JUMLAH (KG)</th>
+                                                        <th class="text-center">JUMLAH DONATUR</th>
+                                                        <th>BULAN</th>
+                                                        <th>TANGGAL PELAPORAN</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @if (!empty($laporan))
+                                                        @foreach ($laporan as $item)
+                                                            <tr class="reward-tr donatur-csr-tr">
+                                                                <td class="ps-3 detail-kelurahan">
+                                                                    <div class="d-flex align-items-center">
+                                                                        <div class="ms-2  d-grid">
+                                                                            <span class="top">
+                                                                                {{ $item->nama_kecamatan }}
+                                                                            </span>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                            </td>
-                                                            <td class="ps-3 detail-kelurahan">
-                                                                <div class="d-flex align-items-center">
-                                                                    <div class="ms-2  d-grid">
-                                                                        <span class="top">
-                                                                            {{ $item->nama_kelurahan }}
-                                                                        </span>
+                                                                </td>
+                                                                <td class="ps-3 detail-kelurahan">
+                                                                    <div class="d-flex align-items-center">
+                                                                        <div class="ms-2  d-grid">
+                                                                            <span class="top">
+                                                                                {{ $item->nama_kelurahan }}
+                                                                            </span>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                            </td>
-                                                            <td class="ps-4 subdata">
-                                                                {{ $item->total_berat }}
-                                                            </td>
-                                                            <td class="ps-4 subdata">
-                                                                {{ $item->total_donatur }}
-                                                            </td>
-                                                            <td class="ps-4 tanggal" id="tanggal">
-                                                                {{ dateFormat($item->tanggal_laporan) }}
-                                                            </td>
-                                                        </tr>
-                                                    @endforeach
-                                                @endif
-                                            @endslot
-                                        </x-forms.table>
+                                                                </td>
+                                                                <td class="subdata text-center">
+                                                                    {{ $item->total_berat }}
+                                                                </td>
+                                                                <td class="subdata text-center">
+                                                                    {{ $item->total_donatur }}
+                                                                </td>
+                                                                <td class="ps-4 tanggal">
+                                                                    {{ numberToMonth($item->bulan) }}
+                                                                </td>
+                                                                <td class="ps-4 tanggal" id="tanggal">
+                                                                    {{ dateFormat($item->tanggal_laporan) }}
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                    @endif
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -93,77 +100,56 @@
             </div>
         </div>
     </div>
+@stop
 
+@section('script')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.6/jspdf.plugin.autotable.min.js"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script> --}}
+    <script src="https://cdn.jsdelivr.net/npm/moment/min/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <script>
-        const input = document.getElementById('bulan');
-        const table = document.getElementById('sumbangan-table');
-        const tableRows = table.getElementsByTagName('tr');
-
-        // get current Time
-            var tanggalHariIni = new Date();
-            var options = {
-                day: 'numeric',
-                month: 'long',
-                year: 'numeric'
-            };
-            var tanggalHariIni = tanggalHariIni.toLocaleDateString('id-ID', options);
-        // console.log(formattedDate);
-
         var tableData = [];
-        var rows = document.querySelectorAll('#sumbangan-table tr');
-        for (var i = 0; i < rows.length; i++) {
-            var cells = rows[i].querySelectorAll('td');
-            tableData[i] = [];
-            for (var j = 0; j < cells.length; j++) {
-                tableData[i][j] = cells[j].textContent.replace(/\n/g, '').trim();
-            }
-        }
+        const tableRows = $('#table-sumbangan-csr tbody tr');
+        const originalData = $('#table-sumbangan-csr tbody').html()
+        $(function() {
+            const picker = $('#date-range-picker').daterangepicker({
+                locale: {
+                    cancelLabel: 'Clear'
+                },
+                opens: 'left',
+                startDate: moment().subtract(7, 'days'),
+                endDate: moment(),
+                locale: {
+                    format: 'YYYY-MM-DD'
+                }
+            }, function(start, end, label) {
+                filterTableByDateRange(start, end);
+            });
 
-        var tableDataWithRowNumbers;
-        tableData = tableData.slice(1);
-        tableDataWithRowNumbers = tableData.map(function(row, index) {
-            return [index + 1].concat(row).slice(0);
+            picker.on('cancel.daterangepicker', function(ev, picker) {
+                $('#table-sumbangan-csr tbody').html(originalData);
+                console.log(ev);
+                console.log(picker);
+                tableData = [];
+                setDefaultData()
+            });
         });
 
-        function isMonth(month) {
-            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September',
-                'October', 'November', 'December'
-            ];
-            const length = monthNames[month - 1].length;
-            if (length <= 5) {
-                input.style.width = '100px'
-            } else if (length <= 6) {
-                input.style.width = '120px'
-            } else if (length <= 7) {
-                input.style.width = '140px'
-            } else {
-                input.style.width = '150px'
-            }
-        }
 
-        function strToDate(dateStr) {
-            const date = new Date(dateStr);
-            const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-            const monthName = monthNames[date.getMonth()];
-            const year = date.getFullYear();
-            const formattedDate = `${monthName} ${year}`;
-            return formattedDate;
-        }
+        var tableDataWithRowNumbers;
 
-        function searchByMonthAndYear(keyword) {
-            // let sumRowsDeleted = 0;
+        function filterTableByDateRange(startDate, endDate) {
             tableData = [];
-
-            for (let i = 1; i < tableRows.length; i++) {
+            for (let i = 0; i < tableRows.length; i++) {
                 const row = tableRows[i];
-                const tanggalCell = row.querySelector('td#tanggal');
-                const tanggalText = tanggalCell.textContent;
-                if (tanggalText.includes(keyword)) {
+                const data = row.querySelector('td#tanggal').textContent;
+                const momentObj = moment(data, 'DD MMMM YYYY');
+                const rowDate = momentObj.format('YYYY-MM-DD');
+                if (rowDate >= startDate.format('YYYY-MM-DD') && rowDate <= endDate.format('YYYY-MM-DD')) {
                     row.style.display = '';
-                    var rowData = [];
-                    var cells = row.querySelectorAll('td');
+                    const rowData = [];
+                    const cells = row.querySelectorAll('td');
                     for (let j = 0; j < cells.length; j++) {
                         rowData.push(cells[j].textContent.trim());
                     }
@@ -171,80 +157,75 @@
                 } else {
                     row.style.display = 'none';
                 }
-
             }
-
             tableDataWithRowNumbers;
             tableDataWithRowNumbers = tableData.map(function(row, index) {
                 return [index + 1].concat(row).slice(0);
             });
         }
 
-        function setCurrentMonth() {
-            const currentDate = new Date();
-            const currentMonth = currentDate.getMonth() + 1;
-            const currentMonthString = currentMonth < 10 ? '0' + currentMonth : currentMonth;
-            const currentYear = currentDate.getFullYear();
-            const currentValue = `${currentYear}-${currentMonthString}`;
-            input.value = currentValue;
-            // length
-            isMonth(currentMonth)
-            // datetime
-            // const searchData = strToDate(currentValue)
-            // searchByMonthAndYear(searchData)
-        }
 
-        setCurrentMonth();
+        // get current Time
+        var tanggalHariIni = new Date();
+        var options = {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+        };
+        var tanggalHariIni = tanggalHariIni.toLocaleDateString('id-ID', options);
 
-        input.addEventListener("input", function() {
-            if (input.value === "") {
-                tableData = [];
 
-                for (let i = 1; i < tableRows.length; i++) {
-                    const row = tableRows[i];
-                    const tanggalCell = row.querySelector('td#tanggal');
-                    const tanggalText = tanggalCell.textContent;
+        function setDefaultData() {
+            for (let i = 0; i < tableRows.length; i++) {
+                const row = tableRows[i];
+                const data = row.querySelector('td#tanggal').textContent;
+                if (true) {
                     row.style.display = '';
-                    var rowData = [];
-                    var cells = row.querySelectorAll('td');
+                    const rowData = [];
+                    const cells = row.querySelectorAll('td');
                     for (let j = 0; j < cells.length; j++) {
                         rowData.push(cells[j].textContent.trim());
                     }
                     tableData.push(rowData);
-
+                } else {
+                    row.style.display = 'none';
                 }
-
-                tableDataWithRowNumbers;
-                tableDataWithRowNumbers = tableData.map(function(row, index) {
-                    return [index + 1].concat(row).slice(0);
-                });
-
-                // Set again
-                const currentDate = new Date();
-                const currentMonth = currentDate.getMonth() + 1;
-                const currentMonthString = currentMonth < 10 ? '0' + currentMonth : currentMonth;
-                const currentYear = currentDate.getFullYear();
-                const currentValue = `${currentYear}-${currentMonthString}`;
-                input.value = currentValue;
             }
-
-        });
-
-
-        function adjustInputWidth() {
-            const selectedMonth = input.value;
-            const monthValue = selectedMonth.split('-')[1];
-            isMonth(monthValue.split('')[1])
-
-            // Search
-            const keyword = strToDate(selectedMonth)
-            // console.log(keyword);
-            searchByMonthAndYear(keyword)
+            tableDataWithRowNumbers;
+            tableDataWithRowNumbers = tableData.map(function(row, index) {
+                return [index + 1].concat(row).slice(0);
+            });
         }
 
+        setDefaultData()
 
         function generate() {
+            
             var doc = new jsPDF('p', 'pt', 'a4');
+            // get file ukuran page
+            const docPageWidth = doc.internal.pageSize.getWidth()/2;
+            const imageWidth = 141;
+            const imageHeight = 71;
+
+            const imageUrl = 'assets/img/default/logo_siminah.png';
+
+            // Create an HTML `img` element to load the image
+            const img = new Image();
+
+            // Load the image from the URL
+            img.crossOrigin = 'Anonymous'; // Important for cross-origin images
+            img.src = imageUrl;
+
+            // When the image is loaded, encode it as Base64
+            img.onload = function() {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = img.width;
+                canvas.height = img.height;
+                ctx.drawImage(img, 0, 0, img.width, img.height);
+                const base64Image = canvas.toDataURL('image/png');
+            };
+
             var htmlstring = '';
             var tempVarToCheckPageHeight = 0;
             var pageHeight = 0;
@@ -263,12 +244,14 @@
                 right: 40,
                 width: 600
             };
-            var y = 20;
+            var y = 80;
+
             doc.setLineWidth(2);
-            doc.setFontSize(10);
-            doc.text(40, y = y + 10, tanggalHariIni);
+            doc.addImage(img, 'PNG', docPageWidth - 75, 10, 150, 81);
             doc.setFontSize(16);
-            doc.text(130, y = y + 30, "LAPORAN SUMBANGAN MINYAK JELANTAH");
+            doc.text("LAPORAN SUMBANGAN MINYAK JELANTAH", docPageWidth, y = y + 40, { align: 'center' });
+            doc.setFontSize(10);
+            doc.text(tanggalHariIni, docPageWidth, y = y + 15, { align: 'center' });
             doc.setFontSize(12);
             doc.autoTable({
                 headStyles: {
@@ -278,28 +261,31 @@
                 },
                 // html: '#sumbangan-table',
                 head: [
-                    ['NO', 'KECAMATAN', 'KELURAHAN', 'JUMLAH (KG)', 'JUMLAH DONATUR', 'TANGGAL PELAPORAN']
+                    ['NO', 'KECAMATAN', 'KELURAHAN', 'JUMLAH (KG)', 'JUMLAH DONATUR', 'BULAN' ,'TANGGAL PELAPORAN']
                 ],
                 body: tableDataWithRowNumbers,
-                startY: 70,
+                startY: y + 10,
                 theme: 'striped',
                 columnStyles: {
                     0: {
                         cellWidth: 40,
                     },
                     1: {
-                        cellWidth: 140,
+                        cellWidth: 125,
                     },
                     2: {
-                        cellWidth: 140,
+                        cellWidth: 125,
                     },
                     3: {
-                        cellWidth: 80,
+                        cellWidth: 60,
                     },
                     4: {
-                        cellWidth: 80
+                        cellWidth: 60
                     },
                     5: {
+                        cellWidth: 70
+                    },
+                    6: {
                         cellWidth: 60
                     },
                 },
@@ -312,6 +298,13 @@
                         halign: 'center',
                         fontStyle: 'bold',
                     },
+                    1: {
+                        valign: 'middle',
+                    },
+                    2: {
+                        valign: 'middle',
+                        fontStyle: 'bold',
+                    },
                     3: {
                         valign: 'middle',
                         halign: 'center',
@@ -321,6 +314,12 @@
                         valign: 'middle',
                         halign: 'center',
                         fontStyle: 'bold',
+                    },
+                    5: {
+                        valign: 'middle',
+                    },
+                    6: {
+                        valign: 'middle',
                     },
                 },
                 didDrawCell: function(data) {
@@ -335,5 +334,4 @@
             doc.save('Laporan-sumbangan-minyak-' + tanggalHariIni.replace(' ', '-') + '.pdf');
         }
     </script>
-
-@stop
+@endsection

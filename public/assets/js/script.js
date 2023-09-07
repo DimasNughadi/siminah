@@ -1,11 +1,24 @@
+const nav = document.querySelector("#navbarBlur");
+
+window.addEventListener("scroll", () => {
+    if (document.body.scrollTop > 0 || document.documentElement.scrollTop > 0) {
+        nav.classList.add("blur");
+        nav.classList.add("shadow-blur");
+    } else {
+        nav.classList.remove("blur");
+        nav.classList.remove("shadow-blur");
+    }
+});
+
 // edit reward
 function editDataReward(nama, stok, poin, masa_berlaku, route) {
     // console.log(id);
     var editNama = (document.getElementById("editNama").value = nama);
     var editStok = (document.getElementById("editStok").value = stok);
     var editPoin = (document.getElementById("editPoin").value = poin);
-    var masa_berlaku = document.querySelector('#editMasaBerlaku').value = masa_berlaku.split(' ')[0];
-    var actionForms = document.querySelector("#modal-forms-edit")
+    var masa_berlaku = (document.querySelector("#editMasaBerlaku").value =
+        masa_berlaku.split(" ")[0]);
+    var actionForms = document.querySelector("#modal-forms-edit");
     actionForms.action = route;
 }
 
@@ -201,7 +214,9 @@ function deleteDonaturPasif(url) {
         reverseButtons: true,
     }).then((result) => {
         if (result.isConfirmed) {
-            let formDeleteDonaturPasif = document.querySelector("#formDeleteDonaturPasif");
+            let formDeleteDonaturPasif = document.querySelector(
+                "#formDeleteDonaturPasif"
+            );
             formDeleteDonaturPasif.action = url;
             console.log(formDeleteDonaturPasif);
             formDeleteDonaturPasif.submit();
@@ -229,14 +244,14 @@ dropArea.addEventListener("dragover", (event) => {
 
 dropArea.addEventListener("dragleave", () => {
     dropArea.classList.remove("drag-over");
-}); 
+});
 
 // Handle the file drop event
 dropArea.addEventListener("drop", (event) => {
     event.preventDefault();
     dropArea.classList.remove("drag-over");
     const file = event.dataTransfer.files[0];
-    insertGambarLokasi.files = event.dataTransfer.files
+    insertGambarLokasi.files = event.dataTransfer.files;
     // console.log(insertGambarLokasi.files[0]);
     handleImage(file);
 });
@@ -300,3 +315,4 @@ insertGambarContainer.addEventListener("click", () => {
     insertGambarLokasi.click();
 });
 
+function konfirmasiPenukaranHadiah(id) {}
