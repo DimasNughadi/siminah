@@ -1,3 +1,5 @@
+@props(['id'])
+
 <div class="input-date" id="kontainer-bulan">
-    <input type="month" name="bulan" id="bulan" class="form-control" onchange="adjustInputWidth()" lang="id-ID">
+    <input type="text" name="bulan" class="form-control"  lang="id-ID" id="{{ $id }}">
 </div>

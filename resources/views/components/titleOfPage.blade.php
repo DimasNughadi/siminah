@@ -13,9 +13,11 @@
         $title = 'donatur';
     }elseif (isRouteActive('kontainer') || isRouteActive('kontainer.create') || isRouteActive('kontainer.edit')) {
         $title = 'kontainer';
-    }elseif (isRouteActive('reward') || isRouteActive('reward/reward-list')) {
+    }elseif (isRouteActive('reward')) {
         $title = 'reward';
-    }elseif (isRouteActive('profil') || isRouteActive('profil.edit')) {
+    }elseif (isRouteActive('redeem')) {
+        $title = 'redeem';
+    }    elseif (isRouteActive('profil') || isRouteActive('profil.edit')) {
         $title = 'profil';
     }elseif (isRouteActive('admin') || isRouteActive('admin.edit') || isRouteActive('admin.create')) {
         $title = 'admin';

@@ -123,12 +123,12 @@
                     {{-- {{ dd($riwayat) }} --}}
 
                     <div class="col-md-12 col-sm-12 col-12">
-                        <x-forms.table>
+                        <x-forms.table id="table-detail-donatur">
                             @slot('headSlot')
                                 <th class="text-semi-dark">LOKASI KONTAINER</th>
-                                <th class="text-semi-dark">JUMLAH KONTAINER</th>
+                                <th class="text-semi-dark text-center ">JUMLAH KONTAINER</th>
                                 <th class="text-semi-dark">TANGGAL</th>
-                                <th class="text-semi-dark">WAKTU</th>
+                                <th class="text-semi-dark text-center ">WAKTU</th>
                                 <th class="text-semi-dark">STATUS</th>
                             @endslot
 
@@ -136,19 +136,19 @@
                                 @if (!empty($riwayat))
                                     @foreach ($riwayat as $item)
                                         <tr class="reward-row table-row-image">
-                                            <td class="ps-4 text-semi-dark">
+                                            <td class="ps-3 text-semi-dark">
                                                 {{ $item->kontainer->lokasi->nama_kelurahan }}
                                             </td>
-                                            <td class="ps-4 text-semi-dark text-inter-regular text-14">
+                                            <td class="text-center text-semi-dark text-inter-regular text-14">
                                                 {{ $item->berat }} kg
                                             </td>
-                                            <td class="ps-4 text-semi-dark text-inter-regular text-14">
-                                                {{ date('d F y', strtotime($item->tanggal)) }}
+                                            <td class="ps-2 text-semi-dark text-inter-regular text-14">
+                                                {{ dateFormat($item->created_at)}}
                                             </td>
-                                            <td class="ps-4 text-semi-dark-68 text-inter-regular text-14">
+                                            <td class="text-center  text-semi-dark-68 text-inter-regular text-14">
                                                 {{ date('h:i', strtotime($item->created_at)) }}
                                             </td>
-                                            <td class="ps-4">
+                                            <td class="ps-2">
                                                 @if (strtolower($item->status) === 'ditolak')
                                                     <div
                                                         class="btn-reward btn-table-custom bg-danger

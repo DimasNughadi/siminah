@@ -106,13 +106,17 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="btn-hapus-donatur">
-                                <button class="btn btn-danger text-white" onclick="deleteDonaturPasif('{{ route('donatur.destroy', ['id' => $donatur->id_donatur]) }}')">Hapus Donatur</button>
+                    @if ($deleted === true)
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="btn-hapus-donatur">
+                                    <button class="btn btn-danger text-white"
+                                        onclick="deleteDonaturPasif('{{ route('donatur.destroy', ['id' => $donatur->id_donatur]) }}')">Hapus
+                                        Donatur</button>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    @endif
                 </div>
             </div>
             <div class="col-xxl-8 col-xl-7 col-lg-7 col-md-6 col-md-7 col-sm-12 col-12 mt-md-0 mt-sm-3 mt-4">
@@ -128,9 +132,9 @@
                         <x-forms.table id="table-detail-donatur">
                             @slot('headSlot')
                                 <th class="text-semi-dark">LOKASI KONTAINER</th>
-                                <th class="text-semi-dark">JUMLAH KONTAINER</th>
+                                <th class="text-semi-dark text-center">JUMLAH KONTAINER</th>
                                 <th class="text-semi-dark">TANGGAL</th>
-                                <th class="text-semi-dark">WAKTU</th>
+                                <th class="text-semi-dark text-center">WAKTU</th>
                                 <th class="text-semi-dark">STATUS</th>
                             @endslot
 
@@ -141,13 +145,13 @@
                                             <td class="ps-4 text-semi-dark">
                                                 {{ $item->kontainer->lokasi->nama_kelurahan }}
                                             </td>
-                                            <td class="ps-4 text-semi-dark text-inter-regular text-14">
+                                            <td class="text-center  text-semi-dark text-inter-regular text-14">
                                                 {{ $item->berat }} kg
                                             </td>
                                             <td class="ps-4 text-semi-dark text-inter-regular text-14">
                                                 {{ date('d F y', strtotime($item->created_at)) }}
                                             </td>
-                                            <td class="ps-4 text-semi-dark-68 text-inter-regular text-14">
+                                            <td class="text-center  text-semi-dark-68 text-inter-regular text-14">
                                                 {{ date('h:i', strtotime($item->created_at)) }}
                                             </td>
                                             <td class="ps-4">

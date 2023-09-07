@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 
 function isRouteActive($routeName)
@@ -21,8 +22,7 @@ function datetimeFormat($timestamp)
 {
     if ($timestamp !== '-' && $timestamp !== "belum pernah diisi") {
         $data = date('h:i', strtotime($timestamp)) . ', ' . date('d M Y', strtotime($timestamp));
-    }
-    else {
+    } else {
         $data = '-';
     }
     return $data;
@@ -31,7 +31,7 @@ function datetimeFormat($timestamp)
 function dateFormat($timestamp)
 {
     if ($timestamp !== '-') {
-        $data = date('d M Y', strtotime($timestamp));
+        $data = date('d F Y', strtotime($timestamp));
     } else {
         $data = '-';
     }
@@ -63,16 +63,47 @@ function limitAlamatLength($data)
     }
 }
 
-function limitNamaLokasi($data) {
+function limitNamaLokasi($data)
+{
     $rs = mb_substr($data, 0, 15);
     return $rs;
 }
 
-function isKecamatan($isKecamatan, $kecamatan, $kelurahan) 
+function isKecamatan($isKecamatan, $kecamatan, $kelurahan)
 {
-    if($isKecamatan === 1) {
+    if ($isKecamatan === 1) {
         return "Kecamatan " . $kecamatan;
-    }else{
+    } else {
         return "Kelurahan " . $kelurahan;
     }
+}
+
+function limitNameOfRegion($text)
+{
+    $limited_text = substr($text, 0, 30);
+    return $limited_text;
+}
+
+function numberToMonth($number)
+{
+    $monthList = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+    return $monthList[$number - 1];
+}
+
+function checkNumberIsZero($number)
+{
+    $all_zeros = true;
+    foreach ($number as $digit) {
+        if ($digit['berat'] != 0) {
+            $all_zeros = false;
+            break;
+        }
+    }
+
+    if ($all_zeros) {
+        return true;
+    } else {
+        return false;
+    }
+
 }

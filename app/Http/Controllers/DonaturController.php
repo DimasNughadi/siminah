@@ -32,7 +32,7 @@ class DonaturController extends Controller
                         $query->where('status', 'terverifikasi');
                     }
                 ])
-                    ->select('donatur.id_donatur', 'nama_donatur', 'donatur.poin', 'kelurahan', 'donatur.photo', 'id_lokasi')
+                    ->select('donatur.id_donatur', 'nama_donatur', 'donatur.poin', 'kelurahan', 'donatur.photo', 'id_lokasi', 'donatur.updated_at as last')
                     ->withSum([
                         'sumbangan' => function ($query) {
                             $query->where('status', 'terverifikasi');
@@ -53,11 +53,12 @@ class DonaturController extends Controller
                             $query->where('status', 'terverifikasi');
                         }
                     ], 'created_at')
+                    ->withMax('sumbangan as online_terakhir', 'created_at')
                     ->join('sumbangan', 'donatur.id_donatur', '=', 'sumbangan.id_donatur')
                     ->join('kontainer', 'sumbangan.id_kontainer', '=', 'kontainer.id_kontainer')
                     ->where('id_lokasi', $id_lokasi)
                     ->where('status', 'terverifikasi')
-                    ->groupBy('donatur.photo', 'donatur.id_donatur', 'donatur.poin', 'nama_donatur', 'kelurahan', 'id_lokasi')
+                    ->groupBy('donatur.photo', 'donatur.id_donatur', 'donatur.poin', 'nama_donatur', 'kelurahan', 'id_lokasi', 'last')
                     ->orderByDesc('sumbangan_sum_berat')
                     ->get();
                 $donatur->each(function ($item) {
@@ -71,10 +72,14 @@ class DonaturController extends Controller
                     if ($item->newest_tanggal === null) {
                         $item->newest_tanggal = '-';
                     }
+                    if ($item->online_terakhir === null) {
+                        $item->online_terakhir = Carbon::parse($item->last);
+                    }
+                    $item->online_terakhir = Carbon::now()->diffInDays($item->online_terakhir);
                 });
                 return view('after-login.admin-kelurahan.donatur.index', ['donatur' => $donatur]);
             } else {
-                $donatur = Donatur::select('donatur.id_donatur', 'nama_donatur', 'kelurahan', 'donatur.photo')
+                $donatur = Donatur::select('donatur.id_donatur', 'nama_donatur', 'kelurahan', 'donatur.photo', 'donatur.updated_at as last')
                     ->leftJoin('sumbangan', function ($join) {
                         $join->on('donatur.id_donatur', '=', 'sumbangan.id_donatur')
                             ->where('sumbangan.status', '=', 'terverifikasi');
@@ -99,7 +104,8 @@ class DonaturController extends Controller
                             $query->where('status', 'terverifikasi');
                         }
                     ], 'created_at')
-                    ->groupBy('donatur.photo', 'donatur.id_donatur', 'nama_donatur', 'kelurahan')
+                    ->withMax('sumbangan as online_terakhir', 'created_at')
+                    ->groupBy('donatur.photo', 'donatur.id_donatur', 'nama_donatur', 'kelurahan', 'last')
                     ->orderByDesc('sumbangan_sum_berat')
                     ->get();
                 $donatur->each(function ($item) {
@@ -112,7 +118,11 @@ class DonaturController extends Controller
                     if ($item->newest_tanggal === null) {
                         $item->newest_tanggal = '-';
                     }
-                    $item->delete = $item->total_donasi === 0 ? true : false;
+                    if ($item->online_terakhir === null) {
+                        $item->online_terakhir = Carbon::parse($item->last);
+                    }
+                    $item->online_terakhir = Carbon::now()->diffInDays($item->online_terakhir);
+                    // $item->delete = $item->total_donasi === 0 ? true : false;
                 });
 
                 return view('after-login.pengelola-csr.donatur.index', ['donatur' => $donatur]);
@@ -212,9 +222,9 @@ class DonaturController extends Controller
             $donatur = Donatur::find($id);
             $donatur->sumbangan()->delete();
             $donatur->delete();
-            return redirect()->route('donatur')->with('delete_alert', 'success');
+            return redirect()->route('donatur')->with('message', 'Donatur berhasil dihapus');
         } catch (Exception $exception) {
-            return redirect()->back()->with('delete_alert', 'error');
+            return redirect()->back()->with('message', 'Donatur tidak berhasil dihapus');
         }
     }
 
@@ -256,13 +266,25 @@ class DonaturController extends Controller
                     $item->sumbangan_sum_berat = 0;
                 }
             });
+            if (!$riwayat->isEmpty()) {
+                $deleted =  Carbon::now()->diffInDays(Carbon::parse($riwayat[0]->created_at)->format('Y-m-d H:i:s'));
+            } else {
+                $deleted =  Carbon::now()->diffInDays($donatur->updated_at->format('Y-m-d H:i:s'));
+            }
+
+            if ($deleted >= 90 && $total[0]->sumbangan_sum_berat === null) {
+                $deleted = 'true';
+            } else {
+                $deleted = 'false';
+            }
+            // dd($deleted);
             if (auth()->user()->role == 'admin_kelurahan') {
                 return view('after-login.admin-kelurahan.donatur.detail', ['donatur' => $donatur, 'riwayat' => $riwayat, 'total' => $total]);
             } else {
-                return view('after-login.pengelola-csr.donatur.detail', ['donatur' => $donatur, 'riwayat' => $riwayat, 'total' => $total]);
+                return view('after-login.pengelola-csr.donatur.detail', ['donatur' => $donatur, 'riwayat' => $riwayat, 'total' => $total, 'deleted' => $deleted]);
 
-            }
-        } catch (Exception $exception) {
+            } 
+        }catch (Exception $exception) {
             return redirect()->back()->with('message', 'Tidak ada detail donatur');
         }
     }
