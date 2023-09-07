@@ -13,6 +13,22 @@ use Laravel\Sanctum\Sanctum;
 
 class DonaturController extends Controller
 {
+	
+	public function cekToken(Request $request)
+	{
+		$donatur = $request->user();
+		
+		$totalSumbangan = Sumbangan::where('id_donatur', $donatur->id_donatur)
+				->where('status', 'terverifikasi')
+				->sum('berat');
+		
+		$data = [
+			'donatur' => $donatur,
+			'sumbangan' => $totalSumbangan
+		];
+		
+        return response()->json($data, Response::HTTP_OK);
+	}
 
     public function login(Request $request)
     {
@@ -126,5 +142,18 @@ class DonaturController extends Controller
         $donatur = Donatur::findOrFail($id);
         $donatur->delete();
         return response()->json(null, Response::HTTP_NO_CONTENT);
+    }
+	
+    /**
+     * Log the user out (revoke the token for the current user).
+     */
+    public function logout(Request $request)
+    {
+        // Revoke the current user's tokens.
+        $request->user()->tokens->each(function ($token, $key) {
+            $token->delete();
+        });
+
+        return response()->json(['message' => 'Logged out successfully'], Response::HTTP_OK);
     }
 }

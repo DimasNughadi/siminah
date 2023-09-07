@@ -62,4 +62,7 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::put('/{id}', [LokasiController::class, 'update']);
         Route::delete('/{id}', [LokasiController::class, 'destroy']);
     });
+	
+	Route::get('cekToken', [DonaturController::class, 'cekToken']);
+	Route::post('logout', [DonaturController::class, 'logout']);
 });
