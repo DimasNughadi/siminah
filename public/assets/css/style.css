@@ -315,41 +315,93 @@ img.user-image {
     height: 50px !important;
 }
 
-/* table {
-    border: none!important;
-}
+/* Paginate */
 
 .dataTables_wrapper .pagination > li > a,
 .dataTables_wrapper .pagination > li > span {
-  margin: 0!important;
-  padding: 0!important;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
 .dataTables_wrapper table {
-    margin-left: -55px!important;
-  }
+    margin-left: -55px !important;
+}
 
 .dataTables_wrapper table.dataTable {
-    border: none!important;
+    border: none !important;
 }
 
 .dataTables_wrapper table.dataTable tbody tr {
     border-top: 1px solid black;
-} 
+}
 .dataTables_wrapper table.dataTable tbody {
-    border: none!important;
+    border: none !important;
 }
 
 .dataTables_wrapper table.dataTable tbody td {
-    border: none;
+    border-bottom: 1px solid rgba(58, 53, 65, .1) !important;
 }
-.dataTables_wrapper table.dataTable tbody tr:last-child {
-    border: none!important;
+.dataTables_wrapper table.dataTable tbody tr{
+    border-bottom: 1px solid black;
 }
 
 table.dataTable tbody tr {
-    margin-left: -100px!important;
-}  */
+    margin-left: -100px !important;
+}
+
+.dataTables_paginate {
+    margin-bottom: 10px!important;
+    margin-right: 5px!important;
+}
+
+/* .dataTables_paginate.paging-simple-numbers{
+    display: flex;
+    align-items: end !important;
+    justify-content: end !important;
+} */
+
+.btn-paginate {
+    background-color: var(--transparent-primary-color) !important;
+    border-radius: 50%;
+    width: 32px !important;
+    height: 32px !important;
+    padding: 5px 10px 5px 10px;
+    cursor: pointer;
+    margin-left: 5px !important;
+    color: black !important;
+    font-family: var(--text-poppins)!important;
+    font-size: 12px !important;
+}
+
+.btn-paginate:hover {
+    background-color: var(--primary-color) !important;
+    color: white!important;
+}
+
+.btn-paginate:focus {
+    outline: none !important;
+    box-shadow: 0 0 0 2px var(--primary-color)!important;
+    color: white!important;
+}
+
+.btn-paginate.current {
+    background-color: var(--primary-color)!important;
+    color: white!important;
+}
+
+.btn-paginate.next:focus {
+    outline: none !important;
+    box-shadow: 0 0 0 2px var(--primary-color)!important;
+    color: white!important;
+}
+
+.btn-paginate.previous:focus {
+    outline: none !important;
+    box-shadow: 0 0 0 2px var(--primary-color)!important;
+    color: white!important;
+}
+/* End datatable */
+
 
 .table-header-redeem {
     font-family: "Inter", sans-serif;
@@ -364,6 +416,10 @@ table.dataTable tbody tr {
 
 .reward-table thead tr th {
     font-size: 12px;
+}
+
+table thead tr th {
+    vertical-align: middle;
 }
 
 .text-poppins-medium {
@@ -618,6 +674,11 @@ input.modal-input[type="date"]::-webkit-calendar-picker-indicator {
 
 .btn-semi-success {
     background-color: #65ae38;
+    text-decoration: none;
+    color: white !important;
+}
+.btn-light-success {
+    background-color: var(--light-success);
     text-decoration: none;
     color: white !important;
 }
@@ -995,6 +1056,13 @@ tr.reward-tr .ps-4 .d-flex {
     background-color: var(--transparent-danger);
 }
 
+.text-danger {
+    color: var(--danger);
+}
+.text-success {
+    color: var(--success);
+}
+
 .bg-transparent-warning {
     background-color: var(--transparent-warning);
 }
@@ -1114,6 +1182,48 @@ tr.reward-tr .ps-4 .d-flex {
     font-style: normal;
     font-weight: 600;
     line-height: 32px; /* 160% */
+    letter-spacing: 0.15px;
+}
+
+.btn-permintaan-terima {
+    display: flex;
+    width: 180px;
+    height: 32px;
+    border-radius: 12px;
+    background-color: #d6d6d6;
+    padding: 0px 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    color: #909090;
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: var(--text-poppins);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 32px; /* 228.571% */
+    letter-spacing: 0.15px;
+}
+
+.btn-permintaan-proses {
+    display: flex;
+    width: 180px;
+    height: 32px;
+    border-radius: 12px;
+    background-color: var(--danger);
+    padding: 0px 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    color: white;
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: var(--text-poppins);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 32px; /* 228.571% */
     letter-spacing: 0.15px;
 }
 
@@ -1237,7 +1347,6 @@ tr.reward-tr .ps-4 .d-flex {
 }
 
 .kontainer-kelurahan .footer .circle {
-    background-color: var(--success);
     border-radius: 50%;
     width: 14px;
     height: 14px;
@@ -1620,6 +1729,7 @@ tr.reward-tr .ps-4 .d-flex {
 
 /* Input date */
 .input-date {
+    width: 100%;
     height: 32px !important;
     background-color: white;
     border-radius: 10px;
@@ -2385,6 +2495,10 @@ input[type="radio"]:checked + label {
     .logo-pcr img {
         display: none;
     }
+
+    .olah-donatur .header {
+        padding: 20px 20px 0 20px;
+    }
 }
 
 @media (min-width: 576px) {
@@ -2415,6 +2529,10 @@ input[type="radio"]:checked + label {
 
     .logo-pcr img {
         display: none;
+    }
+
+    .olah-donatur .header {
+        padding: 20px 20px 0 20px;
     }
 }
 
@@ -2467,6 +2585,10 @@ input[type="radio"]:checked + label {
 
     .right-header {
         justify-content: end;
+    }
+
+    .olah-donatur .header {
+        padding: 20px 20px 0 20px;
     }
 }
 

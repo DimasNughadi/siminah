@@ -51,6 +51,7 @@
                             </div>
                         </div>
                     </div>
+                    {{-- {{ dd($sumbanganHarian) }} --}}
                     <div class="col-xxl-4 col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">
                         <div class="total-sumbangan mt-sm-4 mt-4 mt-md-0">
                             <div class="row">
@@ -62,7 +63,12 @@
                                 <div class="col-md-12 col-sm-12 col-12">
                                     <div class="body">
                                         <div class="chartPie">
-                                            <canvas id="myPieChart"></canvas>
+                                            @if (checkNumberIsZero($sumbanganHarian))
+                                                <div class="defaultChartPie">
+                                                </div>
+                                            @else
+                                                <canvas id="myPieChart"></canvas>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -124,7 +130,7 @@
                                                 <x-forms.table>
                                                     @slot('headSlot')
                                                         <th>NAMA</th>
-                                                        <th>WAKTU SUMBANGAN</th>
+                                                        <th>WAKTU VERIFIKASI</th>
                                                         <th>STATUS</th>
                                                     @endslot
 
@@ -193,10 +199,10 @@
                                     {{-- {{ dd($verifikasiStatus) }} --}}
                                     <div class="col-md-12">
                                         <div class="body mt-2">
-                                            <x-forms.table>
+                                            <x-forms.table id="table-verifikasi-donasi">
                                                 @slot('headSlot')
                                                     <th>NAMA DONATUR</th>
-                                                    <th>JUMLAH DONASI</th>
+                                                    <th class="text-center ">JUMLAH DONASI</th>
                                                     <th>KELURAHAN</th>
                                                     <th>WAKTU DONASI</th>
                                                     <th>FOTO DONASI</th>
@@ -215,7 +221,7 @@
                                                                             class="ps-2">{{ getFirstName($item->donatur->nama_donatur) }}</span>
                                                                     </div>
                                                                 </td>
-                                                                <td class="ps-4 berat">
+                                                                <td class="text-center berat">
                                                                     {{ $item->berat }} Kg
                                                                 </td>
                                                                 <td class="ps-4 kelurahan">
@@ -257,6 +263,15 @@
                                                                 </td>
                                                             </tr>
                                                         @endforeach
+                                                    @else
+                                                    <tr>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td>Tidak ada</td>
+                                                        <td>data ditemukan</td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
                                                     @endif
                                                 @endslot
                                             </x-forms.table>
@@ -378,6 +393,14 @@
                     width: 396px !important;
                     height: 396px !important;
                 }
+
+                .defaultChartPie {
+                    width: 196px;
+                    height: 196px;
+                    border-radius: 50%;
+                    background-color: #eaeaea;
+                    margin-left: 25%;
+                }
             </style>
 
 
@@ -418,7 +441,7 @@
                     }
                 });
             </script>
-            {{-- {{ dd($sumbanganHarian[0]) }} --}}
+            {{-- {{ dd($sumbanganHarian) }} --}}
             <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
@@ -430,22 +453,22 @@
                     data: {
                         datasets: [{
                             data: [
-                                {!! json_encode($sumbanganHarian[0]['berat']) !!},
-                                {!! json_encode($sumbanganHarian[1]['berat']) !!},
+                                {!! json_encode($sumbanganHarian[1]['berat']) !!}, // senin
                                 {!! json_encode($sumbanganHarian[2]['berat']) !!},
                                 {!! json_encode($sumbanganHarian[3]['berat']) !!},
                                 {!! json_encode($sumbanganHarian[4]['berat']) !!},
-                                {!! json_encode($sumbanganHarian[5]['berat']) !!},
-                                {!! json_encode($sumbanganHarian[6]['berat']) !!}
+                                {!! json_encode($sumbanganHarian[5]['berat']) !!}, // jumat
+                                {!! json_encode($sumbanganHarian[6]['berat']) !!}, // sabtu
+                                {!! json_encode($sumbanganHarian[0] ['berat']) !!} // minggu
                             ],
                             backgroundColor: [
-                                "#EAC500",
-                                "#145EA8",
-                                "#E5E5E5",
-                                "#D12031",
-                                "#A8AE38",
-                                "#9747FF",
-                                "#65AE38"
+                                "#D12031", //senin
+                                "#EAC500", //selasa
+                                "#9747FF", //rabu
+                                "#65AE38", //kamis
+                                "#145EA8",  // jumat
+                                "#A8AE38", //sabtu
+                                "#E5E5E5", // minggu
                             ],
                             borderWidth: 0,
                             borderAlign: 'inner'
