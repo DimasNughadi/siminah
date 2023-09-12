@@ -31,7 +31,7 @@ class LokasiController extends Controller
 				return $item;
 			});
 
-			return response()->json(['lokasi' => $lokasi]);
+			return response()->json($lokasi);
 		} catch (Exception $exception) {
 			return response()->json(['message' => 'Tidak ada data'], 404);
 		}

@@ -14,7 +14,7 @@ class SumbanganController extends Controller
 	private function formatDateAndTime($datetime)
 	{
 		setlocale(LC_TIME, 'id_ID');
-		return $datetime->formatLocalized('%A, %e %B %Y - %H:%M:%S');
+		return $datetime->formatLocalized('%A, %e %B %Y - %H:%M');
 	}
 	
     /**
@@ -96,15 +96,32 @@ class SumbanganController extends Controller
     public function show(string $id_donatur)
 	{
 		try {
-			$sumbanganDonatur = Sumbangan::where('id_donatur', $id_donatur)
-				->orderBy('created_at', 'desc')
-				->get();
-			
-			if (!$sumbanganDonatur) {
-				return response()->json(['message' => 'Sumbangan tidak ditemukan'], 404);
-			}
+			$sumbangans = Sumbangan::where('id_donatur', $id_donatur)
+				->with('kontainer.lokasi.kecamatan')
+				->orderBy('created_at', 'desc')->get();
 
-			return response()->json($sumbanganDonatur, Response::HTTP_OK);
+			// Format the datetime fields using the helper method
+			$formattedSumbangans = $sumbangans->map(function ($sumbangan) {
+				$lokasi = $sumbangan->kontainer->lokasi;
+				$deskripsi_lokasi = $lokasi->deskripsi;
+
+				return [
+					'id_donatur' => $sumbangan->id_donatur,
+					'id_kontainer' => $sumbangan->id_kontainer,
+					'nama_kelurahan' => $lokasi->nama_kelurahan,
+					'nama_kecamatan' => $lokasi->kecamatan->nama_kecamatan,
+					'deskripsi' => $deskripsi_lokasi,
+					'berat' => $sumbangan->berat,
+					'photo' => $sumbangan->photo,
+					'status' => $sumbangan->status,
+					'keterangan' => $sumbangan->keterangan,
+					'poin_reward' => $sumbangan->poin_reward,
+					'created_at' => $this->formatDateAndTime($sumbangan->created_at),
+					'updated_at' => $this->formatDateAndTime($sumbangan->updated_at),
+				];
+			});
+
+			return response()->json($formattedSumbangans);
 		} catch (Exception $exception) {
 			return response()->json(['message' => 'Terjadi kesalahan'], Response::HTTP_INTERNAL_SERVER_ERROR);
 		}
@@ -128,7 +145,13 @@ class SumbanganController extends Controller
 			$id_kecamatan = $latestSumbangan->kontainer->lokasi->kecamatan->id_kecamatan;
 			$nama_kelurahan = $latestSumbangan->kontainer->lokasi->nama_kelurahan;
 			$nama_kecamatan = $latestSumbangan->kontainer->lokasi->kecamatan->nama_kecamatan;
-
+			
+			if($latestSumbangan->status == '0'){
+				$status = 'Diproses';
+			} else {
+				$status = $latestSumbangan->status;
+			}
+			
 			// Format the created_at and updated_at fields using the helper method
 			$created_at = $this->formatDateAndTime($latestSumbangan->created_at);
 			$updated_at = $this->formatDateAndTime($latestSumbangan->updated_at);
@@ -141,7 +164,7 @@ class SumbanganController extends Controller
 				'deskripsi' => $deskripsi_lokasi,
 				'berat' => $latestSumbangan->berat,
 				'photo' => $latestSumbangan->photo,
-				'status' => $latestSumbangan->status,
+				'status' => $status,
 				'keterangan' => $latestSumbangan->keterangan,
 				'poin_reward' => $latestSumbangan->poin_reward,
 				'created_at' => $created_at,

@@ -195,7 +195,7 @@
                                     {{$progress[0]+$progress[1]}}</span>
                             </h4>
                         </div>
-                        <div class="col-4">
+                        <div class="col-5">
                             <div class="table-responsive">
                                 <table class="table align-items-center mb-0">
                                     <tbody>

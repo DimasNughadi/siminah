@@ -17,17 +17,20 @@ class DonaturController extends Controller
 	public function cekToken(Request $request)
 	{
 		$donatur = $request->user();
-		
-		$totalSumbangan = Sumbangan::where('id_donatur', $donatur->id_donatur)
+		if (!$donatur) {
+			return response()->json(['error' => 'Invalid credentials'], Response::HTTP_UNAUTHORIZED);
+        } else {
+            $totalSumbangan = Sumbangan::where('id_donatur', $donatur->id_donatur)
 				->where('status', 'terverifikasi')
 				->sum('berat');
 		
-		$data = [
-			'donatur' => $donatur,
-			'sumbangan' => $totalSumbangan
-		];
+			$data = [
+				'donatur' => $donatur,
+				'sumbangan' => $totalSumbangan
+			];
 		
-        return response()->json($data, Response::HTTP_OK);
+            return response()->json($data, Response::HTTP_OK);
+        }
 	}
 
     public function login(Request $request)
