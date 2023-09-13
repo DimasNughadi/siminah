@@ -124,18 +124,41 @@ class DonaturController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
-    {
-        $donatur = Donatur::findOrFail($id);
+	{
+		$donatur = Donatur::findOrFail($id);
 
-        $data = $request->all();
-        if ($request->has('password')) {
-            $data['password'] = Hash::make($request->input('password'));
-        }
+		$data = $request->all();
 
-        $donatur->update($data);
+		if ($request->filled('oldpassword')) {
+			if (!Hash::check($request->input('oldpassword'), $donatur->password)) {
+				return response()->json(['message' => 'Password lama salah'], Response::HTTP_UNPROCESSABLE_ENTITY);
+			}
+		}
 
-        return response()->json($donatur, Response::HTTP_OK);
-    }
+		if ($request->filled('newpassword')) {
+			$newPassword = $request->input('newpassword');
+			$confirmNewPassword = $request->input('confirmnewpassword');
+
+			if ($newPassword === $confirmNewPassword) {
+				$data['password'] = Hash::make($newPassword);
+			} else {
+				return response()->json(['message' => 'Password baru tidak sesuai'], Response::HTTP_UNPROCESSABLE_ENTITY);
+			}
+		}
+
+		$donatur->update($data);
+
+		$totalSumbangan = Sumbangan::where('id_donatur', $donatur->id_donatur)
+			->where('status', 'terverifikasi')
+			->sum('berat');
+
+		$responseData = [
+			'donatur' => $donatur,
+			'sumbangan' => $totalSumbangan
+		];
+
+		return response()->json($responseData, Response::HTTP_OK);
+	}
 
     /**
      * Remove the specified resource from storage.
