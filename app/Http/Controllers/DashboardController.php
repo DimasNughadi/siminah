@@ -10,6 +10,7 @@ use App\Models\Kontainer;
 use App\Models\Sumbangan;
 use App\Models\Permintaan;
 use App\Models\Reward;
+use App\Models\Redeem;
 use Illuminate\Http\Request;
 use App\Enums\KontainerStatus;
 use App\Models\Adminkelurahan;
@@ -199,6 +200,9 @@ class DashboardController extends Controller
                 $iconColor = 'custom-icon3';
             }
 
+            $redeemBelumVerif = Redeem::where('status', 'null')
+                ->count();
+
             $data = [
                 'mapData' => json_encode($mapData),
                 'chartData' => [
@@ -226,6 +230,7 @@ class DashboardController extends Controller
                 'tanggal' => $tanggal,
                 'tanggalGantiKontainer' => $tanggalGantiKontainer,
                 'donasiKontainer' => $donasiInKontainer,
+                'redeemBelumVerif' => $redeemBelumVerif,
             ];
 
             return view('after-login.admin-kelurahan.dashboard.dashboard', $data);

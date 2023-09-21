@@ -76,7 +76,7 @@
 
 <div class="container-fluid py-4">
     <div class="row animate__animated animate__fadeInUp">
-        <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
             <div class="card">
                 <div class="card-header p-3 pt-2">
                     <div
@@ -98,7 +98,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
             <div class="card">
                 <div class="card-header p-3 pt-2">
                     <div
@@ -119,7 +119,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
             <div class="card">
                 <div class="card-header p-3 pt-2">
                     <div
@@ -135,6 +135,26 @@
                 <a href="{{ route('sumbangan') }}">
                     <div class="card-footer p-3">
                         <p class="mb-0">Kelola Sumbangan <i class="material-icons text-sm">open_in_new</i></p>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+            <div class="card">
+                <div class="card-header p-3 pt-2">
+                    <div
+                        class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
+                        <i class="material-icons opacity-10">warning</i>
+                    </div>
+                    <div class="text-end pt-1">
+                        <p class="text-sm mb-0 text-capitalize">Redeem belum terverifikasi</p>
+                        <h4 class="mb-0"><span id="state5" countTo="{{$redeemBelumVerif}}"></span> Redeem</h4>
+                    </div>
+                </div>
+                <hr class="dark horizontal my-0">
+                <a href="{{ route('redeem') }}">
+                    <div class="card-footer p-3">
+                        <p class="mb-0">Kelola Redeem <i class="material-icons text-sm">open_in_new</i></p>
                     </div>
                 </a>
             </div>
@@ -420,6 +440,22 @@ if (document.getElementById('state4')) {
         useGrouping: false,
         separator: '',
         decimalPlaces: 2,
+        duration: 1
+    });
+
+    if (!countUp.error) {
+        countUp.start();
+    } else {
+        console.error(countUp.error);
+    }
+}
+if (document.getElementById('state5')) {
+    var initialValue = parseFloat(document.getElementById("state5").getAttribute("countTo")).toFixed(2);
+
+    const countUp = new CountUp('state5', initialValue, {
+        useGrouping: false,
+        separator: '',
+        decimalPlaces: 0,
         duration: 1
     });
 
