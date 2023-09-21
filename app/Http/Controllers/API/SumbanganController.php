@@ -93,7 +93,16 @@ class SumbanganController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id_donatur)
+	public function show(string $id)
+    {
+        $sumbangan = Sumbangan::findOrFail($id);
+        return response()->json($sumbangan, Response::HTTP_CREATED);
+    }
+	
+	/**
+     * Display the specified resource by id_donatur.
+     */
+    public function showByIdDonatur(string $id_donatur)
 	{
 		try {
 			$sumbangans = Sumbangan::where('id_donatur', $id_donatur)
@@ -127,6 +136,46 @@ class SumbanganController extends Controller
 		}
 	}
 	
+	/**
+     * Display the specified resource by id_donatur limit by 4 data.
+     */
+    public function show4ByIdDonatur(string $id_donatur)
+	{
+		try {
+			$sumbangans = Sumbangan::where('id_donatur', $id_donatur)
+				->with('kontainer.lokasi.kecamatan')
+				->orderBy('created_at', 'desc')->take(4)->get();
+
+			// Format the datetime fields using the helper method
+			$formattedSumbangans = $sumbangans->map(function ($sumbangan) {
+				$lokasi = $sumbangan->kontainer->lokasi;
+				$deskripsi_lokasi = $lokasi->deskripsi;
+
+				return [
+					'id_donatur' => $sumbangan->id_donatur,
+					'id_kontainer' => $sumbangan->id_kontainer,
+					'nama_kelurahan' => $lokasi->nama_kelurahan,
+					'nama_kecamatan' => $lokasi->kecamatan->nama_kecamatan,
+					'deskripsi' => $deskripsi_lokasi,
+					'berat' => $sumbangan->berat,
+					'photo' => $sumbangan->photo,
+					'status' => $sumbangan->status,
+					'keterangan' => $sumbangan->keterangan,
+					'poin_reward' => $sumbangan->poin_reward,
+					'created_at' => $this->formatDateAndTime($sumbangan->created_at),
+					'updated_at' => $this->formatDateAndTime($sumbangan->updated_at),
+				];
+			});
+
+			return response()->json($formattedSumbangans);
+		} catch (Exception $exception) {
+			return response()->json(['message' => 'Terjadi kesalahan'], Response::HTTP_INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	/**
+     * Display the newest specified resource by id_donatur.
+     */
 	public function showLatest(string $id_donatur)
 	{
 		try {
@@ -176,12 +225,6 @@ class SumbanganController extends Controller
 			return response()->json(['message' => 'Terjadi kesalahan'], Response::HTTP_INTERNAL_SERVER_ERROR);
 		}
 	}
-	
-	public function showAll_id(string $id)
-    {
-        $sumbangan = Sumbangan::findOrFail($id);
-        return response()->json($sumbangan, Response::HTTP_CREATED);
-    }
 
     /**
      * Update the specified resource in storage.

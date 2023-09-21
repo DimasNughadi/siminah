@@ -126,24 +126,27 @@ class DonaturController extends Controller
     public function update(Request $request, string $id)
 	{
 		$donatur = Donatur::findOrFail($id);
-
 		$data = $request->all();
 
 		if ($request->filled('oldpassword')) {
 			if (!Hash::check($request->input('oldpassword'), $donatur->password)) {
 				return response()->json(['message' => 'Password lama salah'], Response::HTTP_UNPROCESSABLE_ENTITY);
-			}
-		}
-
-		if ($request->filled('newpassword')) {
-			$newPassword = $request->input('newpassword');
-			$confirmNewPassword = $request->input('confirmnewpassword');
-
-			if ($newPassword === $confirmNewPassword) {
-				$data['password'] = Hash::make($newPassword);
 			} else {
-				return response()->json(['message' => 'Password baru tidak sesuai'], Response::HTTP_UNPROCESSABLE_ENTITY);
+				if ($request->filled('password') && $request->filled('confirmnewpassword')) {
+					$newPassword = $request->input('password');
+					$confirmNewPassword = $request->input('confirmnewpassword');
+
+					if ($newPassword !== $confirmNewPassword) {
+						return response()->json(['message' => 'Password baru tidak sesuai'], Response::HTTP_UNPROCESSABLE_ENTITY);
+					} else {
+						$data['password'] = Hash::make($newPassword);
+					}
+				} else {
+					return response()->json(['message' => 'Masukan password baru'], Response::HTTP_UNPROCESSABLE_ENTITY);
+				}
 			}
+		} else {
+			$data = $request->except('password');
 		}
 
 		$donatur->update($data);

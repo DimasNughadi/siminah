@@ -31,7 +31,7 @@ class RedeemController extends Controller
 	{
 		$redeems = Redeem::where('id_donatur', $id_donatur)
 			->with(['reward' => function ($q) {
-				$q->select('id_reward', 'nama_reward');
+				$q->select('id_reward', 'nama_reward', 'jumlah_poin');
 			}])
 			->get()
 			->map(function ($redeem) {
@@ -40,6 +40,7 @@ class RedeemController extends Controller
 					"id_donatur" => $redeem->id_donatur,
 					"id_reward" => $redeem->reward->id_reward,
 					"nama_reward" => $redeem->reward->nama_reward,
+					"poin_reward" => (int)$redeem->reward->jumlah_poin,
 					"status" => $redeem->status,
 					"created_at" => $this->formatDateAndTime($redeem->created_at),
 					"updated_at" => $this->formatDateAndTime($redeem->updated_at),
