@@ -200,7 +200,7 @@ class DashboardController extends Controller
                 $iconColor = 'custom-icon3';
             }
 
-            $redeemBelumVerif = Redeem::where('status', 'null')
+            $redeemBelumVerif = Redeem::where('status', 'bisa klaim')
                 ->count();
 
             $data = [
