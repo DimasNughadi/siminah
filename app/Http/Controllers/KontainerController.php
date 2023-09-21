@@ -33,7 +33,7 @@ class KontainerController extends Controller
                     ->where('id_lokasi', $id_lokasi)
                     ->value('id_kontainer');
                 $currentContainer = Permintaan::where('id_kontainer', $id_kontainer)
-                    ->where('status_permintaan', 'berhasil')
+                    ->where('status_permintaan', 'diterima')
                     ->max('updated_at');
                 if ($currentContainer === null) {
                     $currentContainer = Kontainer::where('id_kontainer', $id_kontainer)->max('updated_at');
@@ -66,7 +66,7 @@ class KontainerController extends Controller
                         $item->sumbangan_persentase = 0;
                     } else {
                         $item->sumbangan_persentase = $item->sumbangan_sum_berat / $item->kapasitas * 100;
-                        if ($item->sumbangan_sum_berat >= $item->kapasitas * 3 / 4) {
+                        if ($item->sumbangan_sum_berat >= $item->kapasitas * 2 / 4) {
                             $object = new stdClass();
                             $object->id_kontainer = $item->id_kontainer;
                             $object->id_lokasi = $item->id_lokasi;
@@ -100,36 +100,33 @@ class KontainerController extends Controller
             } else {
                 $kontainer = Kontainer::with('lokasi', 'lokasi.kecamatan')
                     ->where('kontainer.keterangan', '<>', 'deleted')
-                    ->withSum([
-                        'sumbangan' => function ($query) {
-                            $query->where('status', 'terverifikasi')
-                                ->where('updated_at', '>=', function ($subquery) {
-                                            // Subquery to get the maximum updated_at value based on conditions
-                                            $subquery->select(DB::raw('CASE
-                                        WHEN MAX(updated_at) IS NOT NULL THEN MAX(updated_at)
-                                        ELSE kontainer.updated_at
-                                        END'
-                                            )
-                                            )
-                                                ->from('permintaan')
-                                                ->where('status_permintaan', 'berhasil');
-                                        });
-                        }
-                    ], 'berat')
-                    ->withMax([
-                        'sumbangan' => function ($query) {
-                            $query->where('status', 'terverifikasi');
-                        }
-                    ], 'updated_at')
-                    ->orderByDesc('sumbangan_sum_berat')
                     ->get();
+
                 $kontainer->each(function ($item) {
+                    $currentContainer = Permintaan::where('id_kontainer', $item->id_kontainer)
+                        ->where('status_permintaan', 'diterima')
+                        ->max('updated_at');
+                    if ($currentContainer === null) {
+                        $currentContainer = $item->updated_at;
+                    } else {
+                        $currentContainer = max($currentContainer, $item->updated_at);
+                    }
+
+                    $totalBerat = Sumbangan::where('id_kontainer', $item->id_kontainer)
+                        ->where('updated_at', '>=', $currentContainer)
+                        ->where('status', 'terverifikasi')
+                        ->sum('berat');
+                    $item->sumbangan_sum_berat = $totalBerat;
                     if ($item->sumbangan_sum_berat == null) {
                         $item->sumbangan_sum_berat = 0;
                         $item->sumbangan_persentase = 0;
                     } else {
                         $item->sumbangan_persentase = $item->sumbangan_sum_berat / $item->kapasitas * 100;
                     }
+
+                    $item->sumbangan_max_updated_at = Sumbangan::where('id_kontainer', $item->id_kontainer)
+                        ->where('status', 'terverifikasi')
+                        ->max('updated_at');
                     if ($item->sumbangan_max_updated_at == null) {
                         $item->sumbangan_max_updated_at = 'belum pernah diisi';
                     }
@@ -171,7 +168,7 @@ class KontainerController extends Controller
     {
         try {
             $permintaan = Permintaan::findOrFail($id);
-            $permintaan->status_permintaan = 'berhasil';
+            $permintaan->status_permintaan = 'diterima';
             $permintaan->save();
             return redirect()->route('kontainer')->with('permintaan_alert', 'success');
             ;

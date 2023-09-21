@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-md-11">
                 <div class="row">
-                    <div class="col-md-12 reward text-poppins">Reward</div>
+                    <div class="col-md-12 reward text-poppins">Hadiah</div>
                 </div>
                 <div class="row reedem-reward animate__animated animate__fadeInLeft">
                     <div class="col-xxl-9 col-xl-9 col-lg-8 col-md-8 col-sm-7 col-7">
@@ -50,16 +50,16 @@
                                             <td class="ps-4">
                                                 <div class="d-flex flex-column gap-0">
                                                     <span class="poppins">
-                                                        {{ $item->reward->nama_reward }}
+                                                        {{ limitNamaHadiah($item->reward->nama_reward) }}
                                                     </span>
                                                 </div>
                                             </td>
-                                            <td class="ps-4">
+                                            <td class="ps-4 tanggal">
                                                 {{ datetimeFormat($item->created_at) }}
                                             </td>
                                             <td>
                                                 <span class="btn-status btn-light-success cursor-pointer"
-                                                    onclick="konfirmasiPenukaranHadiah('id')">KONFIRMASI</span>
+                                                    onclick="konfirmasiPenukaranHadiah('{{ route('redeem.update', ['id' => $item->id_redeem]) }}')">KONFIRMASI</span>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -67,7 +67,7 @@
                                     <tr>
                                         <td></td>
                                         <td></td>
-                                        <td>{{ $message }}</td>
+                                        <td class="text-center">Data tidak ditemukan</td>
                                         <td></td>
                                         <td></td>
                                     </tr>
@@ -151,4 +151,8 @@
             </div>
         @endslot
         </x-modals.Modal>
+    <form id="formKonfirmasiPenukaranHadiah" action="" method="POST">
+        @csrf
+    </form>
+    
 @stop

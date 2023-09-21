@@ -32,7 +32,6 @@
                                                         <tr class="reward-tr permintaan-tr">
                                                             <td class="ps-3 detail-kelurahan">
                                                                 <div class="d-flex align-items-center">
-                                                                    {{-- <x-user.userImage width="34" height="34"/> --}}
                                                                     <div class="ms-2  d-grid">
                                                                         <span class="top">
                                                                             {{ $item->lokasi->nama_kelurahan }}
@@ -52,6 +51,13 @@
                                                                         class="btn-reward btn-table-custom     position-relative">
                                                                         <span class="position-relative add-reward">
                                                                             Menunggu Konfirmasi
+                                                                        </span>
+                                                                    </div>
+                                                                @elseif(strtolower($item->status_permintaan) === 'diproses')
+                                                                <div
+                                                                        class="btn-reward btn-table-custom bg-warning position-relative">
+                                                                        <span class="position-relative add-reward">
+                                                                            Diproses
                                                                         </span>
                                                                     </div>
                                                                 @else
@@ -119,7 +125,7 @@
                             <div class="row">
                                 <div class="col-md-12 col-sm-12 col-12">
                                     <div class="body overflowy">
-                                        <x-forms.table id="">
+                                        <x-forms.table id="table-manajemen-kontainer-csr">
                                             @slot('headSlot')
                                                 <th>KELURAHAN</th>
                                                 <th>KAPASITAS</th>
@@ -127,13 +133,11 @@
                                             @endslot
 
                                             @slot('bodySlot')
-                                                {{-- @dd() --}}
                                                 @if (!empty($kontainer))
                                                     @foreach ($kontainer as $item)
                                                         <tr class="reward-tr permintaan-tr">
                                                             <td class="detail-kelurahan ps-3">
                                                                 <div class="d-flex align-items-center">
-                                                                    {{-- <x-user.userImage width="34" height="34"/> --}}
                                                                     <div class="ms-2  d-grid">
                                                                         <span class="top">
                                                                             {{ $item->lokasi->nama_kelurahan }}

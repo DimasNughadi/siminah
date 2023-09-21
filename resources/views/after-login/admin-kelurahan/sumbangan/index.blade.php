@@ -234,7 +234,8 @@
                                                                     <div class="foto-donasi cursor-pointer">
                                                                         <img src="{{ asset('storage/sumbangan/' . $item->photo) }}"
                                                                             alt="gambar sumbangan" data-bs-toggle="modal"
-                                                                            data-bs-target="#detailImage" id="gambar-sumbangan"
+                                                                            data-bs-target="#detailImage"
+                                                                            id="gambar-sumbangan"
                                                                             onclick="detailSumbangan('{{ asset('storage/sumbangan/' . $item->photo) }}')">
                                                                     </div>
                                                                 </td>
@@ -264,14 +265,14 @@
                                                             </tr>
                                                         @endforeach
                                                     @else
-                                                    <tr>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td>Tidak ada</td>
-                                                        <td>data ditemukan</td>
-                                                        <td></td>
-                                                        <td></td>
-                                                    </tr>
+                                                        <tr>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td>Tidak ada</td>
+                                                            <td>data ditemukan</td>
+                                                            <td></td>
+                                                            <td></td>
+                                                        </tr>
                                                     @endif
                                                 @endslot
                                             </x-forms.table>
@@ -436,7 +437,10 @@
                             padding: 0
                         },
                         plugins: {
-                            legend: false
+                            legend: false,
+                            tooltip: {
+                                enabled: false
+                            }
                         }
                     }
                 });
@@ -459,14 +463,14 @@
                                 {!! json_encode($sumbanganHarian[4]['berat']) !!},
                                 {!! json_encode($sumbanganHarian[5]['berat']) !!}, // jumat
                                 {!! json_encode($sumbanganHarian[6]['berat']) !!}, // sabtu
-                                {!! json_encode($sumbanganHarian[0] ['berat']) !!} // minggu
+                                {!! json_encode($sumbanganHarian[0]['berat']) !!} // minggu
                             ],
                             backgroundColor: [
                                 "#D12031", //senin
                                 "#EAC500", //selasa
                                 "#9747FF", //rabu
                                 "#65AE38", //kamis
-                                "#145EA8",  // jumat
+                                "#145EA8", // jumat
                                 "#A8AE38", //sabtu
                                 "#E5E5E5", // minggu
                             ],

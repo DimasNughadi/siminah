@@ -9,7 +9,7 @@
                     <div class="col-md-12 reward text-poppins">Sumbangan</div>
                 </div>
                 <div class="row mt-3">
-                    <div class="col-xxl-10 col-xl-10 col-lg-11 col-md-12 col-sm-12 col-12">
+                    <div class="col-xxl-11 col-xl-11 col-lg-11 col-md-12 col-sm-12 col-12">
                         <div class="container-fluid olah-donatur animate__animated animate__fadeInUp">
                             <div class="row">
                                 <div class="col-xxl-7 col-xl-7 col-lg-7 col-md-8 col-sm-12 col-12">
@@ -38,9 +38,9 @@
                                 </div>
                                 <div class="col-md-12 col-sm-12 col-12">
                                     <div class="body">
-                                        <div class="table-responsive">
+                                        <div class="table-responsive-sm table-responsive-xl table-responsive-lg table-responsive-md">
                                             <table id="table-sumbangan-csr"
-                                                class="table align-middle mb-0 reward-table ps-6">
+                                                class="tableForPagination table align-middle mb-0 reward-table ps-6" data-id="table-sumbangan-csr">
                                                 <thead>
                                                     <tr>
                                                         <th>KECAMATAN</th>
@@ -55,7 +55,7 @@
                                                     @if (!empty($laporan))
                                                         @foreach ($laporan as $item)
                                                             <tr class="reward-tr donatur-csr-tr">
-                                                                <td class="ps-3 detail-kelurahan">
+                                                                <td class="ps-2 detail-kelurahan">
                                                                     <div class="d-flex align-items-center">
                                                                         <div class="ms-2  d-grid">
                                                                             <span class="top">
@@ -64,7 +64,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </td>
-                                                                <td class="ps-3 detail-kelurahan">
+                                                                <td class="ps-2 detail-kelurahan">
                                                                     <div class="d-flex align-items-center">
                                                                         <div class="ms-2  d-grid">
                                                                             <span class="top">
@@ -103,11 +103,6 @@
 @stop
 
 @section('script')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.6/jspdf.plugin.autotable.min.js"></script>
-    {{-- <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script> --}}
-    <script src="https://cdn.jsdelivr.net/npm/moment/min/moment.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <script>
         var tableData = [];
         const tableRows = $('#table-sumbangan-csr tbody tr');
@@ -333,5 +328,9 @@
             })
             doc.save('Laporan-sumbangan-minyak-' + tanggalHariIni.replace(' ', '-') + '.pdf');
         }
+
+            // Pagination
+            const dataId = $('.tableForPagination').data('id')
+            pagination(dataId)
     </script>
 @endsection

@@ -315,4 +315,117 @@ insertGambarContainer.addEventListener("click", () => {
     insertGambarLokasi.click();
 });
 
-function konfirmasiPenukaranHadiah(id) {}
+function konfirmasiPenukaranHadiah(url) {
+    Swal.fire({
+        title: "Apakah ingin melanjutkan?",
+        text: "Permintaan redeem akan diselesaikan",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Ya, verifikasi",
+        cancelButtonText: "Tidak",
+        reverseButtons: true,
+    }).then((result) => {
+        if (result.isConfirmed) {
+            let form = document.querySelector("#formKonfirmasiPenukaranHadiah");
+            form.action = url;
+            form.submit();
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+            Swal.fire("Dibatalkan", "Verifikasi reedem dibatalkan", "info");
+        }
+    });
+}
+
+function pagination(dataId) {
+    const dataTableConfig = {
+        destroy: true,
+        searching: false,
+        ordering: false,
+        paging: true,
+        lengthChange: false,
+        pageLength: 5,
+        info: false,
+        language: {
+            paginate: {
+                first: "&laquo;",
+                previous: "&lt;",
+                next: "&gt;",
+                last: "&raquo;",
+            },
+        },
+    };
+    
+    if (dataId === "table-detail-donatur") {
+        $.fn.dataTable.ext.classes.sPageButton = "btn-paginate";
+        dataTableConfig.pageLength = 7;
+        $("#table-detail-donatur").DataTable(dataTableConfig);
+    } else if (dataId === "table-verifikasi-donasi") {
+        $.fn.dataTable.ext.classes.sPageButton = "btn-paginate";
+        $("#table-verifikasi-donasi").DataTable(dataTableConfig);
+    } else if (dataId === "table-penggantian-kontainer") {
+    } else if (dataId === "table-index-donatur") {
+        $.fn.dataTable.ext.classes.sPageButton = "btn-paginate";
+        dataTableConfig.pageLength = 8;
+        $("#table-index-donatur").DataTable(dataTableConfig);
+    } else if (dataId === "tabel-index-reward") {
+        $.fn.dataTable.ext.classes.sPageButton = "btn-paginate";
+        dataTableConfig.pageLength = 8;
+        $("#tabel-index-reward").DataTable(dataTableConfig);
+    } else if (dataId === "tabel-index-admin") {
+        $.fn.dataTable.ext.classes.sPageButton = "btn-paginate";
+        dataTableConfig.pageLength = 6;
+        $("#tabel-index-admin").DataTable(dataTableConfig);
+    } else if (dataId === "tabel-manajemen-permintaan") {
+        $.fn.dataTable.ext.classes.sPageButton = "btn-paginate";
+        dataTableConfig.pageLength = 7;
+        $("#tabel-manajemen-permintaan").DataTable(dataTableConfig);
+    } else if (dataId === "tabel-index-lokasi") {
+        $.fn.dataTable.ext.classes.sPageButton = "btn-paginate";
+        dataTableConfig.pageLength = 3;
+        $("#tabel-index-lokasi").DataTable(dataTableConfig);
+    } else if (dataId === "table-penggantian-kontainer") {
+        $.fn.dataTable.ext.classes.sPageButton = "btn-paginate";
+        dataTableConfig.pageLength = 1;
+        $("#table-penggantian-kontainer").DataTable(dataTableConfig);
+    } else if (dataId === "table-detail-donatur") {
+        $.fn.dataTable.ext.classes.sPageButton = "btn-paginate";
+        dataTableConfig.pageLength = 4;
+        $("#table-detail-donatur").DataTable(dataTableConfig);
+    } else if (dataId === "table-detail-reward") {
+        $.fn.dataTable.ext.classes.sPageButton = "btn-paginate";
+        dataTableConfig.pageLength = 7;
+        $("#table-detail-reward").DataTable(dataTableConfig);
+    } else if (dataId === "table-sumbangan-csr"){
+        $.fn.dataTable.ext.classes.sPageButton = "btn-paginate";
+        dataTableConfig.pageLength = 10;
+        $("#table-sumbangan-csr").DataTable(dataTableConfig);
+    } else if (dataId === "table-detail-sumbangan-kelurahan"){
+        $.fn.dataTable.ext.classes.sPageButton = "btn-paginate";
+        dataTableConfig.pageLength = 8;
+        $("#table-detail-sumbangan-kelurahan").DataTable(dataTableConfig);
+    } else if (dataId === "table-manajemen-kontainer-csr"){
+        $.fn.dataTable.ext.classes.sPageButton = "btn-paginate";
+        dataTableConfig.pageLength = 3;
+        $("#table-manajemen-kontainer-csr").DataTable(dataTableConfig);
+    }
+}
+
+function terimaPergantianKontainer(action){
+    Swal.fire({
+        title: "Apakah ingin melanjutkan?",
+        text: "Terima kontainer!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Ya, terima",
+        cancelButtonText: "Tidak",
+        reverseButtons: true,
+    }).then((result) => {
+        if (result.isConfirmed) {
+            let updateTerimaKontainer = document.querySelector('#updateTerimaKontainer')
+            updateTerimaKontainer.action = action
+            updateTerimaKontainer.submit()
+            // console.log(updateTerimaKontainer);
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+            Swal.fire("Dibatalkan", "Kontainer tidak diterima", "info");
+        }
+    });
+}
