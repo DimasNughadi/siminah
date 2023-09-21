@@ -72,6 +72,44 @@
     margin: 5px 0;
     font-size: 14px;
 }
+
+#map-container {
+    position: relative;
+    display: flex;
+    flex-direction: row-reverse;
+    height: 400px;
+}
+
+#map {
+    position: relative;
+    display: flex;
+    flex: 1;
+    height: 100%;
+    width: 100%;
+}
+
+.filter-options {
+    width: 150px;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 1000;
+    overflow-y: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    max-height: 300px;
+}
+
+.checkbox-list {
+    overflow-y: auto;
+}
+
+.checkbox-list label {
+    display: block;
+    margin-bottom: 8px;
+}
+
 </style>
 
 <div class="container-fluid py-4">
@@ -214,7 +252,7 @@
         </div>
     </div>
     <div class="row mb-4 animate__animated animate__fadeInUp">
-        <div class="col-lg-8 col-md-6 mb-md-0 mb-4">
+        <div class="col-lg-12 col-md-6 mb-md-0 mb-4">
             <div class="card">
                 <div class="card-header pb-0">
                     <div class="row">
@@ -229,16 +267,64 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div id="map" style="height: 400px;"></div>
+                    <div class="row">
+                        <div class="col-lg-9 col-md-12">
+                            <div id="map-container">
+                                <div id="map" style="height: 400px;"></div>
+                                <div class="filter-options">
+                                    <h6>Kecamatan</h6>
+                                    <div class="checkbox-list">
+                                        @foreach ($totalKontainerKecamatan as $data)
+                                        <label>
+                                            <input type="checkbox" class="kecamatan-checkbox" data-id="{{ $data->id_kecamatan }}" checked>
+                                            {{ $data->nama_kecamatan }}
+                                        </label>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-12">
+                            <div class="table-responsive" style="max-height: 400px; overflow-y: auto; overflow-x: hidden;">
+                                <table class="table align-items-center mb-0">
+                                    <thead>
+                                        <th>Kecamatan</th>
+                                        <th>Jumlah</th>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($totalKontainerKecamatan as $item)
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex px-2 py-0">
+                                                    <i class="material-icons text-lg me-1 my-auto">location_on</i>
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="mb-0 text-sm">{{ $item->nama_kecamatan }}</h6>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td style="text-align: center;">
+                                                <h6 class="mb-0 text-sm" >
+                                                    {{ $item->kontainer_count }}
+                                                </h6>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                     <hr class="dark horizontal">
-                    <div class="d-flex ">
-                        <i class="material-icons text-sm my-auto me-1">schedule</i>
-                        <p class="mb-0 text-sm"> updated 4 min ago </p>
+                    <div class="col-lg-12 col-md-12">
+                        <div class="d-flex mt-3">
+                            <i class="material-icons text-sm my-auto me-1">schedule</i>
+                            <p class="mb-0 text-sm"> updated 4 min ago </p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-lg-4 col-md-6">
+        <!-- <div class="col-lg-4 col-md-6">
             <div class="card h-100">
                 <div class="card-header pb-0">
                     <h6>Riwayat Aktivitas</h6>
@@ -309,7 +395,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 </div>
 
@@ -513,9 +599,15 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 16,
 }).addTo(map);
 
-map.addControl(new L.Control.Fullscreen());
+map.removeControl(map.zoomControl);
 
-var mapData = {!!$mapData!!};
+map.addControl(new L.Control.Fullscreen({ position: 'topright' }));
+
+L.control.zoom({ position: 'topright' }).addTo(map);
+
+var mapData = {!! $mapData !!};
+
+var kecamatanMarkers = {};
 
 for (var i = 0; i < mapData.length; i++) {
     var marker = mapData[i];
@@ -526,12 +618,42 @@ for (var i = 0; i < mapData.length; i++) {
         '<p class="custom-popup-lng">Total Berat: ' + marker.total_berat + ' L</p>' +
         '</div>';
 
-    L.marker([marker.lat, marker.lng])
+    var newMarker = L.marker([marker.lat, marker.lng])
         .addTo(map)
         .bindPopup(popupContent, {
             className: 'custom-popup'
         });
+
+    if (!kecamatanMarkers[marker.id_kec]) {
+        kecamatanMarkers[marker.id_kec] = [];
+    }
+    kecamatanMarkers[marker.id_kec].push(newMarker);
 }
+
+function filterMarkers() {
+    var selectedKecamatanIds = [];
+    $('.kecamatan-checkbox:checked').each(function() {
+        selectedKecamatanIds.push($(this).data('id'));
+    });
+
+    for (var kecamatanId in kecamatanMarkers) {
+        kecamatanMarkers[kecamatanId].forEach(function(marker) {
+            map.removeLayer(marker);
+        });
+    }
+
+    selectedKecamatanIds.forEach(function(kecamatanId) {
+        kecamatanMarkers[kecamatanId].forEach(function(marker) {
+            map.addLayer(marker);
+        });
+    });
+}
+
+filterMarkers();
+
+$('.kecamatan-checkbox').change(function() {
+    filterMarkers();
+});
 </script>
 
 <x-sweetalert />
@@ -601,5 +723,11 @@ if (document.getElementById('state4')) {
     }
 }
 </script>
-
+<script>
+    // Wait for the document to be ready
+    $(document).ready(function() {
+        // Initialize Smooth Scrollbar on the element with class "scrollable-content"
+        new SmoothScrollbar('.scrollable-content');
+    });
+</script>
 @stop

@@ -17,17 +17,20 @@ class DonaturController extends Controller
 	public function cekToken(Request $request)
 	{
 		$donatur = $request->user();
-		
-		$totalSumbangan = Sumbangan::where('id_donatur', $donatur->id_donatur)
+		if (!$donatur) {
+			return response()->json(['error' => 'Invalid credentials'], Response::HTTP_UNAUTHORIZED);
+        } else {
+            $totalSumbangan = Sumbangan::where('id_donatur', $donatur->id_donatur)
 				->where('status', 'terverifikasi')
 				->sum('berat');
 		
-		$data = [
-			'donatur' => $donatur,
-			'sumbangan' => $totalSumbangan
-		];
+			$data = [
+				'donatur' => $donatur,
+				'sumbangan' => $totalSumbangan
+			];
 		
-        return response()->json($data, Response::HTTP_OK);
+            return response()->json($data, Response::HTTP_OK);
+        }
 	}
 
     public function login(Request $request)
@@ -121,18 +124,44 @@ class DonaturController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
-    {
-        $donatur = Donatur::findOrFail($id);
+	{
+		$donatur = Donatur::findOrFail($id);
+		$data = $request->all();
 
-        $data = $request->all();
-        if ($request->has('password')) {
-            $data['password'] = Hash::make($request->input('password'));
-        }
+		if ($request->filled('oldpassword')) {
+			if (!Hash::check($request->input('oldpassword'), $donatur->password)) {
+				return response()->json(['message' => 'Password lama salah'], Response::HTTP_UNPROCESSABLE_ENTITY);
+			} else {
+				if ($request->filled('password') && $request->filled('confirmnewpassword')) {
+					$newPassword = $request->input('password');
+					$confirmNewPassword = $request->input('confirmnewpassword');
 
-        $donatur->update($data);
+					if ($newPassword !== $confirmNewPassword) {
+						return response()->json(['message' => 'Password baru tidak sesuai'], Response::HTTP_UNPROCESSABLE_ENTITY);
+					} else {
+						$data['password'] = Hash::make($newPassword);
+					}
+				} else {
+					return response()->json(['message' => 'Masukan password baru'], Response::HTTP_UNPROCESSABLE_ENTITY);
+				}
+			}
+		} else {
+			$data = $request->except('password');
+		}
 
-        return response()->json($donatur, Response::HTTP_OK);
-    }
+		$donatur->update($data);
+
+		$totalSumbangan = Sumbangan::where('id_donatur', $donatur->id_donatur)
+			->where('status', 'terverifikasi')
+			->sum('berat');
+
+		$responseData = [
+			'donatur' => $donatur,
+			'sumbangan' => $totalSumbangan
+		];
+
+		return response()->json($responseData, Response::HTTP_OK);
+	}
 
     /**
      * Remove the specified resource from storage.

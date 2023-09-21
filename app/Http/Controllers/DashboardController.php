@@ -10,6 +10,7 @@ use App\Models\Kontainer;
 use App\Models\Sumbangan;
 use App\Models\Permintaan;
 use App\Models\Reward;
+use App\Models\Redeem;
 use Illuminate\Http\Request;
 use App\Enums\KontainerStatus;
 use App\Models\Adminkelurahan;
@@ -56,6 +57,7 @@ class DashboardController extends Controller
             if ($kontainer && $kontainer->lokasi) {
                 $lokasi = $kontainer->lokasi;
                 $mapData[] = [
+                    'id_kec' => $lokasi->id_kecamatan,
                     'nama' => $lokasi->nama_kelurahan,
                     'lat' => $lokasi->latitude,
                     'lng' => $lokasi->longitude,
@@ -64,6 +66,7 @@ class DashboardController extends Controller
                 ];
             }
         }
+        // dd($mapData);
 
         $totalDonatur = Donatur::count();
         $totalDonaturBulanini = Donatur::whereBetween('created_at', $currentMonth)->count();
@@ -197,6 +200,9 @@ class DashboardController extends Controller
                 $iconColor = 'custom-icon3';
             }
 
+            $redeemBelumVerif = Redeem::where('status', 'bisa klaim')
+                ->count();
+
             $data = [
                 'mapData' => json_encode($mapData),
                 'chartData' => [
@@ -224,6 +230,7 @@ class DashboardController extends Controller
                 'tanggal' => $tanggal,
                 'tanggalGantiKontainer' => $tanggalGantiKontainer,
                 'donasiKontainer' => $donasiInKontainer,
+                'redeemBelumVerif' => $redeemBelumVerif,
             ];
 
             return view('after-login.admin-kelurahan.dashboard.dashboard', $data);
@@ -335,6 +342,15 @@ class DashboardController extends Controller
             
             $totalKontainer = Kontainer::count();
 
+            $totalKontainerKecamatan = Kontainer::join('lokasi', 'kontainer.id_lokasi', '=', 'lokasi.id_lokasi')
+                ->groupBy('lokasi.id_kecamatan')
+                ->select(
+                    'lokasi.id_kecamatan',
+                    DB::raw('COUNT(kontainer.id_kontainer) as kontainer_count'),
+                    DB::raw('(SELECT nama_kecamatan FROM kecamatan WHERE kecamatan.id_kecamatan = lokasi.id_kecamatan) as nama_kecamatan')
+                )
+                ->get();
+
             $data = [
                 'mapData' => json_encode($mapData),
                 'chartData' => [
@@ -359,7 +375,8 @@ class DashboardController extends Controller
                 'hampirPenuh' => $hampirPenuh,
                 // 'notifikasi' => $notifikasi,
                 'tanggal' => $tanggal,
-                'reward' => $rewardHampirHabis
+                'reward' => $rewardHampirHabis,
+                'totalKontainerKecamatan' => $totalKontainerKecamatan
             ];
 
             return view('after-login.pengelola-csr.dashboard.dashboard', $data);
