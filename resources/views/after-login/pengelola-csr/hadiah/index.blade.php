@@ -3,7 +3,7 @@
 @section('content')
     <div class="container-fluid py-2 ps-4">
         <div class="row">
-            <div class="col-xxl-10 col-xl-10 col-lg-10 col-md-11 col-sm-12 col-12">
+            <div class="col-xxl-11 col-xl-11 col-lg-12 col-md-11 col-sm-12 col-12">
                 <div class="row reedem-reward animate__animated animate__fadeInLeft">
                     <div class="col-xxl-10 col-xl-10 col-xl-10 col-md-10 col-sm-10 col-10">
                         <div class="table-header-redeem">
@@ -174,3 +174,10 @@
             })
         </script>
     @stop
+
+    @section('script')
+    <script>
+        const dataId = $('.tableForPagination').data('id')
+        pagination(dataId)
+    </script>
+@endsection

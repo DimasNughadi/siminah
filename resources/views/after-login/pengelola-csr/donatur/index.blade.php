@@ -105,3 +105,10 @@
     </div>
 
 @stop
+
+@section('script')
+    <script>
+        const dataId = $('.tableForPagination').data('id')
+        pagination(dataId)
+    </script>
+@endsection
