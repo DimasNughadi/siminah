@@ -24,6 +24,7 @@ Route::post('/ceklogin',[LoginController::class,'ceklogin'])->name('ceklogin');
 Route::middleware(['checksession','role:admin_csr,admin_kelurahan'])->group(function() {
     Route::post('/logout',[LoginController::class,'logout'])->name('logout');
     Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard');
+    Route::get('/dashboard/fetchChartData/{lokasiId}', [DashboardController::class,'fetchChartData'])->name('dashboard.fetchChartData/{id}');
     //manajemen lokasi kontainer(csr)
     Route::get('/lokasi',[LokasiController::class,'index'])->name('lokasi');
     Route::get('/lokasi/create',[LokasiController::class,'create'])->name('lokasi.create');

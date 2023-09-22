@@ -8,8 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Sumbangan extends Model
 {
     protected $table = 'sumbangan';
-    // Add the primary key field if it exists for the sumbangan table
-    // protected $primaryKey = 'id_sumbangan'; // Replace with the actual primary key if available
     protected $fillable = [
         'id_donatur',
         'id_kontainer',
@@ -19,7 +17,6 @@ class Sumbangan extends Model
         'status',
         'keterangan',
         'poin_reward',
-        // Add other fillable properties here
     ];
 
     public function donatur()

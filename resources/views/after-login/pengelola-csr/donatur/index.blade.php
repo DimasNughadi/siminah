@@ -30,79 +30,78 @@
                             @slot('bodySlot')
                                 {{-- @dd($donatur[80]) --}}
                                 @if (!empty($donatur))
-                                    @foreach ($donatur as $item)
-                                        <tr class="table-row-image donatur-row">
-                                            <td class="ps-4 data-14">
-                                                <div class="d-flex align-items-center">
-                                                    <x-user.userImage src="{{ 'donatur/' . $item->photo }}"
-                                                        alt="Gambar {{ $item->nama_donatur }}" />
-                                                    <div class="ms-3">
-                                                        <span>
-                                                            {{ Str::substr($item->nama_donatur, 0, 5) }}</span>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="text-center data-14">
-
-                                                @if ($item->sumbangan_sum_berat === 0 || $item->sumbangan_sum_berat === null)
-                                                    -
-                                                @else
-                                                    {{ $item->sumbangan_sum_berat }} Kg
-                                                @endif
-                                            </td>
-                                            <td class="text-center data-14">
-                                                {{ $item->sumbangan_sum_poin_reward }}
-                                            </td>
-                                            <td class="ps-4 data-14">
-                                                {{ $item->kelurahan }}
-                                            </td>
-                                            <td class="ps-4 data-14">
-                                                {{ datetimeFormat($item->newest_tanggal) }}
-                                            </td>
-                                            <td class="text-center data-14">
-                                                @if ($item->online_terakhir === 0)
-                                                    Baru saja aktif
-                                                @else
-                                                    {{ $item->online_terakhir }} Hari
-                                                @endif
-                                            </td>
-                                            <td class="text-center data-14">
-                                                @if ($item->total_donasi === 0)
-                                                    -
-                                                @else
-                                                    {{ $item->total_donasi }} Kali
-                                                @endif
-                                            </td>
-                                            <td class="text-center  data-14">
-                                                <span class="btn-status {{ $item->delete ? 'bg-light-dark' : 'bg-success' }}">
-                                                    {{ $item->delete ? 'Pasif' : 'Aktif' }}
-                                                </span>
-                                            <td>
-                                                <div class="btn-reward btn-list position-relative">
-                                                    <a href="{{ route('donatur.getById', ['id' => $item->id_donatur]) }}"
-                                                        class="position-relative add-reward">DETAIL
-                                                    </a>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                @else
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td>{{ $message }}</td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                @endif
-
-                            @endslot
-                        </x-forms.table>
-                    </div>
+								@foreach ($donatur as $item)
+									<tr class="table-row-image donatur-row">
+										<td class="ps-4 data-14">
+											<div class="d-flex align-items-center">
+												<x-user.userImage src="{{ 'donatur/' . $item->photo }}"
+													alt="Gambar {{ $item->nama_donatur }}" />
+												<div class="ms-3">
+													<span>
+														{{ Str::substr($item->nama_donatur, 0, 5) }}</span>
+												</div>
+											</div>
+										</td>
+										<td class="text-center data-14">
+											@if ($item->sumbangan_sum_berat === 0 || $item->sumbangan_sum_berat === null)
+												-
+											@else
+												{{ $item->sumbangan_sum_berat }} Kg
+											@endif
+										</td>
+										<td class="text-center data-14">
+											{{ $item->sumbangan_sum_poin_reward }}
+										</td>
+										<td class="ps-4 data-14">
+											{{ $item->kelurahan }}
+										</td>
+										<td class="ps-4 data-14">
+											{{ datetimeFormat($item->newest_tanggal) }}
+										</td>
+										<td class="text-center data-14">
+											@if ($item->online_terakhir === 0)
+												Baru saja aktif
+											@else
+												{{ $item->online_terakhir }} Hari
+											@endif
+										</td>
+										<td class="text-center data-14">
+											@if ($item->total_donasi === 0)
+												-
+											@else
+												{{ $item->total_donasi }} Kali
+											@endif
+										</td>
+										<td class="text-center  data-14">
+											<span class="btn-status {{ $item->delete ? 'bg-light-dark' : 'bg-success' }}">
+												{{ $item->delete ? 'Pasif' : 'Aktif' }}
+											</span>
+										</td>
+										<td>
+											<div class="btn-reward btn-list position-relative">
+												<a href="{{ route('donatur.getById', ['id' => $item->id_donatur]) }}"
+													class="position-relative add-reward">DETAIL
+												</a>
+											</div>
+										</td>
+									</tr>
+								@endforeach
+							@else
+								<tr>
+									<td></td>
+									<td></td>
+									<td>{{ $message }}</td>
+									<td></td>
+									<td></td>
+								</tr>
+							@endif
+                        @endslot
+                    </x-forms.table>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 @stop
 
