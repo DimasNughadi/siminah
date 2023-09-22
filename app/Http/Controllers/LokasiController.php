@@ -143,7 +143,7 @@ class LokasiController extends Controller
         try {
             $lokasi = Lokasi::findOrFail($id);
             if ($request->hasFile('gambar')) {
-                $image_path = public_path('storage/public/lokasi' . $lokasi->gambar);
+                $image_path = public_path('storage/lokasi' . $lokasi->gambar);
                 if (file_exists($image_path)) {
                     Storage::delete('public/lokasi/' . $lokasi->gambar);
                 }

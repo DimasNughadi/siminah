@@ -102,12 +102,12 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="{{ isRouteActive('reward') ? 'active bg-gradient-primary text-white' : (isRouteActive('reward') ? 'active bg-gradient-primary text-white' : 'text-dark') }} nav-link"
-                        href="{{ route('reward') }}">
+                    <a class="{{ isRouteActive('redeem') ? 'active bg-gradient-primary text-white' : (isRouteActive('hadiah') ? 'active bg-gradient-primary text-white' : 'text-dark') }} nav-link"
+                        href="{{ route('hadiah') }}">
                         <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">redeem</i>
                         </div>
-                        <span class="nav-link-text ms-1">Reward</span>
+                        <span class="nav-link-text ms-1">Hadiah</span>
                     </a>
                 </li>
             @endif
@@ -147,7 +147,7 @@
                         <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">redeem</i>
                         </div>
-                        <span class="nav-link-text ms-1">Reward</span>
+                        <span class="nav-link-text ms-1">Hadiah</span>
                     </a>
                 </li>
 

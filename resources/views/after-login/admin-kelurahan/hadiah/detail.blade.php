@@ -8,7 +8,7 @@
             <div class="col-md-10">
                 <div class="row">
                     <div class="col-lg-12 page-header text-poppins">
-                        <a href="{{ route('redeem') }}" class="text-secondary link-secondary">Reward</a>
+                        <a href="{{ route('redeem') }}" class="text-secondary link-secondary">Hadiah</a>
                         <span>
                             <b>
                                 &nbsp;/ Riwayat Penukaran
@@ -24,6 +24,7 @@
                     </div>
                     <div class="col-md-12">
                         <x-forms.table id="table-detail-reward">
+                        
                             @slot('headSlot')
                                 <th>NAMA USER</th>
                                 <th class="text-center ">JUMLAH POIN</th>

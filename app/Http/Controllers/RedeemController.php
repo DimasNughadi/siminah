@@ -39,7 +39,7 @@ class RedeemController extends Controller
                     ->get();
                 
                 return view(
-                    'after-login.admin-kelurahan.reward.index',
+                    'after-login.admin-kelurahan.hadiah.index',
                     ['redeem' => $redeem, 'reward' => $rewards]
                 );
             }
@@ -58,13 +58,13 @@ class RedeemController extends Controller
             //         ->get();
 
             //     return view(
-            //         'after-login.pengelola-csr.reward.index',
+            //         'after-login.pengelola-csr.hadiah.index',
             //         ['redeem' => $redeem]
             //     );
             // }
         } catch (ModelNotFoundException | QueryException $exception) {
             return view(
-                'after-login.admin-kelurahan.reward.index',
+                'after-login.admin-kelurahan.hadiah.index',
                 ['message' => 'Tidak ada data']
             );
         }
@@ -94,20 +94,17 @@ class RedeemController extends Controller
                 ->orderBy('created_at', 'desc')
                 ->get();
             return view(
-                'after-login.admin-kelurahan.reward.detail',
+                'after-login.admin-kelurahan.hadiah.detail',
                 ['redeem' => $redeem]
             );
         }
     }
-    public function update($id, Request $request)
+    public function update($id)
     {
-        $this->validate($request, [
-            'status' => 'required',
-        ]);
         try {
             Redeem::where('id_redeem', $id)
-                ->update(['status' => $request->status]); //selesai
-            return redirect()->route('reward')->with('verifikasi_alert', 'success');
+                ->update(['status' => 'selesai']); //selesai
+            return redirect()->route('redeem')->with('verifikasi_alert', 'success');
         } catch (Exception $exception) {
             return redirect()->back()->with('verifikasi_alert', 'error');
         }

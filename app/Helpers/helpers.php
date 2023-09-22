@@ -68,6 +68,10 @@ function limitNamaLokasi($data)
     $rs = mb_substr($data, 0, 15);
     return $rs;
 }
+function limitNamaHadiah($data)
+{
+    return mb_substr($data, 0, 15);
+}
 
 function isKecamatan($isKecamatan, $kecamatan, $kelurahan)
 {

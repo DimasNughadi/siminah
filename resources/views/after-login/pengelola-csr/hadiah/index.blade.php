@@ -67,14 +67,14 @@
                                                             '{{ $item->stok }}', 
                                                             '{{ $item->jumlah_poin }}',
                                                             '{{ $item->masa_berlaku }}',
-                                                            '{{ route('reward.update', ['id' => $item->id_reward]) }}')
+                                                            '{{ route('hadiah.update', ['id' => $item->id_reward]) }}')
                                                     ">EDIT
                                                     </a>
                                                 </div>
                                                 &nbsp;&nbsp;&nbsp;
                                                 <div class="btn-reward btn-list btn-custom-danger position-relative">
                                                     <a href="#" class="position-relative add-reward"
-                                                        onclick="deleteReward('{{ route('reward.delete', ['id' => $item->id_reward]) }}')">DELETE</a>
+                                                        onclick="deleteReward('{{ route('hadiah.delete', ['id' => $item->id_reward]) }}')">DELETE</a>
                                                 </div>
                                             </td>
                                         </tr>
@@ -100,7 +100,7 @@
     <x-forms.deleted />
 
     {{-- Detail gambar --}}
-    <x-modals.detailGambarModal modalName="detail-image" title="Detail gambar reward">
+    <x-modals.detailGambarModal modalName="detail-image" title="Detail gambar hadiah">
         @slot('slotBody')
             <div class="modal-detail-gambar">
                 <img src="#" alt="gambar" id="modal-image-sumbangan">
@@ -109,9 +109,9 @@
         </x-modals.Modal>
 
         {{-- Insert modal --}}
-        <x-modals.Modal modalName="add-reward" title="Tambah reward">
+        <x-modals.Modal modalName="add-reward" title="Tambah hadiah">
             @slot('slotMethod')
-                <form enctype="multipart/form-data" method="POST" action="{{ route('reward.store') }}">
+                <form enctype="multipart/form-data" method="POST" action="{{ route('hadiah.store') }}">
                     @csrf
                 @endslot
 
@@ -149,9 +149,7 @@
                     <x-forms.btn.button type="submit" color="danger" title="Ubah" />
                 @endslot
         </x-modals.Modal>
-    @stop
 
-    @section('script')
         <script>
             // File input
             const inputGambarReward = document.getElementById("fileInput");
@@ -175,4 +173,4 @@
                 document.getElementById("myFileInputNameContainer").innerHTML = fileName;
             })
         </script>
-    @endsection
+    @stop

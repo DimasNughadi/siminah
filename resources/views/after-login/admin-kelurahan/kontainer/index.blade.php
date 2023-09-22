@@ -58,7 +58,6 @@
                                         </div>
                                         <div class="body">
                                             <div class="row">
-                                                {{-- @dd($notifikasi) --}}
                                                 @if (!empty($notifikasi))
                                                     @foreach ($notifikasi as $key => $item)
                                                         @if ($item->status === 'HAMPIR PENUH')
@@ -100,26 +99,43 @@
                                                                     Riwayat penggantian kontainer
                                                                 </div>
                                                             </div>
-
                                                             @if (!empty($notifikasi))
-                                                                @if ($cekKontainer === true)
-                                                                    <div class="col-md-4 header-button"
-                                                                        id="btnAjukanPergantian">
-                                                                        <div class="btn-reward btn-kontainer-kelurahan 
-                                                                        btn-info
-                                                                        position-relative cursor-pointer"
-                                                                            onclick="AjukanPergantianKontainer('{{ route('kontainer.storePermintaan', ['id_kontainer' => $kontainer[0]->id_kontainer]) }}')">
-                                                                            <span class="position-relative add-reward">
-                                                                                Ajukan pergantian
-                                                                            </span>
+                                                                @if ($notifikasi[0]->status === 'HAMPIR PENUH')
+                                                                    @if ($permintaan->isEmpty())
+                                                                        <div class="col-md-4 header-button"
+                                                                            id="btnAjukanPergantian">
+                                                                            <div class="btn-reward btn-kontainer-kelurahan 
+                                                                btn-info
+                                                                position-relative cursor-pointer"
+                                                                                onclick="AjukanPergantianKontainer('{{ route('kontainer.storePermintaan', ['id_kontainer' => $kontainer[0]->id_kontainer]) }}')">
+                                                                                <span
+                                                                                    class="position-relative add-reward">
+                                                                                    Ajukan pergantian
+                                                                                </span>
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
+                                                                    @elseif($permintaan->isNotEmpty())
+                                                                        @if ($permintaan[0]->status_permintaan !== 'diajukan' && $permintaan[0]->status_permintaan !== 'diproses')
+                                                                            <div class="col-md-4 header-button"
+                                                                                id="btnAjukanPergantian">
+                                                                                <div class="btn-reward btn-kontainer-kelurahan 
+                                                                btn-info
+                                                                position-relative cursor-pointer"
+                                                                                    onclick="AjukanPergantianKontainer('{{ route('kontainer.storePermintaan', ['id_kontainer' => $kontainer[0]->id_kontainer]) }}')">
+                                                                                    <span
+                                                                                        class="position-relative add-reward">
+                                                                                        Ajukan pergantian
+                                                                                    </span>
+                                                                                </div>
+                                                                            </div>
+                                                                        @endif
+                                                                    @endif
+
                                                                 @endif
                                                             @endif
                                                         </div>
                                                     </div>
                                                 </div>
-                                                {{-- {{ dd($permintaan) }} --}}
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="body overflowy-kontainer-kelurahan">
@@ -137,18 +153,18 @@
                                                                                 <td class="ps-4 tanggal">
                                                                                     {{ datetimeFormat($item->created_at) }}
                                                                                 </td>
-                                                                                <td class="ps-4 ">
-                                                                                    <span
+                                                                                <td class="ps-4 ">                                                           <span
                                                                                         class="btn-status {{ strtolower($item->status_permintaan) === 'diterima' ? 'bg-success' : (strtolower($item->status_permintaan) === 'ditolak' ? 'bg-danger' : 'bg-warning') }}">
                                                                                         {{ $item->status_permintaan }}
                                                                                     </span>
                                                                                 </td>
                                                                                 <td class="ps-4">
                                                                                     <span
-                                                                                        class="{{ strtolower($item->status_permintaan) === 'diproses' ? 'btn-permintaan-proses' : (strtolower($item->status_permintaan) === 'ditolak' ? 'btn-permintaan-terima' : 'btn-permintaan-terima') }}">
+                                                                                        class="{{ strtolower($item->status_permintaan) === 'diproses' ? 'btn-permintaan-proses' : (strtolower($item->status_permintaan) === 'ditolak' ? 'btn-permintaan-terima' : 'btn-permintaan-terima') }}"
+                                                                                        @if (strtolower($item->status_permintaan) === 'diproses') onclick="terimaPergantianKontainer('{{ route('kontainer.updatePermintaan', ['id' => $item->id_permintaan]) }}')" @endif>
                                                                                         @if (strtolower($item->status_permintaan) === 'diterima')
-                Selesai
-            @else
+                                                                                            Selesai
+                                                                                        @else
                                                                                             Kontainer diterima
                                                                                         @endif
                                                                                     </span>
@@ -176,6 +192,10 @@
     {{-- forms update-permintaan --}}
     <form action="" id="updatePengajuanGantiKontainer" method="POST">
         @csrf
+    </form>
+    <form action="" id="updateTerimaKontainer" method="POST">
+        @csrf
+        @method('PUT')
     </form>
 
     <style>

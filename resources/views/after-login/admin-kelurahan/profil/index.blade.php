@@ -10,7 +10,7 @@
             </div>
         </div>
         <div class="row mt-3">
-            <div class="col-xxl-6 col-xl-7 col-lg-8 col-md-10 col-sm-12 col-12">
+            <div class="col-xxl-7 col-xl-7 col-lg-8 col-md-10 col-sm-12 col-12">
                 <div class="body">
                     <div class="row">
                         <div class="col-md-12">

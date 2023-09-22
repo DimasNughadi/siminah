@@ -43,7 +43,7 @@
 
                     <div class="col-md-12">
                         <div class="body overflowy-kontainer-kelurahan">
-                            <x-forms.table id="riwayat-verifikasi-kelurahan">
+                            <x-forms.table id="table-detail-sumbangan-kelurahan">
                                 @slot('headSlot')
                                     <th>NAMA</th>
                                     <th class="text-center">BERAT SUMBANGAN (Kg)</th>
@@ -104,7 +104,7 @@
 @stop
 
 
-@section('script')
+@section('script2')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.6/jspdf.plugin.autotable.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
@@ -316,3 +316,4 @@
         }
     </script>
 @endsection
+

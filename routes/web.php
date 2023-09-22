@@ -60,10 +60,10 @@ Route::middleware(['checksession','role:admin_csr,admin_kelurahan'])->group(func
     Route::get('/kontainer/isPermintaanDiajukan/{id_kontainer}',[KontainerController::class,'isPermintaanDiajukan'])->name('kontainer.isPermintaanDiajukan');
             
     //manajemen redeem (adm-kelurahan)
-    Route::get('/reward',[RewardController::class,'index'])->name('reward');
+    Route::get('/hadiah',[RewardController::class,'index'])->name('hadiah');
     Route::get('/redeem',[RedeemController::class,'index'])->name('redeem');
     Route::get('/redeem/detail',[RedeemController::class,'detail'])->name('redeem.detail');
-    Route::get('/redeem/{id}',[RedeemController::class,'update'])->name('redeem.update');
+    Route::post('/redeem/{id}',[RedeemController::class,'update'])->name('redeem.update');
     
     //profil admin
     Route::get('/profil',[ProfilController::class,'index'])->name('profil');
@@ -87,10 +87,10 @@ Route::middleware(['checksession','role:admin_csr'])->group(function() {
     Route::delete('/admin-kelurahan/delete/{id}',[AdminController::class,'destroy'])->name('admin.destroy');
     Route::get('/admin-kelurahan/lokasi/{id}', [AdminController::class, 'cek_kelurahan'])->name('admin.ceklokasi');
     
-    //manajemen reward
-    Route::post('/reward',[RewardController::class,'store'])->name('reward.store');
-    Route::put('/reward/{id}',[RewardController::class,'update'])->name('reward.update');
-    Route::delete('/reward/{id}',[RewardController::class,'destroy'])->name('reward.delete');
+    //manajemen hadiah
+    Route::post('/hadiah',[RewardController::class,'store'])->name('hadiah.store');
+    Route::put('/hadiah/{id}',[RewardController::class,'update'])->name('hadiah.update');
+    Route::delete('/hadiah/{id}',[RewardController::class,'destroy'])->name('hadiah.delete');
     
     //ajax sumbangan
     Route::get('/sumbangan/filter',[SumbanganController::class,'filterData'])->name('sumbangans');

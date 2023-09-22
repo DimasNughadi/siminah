@@ -27,25 +27,25 @@ class RewardController extends Controller
             });
             if (auth()->user()->role == 'admin_kelurahan') {
                 return view(
-                    'after-login.admin-kelurahan.reward.index',
+                    'after-login.admin-kelurahan.hadiah.index',
                     ['reward' => RewardResource::collection($rewards)]
                 );
             } else {
                 return view(
-                    'after-login.pengelola-csr.reward.index',
+                    'after-login.pengelola-csr.hadiah.index',
                     ['reward' => RewardResource::collection($rewards)]
                 );
             }
         } catch (QueryException | ModelNotFoundException $exception) {
             if (auth()->user()->role == 'admin_kelurahan') {
                 return view(
-                    'after-login.admin-kelurahan.reward.detail',
+                    'after-login.admin-kelurahan.hadiah.detail',
                     ['message' => 'Tidak ada data']
                 );
 
             } else {
                 return view(
-                    'after-login.pengelola-csr.reward.index',
+                    'after-login.pengelola-csr.hadiah.index',
                     ['message' => 'Tidak ada data']
                 );
 
@@ -55,7 +55,7 @@ class RewardController extends Controller
 
     public function create()
     {
-        return view('after-login.pengelola-csr.reward.tambah');
+        return view('after-login.pengelola-csr.hadiah.tambah');
     }
 
     public function store(Request $request)
@@ -70,7 +70,7 @@ class RewardController extends Controller
         ]);
         if ($validator->fails()) {
             return view(
-                'after-login.pengelola-csr.reward.detail',
+                'after-login.pengelola-csr.hadiah.detail',
                 ['message' => 'Halaman tidak ditemukan']
             );
         }
@@ -89,7 +89,7 @@ class RewardController extends Controller
             return redirect()->route('reward')->with('tambah_alert', 'success');
         } catch (QueryException | ModelNotFoundException $exception) {
             return view(
-                'after-login.pengelola-csr.reward.detail'
+                'after-login.pengelola-csr.hadiah.detail'
             )->with('tambah_alert', 'error');
         }
     }
@@ -97,10 +97,10 @@ class RewardController extends Controller
     {
         try {
             $reward = Reward::find($id);
-            return view('after-login.pengelola-csr.reward.edit', ['reward' => $reward]);
+            return view('after-login.pengelola-csr.hadiah.edit', ['reward' => $reward]);
         } catch (QueryException | ModelNotFoundException $exception) {
             return view(
-                'after-login.pengelola-csr.reward.detail',
+                'after-login.pengelola-csr.hadiah.detail',
                 ['message' => 'Tidak bisa diedit']
             );
         }
@@ -117,7 +117,7 @@ class RewardController extends Controller
         ]);
         if ($validator->fails()) {
             return view(
-                'after-login.pengelola-csr.reward.detail',
+                'after-login.pengelola-csr.hadiah.detail',
                 ['message' => 'Data tidak lengkap']
             );
         }
@@ -140,7 +140,7 @@ class RewardController extends Controller
             return redirect()->route('reward')->with('edit_alert', 'success');
         } catch (QueryException | ModelNotFoundException $exception) {
             return view(
-                'after-login.pengelola-csr.reward.detail'
+                'after-login.pengelola-csr.hadiah.detail'
             )->with('edit_alert', 'error');
         }
     }
@@ -153,7 +153,7 @@ class RewardController extends Controller
             return redirect()->route('reward')->with('delete_alert', 'success');
         } catch (ModelNotFoundException | QueryException $exception) {
             return view(
-                'after-login.pengelola-csr.reward.detail',
+                'after-login.pengelola-csr.hadiah.detail',
                 ['message' => 'Tidak berhasil dihapus']
             );
         }
