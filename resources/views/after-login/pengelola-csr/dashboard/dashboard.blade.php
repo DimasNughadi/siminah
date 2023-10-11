@@ -130,7 +130,7 @@
                 <div class="card-footer p-3">
                     <p class="mb-0"><span
                             class="{{ $perbandinganSumbangan < 0 ? 'text-danger' : 'text-success' }} text-sm font-weight-bolder">
-                            {{ $perbandinganSumbangan < 0 ? '-'.$perbandinganSumbangan : '+'.$perbandinganSumbangan }}
+                            {{ $perbandinganSumbangan }}
                             Kg
                         </span> dari bulan lalu</p>
                 </div>
@@ -140,7 +140,7 @@
             <div class="card">
                 <div class="card-header p-3 pt-2">
                     <div
-                        class="icon icon-lg icon-shape bg-gradient-info shadow-info text-center border-radius-xl mt-n4 position-absolute">
+                        class="icon icon-lg icon-shape bg-gradient-success shadow-success text-center border-radius-xl mt-n4 position-absolute">
                         <i class="material-icons opacity-10">people</i>
                     </div>
                     <div class="text-end pt-1">
@@ -169,7 +169,7 @@
                     </div>
                 </div>
                 <hr class="dark horizontal my-0">
-                <a href="{{ route('reward') }}">
+                <a href="{{ route('hadiah') }}">
                     <div class="card-footer p-3">
                         <p class="mb-0">Kelola Reward <i class="material-icons text-sm">open_in_new</i></p>
                     </div>
@@ -202,7 +202,7 @@
             <div class="card z-index-2">
                 <div class="card-header p-3 pt-2">
                     <div
-                        class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 me-3 float-start">
+                        class="icon icon-lg icon-shape bg-gradient-info shadow-info text-center border-radius-xl mt-n4 me-3 float-start">
                         <i class="material-icons opacity-10">leaderboard</i>
                     </div>
                     <div class="d-block d-md-flex">
@@ -425,7 +425,7 @@ new Chart(ctx, {
             borderWidth: 0,
             borderRadius: 5,
             borderSkipped: false,
-            backgroundColor: "#E31E18",
+            backgroundColor: "#145ea8",
             data: @json($chartData['values']),
             maxBarThickness: 12
         }, ],

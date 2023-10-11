@@ -27,6 +27,27 @@
     position: relative;
 }
 
+.chart-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.chart-content {
+    position: relative;
+    display: block;
+    width: 250px;
+    height: 250px;
+}
+
+.chart-content canvas {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 50%;
+    z-index: 2;
+}
+
 .chart-content {
     width: 215px;
     height: 215px;
@@ -80,7 +101,7 @@
             <div class="card">
                 <div class="card-header p-3 pt-2">
                     <div
-                        class="icon icon-lg icon-shape bg-gradient-info shadow-info text-center border-radius-xl mt-n4 position-absolute">
+                        class="icon icon-lg icon-shape bg-gradient-success shadow-success text-center border-radius-xl mt-n4 position-absolute">
                         <i class="material-icons opacity-10">local_drink</i>
                     </div>
                     <div class="text-end pt-1">
@@ -92,7 +113,7 @@
                 <div class="card-footer p-3">
                     <p class="mb-0"><span
                             class="{{ $perbandinganSumbangan < 0 ? 'text-danger' : 'text-success' }} text-sm font-weight-bolder">
-                            {{ $perbandinganSumbangan < 0 ? '-'.$perbandinganSumbangan : '+'.$perbandinganSumbangan }}
+                            {{ $perbandinganSumbangan }}
                             Kg
                         </span> dari bulan lalu</p>
                 </div>
@@ -204,7 +225,7 @@
                 <div class="card-body p-3 pt-0">
                     <div class="row mt-0 mb-0">
                         <div class="col-md-7 text-center">
-                            <div class="chart">
+                            <div class="chart-container">
                                 <canvas id="myChart1"
                                     class="chart-content mx-auto chart-canvas {{ $bgColor }}"></canvas>
                             </div>

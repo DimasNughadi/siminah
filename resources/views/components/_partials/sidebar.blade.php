@@ -43,7 +43,7 @@
                 </h6>
             </li>
             <li class="nav-item">
-                <a class="{{ isRouteActive('dashboard') ? 'active bg-gradient-primary text-white' : ' text-dark' }} nav-link"
+                <a class="{{ isRouteActive('dashboard') ? 'active bg-gradient-info text-white' : ' text-dark' }} nav-link"
                     href="{{ route('dashboard') }}">
                     <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">home</i>
@@ -54,7 +54,7 @@
 
             @if (isAdminCsr())
                 <li class="nav-item">
-                    <a class="{{ isRouteActive('admin') ? 'active bg-gradient-primary text-white' : (isRouteActive('admin.create') ? 'active bg-gradient-primary text-white' : (isRouteActive('admin.edit') ? 'active bg-gradient-primary text-white' : 'text-dark')) }} nav-link"
+                    <a class="{{ isRouteActive('admin') ? 'active bg-gradient-info text-white' : (isRouteActive('admin.create') ? 'active bg-gradient-info text-white' : (isRouteActive('admin.edit') ? 'active bg-gradient-info text-white' : 'text-dark')) }} nav-link"
                         href="{{ route('admin') }}">
                         <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">person</i>
@@ -63,7 +63,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="{{ isRouteActive('kontainer') ? 'active bg-gradient-primary text-white' : ' text-dark' }} nav-link"
+                    <a class="{{ isRouteActive('kontainer') ? 'active bg-gradient-info text-white' : ' text-dark' }} nav-link"
                         href="{{ route('kontainer') }}">
                         <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">local_drink</i>
@@ -73,7 +73,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="{{ isRouteActive('lokasi') ? 'active bg-gradient-primary text-white' : (isRouteActive('lokasi.create') ? 'active bg-gradient-primary text-white' : (isRouteActive('lokasi.edit') ? 'active bg-gradient-primary text-white' : 'text-dark')) }} nav-link"
+                    <a class="{{ isRouteActive('lokasi') ? 'active bg-gradient-info text-white' : (isRouteActive('lokasi.create') ? 'active bg-gradient-info text-white' : (isRouteActive('lokasi.edit') ? 'active bg-gradient-info text-white' : 'text-dark')) }} nav-link"
                         href="{{ route('lokasi') }}">
                         <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">location_on</i>
@@ -83,7 +83,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="{{ isRouteActive('sumbangan') ? 'active bg-gradient-primary text-white' : ' text-dark' }} nav-link"
+                    <a class="{{ isRouteActive('sumbangan') ? 'active bg-gradient-info text-white' : ' text-dark' }} nav-link"
                         href="{{ route('sumbangan') }}">
                         <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">vertical_align_bottom</i>
@@ -92,7 +92,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="{{ isRouteActive('donatur') ? 'active bg-gradient-primary text-white' : (isRouteActive('donatur.getById') ? 'active bg-gradient-primary text-white' : 'text-dark') }} nav-link"
+                    <a class="{{ isRouteActive('donatur') ? 'active bg-gradient-info text-white' : (isRouteActive('donatur.getById') ? 'active bg-gradient-info text-white' : 'text-dark') }} nav-link"
                         href="{{ route('donatur') }}">
                         <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">people</i>
@@ -102,7 +102,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="{{ isRouteActive('redeem') ? 'active bg-gradient-primary text-white' : (isRouteActive('hadiah') ? 'active bg-gradient-primary text-white' : 'text-dark') }} nav-link"
+                    <a class="{{ isRouteActive('redeem') ? 'active bg-gradient-info text-white' : (isRouteActive('hadiah') ? 'active bg-gradient-info text-white' : 'text-dark') }} nav-link"
                         href="{{ route('hadiah') }}">
                         <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">redeem</i>
@@ -114,7 +114,7 @@
 
             @if (isAdminKelurahan())
                 <li class="nav-item">
-                    <a class="{{ isRouteActive('sumbangan') ? 'active bg-gradient-primary text-white' : (isRouteActive('sumbangan.detail') ? 'active bg-gradient-primary text-white' : 'text-dark') }} nav-link"
+                    <a class="{{ isRouteActive('sumbangan') ? 'active bg-gradient-info text-white' : (isRouteActive('sumbangan.detail') ? 'active bg-gradient-info text-white' : 'text-dark') }} nav-link"
                         href="{{ route('sumbangan') }}">
                         <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">vertical_align_bottom</i>
@@ -123,7 +123,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="{{ isRouteActive('kontainer') ? 'active bg-gradient-primary text-white' : ' text-dark' }} nav-link"
+                    <a class="{{ isRouteActive('kontainer') ? 'active bg-gradient-info text-white' : ' text-dark' }} nav-link"
                         href="{{ route('kontainer') }}">
                         <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">local_drink</i>
@@ -132,7 +132,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="{{ isRouteActive('donatur') ? 'active bg-gradient-primary text-white' : (isRouteActive('donatur.getById') ? 'active bg-gradient-primary text-white' : 'text-dark') }} nav-link"
+                    <a class="{{ isRouteActive('donatur') ? 'active bg-gradient-info text-white' : (isRouteActive('donatur.getById') ? 'active bg-gradient-info text-white' : 'text-dark') }} nav-link"
                         href="{{ route('donatur') }}">
                         <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">people</i>
@@ -142,7 +142,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="{{ isRouteActive('redeem') ? 'active bg-gradient-primary text-white' : (isRouteActive('redeem.detail') ? 'active bg-gradient-primary text-white' : 'text-dark') }} nav-link"
+                    <a class="{{ isRouteActive('redeem') ? 'active bg-gradient-info text-white' : (isRouteActive('redeem.detail') ? 'active bg-gradient-info text-white' : 'text-dark') }} nav-link"
                         href="{{ route('redeem') }}">
                         <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">redeem</i>
@@ -156,7 +156,7 @@
                     </h6>
                 </li>
                 <li class="nav-item">
-                    <a class="{{ isRouteActive('profil') ? 'active bg-gradient-primary text-white' : (isRouteActive('profil.edit') ? 'active bg-gradient-primary text-white' : 'text-dark') }} nav-link"
+                    <a class="{{ isRouteActive('profil') ? 'active bg-gradient-info text-white' : (isRouteActive('profil.edit') ? 'active bg-gradient-info text-white' : 'text-dark') }} nav-link"
                         href="{{ route('profil') }}">
                         <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">account_circle</i>

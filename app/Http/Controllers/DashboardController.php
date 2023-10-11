@@ -30,7 +30,7 @@ class DashboardController extends Controller
         $now->locale('id');
         
         $bulanTahun = $now->isoFormat('MMMM');
-        $tanggal = $now->Format('d F Y');
+        $tanggal = $now->isoFormat('d MMMM Y');
 
         $currentMonth = [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()];
         $previousMonth = [Carbon::now()->subMonth()->startOfMonth(), Carbon::now()->subMonth()->endOfMonth()];
@@ -42,7 +42,7 @@ class DashboardController extends Controller
             ->leftJoin('sumbangan', function ($join) use ($currentMonth) {
                 $join->on('kontainer.id_kontainer', '=', 'sumbangan.id_kontainer')
                     ->whereBetween('sumbangan.created_at', $currentMonth)
-                    ->where('sumbangan.status', 'terverifikasi'); // Add this line to filter by status
+                    ->where('sumbangan.status', 'terverifikasi');
             })
             ->groupBy('kontainer.id_kontainer')
             ->select(
@@ -104,13 +104,15 @@ class DashboardController extends Controller
 
             $pengajuanBelumVerif = Sumbangan::whereBetween('created_at', $currentMonth)
                 ->where('id_kontainer', $id_kontainer)
-                ->where('sumbangan.status', '0')
+                ->where('sumbangan.status', 'diproses')
                 ->count();
 
             $currentContainer = Permintaan::where('id_kontainer', $id_kontainer)
-                ->where('status_permintaan', 'berhasil')
+                ->where('status_permintaan', 'diterima')
                 ->max('updated_at');
-
+            if ($currentContainer === null) {
+                $currentContainer = Kontainer::where('id_kontainer', $id_kontainer)->max('updated_at');
+            }
             $currentContainer1 = Carbon::parse($currentContainer);
             $currentContainer1->locale('id');
             $tanggalGantiKontainer = $currentContainer1->translatedFormat('d F Y, H:i');
@@ -130,43 +132,22 @@ class DashboardController extends Controller
             $labels = $top_donatur->pluck('nama_donatur');
             $values = $top_donatur->pluck('total_berat');
 
-            if ($currentContainer !== null){
-                $donasiInKontainer = Lokasi::join('kontainer', 'lokasi.id_lokasi', '=', 'kontainer.id_lokasi')
-                    ->join('sumbangan', 'kontainer.id_kontainer', '=', 'sumbangan.id_kontainer')
-                    ->join('donatur', 'sumbangan.id_donatur', '=', 'donatur.id_donatur')
-                    ->where('lokasi.id_lokasi', $id_lokasi)
-                    ->where('sumbangan.updated_at', '>=', $currentContainer)
-                    ->where('sumbangan.status', 'terverifikasi')
-                    ->groupBy('donatur.nama_donatur')
-                    ->select('donatur.nama_donatur', 
-                    Sumbangan::raw('COALESCE(SUM(sumbangan.berat), 0) AS total_berat'))
-                    ->orderByDesc('total_berat')
-                    ->get();
+            $donasiInKontainer = Lokasi::join('kontainer', 'lokasi.id_lokasi', '=', 'kontainer.id_lokasi')
+                ->join('sumbangan', 'kontainer.id_kontainer', '=', 'sumbangan.id_kontainer')
+                ->join('donatur', 'sumbangan.id_donatur', '=', 'donatur.id_donatur')
+                ->where('lokasi.id_lokasi', $id_lokasi)
+                ->where('sumbangan.updated_at', '>=', $currentContainer)
+                ->where('sumbangan.status', 'terverifikasi')
+                ->groupBy('donatur.nama_donatur')
+                ->select('donatur.nama_donatur', 
+                Sumbangan::raw('COALESCE(SUM(sumbangan.berat), 0) AS total_berat'))
+                ->orderByDesc('total_berat')
+                ->get();
 
-                $totalSumbangan1 = Sumbangan::where('id_kontainer', $id_kontainer)
-                ->where('updated_at', '>=', $currentContainer)
-                ->where('status', 'terverifikasi')
-                ->sum('berat');
-
-            } else {
-                $donasiInKontainer = Lokasi::join('kontainer', 'lokasi.id_lokasi', '=', 'kontainer.id_lokasi')
-                    ->join('sumbangan', 'kontainer.id_kontainer', '=', 'sumbangan.id_kontainer')
-                    ->join('donatur', 'sumbangan.id_donatur', '=', 'donatur.id_donatur')
-                    ->where('lokasi.id_lokasi', $id_lokasi)
-                    ->where('sumbangan.updated_at', '>=', 'kontainer.updated_at')
-                    ->where('sumbangan.status', 'terverifikasi')
-                    ->groupBy('donatur.nama_donatur')
-                    ->select('donatur.nama_donatur', 
-                    Sumbangan::raw('COALESCE(SUM(sumbangan.berat), 0) AS total_berat'))
-                    ->orderByDesc('total_berat')
-                    ->get();
-                
-                $totalSumbangan1 = Sumbangan::where('id_kontainer', $id_kontainer)
-                    ->where('updated_at', '>=', 'kontainer.updated_at')
-                    ->where('status', 'terverifikasi')
-                    ->sum('berat');
-                
-            }
+            $totalSumbangan1 = Sumbangan::where('id_kontainer', $id_kontainer)
+            ->where('updated_at', '>=', $currentContainer)
+            ->where('status', 'terverifikasi')
+            ->sum('berat');
 
             $labels2 = $donasiInKontainer->pluck('nama_donatur');
             $values2 = $donasiInKontainer->pluck('total_berat');
@@ -200,7 +181,10 @@ class DashboardController extends Controller
                 $iconColor = 'custom-icon3';
             }
 
-            $redeemBelumVerif = Redeem::where('status', 'bisa klaim')
+            $redeemBelumVerif = Redeem::with('reward', 'donatur')->whereHas('donatur.sumbangan.kontainer', function ($query) use ($id_lokasi) {
+                    $query->where('id_lokasi', $id_lokasi);
+                })
+                    ->where('status', '!=', 'selesai')
                 ->count();
 
             $data = [
@@ -267,30 +251,21 @@ class DashboardController extends Controller
             
             foreach ($containerIds as $id_kontainer) {
                 $currentContainer = Permintaan::where('id_kontainer', $id_kontainer)
-                    ->where('status_permintaan', 'berhasil')
+                    ->where('status_permintaan', 'diterima')
                     ->max('updated_at');
-                if ($currentContainer !== null) {
-                    $topKontainer = Lokasi::join('kontainer', 'lokasi.id_lokasi', '=', 'kontainer.id_lokasi')
-                        ->join('sumbangan', 'kontainer.id_kontainer', '=', 'sumbangan.id_kontainer')
-                        ->where('sumbangan.id_kontainer', $id_kontainer)
-                        ->where('sumbangan.updated_at', '>=', $currentContainer)
-                        ->where('sumbangan.status', 'terverifikasi')
-                        ->groupBy('lokasi.nama_kelurahan')
-                        ->select('lokasi.nama_kelurahan', Sumbangan::raw('COALESCE(SUM(sumbangan.berat), 0) AS total_berat'))
-                        ->get();
-                } else {
-                    $currentContainer = Kontainer::where('id_kontainer', $id_kontainer)
-                        ->value('created_at')
-                        ->format('Y-m-d H:i:s');
-                    $topKontainer = Lokasi::join('kontainer', 'lokasi.id_lokasi', '=', 'kontainer.id_lokasi')
-                        ->join('sumbangan', 'kontainer.id_kontainer', '=', 'sumbangan.id_kontainer')
-                        ->where('sumbangan.id_kontainer', $id_kontainer)
-                        ->where('sumbangan.updated_at', '>=', $currentContainer)
-                        ->where('sumbangan.status', 'terverifikasi')
-                        ->groupBy('lokasi.nama_kelurahan')
-                        ->select('lokasi.nama_kelurahan', Sumbangan::raw('COALESCE(SUM(sumbangan.berat), 0) AS total_berat'))
-                        ->get();
+                if ($currentContainer === null) {
+                    $currentContainer = Kontainer::where('id_kontainer', $id_kontainer)->max('updated_at');
                 }
+
+                $topKontainer = Lokasi::join('kontainer', 'lokasi.id_lokasi', '=', 'kontainer.id_lokasi')
+                    ->join('sumbangan', 'kontainer.id_kontainer', '=', 'sumbangan.id_kontainer')
+                    ->where('sumbangan.id_kontainer', $id_kontainer)
+                    ->where('sumbangan.updated_at', '>=', $currentContainer)
+                    ->where('sumbangan.status', 'terverifikasi')
+                    ->groupBy('lokasi.nama_kelurahan')
+                    ->select('lokasi.nama_kelurahan', Sumbangan::raw('COALESCE(SUM(sumbangan.berat), 0) AS total_berat'))
+                    ->get();
+
                 $topKontainerData[$id_kontainer] = $topKontainer;
             }
             
@@ -369,11 +344,8 @@ class DashboardController extends Controller
                 'perbandinganSumbangan' => $percentageChangeSumbangan,
                 'totalKontainer' => $totalKontainer,
                 'bulanTahun' => $bulanTahun,
-                // 'progress' => $progress,
-                // 'percentageProgress' => $percentageProgress,
                 'lokasi' => $lokasi,
                 'hampirPenuh' => $hampirPenuh,
-                // 'notifikasi' => $notifikasi,
                 'tanggal' => $tanggal,
                 'reward' => $rewardHampirHabis,
                 'totalKontainerKecamatan' => $totalKontainerKecamatan
@@ -382,26 +354,5 @@ class DashboardController extends Controller
             return view('after-login.pengelola-csr.dashboard.dashboard', $data);
         }
 
-    }
-
-    public function fetchChartData($lokasiId)
-    {
-        $currentMonth = [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()];
-        $previousMonth = [Carbon::now()->subMonth()->startOfMonth(), Carbon::now()->subMonth()->endOfMonth()];
-
-        (float)$totalKapasitasKontainer = Kontainer::where('id_lokasi', $lokasiId)->value('kapasitas');
-
-        $totalSumbangan1 = Sumbangan::where('id_kontainer', $lokasiId)
-            ->whereBetween('created_at', $currentMonth)
-            ->where('sumbangan.status', 'terverifikasi')
-            ->sum('berat');
-
-        $progress = [
-            $totalSumbangan1,
-            $totalKapasitasKontainer - $totalSumbangan1
-        ];
-
-        return response()->json($progress);
-    }
-    
+    }    
 }

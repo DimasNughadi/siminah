@@ -5,7 +5,7 @@
     <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets/img/apple-icon.png') }}">
     <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
     {{-- Title --}}
-    <x-TitleOfPage />
+    <x-titleOfPage />
     <!--     Fonts and icons     -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
