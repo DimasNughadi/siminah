@@ -103,8 +103,11 @@
 
 @stop
 
-
-@section('script2')
+@section('script')
+    <script>
+        const dataId = $('.tableForPagination').data('id')
+        pagination(dataId)
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.6/jspdf.plugin.autotable.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
@@ -112,8 +115,8 @@
     <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <script>
         var tableData = [];
-        const tableRows = $('#riwayat-verifikasi-kelurahan tbody tr');
-        const originalData = $('#riwayat-verifikasi-kelurahan tbody').html()
+        const tableRows = $('#table-detail-sumbangan-kelurahan tbody tr');
+        const originalData = $('#table-detail-sumbangan-kelurahan tbody').html()
         $(function() {
             const picker = $('#date-range-picker').daterangepicker({
                 locale: {
@@ -130,7 +133,7 @@
             });
 
             picker.on('cancel.daterangepicker', function(ev, picker) {
-                $('#riwayat-verifikasi-kelurahan tbody').html(originalData);
+                $('#table-detail-sumbangan-kelurahan tbody').html(originalData);
                 console.log(ev);
                 console.log(picker);
                 tableData = [];

@@ -22,7 +22,7 @@
                         </div>
                     </div>
                     <div class="col-md-12">
-                        <x-forms.table>
+                        <x-forms.table id="table-verifikasi-hadiah">
                             @slot('headSlot')
                                 <th>NAMA USER</th>
                                 <th class="text-center ">JUMLAH POIN</th>
@@ -32,7 +32,6 @@
                             @endslot
                             @slot('bodySlot')
                                 @if (!empty($redeem))
-                                    {{-- {{ dd($redeem[0]) }} --}}
                                     @foreach ($redeem as $item)
                                         <tr class="reward-tr table-row-image">
                                             <td class="ps-4">
@@ -87,7 +86,7 @@
                         </div>
                     </div>
                     <div class="col-md-12">
-                        <x-forms.table id="table-detail-donatur">
+                        <x-forms.table id="table-detail-donatur" class="tableForPagination2">
                             @slot('headSlot')
                                 <th>NAMA HADIAH</th>
                                 <th class="text-center ">STOK HADIAH</th>
@@ -156,3 +155,12 @@
     </form>
     
 @stop
+
+@section('script')
+    <script>
+        const dataId = $('.tableForPagination').data('id')
+        pagination(dataId)
+        const dataId2 = $('.tableForPagination2').data('id')
+        pagination(dataId2)
+    </script>
+@endsection

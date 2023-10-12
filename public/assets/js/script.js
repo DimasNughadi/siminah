@@ -404,8 +404,12 @@ function pagination(dataId) {
         $("#table-detail-sumbangan-kelurahan").DataTable(dataTableConfig);
     } else if (dataId === "table-manajemen-kontainer-csr"){
         $.fn.dataTable.ext.classes.sPageButton = "btn-paginate";
-        dataTableConfig.pageLength = 3;
+        dataTableConfig.pageLength = 4;
         $("#table-manajemen-kontainer-csr").DataTable(dataTableConfig);
+    } else if (dataId === "table-verifikasi-hadiah"){
+        $.fn.dataTable.ext.classes.sPageButton = "btn-paginate";
+        dataTableConfig.pageLength = 3;
+        $("#table-verifikasi-hadiah").DataTable(dataTableConfig);
     }
 }
 

@@ -124,8 +124,8 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-12 col-sm-12 col-12">
-                                    <div class="body overflowy">
-                                        <x-forms.table id="table-manajemen-kontainer-csr">
+                                    <div class="body">
+                                        <x-forms.table id="table-manajemen-kontainer-csr" class="tableForPagination2">
                                             @slot('headSlot')
                                                 <th>KELURAHAN</th>
                                                 <th>KAPASITAS</th>
@@ -175,3 +175,12 @@
         </div>
     </div>
 @stop
+
+@section('script')
+    <script>
+        const dataId = $('.tableForPagination').data('id')
+        pagination(dataId)
+        const dataId2 = $('.tableForPagination2').data('id')
+        pagination(dataId2)
+    </script>
+@endsection

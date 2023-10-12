@@ -3,7 +3,7 @@
 @section('content')
     <div class="container-fluid py-2 ps-4">
         <div class="row">
-            <div class="col-xxl-10 col-xl-11 col-lg-11 col-md-12 col-sm-12 col-12">
+            <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                 <div class="row">
                     <div class="col-lg-12 reward text-poppins">Donatur</div>
                 </div>
@@ -91,3 +91,10 @@
     </div>
 
 @stop
+
+@section('script')
+    <script>
+        const dataId = $('.tableForPagination').data('id')
+        pagination(dataId)
+    </script>
+@endsection

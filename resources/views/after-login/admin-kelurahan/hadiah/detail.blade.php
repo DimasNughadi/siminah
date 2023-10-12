@@ -5,7 +5,7 @@
     <div class="container-fluid py-2 ps-4">
         
         <div class="row">
-            <div class="col-md-10">
+            <div class="col-xxl-11 col-xl-11 col-lg-12 col-md-12 col-sm-12 col-12" >
                 <div class="row">
                     <div class="col-lg-12 page-header text-poppins">
                         <a href="{{ route('redeem') }}" class="text-secondary link-secondary">Hadiah</a>
@@ -88,3 +88,10 @@
     </div>
 
 @stop
+
+@section('script')
+    <script>
+        const dataId = $('.tableForPagination').data('id')
+        pagination(dataId)
+    </script>
+@endsection
