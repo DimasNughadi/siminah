@@ -1,5 +1,5 @@
 @extends('components._partials.default')
-
+@section('title', 'Tambah Admin Kelurahan')
 @section('content')
 {{-- @dd($lokasi) --}}
     <div class="container-fluid py-2 ps-4">

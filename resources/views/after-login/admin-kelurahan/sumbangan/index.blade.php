@@ -1,5 +1,5 @@
 @extends('components._partials.default')
-
+@section('title', 'Sumbangan')
 @section('content')
 
     {{-- {{ dd($persentase) }} --}}

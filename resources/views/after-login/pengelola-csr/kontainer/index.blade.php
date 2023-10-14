@@ -1,5 +1,6 @@
 @extends('components._partials.default')
 
+@section('title', 'Kontainer')
 @section('content')
     {{-- {{ dd($permintaan) }} --}}
     <div class="container-fluid py-2 ps-2 ps-xxl-3 ps-xl-3 ps-lg-3 ps-md-3 ps-sm-3">

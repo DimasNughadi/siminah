@@ -1,5 +1,6 @@
 @extends('components._partials.default')
 
+@section('title', 'Tambah Lokasi Kontainer')
 @section('content')
     <div class="container-fluid py-2 ps-4">
         <div class="row">

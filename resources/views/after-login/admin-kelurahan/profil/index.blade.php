@@ -1,5 +1,5 @@
 @extends('components._partials.default')
-
+@section('title', 'Profil')
 @section('content')
     <section class="profil">
         <div class="row">

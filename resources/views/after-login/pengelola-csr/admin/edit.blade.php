@@ -1,5 +1,6 @@
 @extends('components._partials.default')
 
+@section('title', 'Edit Admin Kelurahan')
 @section('content')
 {{-- {{ $user }} --}}
     <div class="container-fluid py-2 ps-4">

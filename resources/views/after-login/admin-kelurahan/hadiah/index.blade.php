@@ -1,5 +1,5 @@
 @extends('components._partials.default')
-
+@section('title', 'Hadiah')
 @section('content')
     
     <div class="container-fluid py-2 ps-4">

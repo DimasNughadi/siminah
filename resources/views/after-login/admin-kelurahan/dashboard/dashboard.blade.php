@@ -1,5 +1,5 @@
 @extends('components._partials.default')
-
+@section('title', 'Dashboard')
 @section('content')
 
 <style>

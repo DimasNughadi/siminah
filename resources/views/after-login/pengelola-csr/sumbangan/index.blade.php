@@ -1,5 +1,6 @@
 @extends('components._partials.default')
 
+@section('title', 'Sumbangan')
 @section('content')
     {{-- {{ dd($laporan) }} --}}
     <div class="container-fluid py-2 ps-4">
