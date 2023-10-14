@@ -81,7 +81,7 @@ class DashboardController extends Controller
 
         $totalSumbangan1 = Sumbangan::where('id_kontainer', 15)
             ->where(function ($query) use ($currentContainer) {
-                $query->where('created_at', '>=', $currentContainer)
+                $query->where('created_at', '=>', $currentContainer)
                     ->orWhere('created_at', '=', 'kontainer.created_at');
             })
             ->where('status', 'terverifikasi')

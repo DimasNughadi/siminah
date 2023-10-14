@@ -167,14 +167,19 @@ class KontainerController extends Controller
     public function updatePermintaan($id)
     {
         try {
-            $permintaan = Permintaan::findOrFail($id);
-            $permintaan->status_permintaan = 'diterima';
-            $permintaan->save();
-            return redirect()->route('kontainer')->with('permintaan_alert', 'success');
-            ;
+            if (auth()->user()->role == 'admin_kelurahan') {
+                $permintaan = Permintaan::findOrFail($id);
+                $permintaan->status_permintaan = 'diterima';
+                $permintaan->save();
+                return redirect()->route('kontainer')->with('permintaan_alert', 'success');
+            } else {
+                $permintaan = Permintaan::findOrFail($id);
+                $permintaan->status_permintaan = 'diproses';
+                $permintaan->save();
+                return redirect()->route('kontainer')->with('permintaan_alert', 'success');
+            }
         } catch (Exception $exception) {
             return redirect()->back()->with('permintaan_alert', 'error');
-            ;
         }
     }
 

@@ -364,7 +364,7 @@ function pagination(dataId) {
     } else if (dataId === "table-penggantian-kontainer") {
     } else if (dataId === "table-index-donatur") {
         $.fn.dataTable.ext.classes.sPageButton = "btn-paginate";
-        dataTableConfig.pageLength = 8;
+        dataTableConfig.pageLength = 6;
         $("#table-index-donatur").DataTable(dataTableConfig);
     } else if (dataId === "tabel-index-reward") {
         $.fn.dataTable.ext.classes.sPageButton = "btn-paginate";
@@ -396,7 +396,7 @@ function pagination(dataId) {
         $("#table-detail-reward").DataTable(dataTableConfig);
     } else if (dataId === "table-sumbangan-csr"){
         $.fn.dataTable.ext.classes.sPageButton = "btn-paginate";
-        dataTableConfig.pageLength = 10;
+        dataTableConfig.pageLength = 8;
         $("#table-sumbangan-csr").DataTable(dataTableConfig);
     } else if (dataId === "table-detail-sumbangan-kelurahan"){
         $.fn.dataTable.ext.classes.sPageButton = "btn-paginate";

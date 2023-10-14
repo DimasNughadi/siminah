@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Exception;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -30,28 +31,10 @@ class LoginController extends Controller
         }
     }
 
-    // public function ceklogin(Request $request)
-    // {
-    //     try{
-    //     $credentials = $request->only('username', 'password');
-
-    //     if (Auth::attempt($credentials)) {
-    //         $request->session()->regenerate();
-    //         Session::put('id_user', Auth::user()->id);
-    //         // return response()->json(Response::HTTP_OK);
-    //         return redirect()->route('dashboard')->with('success_alert', 'Login berhasil');
-    //     } else {
-    //         // return response()->json(['error' => 'Invalid credentials'], Response::HTTP_UNAUTHORIZED);
-    //         return redirect()->route('login')->with('error', 'Username dan password tidak sesuai');
-    //     }
-    //     }catch(Exception $e){
-    //         return redirect()->back()->with('message', 'Login gagal');
-    //     }
-    // }
-
     public function ceklogin(Request $request)
     {
         try {
+            
             $credentials = $request->only('username', 'password');
             $remember = $request->has('remember'); // Check if 'remember' checkbox is checked
 
@@ -66,6 +49,7 @@ class LoginController extends Controller
             return redirect()->back()->with('login_alert', 'error');
         }
     }
+
     public function logout(Request $request)
     {
         Auth::logout();
