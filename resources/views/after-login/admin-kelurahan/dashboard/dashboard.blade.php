@@ -105,7 +105,7 @@
                         <i class="material-icons opacity-10">local_drink</i>
                     </div>
                     <div class="text-end pt-1">
-                        <p class="text-sm mb-0 text-capitalize">Total donasi bulan {{$bulanTahun}}</p>
+                        <p class="text-sm mb-0 text-capitalize">Donasi bulan {{$bulanTahun}}</p>
                         <h4 class="mb-0"><span id="state1" countTo="{{ $totalSumbangan }}"></span> Kg</h4>
                     </div>
                 </div>
@@ -145,7 +145,7 @@
                 <div class="card-header p-3 pt-2">
                     <div
                         class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
-                        <i class="material-icons opacity-10">warning</i>
+                        <i class="material-icons opacity-10">vertical_align_bottom</i>
                     </div>
                     <div class="text-end pt-1">
                         <p class="text-sm mb-0 text-capitalize">Donasi belum terverifikasi</p>
@@ -165,7 +165,7 @@
                 <div class="card-header p-3 pt-2">
                     <div
                         class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
-                        <i class="material-icons opacity-10">warning</i>
+                        <i class="material-icons opacity-10">redeem</i>
                     </div>
                     <div class="text-end pt-1">
                         <p class="text-sm mb-0 text-capitalize">Redeem belum terverifikasi</p>
