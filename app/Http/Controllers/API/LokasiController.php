@@ -37,6 +37,33 @@ class LokasiController extends Controller
 		}
 	}
 
+    public function dataLokasi()
+	{
+		try {
+			$lokasi = Lokasi::with(['kecamatan:id_kecamatan,nama_kecamatan'])
+				->withCount([
+					'kontainer' => function ($query) {
+						$query->where('keterangan', '!=', 'deleted');
+					}
+				])
+				->where('status', '!=', 'deleted')
+				->get();
+
+			// Modify the data directly
+			$lokasi->transform(function ($item) {
+				$item->nama_kecamatan = $item->kecamatan->nama_kecamatan;
+				unset($item->kecamatan);
+				unset($item->longitude);
+				unset($item->latitude);
+				return $item;
+			});
+
+			return response()->json($lokasi);
+		} catch (Exception $exception) {
+			return response()->json(['message' => 'Tidak ada data'], 404);
+		}
+	}
+
     /**
      * Store a newly created resource in storage.
      */
