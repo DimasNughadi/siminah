@@ -17,6 +17,17 @@ Route::get('/contoh', function () {
     return view('test-component');
 });
 
+Route::get('/developer', function () {
+    return view('developer');
+})->name('developer');
+
+// Route::get('/test', [SumbanganController::class, 'export'])->name('export');
+Route::get('/generate-pdf', [SumbanganController::class, 'generatePDF']);
+
+//ajax sumbangan
+Route::get('/sumbangan/filter/{start}/{end}',[SumbanganController::class,'filterData'])->name('sumbangans');
+
+
 //Login Admin CSR dan Admin Kelurahan
 Route::get('/',[LoginController::class,'index'])->name('login');
 Route::post('/ceklogin',[LoginController::class,'ceklogin'])->name('ceklogin');
@@ -46,6 +57,7 @@ Route::middleware(['checksession','role:admin_csr,admin_kelurahan'])->group(func
     Route::get('/sumbangan/detail', [SumbanganController::class,'detail'])->name('sumbangan.detail');
     Route::post('/sumbangan/edit/{id}/{created_at}', [SumbanganController::class, 'edit'])->name('sumbangan.edit');
     Route::put('/sumbangan/update/{id}/{created_at}',[SumbanganController::class,'update'])->name('sumbangan.update');
+    Route::get('export/user/{start}/{end}', [SumbanganController::class, 'generateExcel']);
     
     //manajemen kontainer kelurahan
     Route::get('/kontainer',[KontainerController::class,'index'])->name('kontainer');
@@ -90,11 +102,7 @@ Route::middleware(['checksession','role:admin_csr'])->group(function() {
     Route::post('/hadiah',[RewardController::class,'store'])->name('hadiah.store');
     Route::put('/hadiah/{id}',[RewardController::class,'update'])->name('hadiah.update');
     Route::delete('/hadiah/{id}',[RewardController::class,'destroy'])->name('hadiah.delete');
-    
-    //ajax sumbangan
-    Route::get('/sumbangan/filter',[SumbanganController::class,'filterData'])->name('sumbangans');
-
-    
+        
     Route::delete('/donatur/delete/{id}',[DonaturController::class,'destroy'])->name('donatur.destroy');
     
 });

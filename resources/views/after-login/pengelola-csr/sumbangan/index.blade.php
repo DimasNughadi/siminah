@@ -24,24 +24,35 @@
                                         <div class="header-button">
                                             <div
                                                 class="text-poppins text-14 btn-reward-position d-flex justify-content-end align-items-end">
-                                                <a href="#"
-                                                    class="btn-reward 
-                                                btn-semi-success d-flex align-items-center export-btn"
-                                                    onclick="generate()">
-                                                    EXPORT
-                                                    <span class="material-symbols-outlined">
-                                                        download
-                                                    </span>
-                                                </a>
+                                                <div class="dropdown ms-4">
+                                                    <button
+                                                        class="btn-reward 
+                                                    btn-success export-btn dropdown-toggle"
+                                                        type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        EXPORT
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li>
+                                                            <a class="dropdown-item" href="#"
+                                                                onclick="generate()">PDF</a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="dropdown-item" href="#"
+                                                                id="exportExcel">Excel</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12 col-sm-12 col-12">
                                     <div class="body">
-                                        <div class="table-responsive-sm table-responsive-xl table-responsive-lg table-responsive-md">
+                                        <div
+                                            class="table-responsive-sm table-responsive-xl table-responsive-lg table-responsive-md">
                                             <table id="table-sumbangan-csr"
-                                                class="tableForPagination table align-middle mb-0 reward-table ps-6" data-id="table-sumbangan-csr">
+                                                class="tableForPagination table align-middle mb-0 reward-table ps-6"
+                                                data-id="table-sumbangan-csr">
                                                 <thead>
                                                     <tr>
                                                         <th>KECAMATAN</th>
@@ -105,6 +116,7 @@
 
 @section('script')
     <script>
+        let excel = document.getElementById('exportExcel');
         var tableData = [];
         const tableRows = $('#table-sumbangan-csr tbody tr');
         const originalData = $('#table-sumbangan-csr tbody').html()
@@ -121,17 +133,16 @@
                 }
             }, function(start, end, label) {
                 filterTableByDateRange(start, end);
+                // console.log(start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD'));
+                excel.setAttribute('href', 'http://127.0.0.1:8000/export/user/' + start.format('YYYY-MM-DD') + '/' + end.format('YYYY-MM-DD'))
             });
 
             picker.on('cancel.daterangepicker', function(ev, picker) {
                 $('#table-sumbangan-csr tbody').html(originalData);
-                console.log(ev);
-                console.log(picker);
                 tableData = [];
                 setDefaultData()
             });
         });
-
 
         var tableDataWithRowNumbers;
 
@@ -191,19 +202,27 @@
             tableDataWithRowNumbers = tableData.map(function(row, index) {
                 return [index + 1].concat(row).slice(0);
             });
+
+            var today = new Date(); // Get the current date
+            var pastDate = new Date(today)
+            pastDate.setDate(today.getDate() - 7);
+            var pastDateFormatted = pastDate.toISOString().slice(0, 10);
+            var todayFormatted = today.toISOString().slice(0, 10);
+
+            excel.setAttribute('href', 'http://127.0.0.1:8000/export/user/' + pastDateFormatted + '/' + todayFormatted)
         }
 
         setDefaultData()
 
         function generate() {
-            
+
             var doc = new jsPDF('p', 'pt', 'a4');
             // get file ukuran page
-            const docPageWidth = doc.internal.pageSize.getWidth()/2;
+            const docPageWidth = doc.internal.pageSize.getWidth() / 2;
             const imageWidth = 141;
             const imageHeight = 71;
 
-            const imageUrl = 'assets/img/default/logo_siminah.png';
+            const imageUrl = 'assets/img/default/alloflogo.png';
 
             // Create an HTML `img` element to load the image
             const img = new Image();
@@ -245,9 +264,13 @@
             doc.setLineWidth(2);
             doc.addImage(img, 'PNG', docPageWidth - 75, 10, 150, 81);
             doc.setFontSize(16);
-            doc.text("LAPORAN SUMBANGAN MINYAK JELANTAH", docPageWidth, y = y + 40, { align: 'center' });
+            doc.text("LAPORAN SUMBANGAN MINYAK JELANTAH", docPageWidth, y = y + 40, {
+                align: 'center'
+            });
             doc.setFontSize(10);
-            doc.text(tanggalHariIni, docPageWidth, y = y + 15, { align: 'center' });
+            doc.text(tanggalHariIni, docPageWidth, y = y + 15, {
+                align: 'center'
+            });
             doc.setFontSize(12);
             doc.autoTable({
                 headStyles: {
@@ -257,7 +280,9 @@
                 },
                 // html: '#sumbangan-table',
                 head: [
-                    ['NO', 'KECAMATAN', 'KELURAHAN', 'JUMLAH (KG)', 'JUMLAH DONATUR', 'BULAN' ,'TANGGAL PELAPORAN']
+                    ['NO', 'KECAMATAN', 'KELURAHAN', 'JUMLAH (KG)', 'JUMLAH DONATUR', 'BULAN',
+                        'TANGGAL PELAPORAN'
+                    ]
                 ],
                 body: tableDataWithRowNumbers,
                 startY: y + 10,
@@ -330,8 +355,8 @@
             doc.save('Laporan-sumbangan-minyak-' + tanggalHariIni.replace(' ', '-') + '.pdf');
         }
 
-            // Pagination
-            const dataId = $('.tableForPagination').data('id')
-            pagination(dataId)
+        // Pagination
+        const dataId = $('.tableForPagination').data('id')
+        pagination(dataId)
     </script>
 @endsection

@@ -61,10 +61,6 @@ h4.login-header-color {
     justify-content: left;
 }
 
-.login-header img.navbar-brand-img {
-    width: 167px;
-}
-
 .login-page .row .icon {
     position: absolute;
     left: 25px;
@@ -137,14 +133,14 @@ h4.login-header-color {
 .btn-login {
     width: 418px;
     left: -15px;
-    background-color: var(--danger);
+    background-color: var(--success);
     color: white;
     font-size: 16px;
     font-family: "Poppins", sans-serif;
 }
 
 .btn-login:hover {
-    background-color: var(--hover-danger);
+    background-color: var(--success);
     color: white;
 }
 
@@ -673,6 +669,12 @@ input.modal-input[type="date"]::-webkit-calendar-picker-indicator {
 
 .btn-semi-success {
     background-color: #65ae38;
+    text-decoration: none;
+    color: white !important;
+}
+
+.btn-success {
+    background-color: var(--success);
     text-decoration: none;
     color: white !important;
 }
@@ -1715,7 +1717,7 @@ tr.reward-tr .ps-4 .d-flex {
     font-weight: 500;
     line-height: 32px; /* 228.571% */
     letter-spacing: 0.15px;
-    background: var(--primary-color);
+    background: var(--success);
     padding: 0 16px 0 16px;
     border-radius: 12px;
 }
@@ -1997,7 +1999,7 @@ tr.reward-tr .ps-4 .d-flex {
     border-radius: 20px;
     border: 1px solid #808080;
     color: white;
-    background: var(--primary-color);
+    background: var(--success);
 }
 
 /* manajemen admin */
@@ -2076,11 +2078,12 @@ tr.reward-tr .ps-4 .d-flex {
     width: 180px;
     height: 50px;
     flex-shrink: 0;
-    border: 1px solid var(--primary-color);
+    border: 1px solid var(--success);
     display: flex;
     justify-content: center;
     align-items: center;
-    color: var(--primary-color);
+    color: var(--success);
+    font-weight: 700;
 }
 
 .edit-profil .header .simpan-buttom {
@@ -2089,7 +2092,7 @@ tr.reward-tr .ps-4 .d-flex {
     flex-shrink: 0;
     border-radius: 20px;
     border: 1px solid #808080;
-    background: var(--primary-color);
+    background: var(--success);
     color: white;
 }
 
@@ -2146,7 +2149,7 @@ tr.reward-tr .ps-4 .d-flex {
     flex-shrink: 0;
     border-radius: 20px;
     border: 1px solid #808080;
-    background: var(--primary-color);
+    background: var(--success);
     color: white;
     font-family: var(--text-poppins);
     font-size: 16px;
@@ -2154,7 +2157,7 @@ tr.reward-tr .ps-4 .d-flex {
 }
 
 .forms-sumbit:hover {
-    background-color: var(--primary-color);
+    background-color: var(--success);
 }
 
 .lokasi-tr td:not(.soft) {
@@ -2298,11 +2301,11 @@ tr.reward-tr .ps-4 .d-flex {
 }
 
 .radio-wrapper .left-side label {
-    border: 1.5px solid var(--primary-color);
+    border: 1.5px solid var(--success);
     border-radius: 20px 0 0 20px;
     padding: 19px 59px 19px 59px;
     background-color: white;
-    color: var(--primary-color);
+    color: var(--sucess);
     text-align: center;
     font-feature-settings: "clig" off, "liga" off;
     font-family: var(--text-poppins);
@@ -2315,11 +2318,11 @@ tr.reward-tr .ps-4 .d-flex {
 }
 
 .radio-wrapper .right-side label {
-    border: 1.5px solid var(--primary-color);
+    border: 1.5px solid var(--success);
     border-radius: 0 20px 20px 0;
     padding: 19px 59px 19px 59px;
     background-color: white;
-    color: var(--primary-color);
+    color: var(--success);
     text-align: center;
     font-feature-settings: "clig" off, "liga" off;
     font-family: var(--text-poppins);
@@ -2333,7 +2336,7 @@ tr.reward-tr .ps-4 .d-flex {
 
 input[type="radio"]:checked + label {
     color: white;
-    background-color: var(--primary-color);
+    background-color: var(--success);
 }
 
 .custom-label {
@@ -2480,26 +2483,121 @@ input[type="radio"]:checked + label {
 }
 
 .is-filled .is-valid {
-    border-color: #F6F6F6 !important;
+    border-color: #f6f6f6 !important;
     background-color: #e9f8f2;
     box-shadow: none;
-    background-image: none!important;
+    background-image: none !important;
 }
-
 
 .is-filled .is-valid::after {
-    content: ''!important;
+    content: "" !important;
 }
 .is-filled .is-valid::before {
-    content: ''!important;
+    content: "" !important;
 }
 
 .is-focused .is-valid {
-    box-shadow: none!important;
+    box-shadow: none !important;
+}
+
+/* Developer Pages */
+.developer .logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 50px;
+}
+
+.developer .logo span {
+    background-image: url("../../assets/img/icon/vertical-line.svg");
+    width: 1px;
+    height: 60px;
+}
+
+.developer .logo .siminah img {
+    width: 89px;
+    height: 98px;
+}
+
+.developer .logo .pcr img {
+    width: 379px;
+    height: 46px;
+}
+
+.developer .logo .psti img {
+    width: 89px;
+    height: 98px;
+}
+
+.developer .body {
+    margin-top: 100px;
+    width: 85%;
+}
+
+.developer .body .sidebar h1 {
+    color: #393939;
+    font-family: var(--text-poppins);
+    font-size: 50px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin-bottom: 40px;
+}
+
+.developer .body .sidebar .list-group a {
+    color: #979797;
+    font-family: var(--text-poppins);
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.developer .body .sidebar .list-group a.active {
+    color: #393939;
+}
+
+.developer .body .sidebar .list-group a.active::before {
+    content: url("../../assets/img/icon/left-arrow-green.svg");
+    position: absolute;
+}
+
+.developer .body .sidebar .list-group a:not(.last) {
+    margin-bottom: 40px;
 }
 
 
-@media (min-width: 320px) {
+.person {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding-bottom: 40px;
+}
+
+.person h2 {
+    color: #393939;
+    text-align: center;
+    font-family: var(--text-poppins);
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    width: 200px;
+}
+
+.person h5 {
+    color: #909090;
+    font-family: var(--text-poppins);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    line-height: 10px;
+}
+
+@media (min-width: 320px) and (max-width: 767px){
     .login-header {
         position: relative;
         left: -20px;
@@ -2511,7 +2609,7 @@ input[type="radio"]:checked + label {
     }
 
     .text-poppins span.siminah {
-        margin-left: 45px;
+        margin-left: -45px;
     }
 
     .btn-login {
@@ -2529,6 +2627,46 @@ input[type="radio"]:checked + label {
     .olah-donatur .header {
         padding: 20px 20px 0 20px;
     }
+
+    .developer .body .sidebar .list-group a.active::before {
+        left: 20px;
+    }
+
+    .developer .logo .siminah img {
+        width: 45px;
+        height: 49px;
+    }
+    
+    .developer .logo .pcr img {
+        width: 189px;
+        height: 23px;
+    }
+    
+    .developer .logo .psti img {
+        width: 45px;
+        height: 49px;
+    }
+
+    .developer .body {
+        margin-top: 20px;
+    }
+    
+    .developer .body .sidebar h1 {
+        font-size: 30px;
+        margin-bottom: 20px;
+    }
+
+    .developer .body .sidebar .list-group a {
+        font-size: 20px;
+    }
+
+    .developer .body .sidebar .list-group a:not(.last) {
+        margin-bottom: 15px;
+    }
+    
+    .developer .body .user-list {
+        margin-top: 25px;
+    } 
 }
 
 @media (min-width: 576px) {
@@ -2564,6 +2702,18 @@ input[type="radio"]:checked + label {
     .olah-donatur .header {
         padding: 20px 20px 0 20px;
     }
+
+    .developer .body .sidebar .list-group a.active::before {
+        left: 40px;
+    }
+
+    .developer .body {
+        margin-top: 20px;
+    }
+
+    .developer .body .user-list {
+        margin-top: 25px;
+    } 
 }
 
 @media (min-width: 768px) {
@@ -2620,6 +2770,28 @@ input[type="radio"]:checked + label {
     .olah-donatur .header {
         padding: 20px 20px 0 20px;
     }
+
+    .developer .body .sidebar .list-group a.active::before {
+        left: 70px;
+    }
+}
+
+@media (min-width: 762px) {
+    .developer .body .sidebar .list-group a.active::before {
+        left: 40px;
+    }
+}
+
+@media (min-width: 800px) {
+    .developer .body .sidebar .list-group a.active::before {
+        left: 40px;
+    }
+}
+
+@media (min-width: 820px) {
+    .developer .body .sidebar .list-group a.active::before {
+        left: 40px;
+    }
 }
 
 @media (min-width: 992px) {
@@ -2672,6 +2844,18 @@ input[type="radio"]:checked + label {
     .right-header {
         justify-content: end;
     }
+
+    .developer .body .sidebar .list-group a.active::before {
+        left: 60px;
+    }
+
+    .developer .body {
+        margin-top: 40px;
+    }
+
+    .developer .body .user-list {
+        margin-top: 0px;
+    } 
 }
 
 @media (min-width: 1200px) {
@@ -2710,6 +2894,10 @@ input[type="radio"]:checked + label {
     .right-header {
         justify-content: end;
     }
+
+    .developer .body .sidebar .list-group a.active::before {
+        left: 80px;
+    }
 }
 
 @media (min-width: 1536px) {
@@ -2719,7 +2907,7 @@ input[type="radio"]:checked + label {
     }
 
     .text-poppins span.siminah {
-        margin-left: 0 !important;
+        margin-left: -75px !important;
     }
 
     .riwayat-donatur-wrapper {
@@ -2753,6 +2941,10 @@ input[type="radio"]:checked + label {
     .right-header {
         justify-content: end;
     }
+
+    .developer .body .sidebar .list-group a.active::before {
+        left: 90px;
+    }
 }
 
 @media (min-width: 1537px) and (max-width: 1920px) {
@@ -2762,7 +2954,7 @@ input[type="radio"]:checked + label {
     }
 
     .text-poppins span.siminah {
-        margin-left: -50px !important;
+        margin-left: -100px !important;
     }
 
     .bg-pertamina {
@@ -2793,5 +2985,9 @@ input[type="radio"]:checked + label {
 
     .right-header {
         justify-content: end;
+    }
+
+    .developer .body .sidebar .list-group a.active::before {
+        left: 100px;
     }
 }

@@ -10,8 +10,7 @@
                             <div class="logo-utama justify-content-center">
                                 <i class="fas fa-times p-3 cursor-pointer text-dark opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
                                     aria-hidden="true" id="iconSidenav"></i>
-                                <img src="{{ asset('siminah-header.png') }}" alt="Logo siminah"><br>
-                                <span class="ms-3 font-weight-bold text-dark app-name text-center">&nbsp;Siminah</span>
+                                <img src="{{ asset('assets/img/default/siminah.png') }}" alt="Logo siminah" width="50" height="60">
                             </div>
                         </div>
                         <div class="col-6 ps-1 d-flex align-items-center justify-content-center">

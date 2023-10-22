@@ -10,9 +10,9 @@
                 <div class="col-xxl-4 col-xl-5 col-lg-6 col-md-7 col-sm-12 col-12 ps-4">
                     <div class="row mt-6 ps-4">
                         <div class="login-header">
-                            <div class="col-xxl-5 col-xl-5 col-lg-5 col-md-5 col-sm-5 col-5">
-                                <img class="navbar-brand-img" src="{{ asset('siminah-login.png') }}"
-                                    alt="Logo pertamina">
+                            <div class="col-xxl-5 col-xl-5 col-lg-5 col-md-5 col-sm-5 col-5 ms-3">
+                                <img class="navbar-brand-img" src="{{ asset('assets/img/default/siminah.png') }}" width="92" height="72"
+                                    alt="Logo {{ config('app.name')}}">
                             </div>
                             <div
                                 class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2 text-poppins login-header-color">
@@ -60,7 +60,7 @@
                     </div>
                 </div>
                 <div class="col-xxl-8 col-xl-7 col-lg-6 col-md-5 bg-pertamina"
-                    style="background-image: url('{{ asset('bg-pertamina.jpg') }}')">
+                    style="background-image: url('{{ asset('assets/img/default/background.png') }}')">
                 </div>
             </div>
         </section>

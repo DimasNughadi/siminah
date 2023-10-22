@@ -1,4 +1,4 @@
-@props(['color', 'title', 'type' => 'button', 'id' => ''])
+@props(['title', 'type' => 'button', 'id' => ''])
 
 @if ($id === '')
     <button type="{{ $type }}"

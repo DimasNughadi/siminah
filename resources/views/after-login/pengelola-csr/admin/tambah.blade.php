@@ -24,7 +24,7 @@
                             </div>
                             <div class="col-md-3 col-sm-3 col-3 button d-flex justify-content-end">
                                 {{-- <button type="submit">ss</button> --}}
-                                <x-forms.btn.button type="submit" color="primary" title="Simpan" />
+                                <x-forms.btn.button type="submit" color="success" title="Simpan" />
                             </div>
                         </div>
                     </div>

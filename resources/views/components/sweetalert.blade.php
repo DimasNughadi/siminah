@@ -158,4 +158,14 @@
         background: 'rgba(52, 181, 58, 0.2)',
         backdrop: false,
     }) --}}
+@elseif(!empty(session('export_alert')))
+    @if (session('export_alert') === 'failed')
+        <script>
+            Swal.fire(
+                'Export data failed',
+                'Tidak ada data ditemukan',
+                'error',
+            );
+        </script>
+    @endif
 @endif

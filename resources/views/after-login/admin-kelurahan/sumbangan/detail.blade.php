@@ -26,15 +26,24 @@
                             <div class="header-button">
                                 <div
                                     class="text-poppins text-14 btn-reward-position d-flex justify-content-end align-items-end">
-                                    <a href="#"
-                                        class="btn-reward 
-                                    btn-semi-success d-flex align-items-center export-btn"
-                                        onclick="generate()">
-                                        EXPORT
-                                        <span class="material-symbols-outlined">
-                                            download
-                                        </span>
-                                    </a>
+                                    <div class="dropdown ms-4">
+                                        <button
+                                            class="btn-reward 
+                                        btn-success export-btn dropdown-toggle"
+                                            type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            EXPORT
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a class="dropdown-item" href="#"
+                                                    onclick="generate()">PDF</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="#"
+                                                    id="exportExcel">Excel</a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -114,6 +123,8 @@
     <script src="https://cdn.jsdelivr.net/npm/moment/min/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <script>
+        
+        let excel = document.getElementById('exportExcel');
         var tableData = [];
         const tableRows = $('#table-detail-sumbangan-kelurahan tbody tr');
         const originalData = $('#table-detail-sumbangan-kelurahan tbody').html()
@@ -130,12 +141,13 @@
                 }
             }, function(start, end, label) {
                 filterTableByDateRange(start, end);
+                excel.setAttribute('href', 'http://127.0.0.1:8000/export/user/' + start.format('YYYY-MM-DD') + '/' + end.format('YYYY-MM-DD'))
             });
 
             picker.on('cancel.daterangepicker', function(ev, picker) {
                 $('#table-detail-sumbangan-kelurahan tbody').html(originalData);
-                console.log(ev);
-                console.log(picker);
+                // console.log(ev);
+                // console.log(picker);
                 tableData = [];
                 setDefaultData()
             });
@@ -200,6 +212,14 @@
             tableDataWithRowNumbers = tableData.map(function(row, index) {
                 return [index + 1].concat(row).slice(0);
             });
+
+            var today = new Date(); // Get the current date
+            var pastDate = new Date(today)
+            pastDate.setDate(today.getDate() - 7);
+            var pastDateFormatted = pastDate.toISOString().slice(0, 10);
+            var todayFormatted = today.toISOString().slice(0, 10);
+
+            excel.setAttribute('href', 'http://127.0.0.1:8000/export/user/' + pastDateFormatted + '/' + todayFormatted)
         }
 
         setDefaultData()
@@ -211,7 +231,7 @@
             const imageWidth = 141;
             const imageHeight = 71;
 
-            const imageUrl = '../assets/img/default/logo_siminah.png';
+            const imageUrl = '../assets/img/default/alloflogo.png';
 
             // Create an HTML `img` element to load the image
             const img = new Image();

@@ -2,19 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Notifikasi;
+use App\Exports\SumbanganExport;
+use PDF;
 use Exception;
 use Carbon\Carbon;
+use Dompdf\Dompdf;
 use App\Models\Lokasi;
 use Nette\IOException;
 use App\Models\Donatur;
-use Barryvdh\DomPDF\PDF;
 use App\Models\Kontainer;
 use App\Models\Sumbangan;
+use App\Models\Notifikasi;
 use Illuminate\Http\Request;
 use App\Models\Adminkelurahan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Database\QueryException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -126,17 +129,23 @@ class SumbanganController extends Controller
             }
         }
     }
-    public function filterData(Request $request)
+    public function filterData($start, $end)
     {
         try {
-            // $monthA = '07';
-            // $monthB = '09';
-            // $yearA = '2023';
-            // $yearB = '2023';
-            $monthA = $request->input('month_a'); //dari bulan A
-            $monthB = $request->input('month_b'); // dari tahun A
-            $yearA = $request->input('year_a'); //sampai bulan B
-            $yearB = $request->input('year_b'); //sampai tahun B
+            $startExpload = explode('-', $start);
+            $endExpload = explode('-', $end);
+            $dayA= $startExpload[2];
+            $dayB= $endExpload[2];
+            $monthA = $startExpload[1];
+            $monthB = $endExpload[1];
+            $yearA = $startExpload[0];
+            $yearB = $endExpload[0];
+            // $dayA = $request->input('day_a'); //dari hari A
+            // $dayB = $request->input('day_b'); // dari hari B
+            // $monthA = $request->input('month_a'); //dari bulan A
+            // $monthB = $request->input('month_b'); // dari bulan B
+            // $yearA = $request->input('year_a'); //sampai tahun A
+            // $yearB = $request->input('year_b'); //sampai tahun B
 
             $filteredLaporan = Kontainer::join('lokasi', 'kontainer.id_lokasi', '=', 'lokasi.id_lokasi')
                 ->leftJoin('sumbangan', function ($join) {
@@ -149,17 +158,20 @@ class SumbanganController extends Controller
                 ->selectRaw('COALESCE(COUNT(DISTINCT sumbangan.id_donatur), 0) as total_donatur')
                 ->selectRaw('MAX(COALESCE(sumbangan.updated_at, "-")) as tanggal_laporan')
                 ->selectRaw('YEAR(COALESCE(sumbangan.created_at, NOW())) as tahun, MONTH(COALESCE(sumbangan.created_at, NOW())) as bulan')
-                ->whereBetween('sumbangan.created_at', ["$yearA-$monthA-01", "$yearB-$monthB-31"])
+                ->whereBetween('sumbangan.created_at', ["$yearA-$monthA-$dayA", "$yearB-$monthB-$dayB"])
                 ->groupBy('kontainer.id_kontainer', 'lokasi.nama_kelurahan', 'lokasi.is_kecamatan', 'kecamatan.nama_kecamatan', 'tahun', 'bulan')
                 ->orderByDesc('total_berat')
                 ->orderBy('tahun')
                 ->orderBy('bulan')
                 ->get();
-            return response()->json(['filteredData' => $filteredLaporan]);
+                dd($filteredLaporan);
+                
+            // return response()->json(['filteredData' => $filteredLaporan]);
         } catch (Exception $exception) {
             return response()->json(['error' => 'An error occurred'], 500);
         }
     }
+
     public function edit($id, $created_at)
     {
         try {
@@ -233,6 +245,25 @@ class SumbanganController extends Controller
         } catch (Exception $exception) {
             return view('after-login.admin-kelurahan.sumbangan.index')->with('message', 'Tidak ada data');
 
+        }
+    }
+
+    public function generatePDF()
+    {
+        $sumbangan = Sumbangan::all();
+        $pdf = PDF::loadview('test',['sumbangan'=>$sumbangan]);
+        return $pdf->download('laporan-pegawai.pdf');
+    }
+
+    public function generateExcel($start, $end)
+    {
+        try {
+            $nameOfFile = time() . '-laporan-sumbangan-minyak.xlsx';
+            return Excel::download(new SumbanganExport($start, $end), $nameOfFile);
+        } catch (Exception $exception) {
+            // $message = $exception->getMessage();
+            // return response()->json(['error' => $message], 500);
+            return redirect()->route('sumbangan')->with('export_alert', 'failed');
         }
     }
 }

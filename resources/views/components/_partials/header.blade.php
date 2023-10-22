@@ -3,8 +3,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets/img/apple-icon.png') }}">
-    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
-    <title>{{ config('app.name')}} | @yield('title') </title>
+    <link rel="icon" type="image/png" href="{{ asset('favicon.ico') }}">
+    <title>{{ config('app.name')}} | @yield('title') {{ (isRouteActive('login') ? 'Login' : '') }}</title>
     <!--     Fonts and icons     -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,6 +19,7 @@
     <!-- Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet" async defer>
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" async defer>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,500&display=swap" rel="stylesheet" async defer>
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" async defer/>

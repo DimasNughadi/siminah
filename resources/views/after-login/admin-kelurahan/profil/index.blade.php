@@ -113,7 +113,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="update-buttom">
-                                <a href="{{ route('profil.edit') }}" class="btn-profil-custom btn-primary">Ubah profil</a>
+                                <a href="{{ route('profil.edit') }}" class="btn-profil-custom btn-success">Ubah profil</a>
                             </div>
                         </div>
                     </div>

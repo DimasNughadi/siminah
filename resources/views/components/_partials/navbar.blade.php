@@ -18,11 +18,11 @@
                         </div>
                     </a>
                 </li>
-                <li class="nav-item d-flex align-items-center">
+                {{-- <li class="nav-item d-flex align-items-center">
                     <div class="logo-pcr">
                         <img src="{{ asset('assets/img/default/logo_pcr.png') }}" class="me-3 ms-5" alt="Logo Politeknik Caltex Riau">
                     </div>
-                </li>
+                </li> --}}
                 <li class="nav-item d-flex align-items-center">
 
                     <x-user.userStatus />

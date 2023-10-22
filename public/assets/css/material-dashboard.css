@@ -3731,11 +3731,11 @@ fieldset:disabled .btn {
   --bs-btn-border-color: var(--success);
   --bs-btn-hover-color: #000;
   --bs-btn-hover-bg: #67bb6a;
-  --bs-btn-hover-border-color: #5eb762;
+  --bs-btn-hover-border-color: #65AE38;
   --bs-btn-focus-shadow-rgb: 65, 149, 68;
   --bs-btn-active-color: #000;
   --bs-btn-active-bg: #70bf73;
-  --bs-btn-active-border-color: #5eb762;
+  --bs-btn-active-border-color: #65AE38;
   --bs-btn-active-shadow: none;
   --bs-btn-disabled-color: #000;
   --bs-btn-disabled-bg: var(--success);
@@ -20624,7 +20624,7 @@ fieldset:disabled .btn {
 
 .btn-primary .btn.bg-outline-primary,
 .btn.bg-gradient-primary .btn.bg-outline-primary {
-  border: 1px solid var(--primary);
+  border: 1px solid var(--success);
 }
 
 .btn-primary:not(:disabled):not(.disabled).active,
@@ -22727,7 +22727,7 @@ label,
 }
 
 .bg-gradient-primary {
-  background-image: linear-gradient(195deg, var(--danger) 0%, var(--danger) 100%);
+  background-image: linear-gradient(195deg, var(--success) 0%, var(--success) 100%);
 }
 
 .bg-gradient-secondary {
