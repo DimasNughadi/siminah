@@ -19,7 +19,7 @@ class LoginController extends Controller
                 if (isAdminCsr()) {
                     return redirect('/dashboard');
                 } else if (isAdminKelurahan()) {
-                    return redirect('/donatur');
+                    return redirect('/dashboard');
                 } else {
                     return view('authentication.login');
                 }

@@ -25,7 +25,7 @@ Route::get('/developer', function () {
 Route::get('/generate-pdf', [SumbanganController::class, 'generatePDF']);
 
 //ajax sumbangan
-Route::get('/sumbangan/filter/{start}/{end}',[SumbanganController::class,'filterData'])->name('sumbangans');
+
 
 
 //Login Admin CSR dan Admin Kelurahan
@@ -58,6 +58,7 @@ Route::middleware(['checksession','role:admin_csr,admin_kelurahan'])->group(func
     Route::post('/sumbangan/edit/{id}/{created_at}', [SumbanganController::class, 'edit'])->name('sumbangan.edit');
     Route::put('/sumbangan/update/{id}/{created_at}',[SumbanganController::class,'update'])->name('sumbangan.update');
     Route::get('export/user/{start}/{end}', [SumbanganController::class, 'generateExcel']);
+    // Route::get('/sumbangan/filter/{start}/{end}',[SumbanganController::class,'filterData'])->name('sumbangans');
     
     //manajemen kontainer kelurahan
     Route::get('/kontainer',[KontainerController::class,'index'])->name('kontainer');

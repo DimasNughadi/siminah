@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\SumbanganExport;
+use App\Exports\SumbanganExportForKelurahan;
 use PDF;
 use Exception;
 use Carbon\Carbon;
@@ -258,12 +259,19 @@ class SumbanganController extends Controller
     public function generateExcel($start, $end)
     {
         try {
-            $nameOfFile = time() . '-laporan-sumbangan-minyak.xlsx';
-            return Excel::download(new SumbanganExport($start, $end), $nameOfFile);
+            if (auth()->user()->role == 'admin_kelurahan') {
+                $nameOfFile = time() . '-laporan-riwayat-donasi.xlsx';
+                return Excel::download(new SumbanganExportForKelurahan($start, $end), $nameOfFile);
+            }else{
+                $nameOfFile = time() . '-laporan-sumbangan-minyak.xlsx';
+                return Excel::download(new SumbanganExport($start, $end), $nameOfFile);
+            }
         } catch (Exception $exception) {
-            // $message = $exception->getMessage();
-            // return response()->json(['error' => $message], 500);
-            return redirect()->route('sumbangan')->with('export_alert', 'failed');
+            if (auth()->user()->role == 'admin_kelurahan') {
+                return redirect()->route('sumbangan.detail')->with('export_alert', 'failed');
+            }else{
+                return redirect()->route('sumbangan')->with('export_alert', 'failed');
+            }
         }
     }
 }

@@ -72,15 +72,15 @@ class SumbanganExport implements FromCollection, WithHeadings
         }
     }
 
-    public function headings(): array
-    {
-        return [
-            'KECAMATAN',
-            'KELURAHAN',
-            'JUMLAH (KG)',
-            'JUMLAH DONATUR',
-            'BULAN',
-            'TANGGAL PELAPORAN',
-        ];
-    }
+        public function headings(): array
+        {
+            return [
+                'KECAMATAN',
+                'KELURAHAN',
+                'JUMLAH (KG)',
+                'JUMLAH DONATUR',
+                'BULAN',
+                'TANGGAL PELAPORAN',
+            ];
+        }
 }
