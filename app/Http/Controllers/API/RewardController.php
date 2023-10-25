@@ -2,20 +2,51 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Controllers\Controller;
+use Exception;
+use Carbon\Carbon;
 use App\Models\Reward;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Http\Controllers\Controller;
 
 class RewardController extends Controller
 {
+	private function formatDate($datetime)
+	{
+		if (is_string($datetime)) {
+			$datetime = new Carbon($datetime);
+		}
+		
+		$datetime->locale('id');
+		return $datetime->Format('d F Y');
+	}
+	
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $rewards = Reward::all();
-        return response()->json($rewards);
+		try {
+			$rewards = Reward::all();
+
+			$formattedRewards = $rewards->map(function ($reward) {
+				return [
+					"id_reward" => $reward->id_reward,
+					"nama_reward" => $reward->nama_reward,
+					"stok" => $reward->stok,
+					"jumlah_poin" => $reward->jumlah_poin,
+					"masa_berlaku" => $this->formatDate($reward->masa_berlaku),
+					"gambar" => $reward->gambar,
+					"status" => $reward->status,
+					"created_at" => $reward->created_at,
+					"updated_at" => $reward->updated_at,
+				];
+			});
+
+			return response()->json($formattedRewards);
+		} catch (Exception $exception) {
+			return response()->json(['message' => 'Terjadi kesalahan'], Response::HTTP_INTERNAL_SERVER_ERROR);
+		}
     }
 
     /**

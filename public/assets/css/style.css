@@ -2561,6 +2561,7 @@ input[type="radio"]:checked + label {
 .developer .body .sidebar .list-group a.active::before {
     content: url("../../assets/img/icon/left-arrow-green.svg");
     position: absolute;
+    left: 200px;
 }
 
 .developer .body .sidebar .list-group a:not(.last) {
@@ -2594,7 +2595,7 @@ input[type="radio"]:checked + label {
     font-style: normal;
     font-weight: 500;
     line-height: normal;
-    line-height: 10px;
+    line-height: 18px;
 }
 
 @media (min-width: 320px) and (max-width: 767px){
@@ -2988,6 +2989,6 @@ input[type="radio"]:checked + label {
     }
 
     .developer .body .sidebar .list-group a.active::before {
-        left: 100px;
+        left: 165px;
     }
 }

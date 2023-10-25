@@ -78,55 +78,15 @@
                     </div>
                     <div class="col-xxl-7 col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12">
                         <div class="row user-list">
-                            <div class="col-md-4 person-col" data-department="lecture">
-                                <div class="person">
-                                    <x-user.userImage width="130" height="130" />
-                                    <h2>Jan Alif Kreshna, S.ST., M.Sc.</h2>
-                                    <h5>Head of Dev Team</h5>
+                            @foreach ($developer as $item)
+                                <div class="col-md-4 person-col" data-department="{{ $item['roles'] }}">
+                                    <div class="person">
+                                        <x-user.userImage width="130" height="130" alt="Gambar {{ $item['nama'] }}" src="{{ $item['gambar'] }}" role="developer"/>
+                                        <h2>{{ $item['nama'] }}</h2>
+                                        <h5 class="text-center">{{ $item['role'] }}</h5>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-4 person-col" data-department="mobile">
-                                <div class="person">
-                                    <x-user.userImage width="130" height="130" />
-                                    <h2>Boby</h2>
-                                    <h5>Head of Mobile Dev Team</h5>
-                                </div>
-                            </div>
-                            <div class="col-md-4 person-col" data-department="mobile">
-                                <div class="person">
-                                    <x-user.userImage width="130" height="130" />
-                                    <h2>Jane Smith</h2>
-                                    <h5>Designer</h5>
-                                </div>
-                            </div>
-                            <div class="col-md-4 person-col" data-department="web">
-                                <div class="person">
-                                    <x-user.userImage width="130" height="130" />
-                                    <h2>Dimas</h2>
-                                    <h5>Head of website Dev Team</h5>
-                                </div>
-                            </div>
-                            <div class="col-md-4 person-col" data-department="web">
-                                <div class="person">
-                                    <x-user.userImage width="130" height="130" />
-                                    <h2>Josep Ronaldo Francis Siregar</h2>
-                                    <h5>Frontend Developer</h5>
-                                </div>
-                            </div>
-                            <div class="col-md-4 person-col" data-department="web">
-                                <div class="person">
-                                    <x-user.userImage width="130" height="130" />
-                                    <h2>Muhammad Raihan Khairullah</h2>
-                                    <h5>UI/UX Designer</h5>
-                                </div>
-                            </div>
-                            <div class="col-md-4 person-col" data-department="web">
-                                <div class="person">
-                                    <x-user.userImage width="130" height="130" />
-                                    <h2>Camelin</h2>
-                                    <h5>Backend Developer</h5>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -137,8 +97,8 @@
     @include('components._partials.scripts')
     <script>
         $(document).ready(function() {
-            $('.user-list .person-col').show();
-            $('.user-list .person-col[data-department="lecture"]').show();
+            // $('.user-list .person-col').show();
+            $('.user-list .person-col[data-department="lecturer"]').show();
 
             $('.list-group .nav-list').click(function() {
                 $('.list-group .nav-list').removeClass('active');

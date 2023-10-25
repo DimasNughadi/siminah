@@ -9,6 +9,7 @@ use App\Http\Controllers\RedeemController;
 use App\Http\Controllers\RewardController;
 use App\Http\Controllers\DonaturController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DeveloperController;
 use App\Http\Controllers\KontainerController;
 use App\Http\Controllers\SumbanganController;
 
@@ -17,9 +18,7 @@ Route::get('/contoh', function () {
     return view('test-component');
 });
 
-Route::get('/developer', function () {
-    return view('developer');
-})->name('developer');
+Route::get('/developer', [DeveloperController::class, 'index'])->name('developer');
 
 // Route::get('/test', [SumbanganController::class, 'export'])->name('export');
 Route::get('/generate-pdf', [SumbanganController::class, 'generatePDF']);
